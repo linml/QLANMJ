@@ -1,0 +1,3773 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GameIF</name>
+    </assembly>
+    <members>
+        <member name="T:Uyi.Common.Pool.Pool_BonusMasterServer">
+             <summary>
+            分奖池表_主
+            <para>总奖池根据分奖池占比（各分奖池占比总和为100%）</para>
+            <para>把奖金分配到各个分奖池</para>
+            <para>该表将总奖池和不同分奖池合并到同一个表，对于不同游戏需要不同调配的数值进行管理</para>
+            <para>奖池设计使用奖池分层的上下级设计模式</para>
+            <para>1.顶级主奖池 ParentID = 0 这些奖池直接和蓄水池挂钩，蓄水池每次蓄水达到一定条件向奖池的顶级奖池注水</para>
+            <para>2.每次注水后会检查奖池是否达到派奖条件如果达到派奖条件则执行奖池派奖逻辑，具体逻辑不同区分于奖池类型</para>
+            <para>3.对于不同的奖池类型需要使用不同的处理逻辑，具体业务需要开始下钻区别对待不同的排行榜</para>
+            <para>4.游戏奖池需要做区分（游戏奖池有普通电玩游戏比如水果机等、捕鱼需要单独处理）</para>
+            <para>其他游戏（非捕鱼游戏）的游戏派发是直接所有场地均分</para>
+            <para>捕鱼游戏的奖金派发是区别到所有不同的游戏场地的。具体奖金的多少是在线玩家均分的</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterServer.Rate">
+             <summary>
+            奖池占比
+             </summary> 
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:Uyi.Common.Pool.Pool_BonusMasterServer.DistributionRate" -->
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterServer.BonusTimeLimit">
+             <summary>
+            分奖池触发时间间隔单位小时
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterServer.RateA">
+             <summary>
+            奖池触发限制系数A
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterServer.RateB">
+             <summary>
+            奖池触发限制系数B
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterServer.RateC">
+             <summary>
+            奖池触发限制系数C
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.Pool.SysBonusLimitType">
+            <summary>
+            分奖池触发类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusLimitType.Time">
+            <summary>
+            根据时间比例派发
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusLimitType.UP">
+            <summary>
+            根据触发上限的条件派发
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.Pool.SysBonusType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusType.VIPBonus">
+            <summary>
+            1VIP派奖
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusType.RankBonus">
+            <summary>
+            2排行类型派奖
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusType.GameBonus">
+            <summary>
+            3游戏派奖
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.Pool.SysBonusSetType">
+            <summary>
+            获取奖池配置的类别
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusSetType.AllSet">
+            <summary>
+            全部数据，奖池配置和奖池数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.SysBonusSetType.MoneyNumChange">
+            <summary>
+            变化的奖池数据，奖池奖金
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.Pool.Pool_BonusMasterSet">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.ParentID">
+             <summary>
+            下方奖金的上级奖池编号
+            <para>如果是顶级主奖池则为 0</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.BonusLimitType">
+             <summary>
+            分奖池触发类型
+            <para>1.时间派发</para>
+            <para>2.上限派发</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.NextBonusTime">
+             <summary>
+            下次派奖时间
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.TaskID">
+             <summary>
+            业务区分标识
+            <para>用来区分当前分奖池处理相关业务的编号具体参数意义区别于不同业务，比如如果是游戏奖池，则其代表是游戏ID。如果是捕鱼游戏则代表是其捕鱼的场地编号，因为捕鱼的游戏不同游戏的场地的奖池下放比例是不同的</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.ShowCount">
+             <summary>
+            显示中奖玩家数
+            <para>等级排行、充值排行中 使用的参数</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.BonusMark">
+            <summary>
+            奖池的备注说明
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterSet.BonusType">
+             <summary>
+            奖池类型
+            <para>1VIP派奖，2排行类型派奖，3游戏派奖</para>
+            <para>分奖池派发业务类型</para>
+            <para>派发类型分以下几种</para>
+            <para>11.VIP派奖</para>
+            <para>21.等级排行</para>
+            <para>22.充值排行</para>
+            <para>31.游戏排行</para>
+            <para>32.捕鱼游戏派奖</para>
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.Pool.Pool_BonusMasterMoneyData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterMoneyData.BonusID">
+             <summary>
+            分奖池ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterMoneyData.BonusNum">
+             <summary>
+            分奖池当前奖金
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterMoneyData.TriggerLine">
+            <summary>
+            奖池的触发线
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.Pool_BonusMasterMoneyData.LastBonusTime">
+            <summary>
+            奖池的上次派奖时间
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.Pool.UserPoolRecData">
+            <summary>
+            玩家奖池的中奖纪录信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserPoolRecData.UserID">
+            <summary>
+            玩家的UserID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserPoolRecData.MomneyNum">
+            <summary>
+            获得奖金数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserPoolRecData.BonusLastTime">
+            <summary>
+            奖金获取时间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserPoolRecData.Rank">
+            <summary>
+            玩家等级排名，如果获取自己的中奖记录数据可以忽略该字段
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserPoolRecData.BonusID">
+            <summary>
+            对应奖池的奖池ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.Pool.UserRankPoolRecData">
+            <summary>
+            玩家奖池的中奖纪录信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.ID">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.BonusID">
+            <summary>
+            奖池ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.Bonus">
+            <summary>
+            奖金数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.BonusLastTime">
+            <summary>
+            获奖时间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.NickName">
+            <summary>
+            玩家昵称
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.VipLv">
+            <summary>
+            玩家的VIP等级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.LV">
+            <summary>
+            玩家的友情树等级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Pool.UserRankPoolRecData.Gender">
+            <summary>
+            玩家性别 1-男 2-女
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.AIRunParam">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.P1">
+            <summary>
+            AI动作的概率控制参数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.P2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.P3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.P4">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.T1">
+            <summary>
+            AI动作的时间控制参数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.T2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.T3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.T4">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.num1">
+            <summary>
+            产生的预置AI总个数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.num2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.num3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.num4">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.AIRunParam.FromJson(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Uyi.Common.AIRunParam.RoomID">
+            <summary>
+            所属的场地ID
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.AIRunParam.ToJson">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.GameMessageCommon.GameMessageCommonSubCode">
+            <summary>
+            消息主副命令码定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonSubCode.MainId">
+            <summary>
+            大厅和游戏插件的直接交互消息主码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonSubCode.MSG_C_Hall2GamePluginMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GameMessageCommon.GameMessageCommonBase">
+            <summary>
+            大厅和游戏插件直接的交互公共消息基础基类
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonBase.ServerId">
+            <summary>
+            服务器编号（指定该消息将要被发送到的游戏服务器编号）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonBase.TableID">
+            <summary>
+            消息需要投递到的桌子编号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonBase.UserId">
+            <summary>
+            该条消息的发送者，不用赋值，平台在接收到该消息时会直接绑定当前会话的玩家ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonBase.isRunOnRoomThread">
+            <summary>
+            指示这个消息是否运行在指定的场地线程上
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.GameMessageCommonBase.IsCreator">
+            <summary>
+            指示这个玩家是不是当前的桌子的创建者
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GameMessageCommon.MSG_C_Hall2GamePluginMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.MSG_C_Hall2GamePluginMessage.Handle">
+            <summary>
+            处理命令的名称
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameMessageCommon.MSG_C_Hall2GamePluginMessage.Params">
+            <summary>
+            处理命令的参数
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerForFeeData">
+            <summary>
+            表示玩家在服务器平台中进行财务结算的信息( 单人 )
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.UserID">
+            <summary>
+            结算的玩家ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.AgentID">
+            <summary>
+            结算的商户ID,一般不需要赋值，平台会自动赋值，只在股票结算时才需要该字段
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.FeeDataType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.MoneyType">
+            <summary>
+            结算币种
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.MoneyNum">
+            <summary>
+            结算数量，扣费(卖出)为负数，奖励（买入）为正数(在股票中是对应着手数)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.Mark">
+            <summary>
+            结算备注。（结算时填写的交易说明文本）
+            </summary>                        
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.RoomID">
+            <summary>
+            玩家结算数据的场地ID，不需要赋值，平台会自动赋值，
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeData.TradeSingleMoneyNum">
+            <summary>
+            股票单价（在股票游戏中传入，其他的请忽略该参数）
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerForFeeDataMultiple">
+            <summary>
+            表示玩家在服务器平台中进行财务结算的信息(多人)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.FeeDataType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.MoneyType">
+            <summary>
+            结算币种
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.Mark">
+            <summary>
+            结算备注。（结算时填写的交易说明文本）
+            </summary>                        
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.RoomID">
+            <summary>
+            玩家结算数据的场地ID，不需要赋值，平台会自动赋值，
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.UserAuditDataArray">
+            <summary>
+            表示多个人结算信息的一个数组，现在可以传入空值来直接进行房费之类的单独结算
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.NoCheckUserMoney">
+            <summary>
+            指示结算是否检查玩家的背包余额，如果不检查为 1 否则为 非 1 值
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.RoomCostType">
+            <summary>
+            本次结算的房费币种类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.PayRoomCostUserID">
+            <summary>
+            本次房费的结算人 UserID ；如果本局的桌费是房主买单则填写房主的UserID  玩家平摊传入 0 即可
+            桌子的房主ID可以通过宿主接口获取
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.RoomCost">
+            <summary>
+            单个玩家的房费值（单个玩家，即使是房主买单也是单个玩家的房费）具体房费由结算的玩家数量决定包含AI在内
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerForFeeDataMultiple.FeeUserCount">
+            <summary>
+            本次结算的玩家数量，如果指定为小于或者等于零平台会自动计算赋值，如果指定了大于零的数值，平台以传入的数值为准，不会计算赋值
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerScoreSettlementMultiple">
+            <summary>
+            表示玩家在服务器平台中进行财务结算的信息(多人)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.RoomCostType">
+            <summary>
+            本次结算的房费币种类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.PayRoomCostUserID">
+            <summary>
+            本次房费的结算人 UserID ；如果本局的桌费是房主买单则填写房主的UserID  玩家平摊传入 0 即可
+            桌子的房主ID可以通过宿主接口获取
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.FeeUserCount">
+            <summary>
+            本次结算的玩家数量，如果指定为小于或者等于零平台会自动计算赋值，如果指定了大于零的数值，平台以传入的数值为准，不会计算赋值
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.GameRoomID">
+            <summary>
+            玩家结算数据的场地ID，不需要赋值，平台会自动赋值，
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.TableOwner">
+            <summary>
+            房主
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.GameIssueID">
+            <summary>
+            游戏主局号编号，游戏服务端维护，具体值含义和维护方法再讨论
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.GameRecord">
+            <summary>
+            游戏记录的路径，调用录像保存接口成功回调的路径地址
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.MarkContext">
+            <summary>
+            结算备注说明内容
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.HasTableCost">
+            <summary>
+            表示当前桌子是否需要结算桌费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.RoomCost">
+            <summary>
+            单个玩家的房费值（单个玩家，即使是房主买单也是单个玩家的房费）具体房费由结算的玩家数量决定包含AI在内
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.UserAuditDataArray">
+            <summary>
+            表示多个人结算信息的一个数组，一次结算至少传入一个玩家的结算信息。如果宿主检查发现结算表为空，则会直接返回结算
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerScoreSettlementMultiple.GameID">
+            <summary>
+            场地的游戏ID，不需要赋值，平台会自动赋值，
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ForFeeDataType">
+            <summary>
+            服务端统一结算类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.UnKonwn">
+            <summary>
+            UnKonwn
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.绑定手机赠送">
+            <summary>
+            绑定手机赠送
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.绑定邀请码赠送">
+            <summary>
+            绑定邀请码赠送
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.问题反馈奖励">
+            <summary>
+            问题反馈奖励
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.系统补偿">
+            <summary>
+            系统补偿
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.系统充值赠送">
+            <summary>
+            系统充值赠送
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.系统赠送">
+            <summary>
+            系统赠送
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家钻石兑换金币">
+            <summary>
+            玩家钻石兑换金币
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家充值">
+            <summary>
+            玩家充值
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.报名扣费">
+            <summary>
+            报名扣费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.百人游戏消费">
+            <summary>
+            百人游戏消费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.股票交易">
+            <summary>
+            股票交易
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.系统充值奖励">
+            <summary>
+            系统充值奖励
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家购买vip">
+            <summary>
+            玩家购买vip
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家幸运转盘抽奖">
+            <summary>
+            玩家幸运转盘抽奖
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家登录大转盘抽奖">
+            <summary>
+            玩家登录大转盘抽奖
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.扣除奖励红包">
+            <summary>
+            扣除奖励红包
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.加入报名费">
+            <summary>
+            加入报名费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家道具消耗">
+            <summary>
+            玩家道具消耗
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.投放红包">
+            <summary>
+            投放红包
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.Ai游戏奖励返还">
+            <summary>
+            Ai游戏奖励返还
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家购买道具">
+            <summary>
+            玩家购买道具
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.商户游戏结算">
+            <summary>
+            商户游戏结算
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.多人游戏结算">
+            <summary>
+            多人游戏结算
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家收取友情树果实">
+            <summary>
+            玩家收取友情树果实
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家收取友情树礼包">
+            <summary>
+            玩家收取友情树礼包
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家之间转账">
+            <summary>
+            玩家之间转账
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家参与众筹消耗">
+            <summary>
+            玩家参与众筹消耗
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.合成实物消耗">
+            <summary>
+            合成实物消耗
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家收取邮件附件">
+            <summary>
+            玩家收取邮件附件
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.玩家红包兑换奖品">
+            <summary>
+            玩家红包兑换奖品
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.初始化充值扣除">
+            <summary>
+            初始化充值扣除
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataType.房费扣除">
+            <summary>
+            房费扣除
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ForFeeDataTypeDic">
+            <summary>
+            服务端统一结算类型字典索引
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ForFeeDataTypeDic.FeeDataType">
+            <summary>
+            FeeDataType 的值对字符串的映射信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.UserAuditData">
+            <summary>
+            数据库用户结算数据实体（多人）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditData.UserID">
+            <summary>
+            结算的玩家ID,如果是AI直接填写AI的玩家ID即可，平台会对AI的结算进行统一处理
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditData.MoneyNum">
+            <summary>
+            结算的数量，相对于币种的增加或者扣除数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditData.CustomParam">
+            <summary>
+            结算自定义参数对象，通知结算结果时原样带回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditData.PlayerActNum">
+            <summary>
+            可选，记录本次结算和玩家结算的相关数据。特殊属性之类的计分结算有效，其他会被平台忽略
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.UserAuditResultTable">
+            <summary>
+            玩家结算处理结果的信息表，已经排除掉AI信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditResultTable.MoneyType">
+            <summary>
+            结算时所传入的币种，原样带回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserAuditResultTable.UserAuditResultArray">
+            <summary>
+            玩家结算信息的数据表，表示每个玩家的结算结果信息，注意：结算表中的数据只是包含真人玩家的结算信息，不包含AI的结算信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SingleUserAuditResult">
+            <summary>
+            对于单个玩家的结算结果信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SingleUserAuditResult.IsSuccess">
+            <summary>
+            表示玩家的结算是否成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SingleUserAuditResult.RealFeeMoneyNum">
+            <summary>
+            本次结算中真实实际扣除金额，当结算模式不检查玩家余额的情况下，该值表示玩家实际扣除背包的数量
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.InvalidValue">
+            <summary>
+            无效值定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvalidID">
+            <summary>
+            无效的ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvalidIdx">
+            <summary>
+             无效的索引
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvalidTableID">
+            <summary>
+            无效的桌子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvalidChairID">
+            <summary>
+            无效的椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvlidRank">
+            <summary>
+            排名无效值
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.InvalidValue.InvalidRoomID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ConstValueDef">
+            <summary>
+            常量值定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_ios">
+            <summary>
+            ios平台
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_android">
+            <summary>
+            android平台
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_web">
+            <summary>
+            web版本
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_pc">
+            <summary>
+            pc版本
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_h5">
+            <summary>
+            h5版本
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ConstValueDef.platform_mac">
+            <summary>
+            mac版本
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerGS">
+            <summary>
+            玩家（带GS服务器状态的版本）:用于GS通知CS断线重连
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerGS.PlayerID">
+            <summary>
+            玩家id;
+            </summary>
+            
+        </member>
+        <member name="F:Uyi.Common.PlayerGS.RoomID">
+            <summary>
+            场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerGS.ServerID">
+            <summary>
+            服务器编号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerGS.CanOffline">
+            <summary>
+            是否支持断线
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerGS.Empty">
+            <summary>
+            提供一个空的 PlayerGS 对象。这个字段是只读的
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.PlayerGS.IsEqualObject(Uyi.Common.PlayerGS)">
+            <summary>
+            确认当前对象的值和当前的实例是否相等
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.PlayerBase">
+            <summary>
+            玩家客户端版本，带金币钻石
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.PlayerBase.IsAIPlayer">
+            <summary>
+            指示玩家是否是AI
+            </summary>
+            
+        </member>
+        <member name="F:Uyi.Common.PlayerBase.DomainID">
+             <summary>
+            所属地区组织ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.PlayerBase.Gender">
+            <summary>
+            玩家性别 1男 2女
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerDataSimple">
+            <summary>
+            玩家数据(超简版)
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.PlayerDataSimple.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerDataSimple.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerDataSimple.Header">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerData">
+            <summary>
+            玩家数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerData.LV">
+             <summary>
+            友情树等级（下级用户总数）
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.PlayerData.VipLV">
+            <summary>
+            玩家的VIP等级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerData.MoneyBag">
+            <summary>
+            玩家背包数据
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MoneyBag.GoldCardNum">
+            <summary>
+            金币
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MoneyBag.RoomCardNum">
+            <summary>
+            钻石
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MoneyBag.GoldNum">
+            <summary>
+            玩家金豆的数量
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MoneyBag.ActiveNum">
+            <summary>
+            玩家活跃度
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MoneyBag.Item(Uyi.Common.CurrencyType)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.Player">
+            <summary>
+            玩家客户端版本，带金币钻石
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.UserAccount">
+             <summary>
+            用户名
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.Player.UserLogonToken">
+            <summary>
+            用户登陆成功刷新的登陆令牌，下次可以使用该令牌自动登陆，有效期7天，每登陆一次刷新一次
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.UserIP">
+            <summary>
+            玩家当前的外网IP
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.AgentId">
+            <summary>
+            玩家绑定的代理编号Id
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.ContinuityDays">
+            <summary>
+            指示玩家的连续签到天数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.HasOfflineRoom">
+            <summary>
+            指示当前的玩家有多少个断线的房间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.TodayIsSign">
+            <summary>
+            指示玩家今天是否已经签到了
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.IsAuthentication">
+            <summary>
+            指示该玩家是否已经完成了实名认证
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Player.AttachParam">
+            <summary>
+            附加参数
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerServer">
+            <summary>
+            玩家信息（服务器全版）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerServer.RewardContext">
+            <summary>
+            玩家登录的是奖励文本
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerServer.UPassword">
+            <summary>
+            玩家的金库二级密码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerServer.LastSignTime">
+            <summary>
+            玩家最后一次签到的时间
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerInfoLS">
+            <summary>
+            玩家信息，登录服务器使用该类保存玩家的已报名的场地列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerInfoLS.Emplty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerInfoLS.playerData">
+            <summary>
+            玩家基本信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PlayerInfoLS.PlayerOfflineGame">
+            <summary>
+            玩家断线列表信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GSLocation">
+            <summary>
+            玩家在游戏服务器GS上面的位置
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.Empty">
+            <summary>
+            一个空的 GSLocation 信息对象。这个字段是只读的
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.GSID">
+            <summary>
+            游戏服务器GS的标识符ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.GameID">
+            <summary>
+            游戏ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.RoomID">
+            <summary>
+            场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.MatchID">
+            <summary>
+            赛次ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.TableID">
+            <summary>
+            桌子ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSLocation.ChairID">
+            <summary>
+            座位ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.LSLocation">
+            <summary>
+            玩家：玩家在登录服务器上的位置信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSLocation.PlayerID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSLocation.LSSession">
+            <summary>
+            登录服务器Session
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSLocation.Session">
+            <summary>
+            玩家Session
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSLocation.ServerID">
+            <summary>
+            服务器编号ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSLocation.Empty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.LSLocation.IsEqualObject(Uyi.Common.LSLocation)">
+            <summary>
+            确认当前对象的值和当前的实例是否相等
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.RoomInfoSingleID">
+            <summary>
+            场地信息的最终基类，包含一个场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomInfoSingleID.ID">
+             <summary>
+            游戏场地ID
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.RoomStateInfo">
+            <summary>
+            场地信息，包含场地的状态信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomStateInfo.RoomState">
+             <summary>
+            0，初始，尚未编辑
+            <para>1，编辑，尚未审核</para>
+            <para>2，审核，尚未开始（不能再编辑）</para>
+            <para>3，开始运行</para>
+            <para>4，停止运行：（系统维护）</para>
+            <para>5，停止运行：（租金不够）</para>
+            <para>6，停止运行：（其他原因）</para>
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.RoomClient">
+            <summary>
+            场地：客户端简版
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomClient.GameID">
+             <summary>
+            游戏ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.AgentID">
+             <summary>
+            商户ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.RoomType">
+            <summary>
+            场地所属类别（单选）
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.GameType">
+            <summary>
+            场地支持的游戏类别游戏类型（单选）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomClient.BaseMoney">
+             <summary>
+            底金
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.JoinMultiNum">
+            <summary>
+            准入倍数
+            准入条件：= 底金* 准入倍数
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.MaxCount">
+             <summary>
+            每桌最大开始人数
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.RoomLV">
+             <summary>
+            场地等级
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.CheckMoneyType">
+            <summary>
+            结算币种
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.DisplayOrder">
+             <summary>
+            排序
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.TableCost">
+            <summary>
+            桌费
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.Name">
+            <summary>
+            场地名称
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.TableCostMoneyType">
+            <summary>
+            场地桌费的币种
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomClient.CSpareAttrib">
+            <summary>
+            场地特殊属性
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.RoomServerLS">
+            <summary>
+            场地：登录服务器使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServerLS.ServerID">
+             <summary>
+            场地服务器编号
+             </summary> 
+        </member>
+        <member name="P:Uyi.Common.RoomServerLS.NeedCheckUserJoinCondition">
+            <summary>
+            指示当前的场地是否需要检查玩家的进入条件
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.RoomServerCS">
+            <summary>
+            场地：中心服务器使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServerCS.LimitAICount">
+            <summary>
+            当前场地的AI数量上限
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.RoomServer">
+            <summary>
+            场地：服务端全版
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.SpareAttrib">
+            <summary>
+            场地特殊属性
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomServer.LimitTableCount">
+             <summary>
+            桌子上限
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.RoomServer.RewardContext">
+             <summary>
+            奖励说明
+             </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.MinCount">
+             <summary>
+            每桌最小开始人数
+             </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.PrizeValue">
+             <summary>
+            本场地奖品总额
+             </summary>   
+        </member>
+        <member name="F:Uyi.Common.RoomServer.ValueRate">
+             <summary>
+            用来对某些数值进行加成；
+            <para>例如：有些游戏比赛奖品小，系数就低一些，</para>
+            <para>有些游戏比赛奖品大，系数就高一些，</para>
+            <para>参赛 和 复活费用 都是要 根据这个系数来动态调整</para>
+             </summary>   
+        </member>
+        <member name="F:Uyi.Common.RoomServer.UnitPriceAve">
+            <summary>
+            商户奖品单价平均值
+            </summary>   
+        </member>
+        <member name="F:Uyi.Common.RoomServer.AgentName">
+            <summary>
+            商户名称（场地所属商户的名称）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.AgentLogo">
+            <summary>
+            商户Logo图片地址，以数据库存储的相对路径，不是完整路径，完整路径请咨询大厅开发相关人员
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.RunParam">
+            <summary>
+            AI动作绑定参数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.AIRunParam">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.AIRunLogicComponentArray">
+            <summary>
+            AI处理器绑定处理逻辑
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.PlayerReadTimeOut">
+            <summary>
+            玩家准备超时时间（秒）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomServer.MaxLookCount">
+            <summary>
+            玩家最大连续旁观次数（针对不定数量的场地玩家）
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ServerInfo">
+            <summary>
+            游戏服务器的监听IP以及端口信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerInfo.Adress">
+            <summary>
+             服务器IP地址
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerInfo.Port">
+            <summary>
+            服务器端口
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerInfo.ServerType">
+            <summary>
+            服务器类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerInfo.ServerID">
+            <summary>
+            服务器编号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerInfo.SessionID">
+            <summary>
+            会话编号
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.ServerInfo.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.GameInfoBaseForID">
+            <summary>
+            游戏信息的基类，只有一个游戏ID信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfoBaseForID.GameID">
+            <summary>
+            游戏ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GameInfo">
+            <summary>
+            游戏基本信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfo.GameName">
+            <summary>
+            游戏名称
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfo.ModuleName">
+            <summary>
+            游戏模块名称
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfo.GameType">
+            <summary>
+            游戏类型（多选）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfo.GameStatus">
+            <summary>
+            游戏状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameInfo.LatestVersion">
+            <summary>
+            最新版本
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.GameInfo.SortID">
+            <summary>
+            排序号码
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.GameInfo.SupportPlatform">
+            <summary>
+            支持平台
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.GameInfo.CheckSupportPlatform(System.UInt16)">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.PropEntity">
+            <summary>
+            道具实体
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PropEntity.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PropEntity.propType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PropEntity.propCount">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TableInfo">
+            <summary>
+            桌子信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableInfo.TableID">
+            <summary>
+            桌子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableInfo.TablePlayerList">
+            <summary>
+            桌子上的玩家信息集合
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TablePlayer">
+            <summary>
+            桌子上的玩家信息
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.FaceID">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.PlayerID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.PlayerLV">
+            <summary>
+            玩家成长树等级
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.VIPLV">
+            <summary>
+            玩家VIP等级
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.PlayerState">
+            <summary>
+            玩家在游戏服务器上的状态
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.GoldNum">
+            <summary>
+            玩家持有的金豆数量
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.GoldCardNum">
+            <summary>
+            玩家持有的当前金币数量
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.DiamondsNum">
+            <summary>
+            玩家持有的钻石数量
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.ActiveNum">
+            <summary>
+            玩家活跃度
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.Gender">
+            <summary>
+            表示玩家的性别 1-男 2-女
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.TablePlayer.UserIP">
+            <summary>
+            玩家IP
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.TablePlayer.Clone">
+            <summary>
+            创建一个玩家信息的浅表副本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Uyi.Common.TablePlayer.#ctor">
+            <summary>
+            初始化 TablePlayer 实例
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.TablePlayer.Initializer">
+            <summary>
+            清理玩家信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GSTablePlayer">
+            <summary>
+            游戏服务器桌子玩家信息，提供给GMTools客户端使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSTablePlayer.TableID">
+            <summary>
+            玩家所在的桌子ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSTablePlayer.RoomID">
+            <summary>
+            玩家所在的场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSTablePlayer.PlayerInfo">
+            <summary>
+            玩家基本信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GSTablePlayer.ChairID">
+            <summary>
+            玩家椅子号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.HallRoolNotice">
+            <summary>
+            公告通知的信息实例对象
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.Priority">
+            <summary>
+            通告的调度优先级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.Context">
+            <summary>
+            通告内容
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.SenderIdentity">
+            <summary>
+            发送者身份标识:0系统,1玩家
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.GameId">
+            <summary>
+            游戏Id,默认为零
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.NoticeShowCount">
+            <summary>
+            公告显示次数,如果为 255 则表示循环显示，跑马灯最少显示一次
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.IntervalTime">
+            <summary>
+            跑马灯进行下次显示的间隔时间单位以秒为单位
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.ServerReceiveTime">
+            <summary>
+            接收时间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNotice.ReceiveTime">
+            <summary>
+            接收时间
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.HallRoolNotice.Length">
+            <summary>
+            表示公告文本长度
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.HallRoolNotice.ToString">
+            <summary>
+            格式化并输出跑马灯文本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Uyi.Common.HallRoolNotice.GetColorRgb(System.IO.StringReader)">
+            <summary>
+            向后读入六个字符，表示RGB颜色值
+            </summary>
+            <param name="read"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Uyi.Common.HallRoolNoticeServer">
+            <summary>
+            公告通知的信息实例对象
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.HallRoolNoticePriority">
+            <summary>
+             指定 HallRoolNotice 的调度优先级。
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.Lowest">
+            <summary>
+            可以将 HallRoolNotice 安排在具有任何其他优先级的通知之后。
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.BelowNormal">
+            <summary>
+            可以将 HallRoolNotice 安排在具有 Normal 优先级的通知之后，在具有 Lowest 优先级的通知之前。
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.Normal">
+            <summary>
+            默认的 HallRoolNotice 通知优先级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.AboveNormal">
+            <summary>
+            可以将 HallRoolNotice  安排在具有 Highest 优先级的通知之后，在具有 Normal 优先级的通知之前。
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.Highest">
+            <summary>
+            可以将 HallRoolNotice  安排在具有 BestHighest 优先级的通知之后，在具有 AboveNormal 优先级的通知之前。
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.HallRoolNoticePriority.BestHighest">
+            <summary>
+            中断型通告，出现此通告时应该直接忽略其它通告，持续性显示
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GameState">
+            <summary>
+            游戏状态
+            0:正常
+            1:显示但不准进入
+            2:不显示
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameState.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameState.ShowCannotJoin">
+            <summary>
+            显示但不准进入
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameState.Hide">
+            <summary>
+            隐藏,不显示
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.RoomState">
+            <summary>
+            游戏场地状态
+            0，初始，尚未编辑 （保存）
+            1，编辑，尚未审核 （提交）
+            2，审核，尚未开始（不能再编辑）
+            3，开始运行
+            4，停止运行：（系统维护）
+            5，停止运行：（租金不够）
+            6，停止运行：（其他原因）
+            7. 停止运行：（红包不足）
+            8. 停止运行: 商户停办
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.Running">
+            <summary>
+            正常运行
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.Stop">
+            <summary>
+            停止:系统维护
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.StopByNoMoney">
+            <summary>
+            停止:租金不够
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.StopByOtherReason">
+            <summary>
+            停止:其他原因
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.StopByNoRedGift">
+            <summary>
+            停止:红包不足
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.StopByAgentStop">
+            <summary>
+            停止：商户停办
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomState.Upcoming">
+            <summary>
+            等待：即将开始比赛
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.CurrencyType">
+            <summary>
+            货币种类
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.Gold">
+            <summary>
+            礼游金豆
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.RoomCard">
+            <summary>
+            礼游钻石
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.GoldCard">
+            <summary>
+            礼游金币
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.MatchScore">
+            <summary>
+            记分币种
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.RMB">
+            <summary>
+            人民币
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.BankGoldCard">
+            <summary>
+            礼游金库金币
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.BankDiamonds">
+            <summary>
+            礼游金库钻石
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.VIPExperienceCard">
+            <summary>
+            vip体验卡
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.CurrencyType.VIP1">
+            <summary>
+            vip1
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:Uyi.Common.CurrencyType.ActiveNum" -->
+        <member name="T:Uyi.Common.GameType">
+            <summary>
+            游戏类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameType.Unknown">
+            <summary>
+            敬请期待
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameType.VideoGame">
+            <summary>
+            电玩游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameType.ChessGame">
+            <summary>
+            棋牌游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GameType.PokerGame">
+            <summary>
+            扑克牌类游戏
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.RoomType">
+            <summary>
+            场地类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.MultipleGame">
+            <summary>
+            多人游戏场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.MachineGame">
+            <summary>
+            机台
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.HundredGame">
+            <summary>
+            百人
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.MathRoomGame">
+            <summary>
+            比赛场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.RoomType.MomentsGame">
+            <summary>
+            朋友圈游戏
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TableStatus">
+            <summary>
+            桌子状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableStatus.free">
+            <summary>
+            空闲
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableStatus.gameing">
+            <summary>
+            游戏中
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.GState">
+            <summary>
+            玩家在游戏服务器GS上的状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.Free">
+            <summary>
+            空闲（刚进入场地时的状态）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.HasTableState">
+            <summary>
+            系统已经分配椅子号，但玩家还没有坐下
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.SitDown">
+            <summary>
+            玩家坐下
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.PlayerReady">
+            <summary>
+            玩家已经准备
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.Gaming">
+            <summary>
+            配桌成功开始游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.OnLooking">
+            <summary>
+            旁观状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.GState.OfflineInGame">
+            <summary>
+            某局游戏中断线
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ServerType">
+            <summary>
+            连接服务器类型枚举
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerType.Unknown">
+            <summary>
+            未知类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerType.GameServer">
+            <summary>
+            游戏服务器连接
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerType.LogonServer">
+            <summary>
+            登录服务器连接
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerType.CenterServer">
+            <summary>
+            中心服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerType.GMTools">
+            <summary>
+            GMTools 客户端类型
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ServerState">
+            <summary>
+            连接客户端类型枚举
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerState.Runing">
+            <summary>
+            正在运行
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerState.Stoped">
+            <summary>
+            停止服务
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ServerState.Restart">
+            <summary>
+            服务器重启状态
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SystemErrorCode">
+            <summary>
+            错误码定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.Success">
+            <summary>
+            操作成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.RequestFail">
+            <summary>
+            请求失败
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.ServerMaintain">
+            <summary>
+            服务器维护
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.ExitRoomFail">
+            <summary>
+            玩家退出场地失败，游戏已经开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.ExitRoomSuccess">
+            <summary>
+            玩家退出场地成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.RequestTableFail">
+            <summary>
+            请求配桌失败
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.RemoteLogin">
+            <summary>
+            玩家重复登录通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.LoginFail">
+            <summary>
+            登录失败
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemErrorCode.JoinRoomFail">
+            <summary>
+            进入场地失败
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.LoginType">
+            <summary>
+            用户登录方式
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LoginType.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LoginType.Normal">
+            <summary>
+            玩家正常登陆，登陆采用输入账号和密码的方式登陆游戏服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LoginType.Onekey">
+            <summary>
+            玩家采用一键登录（当玩家在第一次使用当前客户端自动登陆的）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LoginType.UserLogonToken">
+            <summary>
+            玩家采用登陆令牌自动登陆方式登陆
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ChartDetail">
+            <summary>
+            账务明细
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetail.Reason">
+            <summary>
+            变化原因
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetail.ChangeDetail">
+            <summary>
+            变化明细
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetail.CreateTime">
+            <summary>
+            发生时间
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ChartDetailServer">
+            <summary>
+            账务明细
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetailServer.moneyType">
+            <summary>
+            变化币种
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetailServer.changeCount">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ChartDetailServer.agentID">
+            <summary>
+            商户ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.VIPConfig">
+            <summary>
+              玩家购买VIP天数和服务器VIP加成字段数据（客户端使用）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.Grade">
+             <summary>
+            VIP等级
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.Type">
+             <summary>
+            VIP类型：0未知，1普通用户VIP，2商户VIP
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.CardPlus">
+             <summary>
+            金卡兑换加成
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.StockHandNum">
+             <summary>
+            总持有手数(股票)上限加成
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.StockCounterFee">
+             <summary>
+            股票扣税
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.FreeReliveCount">
+             <summary>
+            玩家免费复活次数
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.TotalRMB">
+             <summary>
+            到达该等级所需的充值量
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.ReduceTransferPer">
+             <summary>
+            转账手续费减少百分比
+            <para>大于1表示转账免手续费</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.EliminateUser">
+            <summary>
+            是否有房间踢人功能。1 拥有该权限；0没有该权限
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.TransferUp">
+             <summary>
+            每日金库转账额度上限
+            <para>0表示不设上限</para>
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.GiveGoldNum">
+            <summary>
+            赠送的金豆数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.GiveGoldCardNum">
+            <summary>
+            赠送的金币数量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.VIPConfig.GiveDiamondsNum">
+            <summary>
+            赠送的钻石数量
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.VIPConfigServer">
+             <summary>
+            vip信息表
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.VIPConfigServer.Emplty">
+            <summary>
+            一个默认的VIP的配置数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TurntableRewardServer">
+            <summary>
+            转盘奖励
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TurntableReward">
+             <summary>
+            幸运大转盘配置表
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.TurntableReward.ID">
+             <summary>
+            主键ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.TurntableReward.MoneyNum">
+             <summary>
+            配置数量
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.TurntableReward.MoneyType">
+             <summary>
+            配置币种
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.TurntableReward.TurnType">
+             <summary>
+            转盘类型
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.SystemConfig">
+            <summary>
+            系统配置数据实体
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemConfig.Key">
+            <summary>
+            系统配置信息的Key
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SystemConfig.Value">
+            <summary>
+            系统配置的对应键的值
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.UserTagObjectBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.UserTagObjectBase.Tag">
+            <summary>
+            客户端使用的用户对象信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.LSServerInfo">
+            <summary>
+            登录服务器信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.LSServerInfo.IP">
+            <summary>
+            服务器IP
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.LSServerInfo.Port">
+            <summary>
+            连接端口
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.DomainNewsInfo">
+            <summary>
+            平台用分站公告信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.DomainNewsInfo.DomainID">
+            <summary>
+            公告的分站信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.DomainNewsInfo.Content">
+            <summary>
+            公告内容
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SysConfigType">
+            <summary>
+            系统配置的类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SysConfigType.SysConfig">
+            <summary>
+            系统配置表的数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SysConfigType.VIPConfig">
+            <summary>
+            VIP配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SysConfigType.TurntableReward">
+            <summary>
+            系统转盘配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SysConfigType.SignIn_SetData">
+            <summary>
+            玩家签到管理配置数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SignIn_Set">
+             <summary>
+            签到配置表
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.SignIn_Set.SignDay">
+             <summary>
+            第几天
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.SignIn_Set.Status">
+             <summary>
+            状态：0关闭，1开启
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.SignIn_Set.MoneyType">
+             <summary>
+            赠送币种
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.SignIn_Set.MoneyNum">
+             <summary>
+            赠送数量
+             </summary> 
+        </member>
+        <member name="T:Uyi.Common.SignIn_SetServer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.TableType">
+            <summary>
+            表示请求的桌子类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableType.Default">
+            <summary>
+            默认类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.TableType.BuildOneSelf">
+            <summary>
+            自建桌子
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.QueryUserAuditType">
+            <summary>
+            表示请求的账务类别
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.QueryUserAuditType.UserTransfer">
+            <summary>
+            玩家转账账务
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.QueryUserAuditType.UserGoldGame">
+            <summary>
+            玩家参加金币类型游戏
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.ShowBoxType">
+            <summary>
+            显示弹窗的类别
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ShowBoxType.Tips">
+            <summary>
+            指定为Tips弹出
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ShowBoxType.Box">
+            <summary>
+            指定为消息框弹出
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.ShowBoxType.NoticeBox">
+            <summary>
+            指定为公告框弹出
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.EnterRoomMethod">
+            <summary>
+            指示进入场地的方式
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.EnterRoomMethod.RoomID">
+            <summary>
+            使用场地编号进入场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.EnterRoomMethod.TableID">
+            <summary>
+            使用创建房间的房间编号进入场地
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.UserCreateTableInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableInfo.TableID">
+            <summary>
+            创建的房间号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableInfo.GameID">
+            <summary>
+            创建桌子所属的游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableInfo.RoomID">
+            <summary>
+            创建桌子所属的场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableInfo.PlayerCount">
+            <summary>
+            玩家人数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableInfo.status">
+            <summary>
+            桌子的状态
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.UserCreateTableNoticeStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableNoticeStatus.CreateTable">
+            <summary>
+            指示创建桌子
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableNoticeStatus.TableInGameing">
+            <summary>
+            指示桌子游戏开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableNoticeStatus.TableGameOver">
+            <summary>
+            指示桌子游戏结束
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.UserCreateTableNoticeStatus.TableUpdate">
+            <summary>
+            桌子状态更改
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.PlayerMoneyBag">
+            
+             @创建时间：2017年03月30日 09:42:19
+             @创建人员：DESKTOP-TKSI8P1\Liusiyu
+             @备注信息：玩家的财务背包数据（提供数据更新推送服务）
+            
+        </member>
+        <member name="F:Uyi.Common.PlayerMoneyBag.UserID">
+            
+        </member>
+        <member name="F:Uyi.Common.PlayerMoneyBag.MoneyType">
+            币种类型
+        </member>
+        <member name="F:Uyi.Common.PlayerMoneyBag.MoneyNum">
+            币种数量
+        </member>
+        <member name="T:Uyi.Common.PushPlayerInfo">
+            <summary>
+             玩家信息推送，只包含等级和其他需要推送更新的信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PushPlayerInfo.UserID">
+             <summary>
+            用户ID
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.PushPlayerInfo.UserLVData">
+            <summary>
+            用户等级的版本数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.PushPlayerInfo.VIPLVData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.User.UserLVData">
+            <summary>
+            玩家等级的相关信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.User.UserLVData.LV">
+             <summary>
+            友情树等级（下级用户总数）
+             </summary> 
+        </member>
+        <member name="F:Uyi.Common.User.UserLVData.PrevTotalLVEXP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.User.UserLVData.TotalLVEXP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.User.UserLVData.NextTotalLVEXP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.User.VIPLVData">
+            <summary>
+            玩家VIP的相关信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.User.VIPLVData.VipLV">
+            <summary>
+            玩家当前的VIP等级
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.User.VIPLVData.TotalRMB">
+            <summary>
+            玩家当前的充值量
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SysMaintainLogonUser">
+            <summary>
+            类SysMaintainLogonUser的注释信息
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.SysMaintainLogonUser.#ctor">
+            <summary>
+            类SysMaintainLogonUser的默认构造函数
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.ConstDefine">
+            <summary>
+            一些常量值得定义
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.ConstDefine.NotUseInLY20">
+            <summary>
+            标记将不会再礼游2.0中使用到的成员信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.ConstDefine.NotImplemented">
+            <summary>
+            指定方法未实现
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.ConstDefine.ErrorUse">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.GRSpareAttrib">
+            <summary>
+            场地特殊属性
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute1">
+            <summary>
+            场地特殊信息1
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute2">
+            <summary>
+            场地特殊信息2
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute3">
+            <summary>
+            场地特殊信息3
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute4">
+            <summary>
+            场地特殊信息4
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute5">
+            <summary>
+            场地特殊信息5
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.GRSpareAttrib.Attribute6">
+            <summary>
+            场地特殊信息6
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.RaceInOrOutScore">
+            <summary>
+            百人游戏的出入分信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.RaceInOrOutScore.OutScore">
+            <summary>
+            当前出分
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.RaceInOrOutScore.OutScoreRate">
+            <summary>
+            出分率(暂时用不到)
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.StockDataResult">
+            <summary>
+            股票游戏的卖出结算表数据
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.StockDataResult.PoundageValue">
+            <summary>
+            玩家本次交易的手续费
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.StockDataResult.TradeNum">
+            <summary>
+            交易手数
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.StockDataResult.TradePrice">
+            <summary>
+            玩家实际交易总价
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.StockDataResult.TradeSingleMoneyNum">
+            <summary>
+            交易单价
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.MaxRedPacketResult">
+            <summary>
+            获取商户红包的预扣值的操作结果
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.MaxRedPacketResult.MoneyNum">
+             <summary>
+            商户红包的预扣值
+             </summary>
+        </member>
+        <member name="T:GameIF.Common.HandselSettlementResult">
+            <summary>
+            玩家获得彩金的结算结果
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementResult.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementResult.GetMoneyNum">
+            <summary>
+            用户获得的彩金数量
+            彩金结算目前仅仅有金币
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementResult.Tag">
+            <summary>
+            结算时携带的用户对象信息，结算操作完毕后原样返回
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.HandselSettlementPlayerReq">
+            <summary>
+            玩家获得彩金的结算信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementPlayerReq.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementPlayerReq.GetMoneyNum">
+            <summary>
+            用户获得的彩金数量
+            彩金结算目前仅仅有金币
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.HandselSettlementPlayerReq.Tag">
+            <summary>
+            结算时携带的用户对象信息，结算操作完毕后原样返回
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.UserTransferGameQiuZhuReq">
+            <summary>
+            玩家获得彩金的结算信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuReq.MyUserID">
+            <summary>
+            同意求助请求的玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuReq.OtherUserID">
+            <summary>
+            求助的玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuReq.MoneyNum">
+            <summary>
+            求助获得的金额数量必须大于零才会结算
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuReq.MoneyType">
+            <summary>
+            赠予币种，目前仅仅支持金币的求助，其他币种不支持
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuReq.MarkContext">
+            <summary>
+            本次结算的账务说明文本
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.UserTransferGameQiuZhuResult">
+            <summary>
+            同意求助操作结果信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuResult.MyUserID">
+            <summary>
+            同意求助请求的玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuResult.OtherUserID">
+            <summary>
+            求助的玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuResult.MoneyNum">
+            <summary>
+            求助获得的金额数量必须大于零才会结算
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.UserTransferGameQiuZhuResult.MoneyType">
+            <summary>
+            赠予币种，目前仅仅支持金币的求助，其他币种不支持
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.WithHoldRoomCostCallback">
+            <summary>
+            玩家预扣或者返还操作的回调结果对象信息
+            </summary>
+        </member>
+        <member name="F:GameIF.Common.WithHoldRoomCostCallback.PrePayID">
+            <summary>
+            为本次预扣生成的临时唯一编号
+            </summary>
+        </member>
+        <member name="T:GameIF.Common.MSG_T_TestMessage">
+            <summary>
+            提供序列化测试类
+            </summary>
+        </member>
+        <member name="T:GameIF.SystemConfigData">
+            <summary>
+            提供系统数据常量定义
+            </summary>
+        </member>
+        <member name="F:GameIF.SystemConfigData.LYAgentID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:GameIF.SystemConfigData.UserSatrtID">
+            <summary>
+            平台玩家的起始编号ID
+            </summary>
+        </member>
+        <member name="T:GameIF.CustomMessage">
+            <summary>
+            消息基类,所有需要传输的消息均需要继承该类
+            </summary>
+        </member>
+        <member name="F:GameIF.CustomMessage.IsReturnMessage">
+            <summary>
+            指示该消息是否是一个回传消息，如果是则平台通过中转方式最大程度将消息发送给接受者
+            </summary>
+        </member>
+        <member name="P:GameIF.CustomMessage.SessionID">
+            <summary>
+            Socket会话ID，不用赋值
+            </summary>
+        </member>
+        <member name="P:GameIF.CustomMessage.wMainCmdID">
+            <summary>
+            主命令码，根据PacketContract属性值解析，不用赋值
+            </summary>
+        </member>
+        <member name="P:GameIF.CustomMessage.wSubCmdID">
+            <summary>
+            副命令码，根据PacketContract属性值解析，不用赋值
+            </summary>
+        </member>
+        <member name="F:GameIF.CustomMessage.Function">
+            <summary>
+            事件执行函数,需要在指定的消息队列中执行的方法
+            此消息的方法会在投放的消息队列中同步顺序执行
+            </summary>
+        </member>
+        <member name="F:GameIF.CustomMessage.MessageUserID">
+            <summary>
+            <para>消息的用户ID，服务器平台使用，不进行序列化处理</para>
+            <para>这个ID与玩家通信会话阶段后期绑定的玩家ID相对应，但不保证所有消息均初始化该字段的值，需要谨慎使用</para>
+            </summary>
+        </member>
+        <member name="F:GameIF.CustomMessage.IsProcessOnRoomHadle">
+            <summary>
+            表示当前消息是否在场地消息队列上执行
+            </summary>
+        </member>
+        <member name="P:GameIF.CustomMessage.CanSkipCheckMaintain">
+            <summary>
+            表示此消息是否可以跳过维护状态检查
+            </summary>
+        </member>
+        <member name="M:GameIF.CustomMessage.Clone">
+            <summary>
+            创建当前对象的浅表副本。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.GameMessage">
+            <summary>
+            游戏通用消息;
+            主命令码：
+            0~50:系统指令，平台
+            51-255：游戏指令
+            副命令码游戏开发者自己定义
+            </summary>
+        </member>
+        <member name="T:GameIF.GamePlugBaseClass">
+            <summary>
+            游戏插件的抽象基础类，所有的游戏插件必须继承与该抽象类
+            </summary>
+        </member>
+        <member name="P:GameIF.GamePlugBaseClass.GameID">
+            <summary>
+            游戏插件的游戏编号。宿主需要该字段标识游戏插件，具体请咨询服务器管理人员
+            </summary>
+        </member>
+        <member name="P:GameIF.GamePlugBaseClass.GameName">
+            <summary>
+            游戏名称。应该尽量保证与其他游戏插件的名称不存在冲突
+            </summary>
+        </member>
+        <member name="P:GameIF.GamePlugBaseClass.GameVersion">
+            <summary>
+            请提供游戏服务端版本。版本号格式：{主版本}.{次版本}.{修订号}
+            </summary>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.ReceiveMsg(System.UInt16,GameIF.GameMessage)">
+            <summary>
+            宿主与游戏服务端的消息通讯接口
+            </summary>
+            <param name="chairID">通讯的玩家椅子号</param>
+            <param name="cm">通知的消息对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.GameStart">
+            <summary>
+            边界:游戏开始；当宿主平台配桌成功后，通知游戏服务端启动
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:GameIF.GamePlugBaseClass.GameHost">
+            <summary>
+            得到宿主平台,边界关联
+            </summary>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnTableError(System.Exception)">
+            <summary>
+            <para>平台捕获当前桌发生异常的通知，并返回一个bool值指示平台是否需要立即结束当前桌比赛
+            在游戏内的异常处理方法中请勿直接调用GameEnd方法</para>
+            </summary>
+            <param name="ex">捕获的平台异常信息</param>
+            <returns>返回一个布尔值指示当前桌是否需要立即结束当前桌的游戏，如果需要立即结束请返回true,否则返回 false </returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnDestory">
+            <summary>
+            宿主通知游戏插件当前的实例将被销毁（这个销毁是无条件的）
+            </summary>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.GameInitialize">
+            <summary>
+            <para>--------------------------------------------------------------------------------------------------------------------------</para>
+            <para>1、宿主通知游戏插件初始化，这个是游戏插件创建完毕并准备完毕后的初始化通知函数</para>
+            <para>2、当宿主调用该方法之后游戏插件即可调用宿主的接口处理相关逻辑，游戏插件请按照需要重写该方法</para>
+            <para>3、这个方法的调用时期是不同于 GameStart 方法的，游戏插件的开发者请务必不要在这个函数中处理与游戏开始相关的逻辑</para>
+            <para>4、warning：这是一个预留功能，在后期的平台的其他中宿主可能会多次执行其初始化方法，以便重置游戏插件内部上下文。请游戏开发人员务必关注其游戏插件的初始化逻辑</para>
+            <para>--------------------------------------------------------------------------------------------------------------------------</para>
+            </summary>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnServerMaintain(System.Int32,System.String)">
+            <summary>
+            服务器维护的通知接口
+            </summary>
+            <param name="status">服务器状态 1维护，0取消维护</param>
+            <param name="MaintainText">维护文本</param>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnBeforUserReady(System.UInt16,Uyi.Common.TablePlayer,System.String@)">
+            <summary>
+            一个玩家准备前的通知接口，服务端可以根据需要处理相关逻辑
+            </summary>
+            <param name="chairID">准备玩家的椅子号</param>
+            <param name="userInfo">玩家信息</param>
+            <param name="errorMsg">如果玩家准备不符合条件的提示文本内容</param>
+            <returns>如果玩家的准备符合条件则为 0 否则则为 非 零值</returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnUserReady(System.UInt16,Uyi.Common.TablePlayer,System.Byte)">
+            <summary>
+            一个玩家准备的通知接口，服务端可以根据需要处理相关逻辑
+            </summary>
+            <param name="chairID">准备玩家的椅子号</param>
+            <param name="userInfo">玩家信息</param>
+            <param name="userState">保留字段</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnBeforGetPlayerTableSeat(Uyi.Common.TablePlayer,System.Byte,System.String@)">
+            <summary>
+            玩家还未进入桌子。等待分配椅子号的前置条件判断
+            </summary>
+            <param name="player">等待分配椅子号的玩家</param>
+            <param name="selectChairId">玩家的邀请逻辑中自选的椅子号位置信息</param>
+            <param name="errorMsg">如果玩家不符合进入条件的错误提示文本内容</param> 
+            <returns>如果允许玩家进入返回 0 否则为 非0 值</returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnBeforUserComeIn(System.UInt16,Uyi.Common.TablePlayer,System.Byte,System.String@)">
+            <summary>
+            系统通知玩家坐下前的通知
+            </summary>
+            <param name="chairID">椅子号</param>
+            <param name="userInfo">用户信息</param>
+            <param name="errorMsg">如果玩家坐下不符合条件的提示文本内容</param>
+            <param name="userState">用户状态，0正常进入；1断线重连； 2旁观进来</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnUserComeIn(System.UInt16,Uyi.Common.TablePlayer,System.Byte)">
+            <summary>
+            系统通知玩家坐下前的通知
+            </summary>
+            <param name="chairID">椅子号</param>
+            <param name="userInfo">用户信息</param> 
+            <param name="userState">用户状态，0正常进入；1断线重连； 2旁观进来</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnUserRematching(System.UInt16,Uyi.Common.TablePlayer,System.Byte)">
+            <summary>
+            当玩家被系统重新换桌前的通知事件方法，当前方法是在玩家当前桌子上通知的，是玩家换桌前的桌子位置
+            </summary>
+            <param name="chairID">玩家椅子号</param>
+            <param name="userInfo">玩家基本信息</param>
+            <param name="userState">玩家状态（保留字段，暂时用不到）</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnUserLeft(System.UInt16,Uyi.Common.TablePlayer,System.Byte)">
+            <summary>
+            玩家离开桌子（站起）后调用
+            </summary>
+            <param name="chairID">离开玩家的椅子号</param>
+            <param name="userInfo">离开的玩家信息</param>
+            <param name="userState">0正常离开，1强退;玩家自主离开对于不支持断线重连的游戏该值为 0
+            </param>
+            <returns></returns>
+        </member>
+        <member name="P:GameIF.GamePlugBaseClass.CanOffline">
+            <summary>
+            标识当前游戏插件是否允许断线重连，当游戏插件支持断线重连时需要宿主通知的玩家断线和重连的相关接口逻辑 
+            </summary>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnHallMessage(System.UInt32,System.String,System.String)">
+            <summary>
+            游戏插件接收处理大厅发送消息，具体业务游戏开发和大厅相商
+            这个消息的处理器是在大厅未与游戏插件建立联系的条件下直接发送处理命令的处理接口
+            </summary>
+            <param name="UserId">发送消息的玩家Id</param>
+            <param name="handle">处理消息命令</param>
+            <param name="param">处理消息参数</param>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnUserStatusChangeToOnLooking(System.Byte,Uyi.Common.GSTablePlayer,System.Byte)">
+            <summary>
+             通知游戏插件玩家已经被置换为旁观状态
+            </summary>
+            <param name="chairID">玩家椅子号</param>
+            <param name="player">玩家信息</param>
+            <param name="statue">操作状态</param>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.CanSwapChair(Uyi.Common.TablePlayer,System.Byte,System.String@)">
+            <summary>
+            指示当前阶段游戏是否支持更换座位信息
+            </summary>
+            <param name="errorReason">如果不能更换座位请返回原因字符串</param>
+            <param name="chairId">玩家希望更换到的座位编号</param>
+            <param name="player">操作的玩家信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.StartSwapChair(System.Byte,System.Byte)">
+            <summary>
+            玩家更换座位前通知
+            </summary>
+            <param name="ChairId1">被对调座位的椅子号参数 1 </param>
+            <param name="ChairId2">被对调座位的椅子号参数 2 </param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.EndSwapChair(System.Byte,System.Byte)">
+            <summary>
+            玩家更换座位完成通知
+            </summary>
+            <param name="ChairId1">被对调座位的椅子号参数 1 </param>
+            <param name="ChairId2">被对调座位的椅子号参数 2 </param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.CanStartGame">
+            <summary>
+            指示当前的桌子游戏是否可以开始游戏。该接口目前处于试测试阶段，为了应对后期多人不定人数游戏的开局控制
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.PlayerAuditItem">
+            <summary>
+            每个玩家的结算信息
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditItem.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditItem.Win">
+            <summary>
+            游戏总赢
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditItem.LifeNum">
+            <summary>
+            扣减生命值
+            </summary>
+        </member>
+        <member name="T:GameIF.PlayerAuditResult">
+            <summary>
+            玩家结算结果
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditResult.AuditTable">
+            <summary>
+            玩家余额表
+            </summary>
+        </member>
+        <member name="T:GameIF.PlayerAuditTable">
+            <summary>
+            玩家余额表
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditTable.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditTable.TotalScore">
+            <summary>
+            用户余额
+            </summary>
+        </member>
+        <member name="P:GameIF.PlayerAuditTable.LeftLifeCount">
+            <summary>
+            剩余生命值数量
+            </summary>
+        </member>
+        <member name="T:GameIF.IGameHost">
+            <summary>
+            游戏宿主接口:即游戏平台接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IGameHost.SendMsgByChairID(System.Int32,GameIF.CustomMessage)">
+            <summary>
+            根据椅子号发送消息,并返回序列化完成的消息字节流
+            </summary>
+            <param name="chairID">椅子号为-1时群发消息</param>
+            <param name="message">发送的消息</param>
+            <returns>序列化完成的消息字节流</returns> 
+        </member>
+        <member name="M:GameIF.IGameHost.SendMsgByPlayerID(System.UInt32,GameIF.CustomMessage)">
+            <summary>
+            根据玩家ID发送消息,并返回序列化完成的消息字节流
+            </summary>
+            <param name="PlayerID">需要发送消息的玩家ID</param>
+            <param name="message">需要发送的消息</param>
+            <returns>序列化完成的消息字节流</returns>
+        </member>
+        <member name="M:GameIF.IGameHost.WriteMessage(System.String)">
+            <summary>
+            向宿主控制台输出消息，调试使用
+            </summary>
+            <param name="msg">需要输出的消息</param> 
+        </member>
+        <member name="M:GameIF.IGameHost.SaveLog(System.String)">
+            <summary>
+            写入游戏日志，以便追踪游戏进程，游戏日志在调用GameEnd方法后写入到硬盘中
+            </summary>
+            <param name="context">写入的内容</param> 
+        </member>
+        <member name="P:GameIF.IGameHost.LogFileName">
+            <summary>
+            表示当前局游戏生成的游戏日志号 
+            </summary> 
+        </member>
+        <member name="P:GameIF.IGameHost.StackTraceInfo">
+            <summary>
+            获取当前程序运行的堆栈跟踪信息
+            </summary> 
+        </member>
+        <member name="M:GameIF.IGameHost.GameEnd">
+            <summary>
+            通知平台结束游戏
+            </summary>
+            <returns>返回值没有用</returns>
+        </member>
+        <member name="M:GameIF.IGameHost.OnHostGameStart">
+            <summary>
+            游戏插件通知宿主游戏已经开始
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:GameIF.IGameHost.GetRoomInfo">
+            <summary>
+            获取桌子相关的场地信息（商户）
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.GameSceneStatus">
+            <summary>
+            游戏场景状态信息
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.PlayerInfoOnTable">
+            <summary>
+            获取当前桌子的所有玩家信息（只有已经在当前桌子坐下或者已经分配椅子号的玩家才会在该数组内存在）
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.PlayerInfoOnTableSeat">
+            <summary>
+            获取当前桌子的座位信息，这个是区别于 PlayerInfoOnTable 的
+            </summary> 
+        </member>
+        <member name="P:GameIF.IGameHost.TableOnwer">
+            <summary>
+            获取本局游戏的房主信息，没有则为 null 该值需要在合适的时候获取，建议在游戏开始逻辑获取
+            </summary>
+        </member>
+        <member name="M:GameIF.IGameHost.SetTableOwner(System.UInt32)">
+            <summary>
+            变更房主信息
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="P:GameIF.IGameHost.CheckBase">
+            <summary>
+            游戏结算基准分
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.PlayerDataService">
+            <summary>
+            玩家信息相关的统一服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.RaceHostService">
+            <summary>
+            百人游戏统一服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostRandomService">
+            <summary>
+            平台宿主提供的随机数生成服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostTimerService">
+            <summary>
+            平台提供的定时器注册服务，提供游戏计时服务
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostSettlementService">
+            <summary>
+            平台提供的玩家游戏结算的统一服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostMultiplayerGameService">
+            <summary>
+            多人游戏平台提供的宿主统一服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostSendSmsService">
+            <summary>
+            发送短信接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostSystemConfigManger">
+            <summary>
+            服务器的系统配置数据管理器 可以获取系统的配置数据
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostGameReplayHelperServices">
+            <summary>
+            游戏录像的上传并保存接口
+            </summary>
+        </member>
+        <member name="T:GameIF.ICheckBase">
+            <summary>
+            获取基础分
+            </summary>
+        </member>
+        <member name="P:GameIF.ICheckBase.Item(System.Int32)">
+            <summary>
+            获取基础分
+            </summary>
+            <param name="index">椅子号做索引取值</param>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.IPlayerDataService">
+            <summary>
+            玩家信息相关的统一服务接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.GetPlayerByChairID(System.Int32)">
+            <summary>
+            根据椅子号获取玩家基本信息
+            </summary>
+            <param name="chairId">椅子号</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.GetPlayerScoreByPlayerID(System.UInt32)">
+            <summary>
+            根据玩家ID获取积分数据
+            </summary>
+            <param name="playerid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.GetPlayerInfoByPlayerID(System.UInt32)">
+            <summary>
+            根据玩家ID获取玩家基本信息
+            </summary>
+            <param name="playerID">需要获取玩家信息的玩家ID，这个ID不能是AI的玩家ID</param>
+            <returns>返回指定玩家ID的玩家信息，如果没有找到返回 null</returns>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.PostUserExitMessage(Uyi.Common.TablePlayer)">
+            <summary>
+            给平台发送一个消息，该玩家被强制请离退出
+            </summary>
+            <param name="player">玩家基本信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.PostUserExitMessage(Uyi.Common.TablePlayer,System.String)">
+            <summary>
+            给平台发送一个消息，该玩家被强制请离退出
+            </summary>  
+        </member>
+        <member name="M:GameIF.IPlayerDataService.SetPlayerData``1(System.UInt32,``0)">
+            <summary>
+            设置玩家的游戏临时对象信息,该数据在该场地内共享可跨越桌子
+            </summary>
+            <param name="UserId">玩家Id</param>
+            <param name="data">设置的数据对象</param>
+        </member>
+        <member name="M:GameIF.IPlayerDataService.GetPlayerData``1(System.UInt32)">
+            <summary>
+            获取存储的玩家数据,该数据在该场地内共享可跨越桌子
+            </summary>
+            <param name="UserId">需要获取的玩家Id</param> 
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.IRaceHostService">
+            <summary>
+            百人游戏服务接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IRaceHostService.GetOutScore">
+            <summary>
+            获取当前处分率
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IRaceHostService.SendHallNotice(System.String,System.Byte,System.UInt16)">
+            <summary>
+            向客户端发送群发一条跑马灯公告
+            </summary> 
+            <param name="msg">需要发送的消息内容，该条跑马灯公告会使用默认的显示优先级进行显示</param>
+            <param name="showCount">公告显示次数,如果为 255 则表示循环显示，跑马灯最少显示一次</param>
+            <param name="IntervalTime">跑马灯显示的间隔时间单位以秒为单位</param>
+        </member>
+        <member name="M:GameIF.IRaceHostService.AddPlayerContribution(System.UInt32,System.Int32,System.Action{GameIF.AsynChronyResult})">
+            <summary>
+            增加玩家活跃度操作接口
+            </summary>
+            <param name="userId">增加的玩家</param>
+            <param name="MoneyNum">增加的数量</param>
+            <param name="callback">操作结果回调</param>
+        </member>
+        <member name="T:GameIF.IHostMultiplayerGameService">
+            <summary>
+            多人游戏宿主统一服务接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostMultiplayerGameService.PlayerGameEnd(System.UInt32)">
+            <summary>
+            游戏插件通知宿主指定玩家游戏已经结束，这时候该玩家可以直接退出游戏到大厅
+            </summary>
+            <param name="playerID">结束游戏的玩家ID</param>
+            <returns>返回平台处理状态的通知接口</returns>
+        </member>
+        <member name="T:GameIF.IHostRandomService">
+            <summary>
+            平台宿主提供的随机数生成服务接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostRandomService.NextDouble">
+            <summary>
+            随机生成一个介于0.0和1.0之间的一个双精度的浮点型数值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostRandomService.Next(System.Int32,System.Int32)">
+            <summary>
+            生成一个大于等于最小值且小于最大值的随机整数
+            </summary>
+            <param name="min">随机数的最小值，随机数可以取该最小值</param>
+            <param name="max">随机数最大值，随机数不可以取得该最大值</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostRandomService.GetNewGuidString">
+            <summary>
+            获取一个新的全局标识符字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.IHostSettlementService">
+            <summary>
+            平台提供的玩家游戏结算的统一服务接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IHostSettlementService.GameBonusNum">
+            <summary>
+            获取当前游戏奖池的总奖金金额，不计算占比，是全部游戏的总奖金额度
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostSettlementService.PlayerForFeeMultiple(Uyi.Common.PlayerForFeeDataMultiple,System.Action{Uyi.Common.UserAuditResultTable})">
+            <summary>
+            玩家游戏结算（针对多人结算模式）
+            </summary>
+            <param name="freeData">结算信息数据</param>
+            <param name="callback">结算处理结果回调通知</param>
+        </member>
+        <member name="M:GameIF.IHostSettlementService.HandselSettlement(GameIF.Common.HandselSettlementPlayerReq,System.Action{GameIF.Common.HandselSettlementResult})">
+            <summary>
+            进行当前系统的彩金结算
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostSettlementService.UserTransferGameQiuZhu(GameIF.Common.UserTransferGameQiuZhuReq,System.Action{GameIF.Common.UserTransferGameQiuZhuResult})">
+            <summary>
+            游戏求助赠予操作
+            </summary>
+            <param name="req_param">操作请求参数</param>
+            <param name="callback">请求结果回调</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostSettlementService.WithHoldRoomCost(System.UInt32,Uyi.Common.CurrencyType,System.UInt32,System.String,System.Action{GameIF.Common.WithHoldRoomCostCallback})">
+            <summary>
+            预扣玩家的余额信息
+            </summary>
+            <param name="UserID">玩家ID</param>
+            <param name="MoneyType">预扣的币种</param>
+            <param name="MoneyNum">预扣的数量</param>
+            <param name="Mark">结算备注说明</param>
+            <param name="callback">操作回调</param>
+        </member>
+        <member name="M:GameIF.IHostSettlementService.WithHoldRoomCostBack(System.UInt32,System.Int32,System.Action{GameIF.Common.WithHoldRoomCostCallback})">
+            <summary>
+            返还预扣玩家的余额信息
+            </summary>
+            <param name="PrePayID">预扣时返回的编号</param>
+            <param name="callback">操作回调</param>
+            <param name="PayStatus">支付的类别，可选参数（1：已支付；2：游戏开始返还；3：解散返还）</param> 
+        </member>
+        <member name="T:GameIF.IHostTimerService">
+            <summary>
+            平台提供的定时器注册服务，提供游戏计时服务
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostTimerService.RegTimer(System.Int32,System.Int32)">
+            <summary>
+            注册一个定时器
+            </summary>
+            <param name="timerID">定时器ID，在桌子内要唯一</param>
+            <param name="timeInterval">定时器间隔，单位秒，最小间隔为1秒</param>
+            <returns>0表示注册成功</returns>
+        </member>
+        <member name="M:GameIF.IHostTimerService.RegTimerNonAuto(System.Int32,System.Int32)">
+            <summary>
+            注册一个定时器，这个定时器只会运行一次
+            <para> ===================关于这个定时器的时间间隔的传值=================================</para>
+            <para>1、这个间隔的时间是按照服务器配置的最小计算时间间隔走的，一般以100毫秒一个时间周期。</para>
+            <para>2、填写时间间隔时填写期望定时器按照服务器配置的最小计算时间间隔计算的计时周期数。</para>
+            <para>例如：当服务器最小时间间隔为100毫秒时，1个定时器计时周期是100毫秒; 当服务器最小时间间隔为10毫秒时，1个定时器计时周期是10毫秒;以此类推</para>
+            </summary>
+            <param name="timerID">定时器ID，在桌子内要唯一</param>
+            <param name="timeInterval">定时器间隔。 </param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostTimerService.DestroyTimer(System.Int32)">
+            <summary>
+            销毁一个定时器
+            </summary>
+            <param name="timerID">要销毁的定时器ID</param>
+            <returns>0表示销毁成功，1表示没有找到该定时器</returns>
+        </member>
+        <member name="M:GameIF.IHostTimerService.ClearAllTimer">
+            <summary>
+            清理所有注册的定时器实例
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostTimerService.CheckHasTimer(System.Int32)">
+            <summary>
+            检查指定的定时器是否已经注册
+            </summary>
+            <param name="timerID">需要检查的定时器ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostTimerService.RegTimerHandle(System.Int32,System.Int32,System.Action)">
+            <summary>
+            注册一个定时器
+            </summary>
+            <param name="timerID">定时器ID，在桌子内要唯一</param>
+            <param name="timeInterval">定时器间隔，单位秒，最小间隔为1秒</param>
+            <param name="callBack">定时任务的回调方法</param>
+            <returns>0表示注册成功,注册失败为其他值</returns>
+        </member>
+        <member name="M:GameIF.IHostTimerService.RegTimerNonAutoHandle(System.Int32,System.Int32,System.Action)">
+            <summary>
+            注册一个定时器，这个定时器只会运行一次
+            <para> ===================关于这个定时器的时间间隔的传值=================================</para>
+            <para>1、这个间隔的时间是按照服务器配置的最小计算时间间隔走的，一般以100毫秒一个时间周期。</para>
+            <para>2、填写时间间隔时填写期望定时器按照服务器配置的最小计算时间间隔计算的计时周期数。</para>
+            <para>例如：当服务器最小时间间隔为100毫秒时，1个定时器计时周期是100毫秒; 当服务器最小时间间隔为10毫秒时，1个定时器计时周期是10毫秒;以此类推</para>
+            </summary>
+            <param name="timerID">定时器ID，在桌子内要唯一</param>
+            <param name="timeInterval">定时器间隔。</param>
+            <param name="callBack">定时任务的回调方法</param>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.IHostSendSmsService">
+            <summary>
+            发送短信接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostSendSmsService.SendSms(System.String,System.String)">
+            <summary>
+            给指定手机号发送指定短信
+            </summary>
+            <param name="phone">接收短信的手机号</param>
+            <param name="smsContext">待发送的短信文本</param>
+        </member>
+        <member name="T:GameIF.IHostSystemConfigManager">
+            <summary>
+            服务器的系统配置数据管理器
+            </summary>
+        </member>
+        <member name="P:GameIF.IHostSystemConfigManager.Item(System.String)">
+            <summary>
+            获取服务器的系统配置数据，如果配置不存在获取失败则返回null
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.IHostGameReplayHelperServices">
+            <summary>
+            游戏录像的上传并保存接口
+            </summary>
+        </member>
+        <member name="M:GameIF.IHostGameReplayHelperServices.Deserialzier``1(System.Byte[])">
+            <summary>
+            反序列化消息对象
+            </summary>
+            <typeparam name="T">消息类型</typeparam>
+            <param name="bytes">该消息的序列化完成的字节信息</param>
+            <returns>返回反序列化成功的对象信息，如果序列化失败则为null</returns>
+        </member>
+        <member name="M:GameIF.IHostGameReplayHelperServices.Serialzier(GameIF.CustomMessage)">
+            <summary>
+            将一个对象序列化为字节数据，返回序列的结果数据
+            </summary>
+            <param name="message">需要序列化的对象信息，该对象不要求继承消息体基类，但必须符合类型序列化的规则（即序列化器的序列化规则）</param>
+            <returns>返回序列化完成获得的字节数组</returns>
+        </member>
+        <member name="M:GameIF.IHostGameReplayHelperServices.ObjectToJson(System.Object)">
+            <summary>
+            转换对象为json格式
+            </summary>
+            <param name="o">需要转换的对象</param>
+            <returns>转化成果返回的json字符串</returns>
+        </member>
+        <member name="M:GameIF.IHostGameReplayHelperServices.JsonToObject``1(System.String)">
+            <summary>
+            将json转换为指定类型的对象，如果转换失败则返回null
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.IHostGameReplayHelperServices.SaveRecord(GameIF.SaveRecordData,System.Action{GameIF.SaveRecordRessult})">
+            <summary>
+            上传保存游戏录像数据
+            </summary>
+            <param name="recdata">表示游戏录像相关的数据内容信息</param>
+            <param name="call">上传录像操作完成后回调，回调参数是生成的录像路径，保存计分数据时需要携带该录像路径参数</param>
+        </member>
+        <member name="T:GameIF.AsynChronyResult">
+            <summary>
+            异步操作结果
+            </summary>
+        </member>
+        <member name="F:GameIF.AsynChronyResult.IsSuccess">
+            <summary>
+            表示当前期望的操作结果是否正确完成
+            </summary>
+        </member>
+        <member name="T:GameIF.SaveRecordRessult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordRessult.Path">
+            <summary>
+            保存录像生成的路径
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordRessult.Message">
+            <summary>
+            操作结果说明
+            </summary>
+        </member>
+        <member name="T:GameIF.SaveRecordData">
+            <summary>
+            表示游戏录像相关的数据内容信息
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.GameGroupName">
+            <summary>
+            游戏分局的总局号
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.GameNo">
+            <summary>
+            游戏局号，区分于总局号，每个游戏录像的唯一标识建议使用guid
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.RecrdData">
+            <summary>
+            录像数据
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.Type">
+            <summary>
+            游戏录像的类别
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.RoomOwner">
+            <summary>
+            当前房间的房主ID
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.RecordDataArray">
+            <summary>
+            本局参与游戏的玩家游戏数据数组
+            </summary>
+        </member>
+        <member name="F:GameIF.SaveRecordData.MarkContext">
+            <summary>
+            本局结算的备注说明信息
+            </summary>
+        </member>
+        <member name="T:GameIF.UserRecordData">
+            <summary>
+            游戏录像的结算数据信息
+            </summary>
+        </member>
+        <member name="F:GameIF.UserRecordData.UserID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.UserRecordData.MoneyType">
+            <summary>
+            游戏币种
+            </summary>
+        </member>
+        <member name="F:GameIF.UserRecordData.MoneyNum">
+            <summary>
+            结算数量
+            </summary>
+        </member>
+        <member name="F:GameIF.UserRecordData.NickName">
+            <summary>
+            玩家昵称
+            </summary>
+        </member>
+        <member name="F:GameIF.UserRecordData.MarkContext">
+            <summary>
+            玩家本局结算的相关备注说明（限制200字以内）
+            </summary>
+        </member>
+        <member name="T:GameIF.GameRecordType">
+            <summary>
+            结算游戏的录像类型
+            </summary>
+        </member>
+        <member name="F:GameIF.GameRecordType.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:GameIF.GameRecordType.AutoMatch">
+            <summary>
+            自动匹配
+            </summary>
+        </member>
+        <member name="F:GameIF.GameRecordType.CreateGlodRoom">
+            <summary>
+            创建房间金币场
+            </summary>
+        </member>
+        <member name="F:GameIF.GameRecordType.CreateScoreRoom">
+             <summary>
+            创建房间记分场 
+             </summary>
+        </member>
+        <member name="T:GameIF.RecrdDataBase">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:GameIF.RecrdDataBase.status">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:GameIF.RecrdDataBase.msg">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:GameIF.RecrdDataBase.GetRecordJsonData">
+            <summary>
+            输出录像文件的json 数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GameIF.UserGameDataInfoBase">
+            <summary>
+            为服务器游戏插件保存玩家游戏数据提供抽象基类协定
+            </summary>
+        </member>
+        <member name="M:GameIF.UserGameDataInfoBase.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GameIF.UserGameDataInfoBase.PlayerID">
+            <summary>
+            玩家ID，自己的用户ID
+            </summary>
+        </member>
+        <member name="P:GameIF.UserGameDataInfoBase.FriendID">
+            <summary>
+            玩家推广时的推广玩家ID（邀请玩家枪红包的邀请者ID,注意：这个只要ID,请不要使用这个玩家ID获取其他信息。）
+            </summary>
+        </member>
+        <member name="P:GameIF.UserGameDataInfoBase.DataID">
+            <summary>
+            数据的编号ID
+            </summary>
+        </member>
+        <member name="T:GameIF.GamePlayerForFeeResult">
+            <summary>
+            玩家结算结果消息基类
+            </summary>
+        </member>
+        <member name="F:GameIF.GamePlayerForFeeResult.PlayerID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="F:GameIF.GamePlayerForFeeResult.Result">
+            <summary>
+            结算结果
+            </summary>
+        </member>
+        <member name="F:GameIF.GamePlayerForFeeResult.ResultData">
+            <summary>
+            服务器结算携带的处理数据，根据不同游戏区别处理
+            </summary>
+        </member>
+        <member name="T:GameIF.RuntimeComper.BaseRuntimeComperClass">
+            <summary>
+            系统用计算辅助类，动态更新
+            </summary>
+        </member>
+        <member name="P:GameIF.RuntimeComper.BaseRuntimeComperClass.Version">
+            <summary>
+            版本信息
+            </summary>
+        </member>
+        <member name="P:GameIF.RuntimeComper.BaseRuntimeComperClass.UpdateLog">
+            <summary>
+            更新日志说明
+            </summary>
+        </member>
+        <member name="M:GameIF.RuntimeComper.BaseRuntimeComperClass.GetUserMaxStockHandNum(System.Int32,System.Int32,Uyi.Common.PlayerBase)">
+            <summary>
+            计算并获取玩家用户的股票最大手数上限
+            </summary>
+            <param name="userlv">玩家等级</param>
+            <param name="viplv">玩家的VIP等级</param>
+            <param name="player">玩家信息</param>
+            <returns>返回玩家的手数</returns>
+        </member>
+        <member name="T:GameIF.GameTimerMsg">
+            <summary>
+            定时器消息，消息主副码均是0;
+            </summary> 
+        </member>
+        <member name="P:GameIF.GameTimerMsg.TimerID">
+            <summary>
+            定时器ID
+            </summary>
+        </member>
+        <member name="P:GameIF.GameTimerMsg.TableInfo">
+            <summary>
+            定时器所有者,桌子信息
+            </summary>
+        </member>
+        <member name="M:GameIF.GameTimerMsg.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GameIF.UyiDictionary`2">
+            <summary>
+            表示键和值的集合
+            </summary>
+            <typeparam name="TKey">字典中的键的类型</typeparam>
+            <typeparam name="TValue">字典中的值的类型</typeparam>
+        </member>
+        <member name="P:GameIF.UyiDictionary`2.Item(`0)">
+            <summary>
+            获取或设置与指定的键相关联的值
+            </summary>
+            <param name="key">要获取或设置的值的键</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

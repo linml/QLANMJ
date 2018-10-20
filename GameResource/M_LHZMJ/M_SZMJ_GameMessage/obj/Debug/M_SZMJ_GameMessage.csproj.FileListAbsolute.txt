@@ -1,0 +1,17 @@
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\M_SZMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\M_SZMJ_GameMessage.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Common.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\GameIF.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\MahjongAlgorithmForSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Uyi.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Import.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\MahjongAlgorithmForSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Common.xml
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\GameIF.xml
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Uyi.xml
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\bin\Debug\Import.xml
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\obj\Debug\M_SZMJ_GameMessage.csprojResolveAssemblyReference.cache
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\obj\Debug\M_SZMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ_GameMessage\obj\Debug\M_SZMJ_GameMessage.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\M_SZMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\M_SZMJ_GameMessage.pdb

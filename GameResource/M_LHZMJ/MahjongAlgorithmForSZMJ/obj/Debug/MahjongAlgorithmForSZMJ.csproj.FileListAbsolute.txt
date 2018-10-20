@@ -1,0 +1,6 @@
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\bin\Debug\MahjongAlgorithmForSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\bin\Debug\MahjongAlgorithmForSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\MahjongAlgorithmForSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\MahjongAlgorithmForSZMJ.pdb

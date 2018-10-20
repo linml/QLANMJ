@@ -1,0 +1,29 @@
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\M_LQMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\M_LQMJ_GameMessage.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Common.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\GameIF.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\MahjongAlgorithmForLQMJ.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Uyi.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Import.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\MahjongAlgorithmForLQMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Common.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\GameIF.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Uyi.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\bin\Debug\Import.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.csprojResolveAssemblyReference.cache
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\dll\LQMJ\M_LQMJ_GameMessage.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\dll\LQMJ\M_LQMJ_GameMessage.pdb
+E:\2017.11.3\各个麻将游戏服务端\dll\LQMJ\M_LQMJ_GameMessage.dll
+E:\2017.11.3\各个麻将游戏服务端\dll\LQMJ\M_LQMJ_GameMessage.pdb
+E:\2017.11.3\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.csprojResolveAssemblyReference.cache
+E:\2017.11.3\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.dll
+E:\2017.11.3\各个麻将游戏服务端\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.pdb
+C:\Users\Administrator\Desktop\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.dll
+C:\Users\Administrator\Desktop\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.pdb
+C:\Users\Administrator\Desktop\dll\LQMJ\M_LQMJ_GameMessage.dll
+C:\Users\Administrator\Desktop\dll\LQMJ\M_LQMJ_GameMessage.pdb
+C:\Users\Administrator\Desktop\M_LQMJ\M_LQMJ_GameMessage\obj\Debug\M_LQMJ_GameMessage.csproj.CopyComplete

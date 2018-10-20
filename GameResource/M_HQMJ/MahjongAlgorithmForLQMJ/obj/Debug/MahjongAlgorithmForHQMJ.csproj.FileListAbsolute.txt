@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.csproj.CopyComplete
+C:\Users\Administrator\Desktop\dll\LQMJ\MahjongAlgorithmForHQMJ.dll
+C:\Users\Administrator\Desktop\dll\LQMJ\MahjongAlgorithmForHQMJ.pdb
+C:\Users\Administrator\Desktop\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.dll
+C:\Users\Administrator\Desktop\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.pdb
+C:\Users\Administrator\Desktop\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.csprojAssemblyReference.cache
+F:\project\QLAHMJ\GameResource\dll\LQMJ\MahjongAlgorithmForHQMJ.dll
+F:\project\QLAHMJ\GameResource\dll\LQMJ\MahjongAlgorithmForHQMJ.pdb
+F:\project\QLAHMJ\GameResource\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.csproj.CoreCompileInputs.cache
+F:\project\QLAHMJ\GameResource\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.dll
+F:\project\QLAHMJ\GameResource\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.pdb
+F:\project\QLAHMJ\GameResource\M_HQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForHQMJ.csprojAssemblyReference.cache

@@ -1,0 +1,26 @@
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\MahjongAlgorithmForLQMJ.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\MahjongAlgorithmForLQMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Common.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\GameIF.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Uyi.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Import.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Common.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\GameIF.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Uyi.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\bin\Debug\Import.xml
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\dll\LQMJ\MahjongAlgorithmForLQMJ.dll
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\dll\LQMJ\MahjongAlgorithmForLQMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (5)\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.csprojResolveAssemblyReference.cache
+E:\2017.11.3\各个麻将游戏服务端\dll\LQMJ\MahjongAlgorithmForLQMJ.dll
+E:\2017.11.3\各个麻将游戏服务端\dll\LQMJ\MahjongAlgorithmForLQMJ.pdb
+E:\2017.11.3\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.dll
+E:\2017.11.3\各个麻将游戏服务端\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.pdb
+C:\Users\Administrator\Desktop\dll\LQMJ\MahjongAlgorithmForLQMJ.dll
+C:\Users\Administrator\Desktop\dll\LQMJ\MahjongAlgorithmForLQMJ.pdb
+C:\Users\Administrator\Desktop\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.dll
+C:\Users\Administrator\Desktop\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.pdb
+C:\Users\Administrator\Desktop\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\M_LQMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForLQMJ.csproj.CopyComplete

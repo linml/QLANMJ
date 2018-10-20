@@ -1,0 +1,2472 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common</name>
+    </assembly>
+    <members>
+        <member name="T:Uyi.Common.Main_CommonID">
+            <summary>
+            消息主码编号，定义各个服务器传递数据所需要的消息主码,包含方向性定义
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.BaseGeneral">
+            <summary>
+            服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.CS2GS">
+            <summary>
+            中心服务器发给游戏服务器的消息主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.GS2CS">
+            <summary>
+            游戏服务器发给中心服务器的消息主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.CS2LS">
+            <summary>
+            中心服务器发给登录服务器的消息主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.LS2CS">
+            <summary>
+            游戏服务器发给中心服务器的消息主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.GS2LS">
+            <summary>
+            使用该命令码没有实际意义，目前登录服务器做为代理逻辑不会解析处理游戏服务器发过来的任何消息
+            预留该字段只是为了以后需求扩展使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.LS2GS">
+            <summary>
+            登录服务器发给游戏服务器的消息主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.CL2LS">
+            <summary>
+            客户端发往登录服务器的消息主命令码（但是这个主命令码貌似没有用到）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.LS2CL">
+            <summary>
+            登录服务器发往客户端的消息主命令码（但是这个主命令码貌似没有用到）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.ServerGeneral">
+            <summary>
+            服务器通用主码，一般用于服务器启动注册，停止信息报告任务等
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.SQL2Server">
+            <summary>
+            数据库消息的主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.Web2S">
+            <summary>
+            处理GMTools消息的主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.S2Web">
+            <summary>
+            处理GMTools消息的主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.GMTools">
+            <summary>
+            处理GMTools消息的主命令码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.C2LS">
+            <summary>
+            往登录服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.G2LS">
+            <summary>
+            大厅和游戏插件的直接交互消息主码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.C2GS">
+            <summary>
+            往游戏服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.LS2C">
+            <summary>
+            从登录服务器来
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.Main_CommonID.GS2C">
+            <summary>
+            从游戏服务器来
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_BaseGeneral_CommonID">
+            <summary>
+            服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.GameTimerMsg">
+            <summary>
+            定时器消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.H5Connected">
+            <summary>
+            H5客户端连接成功的回调通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.NullMsg">
+            <summary>
+            一个空消息，服务端标记使用，大厅请不要使用该消息体
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.PipelineDisposed">
+            <summary>
+            管道释放消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.MSG_C_Ping">
+            <summary>
+            客户端的心跳包检查消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.MSG_S_Pong">
+            <summary>
+            客户端心跳包检查的消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_BaseGeneral_CommonID.MSG_T_TestMessage">
+            <summary>
+            服务端测试通信序列化消息体
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_ServerGeneral_CommonID">
+            <summary>
+            服务器通用消息副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.InternalServerInvolveMessage">
+            <summary>
+            服务器内部保护级别通知消息，这个消息不应该被序列化和传输
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.Cancellation">
+            <summary>
+            服务器停止通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.ReStart">
+            <summary>
+            服务器重新启动服务器消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.StopAndStart">
+            <summary>
+            请求服务器消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.CloseAll">
+            <summary>
+            关闭服务器集群
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.SynchSystemTime">
+            <summary>
+            以中心服务器为基准同步所有服务器时间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.TryRemovePlayer">
+            <summary>
+            在服务器上尝试删除指定的玩家信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.CSUpdatePlayerInfo">
+            <summary>
+            清理服务器数据，服务器内部数据处理使用的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.SererRegister">
+            <summary>
+            服务器启动注册
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.SetSocketRemoteIP">
+            <summary>
+            设置服务器远端IP信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.RefreshServerID">
+            <summary>
+            刷新服务器的服务器编号信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_ServerGeneral_CommonID.ShowWindows">
+            <summary>
+            弹出窗体
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CS2GS_CommonID">
+            <summary>
+            CS 向 GS发送消息的副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.AIDelivery">
+            <summary>
+            中心服务器AI投放消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.AIRecall">
+            <summary>
+            AI召回（回收）消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.MatchEnd">
+            <summary>
+            赛次结束通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.M_CS2GS_RefreshRoom">
+            <summary>
+            通知游戏服务器刷新场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.Update_AIDispositionParam">
+            <summary>
+            刷新AI性格控制参数配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2GS_CommonID.Update_AITimeParam">
+            <summary>
+            刷新AI时间段控制参数数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CS2LS_CommonID">
+            <summary>
+            CS 向 LS发送消息的副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.OneKeySignInBack">
+            <summary>
+            玩家一键登录的响应消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.PlayerLogonBack">
+            <summary>
+            中心服务器响应玩家的登录请求
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Remove_RoomInfo">
+            <summary>
+            场地信息删除的通知信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_GSInfoList">
+            <summary>
+            中心服务器向登录服务器推送游戏服务器变动信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_RoomInfo">
+            <summary>
+            游戏场地信息变动信息，增加或更新方式
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.ErrorCode">
+            <summary>
+            中心服务器传给登录服务器的错误信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Remove_GameInfo">
+            <summary>
+            游戏服务器信息删除
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_GameInfo">
+            <summary>
+            游戏列表信息变动通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Remove_GSInfoList">
+            <summary>
+            游戏服务器停止被删除
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_TestUserData">
+            <summary>
+            更新测试人员信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.PlayerRepeatLogon">
+            <summary>
+            玩家重复登录
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_ServerConfigInfo">
+            <summary>
+             服务器配置信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_HallRoolNoticeInfo">
+            <summary>
+            服务器跑马灯信息刷新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.NewHallMessage">
+            <summary>
+            服务器公告消息（跑马灯消息）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.ServerMaintain">
+            <summary>
+            服务器维护
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.ClearAndInitData">
+            <summary>
+            清理和注册服务器信息，一般这个是提供服务器第一次注册的数据初始化使用的
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_SystemConfigInfo">
+            <summary>
+            发送登陆服务器的缓存客户端配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Sys_VIPConfigServerUpdate">
+            <summary>
+            玩家VIP等级配置数据更新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Sys_TurntableRewardUpdate">
+            <summary>
+            幸运大转盘奖励配置信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_DomainNewsInfo">
+            <summary>
+            更新平台用分站公告信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_SystemChartInfo">
+            <summary>
+            通知系统聊天消息的变化信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_SignIn_SetServer">
+            <summary>
+            更新 签到配置表 数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_Pool_BonusMasterServer">
+            <summary>
+            更新系统用奖池管理数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_Pool_BonusMasterMoneyData">
+            <summary>
+            更新系统奖池的奖金变化数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Update_UserRankPoolRecData">
+            <summary>
+            更新排行榜的奖池中奖纪录数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.DisConnectAllPalyer">
+            <summary>
+            关闭所有玩家连接
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CS2LS_CommonID.Disable_User">
+            <summary>
+            通知玩家被封号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_GS2CS_CommonID">
+            <summary>
+            GS 向 CS发送消息的副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.RegistrationRoom">
+            <summary>
+            游戏服务器向中心服务器注册游戏场地信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.CancellationRoom">
+            <summary>
+            游戏服务器向中心服务器取消注册游戏场地信息，一般是游戏场地停止的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.PlayerDisconnection">
+            <summary>
+            玩家断线消息，一般当游戏需要重新连接的时候会出现这种消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.PlayerGameStart">
+            <summary>
+            玩家游戏开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.PlayerGameEnd">
+            <summary>
+            玩家游戏结束
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.AIRecallBack">
+            <summary>
+            AI回收请求返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.RecallAI">
+            <summary>
+            回收AI信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.ClearGameServerInfo">
+            <summary>
+            清理游戏服务器的会话信息，初始化游戏服务器相关数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GS2CS_CommonID.UserCreateTableNotice">
+            <summary>
+            玩家创建桌子的通知信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_GS2LS_CommonID">
+            <summary>
+            GS 向 LS发送消息的副码
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_LS2CS_CommonID">
+            <summary>
+            LS 向 CS发送消息的副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2CS_CommonID.PlayerLogon">
+            <summary>
+            玩家登录请求消息副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2CS_CommonID.PlayerExit">
+            <summary>
+            玩家断线退出
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2CS_CommonID.ModifyUserData">
+            <summary>
+            修改玩家信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2CS_CommonID.SendDataToPlayer">
+            <summary>
+            给指定的玩家发送数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_LS2GS_CommonID">
+            <summary>
+            LS 向 GS发送消息的副码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2GS_CommonID.GameUserSelectRoom">
+            <summary>
+            玩家选择进入游戏场地消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2GS_CommonID.GameUserOfflineOnRoom">
+            <summary>
+            玩家选择进入游戏场地消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2GS_CommonID.GameUserSelectRoomByTableID">
+            <summary>
+            玩家选择进入游戏场地消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_LS2GS_CommonID.UserCreateTable">
+            <summary>
+            玩家创建房间
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_SQL2Server_CommonID">
+            <summary>
+            数据库消息通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_PlayerMoneyBag">
+            <summary>
+            玩家余额更新消息通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_RoomInfo">
+            <summary>
+            场地信息更新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.GetServerState">
+            <summary>
+            数据库通知服务器需要获取服务器当前状态信息的通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_PushPlayerInfo">
+            <summary>
+            玩家基本信息更新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_GoodsInfoServer">
+            <summary>
+            更新商城道具数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_GameInfoServer">
+            <summary>
+            更新游戏配置信息数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.PushNewExchangePrize">
+            <summary>
+            推送新的兑奖或者发奖通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_SystemConfigInfo">
+            <summary>
+            推送系统配置表数据更改
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_SQL_DomainNewsInfo">
+            <summary>
+            更新分站的通知公告信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_SQL_SendNewSystemMessage">
+            <summary>
+            通知服务器玩家基本信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_SQL2Server_CommonID.Update_SQL_DBSystemNoticeInfo">
+            <summary>
+            数据库通知平台需要执行的任务消息，不携带任何参数
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_GMTools_CommonID">
+            <summary>
+            GMTools使用的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.ErrorCode">
+            <summary>
+            错误码消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSPlayerInfoUpdate">
+            <summary>
+            游戏服务器刷新玩家信息的消息通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSPlayerInfoRemove">
+            <summary>
+            游戏服务器通知的玩家被移除的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GMSelectRoom">
+            <summary>
+            GM发起进入场地的消息通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.CS2GMPlayerInfoList">
+            <summary>
+            中心服务器通知GMTOOLS玩家的基本信息被刷新的通知。
+            一般这个是玩家在服务器平台的状态变化更改通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.CS2GMPlayerInfoRemove">
+            <summary>
+            中心服务器通知GMTOOLS玩家的基本信息被删除的通知。
+            一般这个是玩家退出了平台通知的结果
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GM2CSClosePlayer">
+            <summary>
+            GM踢人的时候由GMTools发给中心服务器的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSPlayerRankResponse">
+            <summary>
+            GMTools获取排名信息响应
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSPlayerRankRequest">
+             <summary>
+            请求获取服务器排行榜信息
+             </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSCreateTableInfo">
+            <summary>
+            游戏服务器场地创建桌子的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.CloseTable">
+            <summary>
+            通知服务器结束指定的桌子信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_GMTools_CommonID.GSRemoveTableInfo">
+            <summary>
+            游戏服务器场地删除桌子的通知消息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CommandSC">
+            <summary>
+            服务端客户端通信子码
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CommandSC.C2LS">
+            <summary>
+            往登录服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_loginByAccount">
+            <summary>
+            根据账号登录
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryGame">
+            <summary>
+            查询游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryRoomByGameID">
+            <summary>
+            根据游戏ID查询房间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryEmail">
+            <summary>
+            查询邮件
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryRank">
+            <summary>
+            查询排行榜
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryFriendshipTreeStatus">
+            <summary>
+            查询友情树状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_querySysConfig">
+            <summary>
+            查询系统配置
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_pickFriendshipTreeFriut">
+            <summary>
+            采摘友情树果实
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_enterRoom">
+            <summary>
+            进入游戏房间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_ChangeUserBankMoneyNum">
+            <summary>
+            玩家存取金库的数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_UserJoinTurntableReward">
+            <summary>
+            玩家请求参与转盘抽奖
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_UserSignInProcess">
+            <summary>
+            玩家参与签到处理逻辑
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryServerTime">
+            <summary>
+            查询服务器时间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryOfflineRoom">
+            <summary>
+            查询断线房间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryGoods">
+            <summary>
+            查询充值商品数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_exchangeAgentPrize">
+            <summary>
+            兑换商户奖品
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_buyMallGoods">
+            <summary>
+            购买商城商品
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_transfer">
+            <summary>
+            转账
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_queryPrizePackage">
+            <summary>
+            查询友情树礼包
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_pickPrizePackage">
+            <summary>
+            收获友情树礼包
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_bigHornNotice">
+            <summary>
+            大喇叭公告
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_HornChat">
+            <summary>
+            小喇叭聊天
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryUserChartDetail">
+            <summary>
+            查询玩家账务
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.c2ls_readEmail">
+            <summary>
+            读取邮件
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_DebugMessage">
+            <summary>
+            客户端调试信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_ModifyUserInfo">
+            <summary>
+            修改个人信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_ProblemFeedback">
+            <summary>
+            问题反馈
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryUserProp">
+            <summary>
+            查询玩家道具
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_SetUserComment">
+            <summary>
+            修改玩家评论标签字符串
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QuerySelfRank">
+            <summary>
+            查询我的排行榜排名
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_ModifyUserAccount">
+            <summary>
+            修改玩家的昵称和账号密码信息等
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryConfigInfo">
+            <summary>
+            查询平台配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_SetUserBankPassword">
+            <summary>
+            设置玩家的二级密码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_UserViewLingeringData">
+            <summary>
+            玩家在某个界面停留的时间数据（如果一个界面停留时间过短则不记录）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryUserStatisticsScore">
+            <summary>
+            查询玩家的计分面板数据，分页模式
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryUserSubScoreRecData">
+            <summary>
+            根据总局号查询详细的局数计分变化情况
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_GetPoolData">
+            <summary>
+             获取奖池数据奖池数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_ReadEmail_DW">
+            <summary>
+            读取邮件电玩城使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_AudioMessage">
+            <summary>
+            玩家发送的语音消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryUserAudit">
+            <summary>
+            查询玩家账务信息 -- 电玩城使用
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_GetUserPoolRec">
+            <summary>
+            玩家查询自己的中奖纪录信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_RefreshUserSessionKey">
+            <summary>
+            客户端刷新登录玩家的登录态信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_HeartBeatMessaeg">
+            <summary>
+            指定心跳包消息控制逻辑
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryGameByIDArray">
+            <summary>
+            根据一个游戏的ID数组来获取游戏信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_SatrtTestNativeSocket">
+            <summary>
+            一个测试接口
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2LS.MSG_C_QueryRoomByGameIDArray">
+            <summary>
+            根据一个游戏编号数组来去所有的游戏服务器的场地
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CommandSC.C2GS">
+            <summary>
+            往游戏服务器
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_offerPairTable">
+            <summary>
+            请求配桌
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_sitDown">
+            <summary>
+            坐下
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_ready">
+            <summary>
+            玩家准备
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_standUP">
+            <summary>
+            玩家从座位上起立(离开)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_chartMsg">
+            <summary>
+            聊天消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_queryAgentMatchStatus">
+            <summary>
+            查询商户比赛状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_reliveAgentMatch">
+            <summary>
+            复活参加商户比赛
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_offlineComein">
+            <summary>
+            玩家断线重连进来
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_signupMatch">
+            <summary>
+            报名参赛
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_queryReliveRule">
+            <summary>
+            查询复活规则
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.c2gs_exitRoom">
+            <summary>
+            退出场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.MSG_C_ChartVoiceMsg">
+            <summary>
+            同桌语音聊天
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.MSG_C_EliminateUser">
+            <summary>
+            踢出桌子上的玩家，玩家会被强制起立离开当前桌子
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.MSG_C_SeekHelpUser">
+            <summary>
+             玩家发起求助请求，服务服务器在接收到该消息后会将该消息转发给指定玩家，客户端也需要处理该消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.MSG_C_RequestChangeChairId">
+            <summary>
+            玩家请求更换座位
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.C2GS.MSG_C_AcceptChangeChairId">
+            <summary>
+            玩家同意更换玩家座位号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CommandSC.LS2C">
+            <summary>
+            从登录服务器来
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_error">
+            <summary>
+            错误码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_showMsgBox">
+            <summary>
+            显示消息框
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_sysNotice">
+            <summary>
+            系统公告
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_sysConfig">
+            <summary>
+            系统配置
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_playerLatestScore">
+            <summary>
+            玩家最新余额
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_playerLatestData">
+            <summary>
+            玩家最新数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_loginSuccess">
+            <summary>
+            登录成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_gameInfo">
+            <summary>
+            游戏信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_roomInfo">
+            <summary>
+            房间信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_emailInfo">
+            <summary>
+            邮件信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_rankInfo">
+            <summary>
+            排行榜信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_friendshipTreeInfo">
+            <summary>
+            友情树信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_serverTime">
+            <summary>
+            服务器时间响应结果
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ResponseMsg">
+            <summary>
+            响应消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_GoodsOrderID">
+            <summary>
+            商品订单
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UpdateInfo">
+            <summary>
+            更新信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_offlineRoom">
+            <summary>
+            断线场地数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_goodsInfo">
+            <summary>
+            充值商品数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_prizePackage">
+            <summary>
+            礼包数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_pickPrizePackageResult">
+            <summary>
+            收获友情树礼包结果
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_plazaChat">
+            <summary>
+            大厅聊天消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_queryUserChartDetailReult">
+            <summary>
+            查询玩家账务返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_updateCurrentPlayerInfo">
+            <summary>
+            更新当前登录的玩家基本信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.ls2c_newEmail">
+            <summary>
+            新邮件
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_LSInfo">
+            <summary>
+            登录服务器信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserProp">
+            <summary>
+            玩家道具列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_RankPlayerData">
+            <summary>
+            排行榜玩家数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_SetUserCommentResult">
+            <summary>
+            设置玩家的评论结果返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_SelfRank">
+            <summary>
+            我的排行榜排名
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_VIPConfigData">
+            <summary>
+            系统返回的VIP配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_TurntableRewardConfig">
+            <summary>
+            返回的系统转盘配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserJoinTurntableRewardResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_SignIn_SetData">
+            <summary>
+            玩家签到界面配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserSignInSuccess">
+            <summary>
+            玩家签到操作成功返回的消息体
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_ALLSysBonusSetData">
+            <summary>
+            返回的全部奖池配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_SysBonusSetOnlyMoneyNumData">
+            <summary>
+            返回的奖池配置数据(仅仅包含当前奖池的最新奖金数据)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_NoticeSystemPoolDataUpdate">
+            <summary>
+            通知客户端奖池数据已经修改
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserPoolRecData">
+            <summary>
+            玩家的中奖纪录信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserStatisticsScoreResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserSubScoreRecDataResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserSessionKey">
+            <summary>
+            网站服务器返回的 SessionKey 信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_OpenUrl">
+            <summary>
+            打开或者跳转一个Url地址
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.LS2C.MSG_S_UserCreateTableNotice">
+            <summary>
+            玩家创建桌的推送消息（实时推送）
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.SUB_CommandSC.GS2C">
+            <summary>
+            从游戏服务器来
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_pairTableSuccess">
+            <summary>
+            配桌成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_playerSitDown">
+            <summary>
+            玩家坐下
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_tablePlayer">
+            <summary>
+            桌子上的玩家
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_playerStandUP">
+            <summary>
+            玩家起立
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_playerStatus">
+            <summary>
+            玩家状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_tableChartMsg">
+            <summary>
+            本桌聊天消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.gs2c_matchStatus">
+            <summary>
+            我的比赛状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_EnterRoomSuccess">
+            <summary>
+            玩家进入场地成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_GameOver">
+            <summary>
+            游戏结束的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_GameScene">
+            <summary>
+            游戏场景状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_GameStart">
+            <summary>
+            游戏开始的通知消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_PlayerGameOfflineStatus">
+            <summary>
+            玩家断线游戏的当前状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_PlayerReadyTimer">
+            <summary>
+            玩家准备计时
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_PlayerChangeTableSucess">
+            <summary>
+            玩家换桌完成，这个消息是推送的随时会出现
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_PlayerExitRoom">
+            <summary>
+            玩家被系统请离场地，这个时候玩家已经不在场地中
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_RequestChangeChairId">
+            <summary>
+            玩家响应更换座位的请求
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.SUB_CommandSC.GS2C.MSG_S_PlayerNewChairInfo">
+            <summary>
+            玩家椅子号被更换分配的新的椅子号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.AccountingReasons">
+            <summary>
+            账务原因枚举
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.Singin">
+            <summary>
+            报名扣费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.Prop">
+            <summary>
+            购买道具
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.Resurrection">
+            <summary>
+            复活扣费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.RaceFee">
+            <summary>
+            百人游戏消耗扣费
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.ExitSingin">
+            <summary>
+            退赛返还
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.Contest">
+            <summary>
+            比赛奖励
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.Game">
+            <summary>
+            游戏奖励
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.AccountingReasons.RaceReward">
+            <summary>
+            百人游戏比赛奖励
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_SignIn_SetData">
+            <summary>
+            玩家签到界面配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_SignIn_SetData.ConfigArray">
+            <summary>
+            签到配置表的相关管理数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_LoginByAccount">
+            <summary>
+            客户端登录平台游戏服务器统一请求消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.LoginAgentID">
+            <summary>
+            登录客户端所属商户ID（可选）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.DeviceType">
+            <summary>
+            客户端设备类型（可选）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.PlayerLogonType">
+            <summary>
+            登录类型（必填）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.Account">
+            <summary>
+            登录账号（必填,一键登陆时该字段可以省略）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.Password">
+            <summary>
+            登录密码，如果采用令牌登陆直接在这个字段填写登陆令牌（必填,一键登陆时该字段可以省略）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.ParentID">
+            <summary>
+            推荐用户ID（可选）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_LoginByAccount.TimeTick">
+            <summary>
+            登陆信息时间戳，在通过令牌自动登陆时会用到（可选）
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryGame">
+            <summary>
+            查询游戏
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryGameByIDArray">
+            <summary>
+            查询游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryGameByIDArray.GameIDArray">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryRoomByGameID">
+            <summary>
+            查询某个游戏下的所有场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryRoomByGameID.GameID">
+            <summary>
+            游戏ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryRoomByGameIDArray">
+            <summary>
+            查询某个游戏下的所有场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryRoomByGameIDArray.GameIDArray">
+            <summary>
+            游戏ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_EnterGameRoom">
+            <summary>
+            进入游戏场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_EnterGameRoom.RoomID">
+            <summary>
+            场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_EnterGameRoom.Method">
+            <summary>
+            指定玩家进入场地的进入方式
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryOfflineRoom">
+            <summary>
+            查询断线场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryOfflineRoom.PlayerID">
+            <summary>
+            玩家Id
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QuerySysConfig">
+            <summary>
+            查询系统配置
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_Transfer">
+            <summary>
+            转账
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_Transfer.UserID">
+            <summary>
+            对方ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_Transfer.TransferType">
+            <summary>
+            转账类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_Transfer.PriceType">
+            <summary>
+            消耗道具类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_Transfer.TransferNum">
+            <summary>
+            转账数量
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryUserChartDetail">
+            <summary>
+            查询玩家账务
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_C_QueryUserChartDetail.day">
+            <summary>
+            查询账务的日期
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserChartDetail.offsetday">
+            <summary>
+            查询账务的日期相对于今天的偏移量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserChartDetail.pageIndex">
+            <summary>
+            查询的是第几页。第一页从1 开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserChartDetail.pageSize">
+            <summary>
+            分页大小
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryUserAudit">
+            <summary>
+            查询玩家账务
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserAudit.pageIndex">
+            <summary>
+            查询的是第几页。第一页从1 开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserAudit.pageSize">
+            <summary>
+            分页大小
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_C_QueryUserAudit.day">
+            <summary>
+            查询账务的日期
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserAudit.offsetday">
+            <summary>
+            查询账务的日期相对于今天的偏移量
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserAudit.GameID">
+            <summary>
+            查询的游戏ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_SetUserBankPassword">
+            <summary>
+            修改或者验证玩家的二级密码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_SetUserBankPassword.OldPassword">
+            <summary>
+            修改密码的原密码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_SetUserBankPassword.NewPassword">
+            <summary>
+            修改密码的新密码，填写空的表示验证用户的mima
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_ModifyUserInfo">
+            <summary>
+            修改个人信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserInfo.phoneNum">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserInfo.userAddres">
+            <summary>
+            用户地址
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserInfo.realName">
+            <summary>
+            玩家真实姓名
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserInfo.Gender">
+            <summary>
+            玩家性别，1男2女
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserInfo.userNickName">
+            <summary>
+            玩家昵称
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_ModifyUserAccount">
+            <summary>
+            修改账号的密码昵称等信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserAccount.userAccount">
+            <summary>
+            玩家账号信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserAccount.userPassword">
+            <summary>
+            用户密码
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ModifyUserAccount.userNickName">
+            <summary>
+            玩家昵称
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryUserProp">
+            <summary>
+            查询玩家道具余额，提供给玩家的余额更新通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryUserProp.queryTypeAry">
+            <summary>
+            查询类型数组
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_QueryConfigInfo">
+            <summary>
+            查询获取服务器配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_QueryConfigInfo.SysConfigType">
+            <summary>
+            获取的系统配置类型
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_ChangeUserBankMoneyNum">
+            <summary>
+            玩家存取金库的数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ChangeUserBankMoneyNum.Type">
+            <summary>
+            操作类型  1.玩家存入，2.玩家取出
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ChangeUserBankMoneyNum.MoneyNum">
+            <summary>
+            操作金额
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ChangeUserBankMoneyNum.MoneyType">
+            <summary>
+            操作类型
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_UserSignInProcess">
+            <summary>
+            玩家参与签到处理消息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_RefreshUserSessionKey">
+            <summary>
+            客户端刷新登录玩家的登录态信息，该登录态信息向网站接口调用时。登录的时候会返回一个UserSessionKey
+            该UserSessionKey 有效期一般为半小时
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_OfferPairTable">
+            <summary>
+            请求配桌
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_C_OfferPairTable.UserID">
+            <summary>
+            暂时用不到了
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_C_OfferPairTable.TableID">
+            <summary>
+            一个玩家ID，在邀请玩家进行游戏和邀请玩家帮助抢红包需要携带的一些参数信息
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_C_OfferPairTable.TableType">
+            <summary>
+            玩家自建桌子
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_OfferPairTable.ChairID">
+            <summary>
+            请求配桌的椅子号，只有在邀请朋友加入的情况下有效
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_OfferPairTable.Empty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.MSG_C_OfferPairTable.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_ExitRoom">
+            <summary>
+            退出场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ExitRoom.PlayerID">
+            <summary>
+            玩家ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_SitDown">
+            <summary>
+            玩家坐下
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_PlayerReady">
+            <summary>
+            玩家准备
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_PlayerStandUP">
+            <summary>
+            玩家起立
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_ChartMsg">
+            <summary>
+            同桌聊天
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ChartMsg.chartContext">
+            <summary>
+            聊天信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_ChartMsg.type">
+            <summary>
+            消息类别
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_OfflineComein">
+            <summary>
+            断线重连进来
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_EliminateUser">
+            <summary>
+            玩家执行踢人处理逻辑，必须在游戏的桌子中且游戏没有开始
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_EliminateUser.EliminateUserID">
+            <summary>
+            踢出的玩家UserID,该玩家必须在当前桌子上并且不是房主
+            <para>玩家的VIP等级必须低于或者等于请求的玩家的VIP等级才会被踢出</para>
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_SeekHelpUser">
+            <summary>
+            玩家发起求助请求，服务服务器在接收到该消息后会将该消息转发给指定玩家，客户端也需要处理该消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_SeekHelpUser.SeekHelpUserID">
+            <summary>
+            玩家求助时候指定的玩家ID,该玩家,如果是客户端发起求助则为向谁求助。接收求助的玩家ID
+            <para>如果是服务器发给客户端的求助消息时候，该玩家ID指示是谁发起的求助；发起求助的玩家ID</para>
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_ShowMsgBox">
+            <summary>
+            显示消息框消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ShowMsgBox.BoxType">
+            <summary>
+            指定公告弹窗的指定的类别
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ShowMsgBox.msg">
+            <summary>
+            消息内容
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_OpenUrl">
+            <summary>
+            打开或者跳转一个Url地址
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_OpenUrl.OpenType">
+            <summary>
+            打开类型。0 -打开，1- 跳转
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_OpenUrl.OpenUri">
+            <summary>
+            跳转地址
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_SysNotice">
+            <summary>
+            系统公告
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_SysNotice.notice">
+            <summary>
+            公告
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_SysConfig">
+            <summary>
+            系统配置表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_SysConfig.sysConfigArray">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerLatestBalance">
+            <summary>
+            玩家最新余额
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerLatestBalance.MoneyBag">
+            <summary>
+            玩家最新余额数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_LoginSuccess">
+            <summary>
+            登录成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_LoginSuccess.playerData">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_GameList">
+            <summary>
+            游戏列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_GameList.gameList">
+            <summary>
+            游戏列表
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_RoomList">
+            <summary>
+            场地列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_RoomList.roomList">
+            <summary>
+            场地列表
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_OfflineRoom">
+            <summary>
+            断线场地
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_OfflineRoom.room">
+            <summary>
+            玩家所在的断线场地信息，执行断线重连。如果玩家没有断线场地，则为 null
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_ResponseMsg">
+            <summary>
+            响应消息
+            </summary> 
+        </member>
+        <member name="T:Uyi.Common.MSG_S_QueryUserChartDetailResult">
+            <summary>
+            查询玩家账务返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_QueryUserChartDetailResult.ChartDetail">
+            <summary>
+            账务明细集合
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_QueryUserChartDetailResult.pageCount">
+            <summary>
+            分页总数
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_QueryUserChartDetailResult.Type">
+            <summary>
+            查询的时候携带的类型字段
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_QueryUserChartDetailResult.GameID">
+            <summary>
+            查询的时候携带的游戏ID
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_S_QueryUserChartDetailResult.OffsetDay">
+            <summary>
+            查询的时候携带的日期
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UpdateCurrentPlayerInfo">
+            <summary>
+            更新登陆的玩家信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UpdateCurrentPlayerInfo.info">
+            <summary>
+            更新的玩家信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_NewEmail">
+            <summary>
+            新邮件
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UserProp">
+            <summary>
+            玩家道具列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserProp.propAry">
+            <summary>
+            道具列表
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_RankPlayerData">
+            <summary>
+            玩家数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_RankPlayerData.PlayerData">
+            <summary>
+            玩家数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_VIPConfigData">
+            <summary>
+            服务端返回的VIP配置信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_VIPConfigData.VipConfigData">
+            <summary>
+            一个包含VIP配置信息的数组
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_TurntableRewardConfig">
+            <summary>
+            返回的系统转盘配置数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TurntableRewardConfig.TurntableRewardData">
+            <summary>
+            一个包含VIP配置信息的数组
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UserSignInSuccess">
+             <summary>
+            玩家签到操作成功返回的消息体
+             </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserSignInSuccess.ContinuityDays">
+            <summary>
+            本次签到成功后玩家的连续签到天数
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_NoticeSystemPoolDataUpdate">
+            <summary>
+            通知客户端奖池数据已经修改
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UserSessionKey">
+            <summary>
+            通知客户端刷新的玩家 SessionKey 
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserSessionKey.SessionKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UserCreateTableNotice">
+            <summary>
+            玩家创建桌的推送消息（实时推送）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserCreateTableNotice.Status">
+            <summary>
+            指示该条通知信息的操作，服务器间数据同步使用这个消息来同步玩家的桌子列表刷新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserCreateTableNotice.UserId">
+            <summary>
+            创建的玩家（房主）
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserCreateTableNotice.TableInfo">
+            <summary>
+            创建的桌子信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerChairInfo">
+            <summary>
+            配桌成功
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerChairInfo.tableID">
+            <summary>
+            桌子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerChairInfo.chairID">
+            <summary>
+            椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerChairInfo.resultStatus">
+            <summary>
+            表示玩家请求配桌操作结果状态
+            0 -- 正常配桌
+            1 -- 正常选桌
+            2 -- 玩家被换桌 
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerChangeTableSucess">
+            <summary>
+            玩家换桌完成，这个消息是推送的随时会出现
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerSitDown">
+            <summary>
+            玩家坐到桌子上
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerSitDown.chairID">
+            <summary>
+            椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerSitDown.playerInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_TablePlayer">
+            <summary>
+            桌子上的玩家
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TablePlayer.chairID">
+            <summary>
+            椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TablePlayer.playerInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerStandUp">
+            <summary>
+            玩家从椅子上起立
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerStandUp.chairID">
+            <summary>
+            椅子号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerExitRoom">
+            <summary>
+            玩家从场地中离开，推送消息，玩家在被系统强制离开场地会发送该消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerExitRoom.UserID">
+            <summary>
+            退出场地的玩家ID
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_TablePlayerStatus">
+            <summary>
+            桌子上的玩家状态更新
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TablePlayerStatus.chairID">
+            <summary>
+            椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TablePlayerStatus.status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_TableChart">
+            <summary>
+            桌子上的聊天消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TableChart.chairID">
+            <summary>
+            发送者
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TableChart.chartContext">
+            <summary>
+            聊天内容
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_TableChart.Type">
+            <summary>
+            表示当前消息是不是语音消息,1是语音消息，0 是普通消息（文字消息）
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_EnterRoomSuccess">
+            <summary>
+            玩家进入场地成功
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.MSG_S_EnterRoomSuccess.EnterRoomID">
+            <summary>
+            客户端请求进入的场地ID
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_EnterRoomSuccess.IsOffLine">
+            <summary>
+            表示玩家是否在场地断线，如果断线需要断线重连
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_EnterRoomSuccess.RoomInfo">
+            <summary>
+            如果玩家断线重连则该字段表示玩家所在的断线的场地信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_GameOver">
+            <summary>
+            游戏结束的通知消息
+            </summary> 
+        </member>
+        <member name="T:Uyi.Common.MSG_S_GameScene">
+            <summary>
+            游戏场景状态
+            </summary> 
+        </member>
+        <member name="F:Uyi.Common.MSG_S_GameScene.GameSceneStatus">
+            <summary>
+            游戏当前的场景状态信息
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_GameStart">
+            <summary>
+            游戏开始的通知消息
+            </summary> 
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerGameOfflineStatus">
+            <summary>
+            玩家断线游戏的当前状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerGameOfflineStatus.selfChair">
+            <summary>
+            自己的椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerGameOfflineStatus.tableID">
+            <summary>
+            自己的桌子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerGameOfflineStatus.ifCanOfflineConnect">
+            <summary>
+            是否可以断线重连
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerGameOfflineStatus.gameStatus">
+            <summary>
+            游戏场景状态
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerGameOfflineStatus.TableType">
+            <summary>
+            桌子类型
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerReadyTimer">
+            <summary>
+            玩家准备倒计时
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerReadyTimer.TimeTick">
+            <summary>
+            玩家当前的计时周期,当为 -1 时表示玩家计时器取消
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_GetPoolData">
+            <summary>
+            获取奖池数据奖池数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_GetPoolData.SysBonusType">
+            <summary>
+            查询的奖池类型
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_GetPoolData.SysBonusSetType">
+            <summary>
+            奖池的配置类别，是全部还是只有变化的奖金数据
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.MSG_C_GetPoolData.#ctor">
+            <summary>
+            获取奖池数据奖池数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_ALLSysBonusSetData">
+            <summary>
+            获取奖池数据奖池数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ALLSysBonusSetData.SysBonusType">
+            <summary>
+            查询的奖池类型,根据查询类型原样返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ALLSysBonusSetData.BonusMasterSetData">
+            <summary>
+            获取的奖池配置数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_SysBonusSetOnlyMoneyNumData">
+            <summary>
+            返回的奖池配置数据(仅仅包含当前奖池的最新奖金数据)
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_SysBonusSetOnlyMoneyNumData.SysBonusType">
+            <summary>
+            查询的奖池类型,根据查询类型原样返回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_SysBonusSetOnlyMoneyNumData.BonusMasterSetData">
+            <summary>
+            获取的奖池配置数据
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_UserPoolRecData">
+            <summary>
+            返回玩家奖池的中奖纪录信息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserPoolRecData.Data">
+            <summary>
+            获取玩家的中奖数据
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_UserPoolRecData.Type">
+            <summary>
+            请求玩家中奖纪录数据时携带的类别，原样返回
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_HeartBeatMessaeg">
+            <summary>
+            心跳包消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_HeartBeatMessaeg.MsgID">
+            <summary>
+            消息的编号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_RequestChangeChairId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_RequestChangeChairId.chairId">
+            <summary>
+            请求更换座位的椅子号，如果座位上已经有玩家将会发送请求让对方同意。如果座位上没有其他玩家则直接更换到其座位上
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_C_AcceptChangeChairId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_AcceptChangeChairId.chairId">
+            <summary>
+            请求更换座位玩家的椅子号，根据 MSG_S_RequestChangeChairId 内的椅子号参数原样带回
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_C_AcceptChangeChairId.IsAccept">
+            <summary>
+            表示玩家是否同意更换座位
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_RequestChangeChairId">
+            <summary>
+            服务端发送给玩家请求更换座位的请求消息
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_RequestChangeChairId.chairId">
+            <summary>
+            请求更换座位玩家的椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_RequestChangeChairId.Mark">
+            <summary>
+            更换座位的提示显示内容
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_RequestChangeChairId.selfChairId">
+            <summary>
+            发起前的自己的椅子号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_PlayerNewChairInfo">
+            <summary>
+            玩家座位号被更换，如果新座位上有玩家存在直接调换座次，服务端不另行通知
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerNewChairInfo.oldChairId">
+            <summary>
+            玩家的原始椅子号
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_PlayerNewChairInfo.chairID">
+            <summary>
+            玩家被分配的新的椅子号
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.MSG_S_ErrorCode">
+            <summary>
+            错误码
+            </summary>
+        </member>
+        <member name="M:Uyi.Common.MSG_S_ErrorCode.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ErrorCode.errorCode">
+            <summary>
+            错误码数值
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ErrorCode.ErrorReason">
+            <summary>
+            错误原因
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.MSG_S_ErrorCode.ViewTypeEnum">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Uyi.Common.MSG_S_ErrorCode.ViewType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Uyi.Common.OpenViewType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.Delault">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.personal">
+            <summary>
+            个人中心
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.rankList">
+            <summary>
+            排行榜
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.setting">
+            <summary>
+            设置界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.uiButtom">
+            <summary>
+            大厅底部
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.passwordInput">
+            <summary>
+            密码输入框
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.passwordSetting">
+            <summary>
+            密码设置框
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.keyboard">
+            <summary>
+            数字键盘
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.coffers">
+            <summary>
+            金库界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.recharge">
+            <summary>
+            充值界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.email">
+            <summary>
+            email界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.typeSelect">
+            <summary>
+            选择游戏类型 棋牌游戏 电玩游戏
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.momentsGameList">
+            <summary>
+            游戏列表
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.momentsSelectType">
+            <summary>
+            游戏类型选择 创建房间 自动匹配
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.mometnsSelectValue">
+            <summary>
+            选择游戏场次 钻石？金币？金豆
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.momentsSelectRoom">
+            <summary>
+            选择房间
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.LuckyDraw">
+            <summary>
+            奖池界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.WheelofFortune">
+            <summary>
+            抽奖界面
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.EmailForm">
+            <summary>
+            显示一封邮件
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.caiwu">
+            <summary>
+            显示财务明细
+            </summary>
+        </member>
+        <member name="F:Uyi.Common.OpenViewType.vipForm">
+            <summary>
+            vip界面
+            </summary>
+        </member>
+        <member name="T:GameIF.H5Connected">
+            <summary>
+            H5客户端连接成功的回调通知消息
+            </summary>
+        </member>
+        <member name="M:GameIF.H5Connected.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GameIF.MSG_C_Ping">
+            <summary>
+            类MSG_C_Ping的注释信息
+            </summary>
+        </member>
+        <member name="T:GameIF.MSG_S_Pong">
+            <summary>
+            类MSG_C_Ping的注释信息
+            </summary>
+        </member>
+        <member name="T:GameIF.NullMsg">
+            <summary>
+            一个空消息，服务端标记使用，大厅请不要使用该消息体
+            </summary> 
+        </member>
+        <member name="M:GameIF.NullMsg.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GameIF.PipelineDisposed">
+            <summary>
+            服务器通讯管道断开的通知消息
+            </summary>
+        </member>
+        <member name="F:GameIF.PipelineDisposed.PipelineID">
+            <summary>
+            管道通信ID
+            </summary>
+        </member>
+        <member name="F:GameIF.PipelineDisposed.PlayerID">
+            <summary>
+            玩家ID 
+            </summary>
+        </member>
+        <member name="F:GameIF.PipelineDisposed.ServerID">
+            <summary>
+            服务端dll
+            </summary>
+        </member>
+        <member name="M:GameIF.PipelineDisposed.#ctor">
+            <summary>
+            类PipelineDisposed的默认构造函数
+            </summary>
+        </member>
+    </members>
+</doc>

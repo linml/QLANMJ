@@ -1,0 +1,17 @@
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.csprojResolveAssemblyReference.cache
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\M_LSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\M_LSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.pdb
+E:\2017.11.3\Server\SZMJ\M_LSZMJ.dll
+E:\2017.11.3\Server\SZMJ\M_LSZMJ.pdb
+E:\2017.11.3\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.csprojResolveAssemblyReference.cache
+E:\2017.11.3\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.dll
+E:\2017.11.3\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.pdb
+E:\gameserver\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.csprojAssemblyReference.cache
+E:\gameserver\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.csproj.CoreCompileInputs.cache
+E:\gameserver\M_SZMJ\M_SZMJ\obj\Debug\M_LSZMJ.csproj.CopyComplete
+E:\gameserver\Server\SZMJ\M_LHZMJ.dll
+E:\gameserver\Server\SZMJ\M_LHZMJ.pdb
+E:\gameserver\M_SZMJ\M_SZMJ\obj\Debug\M_LHZMJ.dll
+E:\gameserver\M_SZMJ\M_SZMJ\obj\Debug\M_LHZMJ.pdb

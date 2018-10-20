@@ -1,0 +1,15 @@
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\MahjongAlgorithmForLSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\Server\SZMJ\MahjongAlgorithmForLSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.dll
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.pdb
+C:\Users\john\Desktop\新建文件夹 (4)\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.csprojResolveAssemblyReference.cache
+E:\2017.11.3\Server\SZMJ\MahjongAlgorithmForLSZMJ.dll
+E:\2017.11.3\Server\SZMJ\MahjongAlgorithmForLSZMJ.pdb
+E:\2017.11.3\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.dll
+E:\2017.11.3\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.pdb
+E:\2017.11.3\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.csprojResolveAssemblyReference.cache
+E:\gameserver\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLSZMJ.csproj.CoreCompileInputs.cache
+E:\gameserver\Server\SZMJ\MahjongAlgorithmForLHZMJ.dll
+E:\gameserver\Server\SZMJ\MahjongAlgorithmForLHZMJ.pdb
+E:\gameserver\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLHZMJ.dll
+E:\gameserver\M_SZMJ\MahjongAlgorithmForSZMJ\obj\Debug\MahjongAlgorithmForLHZMJ.pdb
