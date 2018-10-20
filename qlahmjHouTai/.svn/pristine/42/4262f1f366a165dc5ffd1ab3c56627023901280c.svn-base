@@ -1,0 +1,372 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div id="search" class="collapse in">
+		<form action="" method="GET" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<div class="col-sm-3 control-label no-padding-right">
+					<select name="type" id='ga_type'>
+						<option value="">请选择搜索类型</option>
+						<option value="1" selected >玩家</option>
+						<option value="2">代理</option>
+					</select>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" id="id"  name="uid" value="<{$_REQUEST.uid}>" placeholder="输入玩家UID"> 
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<button class="btn btn-info" type="submit" id="search_reuslt">检索</button>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="table-header">玩家列表</div>
+  		<table id="simple-table" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					
+					<th>用户ID</th>
+					<th>微信昵称</th>					
+					<th>钻石数量</th>
+					<th>游戏次数</th>
+					<th>累计充值</th>
+					<th>邀请人</th>
+					<th>微信昵称</th>
+					<th>注册时间</th>
+					<{if $group_judge }>
+						<th>操作</th>
+					<{/if}>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<{foreach name=user from=$agents item=agent}>
+				<tr>
+					
+					<td><{$agent.userid}></td>
+					<td><{$agent.gameName}></td>
+					<td><{$agent.gems}></td>
+					<td><{$agent.gmcount}></td>
+					<td><{$agent.zfcount}></td>
+					<td>
+						<a href="gameplayer.php?type=2&uid=<{$agent.agentid}>"><{$agent.agentid}></a>
+					</td>
+					<td><{$agent.agentName}></td>
+					<td><{$agent.registerTime}></td>
+
+					<{if $group_judge }>
+						<td>
+							<button onclick="showGiveCardWindow(<{$agent.userid}>)" >玩家充钻</button>
+							<button onclick="changeAgencyRelationship('<{$agent.userid}>','<{$agent.gameName}>','<{$agent.agentid}>','<{$agent.agentName}>')" >变更绑定</button>
+						</td>
+					<{/if}>
+
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+		<!-- START 分页模板 -->
+        <{$page_html}>
+		<!-- END -->
+	</div>
+</div>
+
+
+<div class="modal fade" id="gcModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">玩家充值</h4>
+			</div>
+			<div class="modal-body">
+			<table id="simple-table" class="table table-striped table-bordered table-hover">
+				<tr>
+					<td>玩家ID:</td>
+					<td id="m_gameId"></td>
+				</tr> 
+				<tr>
+					<td>玩家名称:</td>
+					<td id='m_gameName'></td>
+				</tr>
+				<tr>
+					<td>钻石:</td>
+					<td id='m_gemsCount'></td>
+				</tr>
+				
+			</table>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">充值数量:</label>
+				<div class="col-sm-9">
+					<input type="number" id="gems"  name="id" value="<{$_REQUEST.id}>" placeholder="输入给与数量" > 
+					<input type="hidden" name="search" value="1" >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">充值金额:</label>
+				<div class="col-sm-9">
+					<input type="number" id="m_monye"  name="money" value="" placeholder="输入充值金额"  > 
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9">
+					<input type="radio" name="m_type" value="1" checked="checked">玩家购钻
+					<input type="radio" name="m_type" value="-1">系统赠送
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+              <button type="button" id="sub" class="btn btn-primary">
+					确认
+				</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+
+<div class="modal fade" id="cgAgentModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">修改代理关系</h4>
+			</div>
+			<div class="modal-body">
+			<table id="simple-table" class="table table-striped table-bordered table-hover">
+				<tr>
+					<td>玩家ID:</td>
+					<td id="m_guId"></td>
+				</tr> 
+				<tr>
+					<td>玩家名称:</td>
+					<td id='m_gName'></td>
+				</tr>
+				<tr>
+					<td>代理ID:</td>
+					<td id='m_agentUserid'></td>
+				</tr>
+				<tr>
+					<td>代理名称:</td>
+					<td id='m_agentName'></td>
+				</tr>
+				
+			</table>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">代理ID:</label>
+				<div class="col-sm-9">
+					<input type="number" id="agentId"  name="agentId" value="<{$_REQUEST.agentId}>" placeholder="输入要绑定代理的ID" > <span id='i_agentName'></span>
+					<input type="hidden" name="search" value="1" >
+				</div>
+			</div>
+			<div class="form-group">
+			<div class="col-sm-9" style="height:10px;"></div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+              <button type="button" id="sub2" class="btn btn-primary">
+					确认
+				</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+
+<!--操作的确认层，相当于javascript:confirm函数-->
+<{$osadmin_action_confirm}>
+
+<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+<{include file="ace/footer.tpl" }>
+
+<script type="text/javascript">
+
+	function showGiveCardWindow(userId){
+		$("#test").attr("test", userId);
+		$("#gcModal").modal('show');
+		$.ajax({
+			url: '/houtai/agent/gameplayer.php',
+			data: {
+					method:'getGameMessage',
+					userid:userId,
+				},
+			type: "POST",
+			dataType: '',
+			success:function(data){
+				var tempData = jQuery.parseJSON(data);
+				$("#m_gameId").text(tempData['m_lUid']);
+				$("#m_gameName").text(tempData['m_sNickName']);
+				$("#m_gemsCount").text(tempData['m_lTotalGem']);
+
+			},
+			error:function() {
+
+			}
+		});
+	}
+
+	function changeAgencyRelationship(userid,gameName,agentid,agentName){
+		$("#cgAgentModal").modal('show');
+		$("#i_agentName").text('');
+		$('#agentId').val('');
+		$('#m_guId').text(userid);
+		$('#m_gName').text(gameName);
+		$('#m_agentUserid').text(agentid);
+		$('#m_agentName').text(agentName);
+	}
+
+	$('#sub').click(function(){
+		var gems = $('#gems').val();
+		var userid = $('#m_gameId').text();
+		var money = $('#m_monye').val();
+		var m_type = $("input[name='m_type']:checked").val();
+		//去掉负数可以扣除钻石
+		/*if(gems < 0){
+			alert('钻石数量不能小于0!');
+			$('#gems').val('');
+			return;
+		}*/
+		
+		if(m_type==1 && !money){
+			alert('请输入金额');
+			$('#m_monye').val('');
+			return;
+		}
+		// if(money < 0){
+		// 	alert('钻石数量不能小于0!');
+		// 	$('#m_monye').val('');
+		// 	return;
+		// }
+		if(m_type==-1) money = 0;
+		
+		$.ajax({
+			url: '/houtai/agent/gameplayer.php',
+			type: 'POST',
+			dataType: '',
+			data: {
+				method: 'addGems',
+				userid: userid,
+				gems:gems,
+				money:money,
+				m_type:m_type
+			},
+			success:function(data){
+				// console.log(data);
+				$("#gcModal").modal('hide');
+				window.location.reload();
+			},
+			error: function(){
+
+			}
+		});
+	});
+
+	
+
+	$('#sub2').click(function(){
+		var agentId = $('#agentId').val();
+		var userid = $('#m_guId').text();
+		if(!agentId){
+			alert('请输入有效代理ID！');
+			$('#agentId').val('');
+			return;
+		}
+		if(agentId == userid){
+			alert("禁止自己绑定自己！");
+			return;
+		}
+		$.ajax({
+			url: '/houtai/agent/gameplayer.php',
+			type: 'POST',
+			dataType: '',
+			data: {
+				method: 'checkAgentRelationShip',
+				userid: userid,
+				agentId:agentId
+			},
+			success:function(data){
+				data = jQuery.parseJSON(data);
+				alert(data['result']);
+				$("#cgAgentModal").modal('hide');
+				window.location.reload();
+			},
+			error: function(){
+
+			}
+		});
+	});
+
+	$('#agentId').blur(function(event) {
+		var agentid = $('#agentId').val();
+		$.ajax({
+			url: '/houtai/agent/gameplayer.php',
+			type: 'POST',
+			dataType: '',
+			data: {
+				method: 'checkAgentIsisset',
+				agentId: agentid
+
+			},
+			success:function(res){
+				res = jQuery.parseJSON(res);
+				if(res['result']!='fail'){	
+					$("#i_agentName").text(res['result']);
+				}else{
+					$('#i_agentName').text('代理不存在！');
+				}
+			},
+			error: function(){
+
+			}
+		});
+		
+	});
+
+
+	$(function(){
+		//设置传入的select 的值设置默认选项
+		if(<{$_REQUEST.type}>){
+			$("#ga_type option[value='<{$_REQUEST.type}>']").attr('selected',true);
+		}
+	});
+
+
+	$("input[name='m_type']").change(function(){
+		if($(this).val()==-1){
+			$("#m_monye").attr("disabled",true);
+			$("#m_monye").val('');
+		}else{
+			$("#m_monye").attr("disabled",false);
+		}
+	})
+
+	</script>

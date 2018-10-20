@@ -1,0 +1,13 @@
+<?php 
+require ('../include/init.inc.php');
+$userid = $method = $money='';
+extract($_REQUEST,EXTR_IF_EXISTS);
+
+
+if($method=='playerRecharge'&&!empty($userid)&&!empty($money)){
+	//电泳支付逻辑方法
+	exit();
+}
+
+Template::assign ('userid', $userid);
+Template::display ( 'agentcenter/toGemsRecharge.tpl' );

@@ -1,0 +1,27 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+
+// $arrayName = array('url' =>'好好学习天天向上！' ,'userid'=>33601,'icon_url'=>'http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg' );
+
+// $qrcodeName = PhpqrCode::getPhpqrCode($arrayName);
+
+$shareData = array('bgName'=>'invite_la','iconName'=>'img1',
+
+	'icon'=>array('pos'=>array('x'=>10 ,'y'=>20 ),
+
+	'size'=>array('width'=>200,'height'=>200)),
+
+	'qrcodeData'=>array('url' =>'好好学习天天向上！' ,'userid'=>33601,'icon_url'=>'http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg' ),
+
+	'qrcode'=>array('pos'=>array('x'=>394 ,'y'=>400 ),'size'=>array('width'=>200,'height'=>200)),
+
+	'font'=> array('fontSize'=>30,'angle'=>0,'x'=>200,'y'=>400,'color'=>array('r'=>0,'g'=>0,'b'=>255,'alpha'=>75))
+
+);
+$shareImages =  PhpqrCode::getSharePlayersQrCode($shareData);
+
+// Template::assign ( 'qrcodeName',$qrcodeName );
+Template::assign ( 'shareImages',$shareImages );
+Template::display ( 'agentcenter/toInvitePlayers.tpl' );

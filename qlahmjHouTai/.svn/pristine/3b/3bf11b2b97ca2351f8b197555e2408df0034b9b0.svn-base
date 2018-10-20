@@ -1,0 +1,57 @@
+<?php
+require ('../include/init.inc.php');
+$method = $page_no = $userid  = $agentid = $status  = '' ;
+$s_type = $contains = $s_grade = $s_ischeck = $s_admin = '';
+$o_userid = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($method == 'getAgentInfo'&&!empty($agentid)){
+	$getAgentInfo = Agent::getAgentInfoById($agentid);
+	exit(json_encode($getAgentInfo));
+}
+if($method == 'resetPassword'&&!empty($agentid)){
+	$ret = Agent::getResetPsd($agentid);
+	exit(json_encode($ret));
+}
+if($method == 'resetStatus'&&!empty($agentid)&&!empty($status)){
+	$resetStatus = Agent::resetStatus($agentid,$status);
+	exit(json_encode($resetStatus));
+}
+if($method == 'checkIDExist'&&!empty($o_userid)){
+	$result = Agent::checkUserIdIfExist($o_userid);
+	exit(json_encode($result));
+}
+
+if(!empty($s_type)&&!empty($contains)){
+			$q_id = " and $s_type like '%$contains' ";
+		}
+if(!empty($s_grade)){
+			$q_grade = ' and al.levelid = '.$s_grade;
+		}
+if(!empty($s_ischeck)){
+			$q_ischeck = ' and ui.isname = '.$s_ischeck;
+		}
+if(!empty($s_admin)){
+			$q_admin = ' and ai.adminid = '.$s_admin;
+		}
+$where = ' where 1=1 '.$q_id.$q_grade.$q_ischeck.$q_admin;
+
+
+$admin = Agent::getTitleSearch();
+$level = Agent::getlevel();
+// START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$row_count = Agent::getAgentCount ($start,$page_size);
+$agentsList = Agent::getAgentsList($start,$page_size,$where);
+$page_html = Pagination::showPager ( "agent.php", $page_no, $page_size, $row_count );
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'agentsList', $agentsList );
+Template::assign ( 'admin', $admin );
+Template::assign ( 'level', $level );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/agent.tpl' );

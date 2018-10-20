@@ -1,0 +1,197 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-07-31 17:40:11
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\Mine.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:201775b60206bc84680-66345316%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '98bb2f4ffa4378cbdc1f962d1cbd74c87dc35849' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\Mine.tpl',
+      1 => 1533025854,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '201775b60206bc84680-66345316',
+  'function' => 
+  array (
+  ),
+  'variables' => 
+  array (
+    'data' => 0,
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b60206bc9fc10_98935062',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b60206bc9fc10_98935062')) {function content_5b60206bc9fc10_98935062($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg2.png);">
+    <div class="N_Header_title">个人中心</div>
+</div>
+<div class="N_Wrap mt50">
+    <div class="N_WrapAuto">
+        <div class="N_CenterMain">
+
+            <div class="N_IndexC1TopPad clearfix relative">
+                <div class="N_IndexC1TopImg fl">
+                    <a href="javascript:;"><img src="<?php echo $_smarty_tpl->tpl_vars['data']->value['avatar'];?>
+"></a>
+                </div>
+                <div class="N_IndexC1TopName fl">
+                    <div>
+                        <ul>
+                            <li class="clearfix">
+                                <div class="fl"><span class="text" id="nickName"></span></div>
+                                <!-- <div class="fl gold_medal"><img src="./pigcms_tpl/Merchants/Static/NewImg/gold_medal.png"></div> -->
+                            </li>
+                            <li class="clearfix opacity6 ft12">
+                                <div class="fl"> <?php echo $_smarty_tpl->tpl_vars['data']->value['name'];?>
+ </div>
+                                <div class="fl"><span class="text" id="gameId"></span></div>
+                            </li>
+                            <li class="clearfix opacity6 ft10">
+                                <div class="fl">ID：<?php echo $_smarty_tpl->tpl_vars['data']->value['id'];?>
+</div>
+                                <div class="fl"><span class="text" id="fx_userid"></span></div>
+                            </li>
+                            <li class="clearfix absolute left74 top55">
+                                <div class="ft25"><?php echo $_smarty_tpl->tpl_vars['data']->value['grade'];?>
+</div>
+                                <div>代理等级</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
+            </div>
+
+<!-- 
+            <div class="N_CenterHeader">
+                <div class="N_CenterImg"><a href="javascript:;"><img src="./pigcms_tpl/Merchants/Static/NewImg/img1.png"></a></div>
+                <div class="N_CenterName"><span class="text" id="nickName"></span></div>
+                <div class="N_CenterId">ID：<span class="text" id="gameId"></span></div>
+            </div> -->
+            <div class="N_Pad">
+                <div class="N_CenterContent">
+                    <!-- <div class="N_CenterBox1 clearfix">
+                         <ul>
+                            <li class="N_IndexC1BottomBox1">
+                                <a href="/dlIndex.php?m=Index&c=toUpdateMyInfo&a=index">
+                                   完善资料
+                                </a>
+                            </li>
+                            <li class="N_IndexC1BottomBox3">
+                                <a href="/dlIndex.php?m=Index&c=toUpdatePassword&a=index">
+                                   账户安全
+                                </a>
+                            </li>
+                        </ul>
+                    </div> -->
+                    <div class="N_IndexC2">
+                        <ul>
+                             <li>
+                                <a href="/agentCenter/drawmoney.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">余额提现</div>
+                                        <!-- <div class="N_IndexC2_RightT2">提现T+1到账，无任何手续费</div> -->
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/agentCenter/rebaterecord.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">返佣记录</div>
+                                        <!-- <div class="N_IndexC2_RightT2">查看绑定玩家的贡献明细</div> -->
+                                    </div>
+                                </a>
+                            </li>
+                           <li>
+                                <a href="/agentCenter/drawmoneyrecord.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">提现记录</div>
+                                        <!-- <div class="N_IndexC2_RightT2">查看下级代理的贡献明细</div> -->
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/agentCenter/gemsrecord.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">钻石记录</div>
+                                        <!-- <div class="N_IndexC2_RightT2">根据每日、每月进行汇总查询</div> -->
+                                    </div>
+                                </a>
+                            </li>
+                            <li id='roseAgent'>
+                                <a href="/agentCenter/rebatesummary.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">返佣汇总</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id='roseAgent'>
+                                <a href="/agentCenter/updatemyinfo.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">完善资料</div>
+                                        <!-- <div class="N_IndexC2_RightT2">查看总代每月的总收额</div> -->
+                                    </div>
+                                </a>
+                            </li>
+                            <li id='roseAgent'>
+                                <a href="/agentCenter/updatepassword.php">
+                                    <div class="N_IndexC2_Icon"><img src="/assets/images/agentCenter/tu.svg"></div>
+                                    <div class="N_IndexC2_Right">
+                                        <div class="N_IndexC2_RightT1">账户安全</div>
+                                        <!-- <div class="N_IndexC2_RightT2">查看总代每月的总收额</div> -->
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="NshowBoxBg" style="display:none;"></div>
+<div class="NshowBox animated zoomIn" style="display:none;">
+    <div class="NshowBoxMain">
+        <div class="NshowBoxList">
+            <dl class="clearfix">
+                <dt>游戏ID</dt>
+                <dd><span id="Nid"></span></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>微信昵称</dt>
+                <dd><span id="Nname"></span></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>微信号</dt>
+                <dd><span id="NweChat"></span></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>后台账号</dt>
+                <dd><span id="Nnumber"></span></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>注册时间</dt>
+                <dd id="Ntime"></dd>
+            </dl>
+            <div class="NshowBoxBottom clearfix">
+                <a href="/dlIndex.php?m=Index&c=toUpdateMyInfo&a=index" class="NshowBoxBtn1 fl">修改信息</a>
+                <a href="/dlIndex.php?m=Index&c=toUpdatePassword&a=index" class="NshowBoxBtn2 fr">修改密码</a>
+            </div>
+        </div>
+        <a href="javascript:;" class="NshowClose">关闭</a>
+    </div>
+</div>
+<!-- <<?php ?>?php vardump($wxdata)?<?php ?>> -->
+<?php echo $_smarty_tpl->getSubTemplate ("simple_footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+<?php }} ?>

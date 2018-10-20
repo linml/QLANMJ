@@ -1,0 +1,93 @@
+<?php
+require ('../include/init.inc.php');
+$method = $page_no = $userid  = $agentid = $status = $agentname = $agentid = $diamond = $money = $type = $remark = $level = '' ;
+$s_type = $contains = $s_grade = $s_ischeck = $s_admin = '';
+$o_userid = $o_nickname = $o_mobilenum = $o_name = $o_wechanum = $o_dirAgent = $o_level = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($method == 'getAgentInfo'&&!empty($agentid)){
+	$getAgentInfo = Agent::getAgentInfoById($agentid);
+	exit(json_encode($getAgentInfo));
+}
+if($method == 'resetPassword'&&!empty($agentid)){
+	$ret = Agent::getResetPsd($agentid);
+	exit(json_encode($ret));
+}
+if($method == 'resetStatus'&&!empty($agentid)&&!empty($status)){
+	$resetStatus = Agent::resetStatus($agentid,$status);
+	exit(json_encode($resetStatus));
+}
+if($method == 'changeLevel'&&!empty($agentid)&&!empty($level)){
+	$resetLevel = Agent::resetLevel($agentid,$level);
+	exit(json_encode($resetLevel));
+}
+if($method == 'checkIDExist'&&!empty($o_userid)){
+	//1、查询玩家是否合法
+	// $result = Agent::getValidatePlayerByAgentId($o_userid);
+	$result = Agent::checkUserIdIfExist($o_userid);
+
+	if(is_null($result))exit(json_encode(array('status'=>1))); //参数为空问题
+
+	if(empty($result))exit(json_encode(array('status'=>2))); // 查询结果为空
+	//2、判断此玩家是否是代理
+	$agentCount = AgentCenter::toJudgeAgentIsExist($o_userid);
+
+	if($agentCount>0) exit(json_encode(array('status'=>4)));
+
+	$tips = array_merge($result, array('status'=>3));
+	// exit(json_encode(array('nickname'=>$result['nickname'],'agentid'=>$result['agentid'],'agentname'=>$result['agentname'],'status'=>3))); //查询结果正常
+	exit(json_encode($tips)); //查询结果正常
+}
+if($method == 'openAgent'&&!empty($o_userid)&&!empty($o_nickname)&&!empty($o_mobilenum)&&!empty($o_name)&&!empty($o_wechanum)&&!empty($o_level)){
+	//添加代理信息
+	$taa_out = Agent::toAddAgent($o_userid,$o_nickname,$o_mobilenum,$o_name,$o_wechanum,$o_dirAgent,$o_level);
+	exit($taa_out);
+}
+if($method == 'ShowAgentAccout'&&!empty($agentid)){
+	$result = Agent::showAgentAcount($agentid);
+	exit(json_encode($result));
+}
+if($method == 'SendDiamond'&&!empty($agentid)&&!empty($type)){
+	$diamond = $diamond + 0;
+	$money = $money + 0;
+	$result = Agent::SendDiamond($agentid,$diamond,$money,$type,$remark);
+	exit(json_encode($result));
+}
+if($method == 'changeDirAgent'&&!empty($userid)&&!empty($agentid)){
+	$result = Agent::changeDirAgent($userid,$agentid);
+	exit(json_encode($result));
+}
+
+if(!empty($s_type)&&!empty($contains)){
+			$q_id = " and $s_type like '%$contains' ";
+		}
+if(!empty($s_grade)){
+			$q_grade = ' and ai.levelid = '.$s_grade;
+		}
+if(!empty($s_ischeck)){
+			$q_ischeck = ' and ui.isname = '.$s_ischeck;
+		}
+if(!empty($s_admin)){
+			$q_admin = ' and ai.adminid = '.$s_admin;
+		}
+$where = ' where 1=1 '.$q_id.$q_grade.$q_ischeck.$q_admin;
+$admin = Agent::getTitleSearch();
+$level = Agent::getlevel();
+// START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$row_count = Agent::getAgentCount ($start,$page_size,$where);
+$agentsList = Agent::getAgentsList($start,$page_size,$where);
+$page_html = Pagination::showPager ( "agent.php", $page_no, $page_size, $row_count );
+Template::assign ( 'agentsList', $agentsList );
+Template::assign ( 'admin', $admin );
+Template::assign ( 'level', $level );
+// Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( '_REQUEST', json_encode($_REQUEST) );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/agent.tpl' );
+

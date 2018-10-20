@@ -1,0 +1,32 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+$subordinate_agent = 110;
+$bind_players      = 2;
+
+$agentsList = array(
+					array(
+					'agent_id' => 222,
+					'avatar'   => '/assets/avatars/avatar3.png',
+					'wxname'   => '微信昵称',
+					'grade'    => 2,
+					'bind_players' => 10,
+	
+
+					),
+					array(
+					'agent_id' => 222,
+					'avatar'   => '/assets/avatars/avatar3.png',
+					'wxname'   => '微信昵称',
+					'grade'    => 3,
+					'bind_players' => 10000,
+			
+					),
+				);
+
+
+Template::assign ('subordinate_agent', $subordinate_agent);
+Template::assign ('bind_players', $bind_players);
+Template::assign ('agentsList', $agentsList);
+Template::display ( 'agentcenter/Agents.tpl' );

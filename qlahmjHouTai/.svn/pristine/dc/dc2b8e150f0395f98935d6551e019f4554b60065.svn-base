@@ -1,0 +1,102 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+
+
+<{$osadmin_action_alert}>
+
+<{if $status!=1}>
+					
+					<{else}>
+				
+					
+			
+<button class="btn btn-primary btn-lg" data-toggle="modal"
+	id="showMyModal">充值100，100个钻石</button>
+			<{/if}>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<input type="hidden" id="oid" name="oid" value="" />
+	<div class="modal-dialog" style="width: 330px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">请使用微信扫描 二维码以完成支付</h4>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+</div>
+<{include file="ace/footer.tpl" }>
+<!-- 页面定时检查订单状态 -->
+<script type="text/javascript">
+
+	var lastcode = -1;
+	var handler;
+	$(document).ready(function() {
+		//handler = setInterval(function() {
+		//	check();
+		//}, 1500);
+	});
+
+	function check() {
+		var oid = $("#oid").attr("value");
+		$.ajax({
+			type : "POST",
+			url : "native.php/checkorderstate",
+			data : {
+				oid : oid
+			},
+			dataType : "json",
+			success : function(result) {
+				if (result.status == 0) {
+					if (result.ostatus == -2) {
+					} else if (result.ostatus == 0) {
+						//未付款等待付款
+					} else if (result.ostatus == 1) {
+						//付款成功
+						//显示付款成功
+						clearInterval(handler);
+						$(".modal-body").empty();
+				        $(".modal-body").append('付款成功');
+					} else if (result.ostatus == 2) {
+						//付款失败
+						//显示付款失败
+						clearInterval(handler);
+					} else {
+						//付款失败
+						//显示付款失败
+						clearInterval(handler);
+						$(".modal-body").empty();
+						$(".modal-body").append(result.msg);
+					}
+
+				} else {
+					//付款失败
+					//显示付款失败
+					clearInterval(handler);
+				}
+
+			},
+			error : function(XMLHttpRequest, textcode, errorThrown) {
+				//付款失败
+				clearInterval(handler);
+			}
+		});
+	}
+	
+	
+	$(function () { $('#myModal').on('hide.bs.modal', function () {
+		clearInterval(handler);})
+	   });
+</script>

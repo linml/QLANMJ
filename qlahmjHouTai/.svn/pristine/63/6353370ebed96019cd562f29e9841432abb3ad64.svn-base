@@ -1,0 +1,44 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/agentCenter/Mine.php" class="ReturnUp" id="data_month_back" name="">返回首页</a>
+    <div class="N_Header_title" id ="header_titil">返佣汇总</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto">
+        <div class="N_Pad">
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                <form action="toRecommendedAward#" class="form-search cf">
+                    <div class="clearfix">
+                        <!-- <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="日收入" readonly="readonly" /> -->
+                        <a href="/agentCenter/rebatesummary.php?type=1" class="N_RecordTime" style="background-color: #929292;width: 50%">日收入</a>
+                        <!-- <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="月收入" readonly="readonly" /> -->
+                        <a href="/agentCenter/rebatesummary.php?type=2" class="N_RecordTime" style="width: 50%">月收入</a>
+                        <!-- <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div>  -->
+                    </div>
+                </form>     
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix wp_94 mgTp3A">
+                 <ul class="wp_full record_tit clearfix textCenter">
+                    <li class="borderB wp_full h40">
+                        <span class="wp_50 borderBox fl textCenter">日期</span>
+                        <span class="wp_50 borderBox fl textCenter">佣金金额</span>
+                    </li>
+                    <{foreach $result as $val}>
+                    <li class="borderB wp_full h40">
+                        <span class="wp_50 borderBox fl textCenter"><{$val.dateid}></span>
+                        <span class="wp_50 borderBox fl textCenter"><{$val.rebate}></span>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                <!-- <table id="example" class="twoCol" aria-describedby="example_info" style="margin-left: 0px; width: 100%;">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">没有您要的内容</td></tr>
+                    </tbody>
+                </table> -->
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,50 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/dlIndex.php?m=Index&c=toMyInfo&a=index" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">余额提现</div>
+    <a href="/dlIndex.php?m=Index&c=toTixian&a=tixianrecord&tx_recorde_type=tx_record_add" class="N_czMore">提现记录</a>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto">
+        <div class="N_Pad">
+            <div class="N_TX_form">
+                <div  class="cash_num"><span id="Cash"></span>元</div>
+                <div class="cash_ft">可提现金额</div>
+            </div>
+            <div class="TX_info wp_94 boxShadowA borderBox">
+                <div class="ft16">提现说明</div>
+                <p class="c_999">
+                        1：单笔提现需满100元以上，每天可提现三次。<br/>
+                        2：审核通过后通过微信或支付宝进行转账。<br/>
+                        3：提现为周一至周六的早9点--晚21点，21点后的次日处理。
+                </p>
+                <div class="ft16">审核要求</div>
+                <p class="c_999">
+                        1：代理没有推广与组织用户进行游戏。<br/>
+                        2：代理在最近7天都没有参与游戏.（每天最低3场要求）<br/>
+                        3：未满足代理要求系统自动提现失败，达成要求后可重新提现。<br/>
+                        4：为保障代理利益，请务必遵守代理约定。
+                </p>
+                        
+            </div>
+            <div class="TX_input relative wp_94 bgfff br_4 borderBox boxShadowA">
+                提现金额
+                <input type="number" placeholder="请输入提现的金额" class="inputStyle absolute" id ="tx_money" min="0">
+                <input type="text" style ='display: none' id="to_user_wx" />
+            </div>
+            <div class="N_SubBottom N_SubBottom2 clearfix">
+                <button id="updatePsw">立即提现</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="N_Footer clearfix">
+    <ul>
+        <li ><a href="/dlIndex.php?m=Index&c=index&a=home"><i class="HomeIcon"></i>首页</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyGameUser&a=index"><i class="GameIcon"></i>玩家</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyAgent&a=index"><i class="AgencyIcon"></i>代理</a></li>
+        <li class="on"><a href="/dlIndex.php?m=Index&c=toTixian&a=index"><i class="MoneyIcon"></i>提现</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyInfo&a=index"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div>

@@ -1,0 +1,51 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">我的玩家</div>
+    <!--<a href="/dlIndex.php?m=Index&c=toMyGameUser&a=topidusers" class="N_czMore">玩家贡献明细</a>-->
+</div>
+<div class="N_Wrap bottm60" >
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="N_agentTopNum"><span id="usercount"><?php echo $allData_count;?></span></div>
+                <div class="N_agentTopT1">我的玩家人数</div>
+            </div>
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                    <form action="toRecommendedAward#">
+                   <!--  <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="选择开始日期" readonly="readonly" />
+                    <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="选择结束日期" readonly="readonly" /> -->
+                        <div class="clearfix">
+                             <input type="number" class="N_agentIpt MyAgent_input fl" placeholder="请输入玩家ID"  id="gameUserId" min="0">
+                             <div class="N_RecordSub MyAgent_search fl"><button id="search" type="button">查询</button></div> 
+                        </div>
+                    </form>      
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix  wp_94 mgTp3A">
+                 <ul class="wp_full record_tit clearfix">
+                    <li class="wp_40 borderBox fl">玩家</li>
+                    <li class="wp_40 borderBox fl">钻石/时间</li>
+                    <li class="wp_20 borderBox fl textRight">操作</li>
+                </ul>
+                <table id="example" class="threeCol threeCol4" aria-describedby="example_info" role="grid">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="N_Footer clearfix">
+    <ul>
+        <li><a href="/dlIndex.php?m=Index&c=index&a=home"><i class="HomeIcon"></i>首页</a></li>
+        <li class="on"><a href="/dlIndex.php?m=Index&c=toMyGameUser&a=index"><i class="GameIcon"></i>玩家</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyAgent&a=index"><i class="AgencyIcon"></i>代理</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toTixian&a=index"><i class="MoneyIcon"></i>提现</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyInfo&a=index"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div>

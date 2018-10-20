@@ -1,0 +1,125 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+
+
+<{if $status!=1}>
+		
+<{else}>
+
+
+<div class="row">
+	<div class="col-xs-12"></div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="tab" method="post" action="" autocomplete="off"
+			class="form-horizontal" role="form">
+
+
+
+
+
+			<div class="row form-horizontal">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"><span
+							class="red">*</span>真实姓名</label>
+						<div class="col-sm-9">
+							<input type="text" id="name" name="name" class="input-xlarge"
+								autofocus="true" required="true" value="<{$AgentName}>" >
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"><span
+							class="red">*</span>银行卡号</label>
+						<div class="col-sm-9">
+							<input type="text" id="card_number" name="card_number"
+								class="input-xlarge" autofocus="true" required="true"value="<{$AgentCard_number}>" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"><span
+							class="red">*</span>银行名称</label>
+						<div class="col-sm-9">
+							<input type="text" id="bank_name" name="bank_name"
+								class="input-xlarge" autofocus="true" required="true" value="<{$AgentBank_name}>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"><span
+							class="red">*</span>手机号</label>
+						<div class="col-sm-9">
+							<input type="text" id="phone_number" name="phone_number"
+								class="input-xlarge" autofocus="true"  maxlength="11"  required="true" pattern="\d{11}" value="<{$AgentPhone_number}>" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"><span
+							class="red">*</span>提现金额（元）</label>
+						<div class="col-sm-9">
+							<input type="text" id="money" name="money" class="input-xlarge"
+								autofocus="true" required="true"  value="<{$money}>" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">可提现金额</label>
+						<div class="col-sm-1">
+							<label class=" col-sm-1 control-label no-padding-right "><{$kmoney/100.00}></label>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-horizontal">
+				<div class="col-xs-12">
+
+
+					<div class="form-group">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info">提交</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+		</form>
+	</div>
+</div>
+<{/if}>
+<{include file="ace/footer.tpl" }>
+<script type="text/javascript">
+	$("#card_number").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+	
+	$("#phone_number").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+	$("#money").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+</script>
+

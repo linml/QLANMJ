@@ -1,0 +1,62 @@
+<?php 
+require ('../include/init.inc.php');
+$getSumGraphData = Home::getSummaryGraphData();
+$returnrmb = array_column($getSumGraphData, 'returnrmb');
+$wk        = array_column($getSumGraphData, 'wk');
+$wkPRC       = array();
+foreach ($wk as $key => $value) {
+	switch ($value) {
+		case '0':
+			array_push($wkPRC,'Sun');
+			break;
+		case '1':
+			array_push($wkPRC,'Mon');
+			break;
+		case '2':
+			array_push($wkPRC,'Tue');
+			break;
+		case '3':
+			array_push($wkPRC,'Wed');
+			break;
+		case '4':
+			array_push($wkPRC,'Thur');
+			break;
+		case '5':
+			array_push($wkPRC,'Fri');
+			break;
+		case '6':
+			array_push($wkPRC,'Sat');
+			break;
+		default:
+			# code...
+			break;
+	}
+}
+
+$shapeData = array('data' =>$returnrmb,'color'=>'orange','name'=>'开局','onlie'=>true);
+
+$brokenLine = array('data' =>$returnrmb,'color'=>'blue','weight'=>2,'name'=>'返佣','onlie'=>true);
+
+$XaxisData = $wkPRC;
+$userId = UserSession::getAgentUserId();
+$fileName = ADMIN_BASE_QRCOD."/chartImages/agent/img_".$userId.".PNG";
+$baseData = array('size'=>array(400,200),'margin'=>array(40,130,20,40),'title'=>'日活返佣统计图','userid'=>$userId,'xaxis'=>'周期','yaxis'=>'日活、返佣');
+
+
+//创建代理图表
+Jpgraph::getJpgraph($shapeData,$brokenLine,$XaxisData,$baseData);
+$agentid = UserSession::getAgentId();
+//获取代理基本信息
+$AgentsInfo = Home::getAgentAccountInformation($agentid);
+//获取代理当天返利情况
+$agentMaidData = Home::getAgentMaidByAgentId(UserSession::getAgentId());
+
+//获取代理绑定数量
+$agentBindData = Home::getAgentBindInforCountbyAgentid();
+
+Template::assign ('AgentsInfo',$AgentsInfo);
+Template::assign ('agentMaidData',$agentMaidData);
+Template::assign ('agentBindData',$agentBindData);
+
+Template::assign ( 'img_url', md5($baseData['userid'].'|'.$shapeData['onlie'].'|'.$brokenLine['onlie']));
+Template::display ( 'agentcenter/Home.tpl' );

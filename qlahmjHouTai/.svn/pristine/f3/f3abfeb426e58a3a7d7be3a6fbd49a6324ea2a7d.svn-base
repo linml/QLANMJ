@@ -1,0 +1,89 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-10 15:52:33
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\toDrawMonyRecord.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:325655b60210ece36d1-97033925%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'd4946f0e8914ce6fce0a13d6e4dd7b9d2e96aa56' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\toDrawMonyRecord.tpl',
+      1 => 1533883946,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '325655b60210ece36d1-97033925',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b60210ed4ce60_52914026',
+  'variables' => 
+  array (
+    'startDate' => 0,
+    'endDate' => 0,
+    'data' => 0,
+    'val' => 0,
+    'page_html' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b60210ed4ce60_52914026')) {function content_5b60210ed4ce60_52914026($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/agentCenter/Mine.php" class="ReturnUp" name="" id="tx_recorde">返回首页</a>
+    <div class="N_Header_title" >提现记录</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <div class="N_RecordTop">
+                <div class="clearfix">
+                    <form action="" method="POST">
+                    <input style="padding:4px 0px" type="date" class="N_RecordTime" name="startDate"  value="<?php echo $_smarty_tpl->tpl_vars['startDate']->value;?>
+">
+                    <input style="padding:4px 0px" type="date" class="N_RecordTime" name="endDate"  value="<?php echo $_smarty_tpl->tpl_vars['endDate']->value;?>
+">
+                    <div class="N_RecordSub fl"><button id="search" type="submit">查询</button></div>
+                    </form>
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix">
+                <ul class="wp_full record_tit clearfix">
+                    <li class="wp_30 borderBox fl textLeft">提现金额</li>
+                    <li class="wp_25 borderBox fl textCenter">状态</li>
+                    <li class="wp_40 borderBox fl textRight">时间</li>
+                </ul>
+                <table id="example" class="threeCol" aria-describedby="example_info">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                        <!-- 不同状态颜色有区分
+                            .c_4baf43 /*绿色 可作为'成功'*/
+                            .c_ff5d20 /*橘色 可作为'失败'*/
+                            .c_039cfe /*蓝色 可作为'处理中'*/
+                        -->
+                        <?php  $_smarty_tpl->tpl_vars['val'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['val']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['data']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['val']->key => $_smarty_tpl->tpl_vars['val']->value) {
+$_smarty_tpl->tpl_vars['val']->_loop = true;
+?>
+                        <tr>
+                            <td style="width:30%"><?php echo $_smarty_tpl->tpl_vars['val']->value['rmb'];?>
+</td>
+                            <?php if ($_smarty_tpl->tpl_vars['val']->value['status']==1) {?>
+                            <td style="width:14%">成功</td>
+                            <?php } elseif ($_smarty_tpl->tpl_vars['val']->value['status']==2) {?>
+                            <td style="width:14%; color:red;">失败</td>
+                            <?php }?>
+                            <td style="width:40%"><?php echo $_smarty_tpl->tpl_vars['val']->value['addtime'];?>
+</td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <?php echo $_smarty_tpl->tpl_vars['page_html']->value;?>
+
+            </div>
+        </div>
+    </div>
+</div>
+<?php }} ?>

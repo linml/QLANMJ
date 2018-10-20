@@ -1,0 +1,37 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+
+class Home extends Base {
+	// 表名
+	private static $table_name = 'agent_account';
+	// 列名
+	private static $columns = 'agentid,rmb,diamond,gold,qidou,grift,binduser,agentnum,indirectuser';
+
+	public static function getTableName(){
+		return self::$table_name;
+	}
+
+	/**
+	 * [get_Agent_account description]
+	 * @Author   李龙
+	 * @DateTime 2018-08-02T18:56:50+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [返回angent_account所有数据]
+	 */
+	public static function get_Agent_account($agentid){
+		$db        = self::__instance();
+		$condition = ["agentid" => $agentid];
+		$list      = $db->select(self::$table_name,self::$columns,$condition);
+
+		if($list){
+			return $list[0];
+		}
+		return array();
+	}
+
+	
+
+}

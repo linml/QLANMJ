@@ -1,0 +1,69 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+require_once (ADMIN_BASE_LIB.'jpgraph/jpgraph.php');
+require_once (ADMIN_BASE_LIB.'jpgraph/jpgraph_line.php');
+require_once (ADMIN_BASE_LIB.'jpgraph/jpgraph_bar.php'); 
+class Jpgraph extends Base{
+    
+    /**
+     * [getJpgraph description]
+     * @Author   李爽
+     * @DateTime 2018-07-28T16:52:38+0800
+     * @param    [type]                   $shapeData  [description]
+     * array('data' =>array(11,9,2,4,3,13,17),'color'=>'orange','name'=>'Result','onlie'=>true);
+     * @param    [type]                   $brokenLine [description]
+     * array('data' =>array(11,9,2,4,3,13,17),'color'=>'orange','name'=>'Result','onlie'=>true);
+     * @param    [type]                   $XaxisData  [description]
+     * array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug')
+     * @param    [type]                   $baseData   [description]
+     * array('size'=>array(400,200),'margin'=>array(40,130,20,40),'title'=>'日活返佣统计图','fileName'=>'./test.PNG',xaxis'=>'月份','yaxis'=>'日活、返佣')
+     * @return   [type]                               [description]
+     */
+    public static function getJpgraph($shapeData,$brokenLine,$XaxisData,$baseData){
+        /*$l1datay = array(11,9,2,4,3,13,17);
+        $l2datay = array(23,12,5,19,17,10,15);
+        $datax=array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug');*/
+        // Create the graph.
+        $graph = new Graph($baseData['size'][0],$baseData['size'][1]);
+
+        $graph->clearTheme();
+        $graph->SetScale('textlin');
+
+        $graph->img->SetMargin($baseData['margin'][0],$baseData['margin'][1],$baseData['margin'][2],$baseData['margin'][3]);
+        $graph->SetShadow();
+
+        // Create the bar plot
+        if($shapeData['onlie']){
+            $bplot = new BarPlot($shapeData['data']);
+            $bplot->SetFillColor($shapeData['color']);
+            $bplot->SetLegend(iconv("UTF-8","gb2312",$shapeData['name']));
+            $graph->Add($bplot);
+        }
+
+        // Create the linear error plot
+        if($brokenLine['onlie']){
+            $l1plot=new LinePlot($brokenLine['data']);
+            $l1plot->SetColor($brokenLine['color']);
+            $l1plot->SetWeight($brokenLine['weight']);
+            $l1plot->SetLegend(iconv("UTF-8","gb2312",$brokenLine['name']));
+            $graph->Add($l1plot);
+        }
+
+        $graph->title->Set(iconv("UTF-8","gb2312",$baseData['title']));
+        /*$graph->xaxis->title->Set(iconv("UTF-8","GB2312//IGNORE",$baseData['xaxis']));
+        $graph->yaxis->title->Set(iconv("UTF-8","GB2312//IGNORE",$baseData['yaxis']));*/
+
+        $graph->title->SetFont(FF_SIMSUN,FS_BOLD);
+       /* $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);*/
+
+        $graph->xaxis->SetTickLabels($XaxisData);
+        //$graph->xaxis->SetTextTickInterval(2);
+
+        // Display the graph
+        // $graph->Stroke();
+        $gdimg = $graph->Stroke(_IMG_HANDLER);
+        // $filename = "./test.png";
+        $graph->img->Stream($baseData['fileName']);//将生成的图片保存到本地
+    }
+}

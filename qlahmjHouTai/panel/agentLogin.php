@@ -1,0 +1,29 @@
+<?php
+require ('../include/init.inc.php');
+$user_name = $password ='';
+extract ( $_POST, EXTR_IF_EXISTS );
+if (Common::isPost ()) {
+	$agent_info = User::checkPassword (AGENT,$user_name, $password);
+	if ($agent_info) {
+		if($agent_info['status']==1){
+			User::loginDoSomething(AGENT,$agent_info['agentid']);
+			$encrypted = OSAEncrypt::encrypt($agent_info['agentid']);
+			User::setCookieRemember(AGENT,urlencode($encrypted),30);
+			Common::jumpUrl ( 'agentCenter/home.php' );
+		}else{
+			echo("<script>alert('".ErrorMessage::BE_PAUSED."');</script>");
+			// OSAdmin::alert("error",ErrorMessage::BE_PAUSED);
+		}
+	} else {
+		echo("<script>alert('".ErrorMessage::USER_OR_PWD_WRONG."');</script>");
+		// OSAdmin::alert("error",ErrorMessage::USER_OR_PWD_WRONG);
+		// SysLog::addLog ( $user_name, 'LOGIN','User' ,'' , json_encode(ErrorMessage::USER_OR_PWD_WRONG) );
+	}	
+}
+
+$_POST['user_name'] ='18556530125';
+$_POST['password'] ='123456';
+
+Template::assign ( '_POST',$_POST );
+Template::assign ( 'page_title','登入' );
+Template::Display ( 'agentLogin.tpl' );        

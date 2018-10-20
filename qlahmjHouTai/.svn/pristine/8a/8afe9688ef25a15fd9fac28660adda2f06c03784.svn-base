@@ -1,0 +1,83 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/dlIndex.php?m=Index&c=toMyInfo&a=index" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">代理贡献明细</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <div class="N_RecordTop">
+                <div class="clearfix">
+                <form action="toRecommendedAward#" class="form-search cf">
+                    <div class="clearfix pdgB3" >
+                        <input type="number" class="N_agentIpt" placeholder="请输入代理ID"  id="gameUserId" min="0">
+                    </div>
+                    
+                    <div class="clearfix ">
+                        <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="开始日期" readonly="readonly" />
+                        <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="结束日期" readonly="readonly" />
+                        <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div> 
+                    </div>
+                </form>     
+                </div>
+            </div>
+            <!-- <div class="N_RecordTop xxList clearfix">
+                <ul>
+                <li>
+                <label class="control-label" style=""> 一级:</label>
+                <span id="level1sum">0</span>
+                </li>
+                <li>
+                <label class="control-label" style=""> 二级:</label>
+                <span id="level2sum">0</span>
+                </li>
+                <li>
+                <label class="control-label" style=""> 三级:</label>
+                <span id="level3sum">0</span>
+                </li>
+                <li style="border:none;">
+                <label class="control-label" style=""> 合计:</label>
+                <span id="rebatesum" style="color:#fc5d23">0</span>
+                </li>
+                </ul>
+            </div> -->
+            
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix">
+                <ul class="wp_full record_tit clearfix">
+                    <li class="wp_25 borderBox fl textLeft">玩家</li>
+                    <li class="wp_25 borderBox fl textLeft">充值/返利</li>
+                    <li class="wp_25 borderBox fl textLeft">代理ID</li>
+                    <li class="wp_25 borderBox fl textRight">时间</li>
+                </ul>
+<!--                <table class="table table-striped table-hover table-bordered dataTable" style="margin-left: 0px; width: 100%;">
+                <thead>
+                <tr role="row">
+                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="昵称" style="width: 30%;">昵称</th>
+                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="充值金额" style="width: 15%;">充</th>
+                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返现数量" style="width: 15%;">返</th>
+                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返现层级" style="width: 10%;">上</th>
+
+                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="充值时间" style="width: 30%;">时间</th></tr>
+                </thead>
+                </table> -->
+                <table id="example" class="fourCol fourCol2" aria-describedby="example_info" style="margin-left: 0px; width: 100%;">
+                    <thead>
+                    <tr role="row" style="height: 0px;">
+                        <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="昵称" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 30%;">昵称</th>
+                        <!-- <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返钻数量" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 10%;">数量</th> -->
+                        <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返钻时间" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 15%;">钻石</th>
+                        <!-- <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="昵称" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 15%;">返利</th> -->
+                        <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返钻数量" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 10%;"></th>
+                        <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="返钻时间" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 30%;">时间</th>
+                    
+                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">没有您要的内容</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

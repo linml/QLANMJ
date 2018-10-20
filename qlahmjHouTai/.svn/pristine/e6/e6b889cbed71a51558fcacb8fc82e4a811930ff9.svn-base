@@ -1,0 +1,25 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class Rebate extends Base {
+	private static $table_name = 'agent_stat_day';
+
+	private static $columns = 'userid,dateid,dayreturn,monthreturn,weekreturn';
+
+	public static function getTableName(){
+		return self::$table_name;
+	}
+
+	public static function get_Rebate($userid){
+		$db         = self::__instance();
+		$condition  = ['userid' => $userid];
+		$list       = $db->select(self::$table_name,self::$columns,$condition);
+
+		if($list){
+			return $list[0];
+		}
+			return array();
+	}
+}

@@ -1,0 +1,85 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class RebateRecord extends Base{
+
+	private static $agent_return_log = 'agent_return_log';
+	private static $log_funds_agent = 'log_funds_agent';
+	private static $agent_transfer = 'agent_transfer';
+	/**
+	 * [getRebateRecordList 返佣记录列表信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-10T16:34:41+0800
+	 * @param    [string]                   $agentid [代理id]
+	 * @return   [array]                            [返回数组]
+	 */
+	public static function getRebateRecordList($start,$pagesize){
+		if ($page_size) $limit = " limit $start,$page_size ";
+		$agentid = UserSession::getAgentId();
+		$db = self::__instance();
+		$sql = "select lfa.relationid,lfa.fundtype FROM log_funds_agent lfa WHERE lfa.accounttype='RM' AND lfa.agentid = ".$agentid.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		$agentMaidRecodeData = array();
+		foreach ($result as $key => $value) {
+			if($result[$key]['fundtype']=='83'){
+				array_push($agentMaidRecodeData,self::getAgentCashOutDiamond($agentid,$result[$key]['relationid']));
+			}else if($result[$key]['fundtype']=='85'){
+				array_push($agentMaidRecodeData,self::getAgentOutCash($agentid,$result[$key]['relationid']));
+			}else if($result[$key]['fundtype']=='86'){
+				array_push($agentMaidRecodeData,self::getPlayerMaid($agentid,$result[$key]['relationid']));
+			}else return array();
+		}
+
+		if($agentMaidRecodeData)return $agentMaidRecodeData;else return array();
+	}
+
+	/**
+	 * [getPlayerMaid 获取玩家充值代理返利类型]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T14:41:26+0800
+	 * @param    [type]                   $agentid    [代理ID]
+	 * @param    [type]                   $relationid [订单号]
+	 * @return   [type]                               [返回查询结果集]
+	 */
+	public static function getPlayerMaid($agentid,$relationid){
+		if(empty($agentid)||empty($relationid)) return;
+		$db = self::__instance();
+		$sql="SELECT arl.userid,lfg.fundtype,arl.paynum,lfg.fundmoney,lfg.addtime,arl.returnlevel FROM ".self::$log_funds_agent." lfg , ".self::$agent_return_log." arl WHERE lfg.relationid = arl.relationid  AND accounttype ='RM' AND fundtype='86' AND lfg.agentid=".$agentid." AND lfg.relationid=".$relationid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+	/**
+	 * [getAgentCashOutDiamond 获取现金转钻石]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T14:45:29+0800
+	 * @param    [type]                   $agentid    [代理ID]
+	 * @param    [type]                   $relationid [订单号]
+	 * @return   [type]                               [结果]
+	 */
+	public static function getAgentCashOutDiamond($agentid,$relationid){
+		if(empty($agentid)||empty($relationid)) return;
+		$db = self::__instance();
+		$sql="SELECT lfa.agentid,lfa.fundtype,lfa.fundmoney,atf.diamond ,lfa.addtime FROM ".self::$log_funds_agent." lfa ,".self::$agent_transfer." atf WHERE lfa.relationid = atf.id AND  lfa.accounttype='RM' AND lfa.fundtype='83' AND lfa.agentid=".$agentid." AND lfa.relationid=".$relationid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+	/**
+	 * [getAgentOutCash 获取提现记录]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T14:48:07+0800
+	 * @param    [type]                   $agentid    [代理ID]
+	 * @param    [type]                   $relationid [订单号]
+	 * @return   [type]                               [结果集]
+	 */
+	public static function getAgentOutCash($agentid,$relationid){
+		if(empty($agentid)||empty($relationid)) return;
+		$db = self::__instance();
+		$sql="select lfa.fundtype,lfa.fundmoney,lfa.addtime FROM ".self::$log_funds_agent." lfa WHERE lfa.accounttype='RM' AND lfa.fundtype='85' AND lfa.agentid=".$agentid." AND lfa.relationid=".$relationid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+}

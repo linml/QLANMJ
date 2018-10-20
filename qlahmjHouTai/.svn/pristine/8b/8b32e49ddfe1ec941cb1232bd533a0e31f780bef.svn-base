@@ -1,0 +1,6 @@
+<?php 
+require ('../include/init.inc.php');
+$startDate = $endDate = $page_no = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+Template::assign ('data', $data);
+Template::display ('agentcenter/toRebateRecord.tpl');

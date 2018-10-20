@@ -1,0 +1,9 @@
+<?php 
+require ('../include/init.inc.php');
+$startDate = $endDate = $page_no = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+
+$agentid = UserSession::getAgentId();
+$rebateRecordList = RebateRecord::getRebateRecordList($agentid);
+Template::assign ('rebateRecordList', $rebateRecordList);
+Template::display ('agentcenter/toRebateRecord.tpl');

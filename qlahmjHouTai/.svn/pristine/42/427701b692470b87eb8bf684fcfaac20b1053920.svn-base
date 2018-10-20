@@ -1,0 +1,23 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class FriendsCircle extends Base {
+	private static 
+
+
+	public static function getFriendCircleByAgentId(){
+		
+	}
+
+	public static function getFriendCircleHousesByAgentId(){
+
+	}
+
+	public static function getFriendCircleHousesCountByAgentId(){
+
+	}
+
+	// public static function getFriendCircleInforBy
+}

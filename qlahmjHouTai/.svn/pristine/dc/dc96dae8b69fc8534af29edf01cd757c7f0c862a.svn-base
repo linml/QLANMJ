@@ -1,0 +1,107 @@
+<?php
+require ('../include/init.inc.php');
+
+$name = $card_number = $bank_name = $phone_number = $money = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+Template::assign ( 'status', UserSession::getAgentStatus() );
+if(UserSession::getAgentStatus()!=1) {
+	OSAdmin::alert ( "error", "账户未激活" );
+	Template::Display ( 'agentcenter/order.tpl' );
+	exit();
+}
+Template::assign ( 'name', $name );
+Template::assign ( 'card_number', $card_number );
+Template::assign ( 'bank_name', $bank_name );
+Template::assign ( 'phone_number', $phone_number );
+Template::assign ( 'money', $money );
+$agent = Agent::getAgentByAgentuid ( UserSession::getAgentUid () );
+
+if (Common::isPost ()) {
+	 
+	if (empty ( $name )) {
+		OSAdmin::alert ( "error", "真实姓名不能为空" );
+	} elseif (empty ( $card_number )) {
+		OSAdmin::alert ( "error", "银行卡号不能空" );
+	} elseif (empty ( $bank_name )) {
+		OSAdmin::alert ( "error", "银行名称不能空" );
+	} elseif (empty ( $phone_number )) {
+		OSAdmin::alert ( "error", "手机号不能空" );
+	} elseif (empty ( $money )) {
+		OSAdmin::alert ( "error", "提现金额不能空" );
+	} 
+
+	elseif ($money > $agent['earnings']/100.00) {//页面只支持单位元
+		OSAdmin::alert ( "error", "提现金额不能大于可提现金额" );
+	} elseif ($money == 0) {
+		OSAdmin::alert ( "error", "提现金额不能为0" );
+	} 
+
+	else {
+		
+		$input_data = array (
+				'agent_uid' =>  UserSession::getAgentUid (),
+				'name' => $name,
+				'card_number' => $card_number,
+				'bank_name' => $bank_name,
+				'phone_number' => $phone_number, 
+				'money' => $money*100.00,//存储单位是分
+				'dram_before_earnings'=> $agent['earnings'],
+				'create_time'=>date("Y-m-d H:i:s")
+		);
+		$draw_id = Agent::adddrawmoneyrecode ( $input_data );
+		if (UserSession::getAgentName () != $name || UserSession::getAgentCard_number () != $card_number || UserSession::getAgentId_number () != $bank_name || UserSession::getAgentPhone_number () != $phone_number) {
+				
+			UserSession::setAgentName ($name);
+			UserSession::setAgentCard_number ($card_number);
+			UserSession::setAgentId_number ($bank_name);
+			UserSession::setAgentPhone_number ($phone_number) ;
+			
+			//暂无对碰处理
+			// $data2 = array (
+			// 		'name' => $name,
+			// 		'card_number' => $card_number,
+			// 		'bank_name' => $bank_name,
+			// 		'phone_number' => $phone_number
+			// );
+				
+			// Agent::updateAgentStatus ( $touch['touch_uid'], $data2 );
+				
+		}
+		if ($draw_id) {
+			Agent::earnings_subtract_draw_money($input_data);
+			SysLog::addLog ( UserSession::getUserName (), 'ADD', '提现申请', $draw_id, json_encode ( $input_data ) );
+			Common::exitWithSuccess ( '提现提交成功', 'agentcenter/drawmoney.php' );
+		} else {
+			OSAdmin::alert ( "error" );
+		}
+	}
+}
+
+//获取最后一次提交的提现信息，默认填写
+$lastinfos =  Agent::getDrawRecode ( UserSession::getAgentUid(), 0 , 1);
+
+if($lastinfos && count($lastinfos) == 1){
+	Template::assign ( 'AgentName', $lastinfos[0]['name']);
+	Template::assign ( 'AgentCard_number', $lastinfos[0]['card_number']);
+	Template::assign ( 'AgentBank_name', $lastinfos[0]['bank_name']);
+	Template::assign ( 'AgentPhone_number', $lastinfos[0]['phone_number']);
+}else{
+	Template::assign ( 'AgentName', UserSession::getAgentName () );
+	Template::assign ( 'AgentCard_number', UserSession::getAgentCard_number () );
+	Template::assign ( 'AgentBank_name', UserSession::getAgentId_number () );
+	Template::assign ( 'AgentPhone_number', UserSession::getAgentPhone_number () );
+}
+
+Template::assign ( 'kmoney', $agent['earnings'] );
+Template::assign ( 'msg', $msg );
+Template::assign ( 'tips', "" );
+
+if(UserSession::getAgentStatus()!=1) {
+	Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+}
+
+Template::Display ( 'agentcenter/drawmoney.tpl' );
+
+
+

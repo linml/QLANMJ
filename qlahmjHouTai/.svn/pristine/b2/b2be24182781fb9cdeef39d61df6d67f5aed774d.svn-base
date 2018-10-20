@@ -1,0 +1,147 @@
+<{include file = "simple_header.tpl"}>
+<style type="text/css">
+    .demo {
+        height: 35px;
+        margin: 15px 0;
+        display: flex;
+        display: -webkit-flex;
+        display: -moz-flex;
+    }
+    
+    .demo >input {
+        display: block;
+        border: 0;
+        border-radius: 3px;
+        padding: 0 8px;
+        height: 75%;
+        flex: 1;
+        -webkit-flex: 1;
+        -moz-flex: 1;
+        font-size: 14px;
+        width:75%;
+        background-color: transparent;
+    }
+    
+    .demo >button {
+        background-color: #00c599;
+        color: #fff;
+        border: 0;
+        height: 100%;
+        margin-left: 8px;
+        padding: 0 15px;
+        border-radius: 3px;
+        font-size: 14px;
+    }
+    </style>
+<div class="pdlr20" style="margin-top: 50px">
+<div class="N_Header" style="background-image:url( /assets/images/agentCenter/headerBg4.png );">
+    <a href="javascript:history.back(-1)" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">钻石记录</div>
+</div>
+
+<div class="CM">
+	<div class="C_wh pdT15 relative">
+		<p class="ft20 mgB10">2017年7月</p>
+		<!-- <div class="ft16">
+		<span>支出:<i>200</i>元</span>
+		<span>收入:<i>200</i>元</span>
+		</div> -->
+		<div class="relative S_wh bgc_0d86e6 round absolute top22 right1" id="dateSelectorOne">
+
+			<div class="demo">
+                <form id="form" method="POST" action="">
+                <input class="absolute left12 top12"  type="hidden" name="startDate" id="startDate">
+    			<input class="absolute left12 top12"  type="hidden" name="endDate" id="endDate">
+                </form>
+    			<img class="absolute mCenter mg_lt" src="/assets/images/agentCenter/date.svg" width="30" height="30" id="">
+			</div>
+			<!-- <img class="absolute mCenter mg_lt" src="/assets/images/agentCenter/date.svg" width="30" height="30"> -->
+		</div>
+	</div>
+	<ul class="bgc_fff">
+		<li class="relative C_wh mgTp3A" style="padding-right: 10px;" >
+			<div class="S_wh round bgc_0e932e f_get absolute top13 left4"><img class="absolute mCenter mg_lt" src="/assets/images/agentCenter/zhuan.svg" width="30" height="30"></div>
+			<div class="C_wh72 floatR B_b_bfbfbf">
+			<div class="floatL">
+				<p class="f_shop">给玩家<span>31234</span>充钻</p>
+				<p class="f_return" style="position: absolute;left: 27%;top:72%;">2017-7-21 16:28:12</p>
+			</div>
+			<div class="floatR">
+				<p class="f_money" style="position: absolute;left:70%;top:1%;">-100</p>
+				<p class="f_return" style="position: absolute;left:77%;top:72%;">余钻:<span>1910</span></p>
+			</div>
+			</div>
+		</li>	
+	</ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+       result = new Mdate(
+           "dateSelectorOne",
+            {
+                //"dateSelectorOne"为你点击触发Mdate的id，必填项
+                acceptId: {
+                    beginMdateId:"startDate",
+                    endMdateId:'endDate'
+                },
+                //此项为你要显示选择后的日期的input，不填写默认为上一行的"dateShowBtn"
+                beginYear: "2017",
+                //此项为Mdate的初始年份，不填写默认为2000
+                beginMonth: "1",
+                //此项为Mdate的初始月份，不填写默认为1
+                beginDay: "1",
+                //此项为Mdate的初始日期，不填写默认为1
+                endYear: "2020",
+                //此项为Mdate的结束年份，不填写默认为当年
+                endMonth: "12",
+                //此项为Mdate的结束月份，不填写默认为当月
+                // endDay: "",
+                //此项为Mdate的结束日期，不填写默认为当天
+                format: "-"
+                //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+            }
+        );
+       /*$("#dateSelectorOne").click(function(){
+            console.log(result);
+       })*/
+       
+
+    });
+
+// 
+// new Mdate("dateShowBtn", {
+//     acceptId: "dateSelectorTwo",
+//     beginYear: "2002",
+//     beginMonth: "10",
+//     beginDay: "24",
+//     endYear: "2017",
+//     endMonth: "1",
+//     endDay: "1",
+//     format: "-"
+// })
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#dateSure').click(function(){
+            var $startDate = $('#startDate').val()
+            var $endDate = $('#endDate').val()
+            if($startDate > $endDate){
+                alert('开始时间不能大于结束时间')
+            }
+            $.ajax({
+                url:"/agentCenter/rebaterecord.php",
+                type:"post",
+                data:{"startDate":$startDate,"endDate":$endDate},
+                success:function(data){
+                    alert('success')
+                },
+                error:function(data){
+                    alert('请求错误')
+                },
+                dataType:"json"
+            })
+        })
+    })
+</script>
+

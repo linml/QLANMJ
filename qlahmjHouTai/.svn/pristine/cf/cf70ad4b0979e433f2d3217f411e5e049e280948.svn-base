@@ -1,0 +1,41 @@
+<?php 
+if(!defined('ACCESS')){
+	exit('Access denied');
+}
+class MyEarning extends Base{
+	private static $agent_info = 'agent_info';
+	private static $log_funds_agent = 'log_funds_agent';
+	private static $agent_return_log = 'agent_return_log';
+
+	/**
+	 * [getRebatListCount 佣金记录表统计]
+	 * @Author   李龙
+	 * @DateTime 2018-08-29T10:04:11+0800
+	 * @param    string                   $start     [description]
+	 * @param    string                   $page_size [description]
+	 * @return   [type]                              [返回条目数]
+	 */
+	public static function getRebatListCount($start='',$page_size='',$where){
+		$db = self::__instance();
+		$limit = " limit $start,$page_size";
+		$sql = 'select count(lfa.id) as counts from '.self::$log_funds_agent.' lfa left join '.self::$agent_info.' ai on lfa.agentid = ai.agentid where lfa.accounttype = "RM" '.$where.$limit;
+		$result = $db->query($sql)->fetchColumn();
+		return 0 + $result;
+	}
+
+	/**
+	 * [getRebateList 佣金记录表列表数据]
+	 * @Author   李龙
+	 * @DateTime 2018-08-29T10:04:32+0800
+	 * @param    [type]                   $start     [description]
+	 * @param    [type]                   $page_size [description]
+	 * @return   [type]                              [返回结果集]
+	 */
+	public static function getRebateList($start,$page_size,$where){
+		$db = self::__instance();
+		$limit = " limit $start,$page_size";
+		$sql = 'SELECT lfa.agentid, ai.agentname, ai.levelid, lfa.fundtype, lfa.fundmoney, lfa.agomoney, arl.returnlevel, lfa.addtime, lfa.relationid FROM '.self::$log_funds_agent.' lfa LEFT JOIN '.self::$agent_info.' ai ON lfa.agentid = ai.agentid LEFT JOIN '.self::$agent_return_log.' arl ON arl.relationid = lfa.relationid WHERE lfa.accounttype = "RM" '.$where.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+}

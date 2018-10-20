@@ -1,0 +1,69 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+require_once (ADMIN_BASE_LIB.'Qrcode.class.php');
+class PhpqrCode extends Base{
+    
+    /**
+     * [getPhpqrCode 获取带icon的二维码]
+     * @Author   李爽
+     * @DateTime 2018-07-31T15:17:18+0800
+     * @param    array                    $QRcodeData [数据数组]
+     * @return   [type]                               [返回名称]
+     */
+    public static function getPhpqrCode($QRcodeData = array()){
+        if(!is_array($QRcodeData)||empty($QRcodeData)) return;
+
+        // 纠错级别：L、M、Q、H
+        $errorCorrectionLevel = 'M';
+
+        // 点的大小：1到10
+        $matrixPointSize = 4;
+
+        // 保存文件名
+        $filename = ADMIN_BASE_QRCOD."/qrcode/".md5($QRcodeData['userid'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        //判断文件是否存在
+        if(!file_exists($filename)){
+            //生成二维码
+            QRcode::png($QRcodeData['url'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+             
+            //获取二维码
+            $qrcode = file_get_contents($filename);
+            $qrcode = imagecreatefromstring($qrcode);
+            $qrcode_width = imagesx($qrcode);
+            $qrcode_height = imagesy($qrcode);
+
+            //圆角图片
+            $corner = file_get_contents(ADMIN_BASE_QRCOD.'/images/agentCenter/bg8.png');
+            $corner = imagecreatefromstring($corner);
+            $corner_width = imagesx($corner);
+            $corner_height = imagesy($corner);
+
+            //计算圆角图片的宽高及相对于二维码的摆放位置,将圆角图片拷贝到二维码中央
+            $corner_qr_height = $corner_qr_width = $qrcode_width/5;
+            $from_width = ($qrcode_width-$corner_qr_width)/2;
+            imagecopyresampled($qrcode, $corner, $from_width, $from_width, 0, 0, $corner_qr_width, $corner_qr_height, $corner_width, $corner_height);
+
+
+            //logo图片
+            $logo = file_get_contents($QRcodeData['icon_url']);
+            $logo = imagecreatefromstring($logo);
+            $logo_width = imagesx($logo);
+            $logo_height = imagesy($logo);
+
+
+            //计算logo图片的宽高及相对于二维码的摆放位置,将logo拷贝到二维码中央
+            $logo_qr_height = $logo_qr_width = $qrcode_width/5 - 6;
+            $from_width = ($qrcode_width-$logo_qr_width)/2;
+            imagecopyresampled($qrcode, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+
+
+            // header('Content-type: image/png');
+            imagepng($qrcode,$filename);
+            imagedestroy($qrcode);
+            imagedestroy($corner);
+            imagedestroy($logo);
+        }
+        return md5($QRcodeData['userid'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize);
+    }
+}

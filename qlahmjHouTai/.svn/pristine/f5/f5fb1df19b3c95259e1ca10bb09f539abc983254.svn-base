@@ -1,0 +1,6 @@
+<?php 
+require ('../include/init.inc.php');
+$agentid = UserSession::getAgentId();
+$result  = Mine::getAgentInfo($agentid);
+Template::assign ('result', $result);
+Template::display ( 'agentcenter/Mine.tpl' );

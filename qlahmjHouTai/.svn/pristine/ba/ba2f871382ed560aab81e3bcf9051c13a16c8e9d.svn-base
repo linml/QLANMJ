@@ -1,0 +1,128 @@
+<{include file ="ace/header.tpl"}> 
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+<{if $tips!=""}>
+	<div  class="alert alert-info">
+		<{$tips}>
+	</div>
+<{/if}>
+<div class="row">
+	<div class="col-xs-12">  	
+		<div class="alert alert-info"><a style="color: red;">未提现收益：<{$agent['earnings']/100.00}>元</a><a style="float:right">邀请码：<{$agent['agent_uid']}></a></div>
+	</div>
+</div>
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">近期推广数据</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th>今天</th>
+						<th>昨天</th>
+						<th>本月</th>
+						<th>上月</th>
+						<!-- <th>历史</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<th>新增一级：</th>
+					<td><{$tuiguangCount['today1']}></td>
+					<td><{$tuiguangCount['yesterday1']}></td>
+					<td><{$tuiguangCount['thismonth1']}></td>
+					<td><{$tuiguangCount['lastmonth1']}></td>
+					</tr>
+					<{if $agent['agent_type'] != 4}>
+					<tr>
+					<th>新增二级：</th>
+					<td><{$tuiguangCount['today2']}></td>
+					<td><{$tuiguangCount['yesterday2']}></td>
+					<td><{$tuiguangCount['thismonth2']}></td>
+					<td><{$tuiguangCount['lastmonth2']}></td>
+					</tr>
+					<{/if}>
+					<{if $agent['agent_type'] == 3 || $agent['agent_type'] == 1}>
+					<tr>
+					<th>新增三级：</th>
+					<td><{$tuiguangCount['today3']}></td>
+					<td><{$tuiguangCount['yesterday3']}></td>
+					<td><{$tuiguangCount['thismonth3']}></td>
+					<td><{$tuiguangCount['lastmonth3']}></td>
+					</tr>
+					<{/if}>
+					<tr>
+					<th>一级充值：</th>
+					<td><{$payment['today1']/100.00}></td>
+					<td><{$payment['yesterday1']/100.00}></td>
+					<td><{$payment['thismonth1']/100.00}></td>
+					<td><{$payment['lastmonth1']/100.00}></td>
+					</tr>
+					<{if $agent['agent_type'] != 4}>
+					<tr>
+					<th>二级充值：</th>
+					<td><{$payment['today2']/100.00}></td>
+					<td><{$payment['yesterday2']/100.00}></td>
+					<td><{$payment['thismonth2']/100.00}></td>
+					<td><{$payment['lastmonth2']/100.00}></td>
+					</tr>
+					<{/if}>
+					<{if $agent['agent_type'] == 3 || $agent['agent_type'] == 1}>
+					<tr>
+					<th>三级充值：</th>
+					<td><{$payment['today3']/100.00}></td>
+					<td><{$payment['yesterday3']/100.00}></td>
+					<td><{$payment['thismonth3']/100.00}></td>
+					<td><{$payment['lastmonth3']/100.00}></td>
+					</tr>
+					<{/if}>
+					<tr style="color:red;"><th>该期收益：</th>
+					<td><{$profit['today']/100.00}></td>
+					<td><{$profit['yesterday']/100.00}></td>
+					<td><{$profit['thismonth']/100.00}></td>
+					<td><{$profit['lastmonth']/100.00}></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">历史推广数据</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr><th style="width:170px;">一级用户：</th><td><{$tuiguangCount['all1']}></td></tr>
+					<{if $agent['agent_type'] != 4}>
+					<tr><th>二级用户：</th><td><{$tuiguangCount['all2']}></td></tr>
+					<{/if}>
+					<{if $agent['agent_type'] == 3 || $agent['agent_type'] == 1}>
+					<tr><th>三级用户：</th><td><{$tuiguangCount['all3']}></td></tr>
+					<{/if}>
+					<tr><th>一级充值：</th><td><{$payment['all1']/100.00}></td></tr>
+					<{if $agent['agent_type'] != 4}>
+					<tr><th>二级充值：</th><td><{$payment['all2']/100.00}></td></tr>
+					<{/if}>
+					<{if $agent['agent_type'] == 3 || $agent['agent_type'] == 1}>
+					<tr><th>三级充值：</th><td><{$payment['all3']/100.00}></td></tr>
+					<{/if}>
+					<tr style="color:red;"><th>总收益：</th><td><{$agent['history_count_earnings']/100.00}></td></tr>
+					<tr><th>已提现：</th><td><{$agent['already_draw']/100.00}></td></tr>
+					<tr><th>处理中提现：</th><td><{$agent['waiting_draw']/100.00}></td></tr>
+					<tr style="color:red;"><th>未提现收益：</th><td><{$agent['earnings']/100.00}></td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<br/><br/>
+	<!---操作的确认层，相当于javascript:confirm函数--->
+	<{$osadmin_action_confirm}>
+
+	<!--- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 --->
+	<{include file="ace/footer.tpl" }>

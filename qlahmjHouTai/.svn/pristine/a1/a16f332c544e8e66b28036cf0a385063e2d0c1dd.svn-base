@@ -1,0 +1,66 @@
+<?php 
+require ('../include/init.inc.php');
+require_once ADMIN_BASE_LIB."WxPay/pay/WxCash.class.php";
+$money =  '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+/*if (isset($_GET['code'])){
+	var_dump($_GET['code']);
+	var_dump($money);
+	exit();
+}*/
+// var_dump($money);
+// 金额的验证
+if(empty($money)||$money <= 0||!is_numeric($money)){exit("<script>alert('支付金额参数有误！');window.location.href='../agentcenter/drawmoney.php';</script>");} 
+
+$tools = new WxCash();
+//获取微信code 
+$openid = $tools->GetOpenid();
+
+$out_trade_no = WxPay::weCashToOrder($money);
+if($out_trade_no=='-1') exit("<script>alert('订单产生失败！');</script>");
+
+$oderData = array(
+	'partner_trade_no' =>'$out_trade_no',
+	'openid'=>$openid,
+	'check_name'=>'NO_CHECK',
+	'amount'=>$money,
+	'desc'=>'代理商提现'
+);
+
+$wecashResult = $tools->WeChatCash($oderData);
+$uWeCashOrderData = array(
+			'order_no' =>'$out_trade_no',
+			'agentid'=>UserSession::getAgentId(),
+			'rmb'=> $money,
+			'gift'=> 0.00,
+			'cashratio'=>0.00
+		);
+if ($wecashResult['return_code'] == 'SUCCESS' && $wecashResult['result_code'] == 'SUCCESS') {
+    //1、成功的业务处理
+    $uWeCashOrderData['transaction_id'] =  $wecashResult['payment_no'];
+    $uWeCashOrderData['status'] =  1;
+    $isrr = array(
+        'code'=>true,
+        'msg' =>'ok',
+    );
+} else {
+	//2、失败的业务处理
+	$uWeCashOrderData['transaction_id'] =  $out_trade_no;
+    $uWeCashOrderData['status'] =  2;
+    $isrr = array(
+        'code' => false,
+        'msg' => (string)$wecashResult['return_msg']
+    );
+
+}
+
+$cashOrderResult = WxPay::updateWeCashOrder($uWeCashOrderData);
+if($cashOrderResult==-1){
+	$isrr['code'] = false;
+	$isrr['msg'] = $isrr['code']?'提现失败'：$isrr['msg']+"<br>" +'提现失败';
+}else if($cashOrderResult==0){
+	$isrr['code'] = false;
+	$isrr['msg'] = $isrr['code']?'无订单号或余额不足'：$isrr['msg']+"<br>" +'无订单号或余额不足';
+}
+exit($isrr);

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+		<title>合肥棋牌</title>
+		<meta content="telephone=no" name="format-detection">
+		<link rel="stylesheet" href="../assets/css/home.css" />
+		<link rel="stylesheet" href="../assets/css/swiper.min.css" />
+	</head>
+	<body>
+		<div class="relative">
+			<img src="../assets/pic/bg.png" />
+			
+			<img src="../assets/pic/logo_hefei.png" class="absolute logo_Big" />
+			<p class="absolute font24 c_fff4d6 fontBold logo_title">七乐互娱首款棋牌手游</p>
+			<img src="../assets/pic/logo2_hefei.png" class="absolute logo_Small" />
+			<p class="absolute font32 c_d9daff logo_title2">七乐合肥麻将</p>
+			<div class="absolute btn_down">
+				<img src="../assets/pic/btn_down.png" />
+				<div onclick="downLoad()" class="absolute download"></div>
+			</div>
+			<div class="absolute v_num c_7072b4 font22">版本号：V1.0.0 </div>
+			<div class="absolute v_time c_7072b4 font22">更新时间：2018-01-22</div>
+			<div class="absolute swiper_img borderBox">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<img src="../assets/pic/swiper_img1.png" class="swiper-slide" />
+						<img src="../assets/pic/swiper_img2.png" class="swiper-slide" />
+						<img src="../assets/pic/swiper_img3.png" class="swiper-slide" />
+						<img src="../assets/pic/swiper_img4.png" class="swiper-slide" />
+					</div>
+	
+				</div>
+			</div>
+			<p class="footer absolute c_7072b4 tc font20">COPYRIGHT © 2018 QILE. ALL RIGHTS RESERVED.</br>七乐互娱 版权所有</p>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="../assets/js/jquery.min.js" ></script>
+	<script type="text/javascript" src="../assets/js/ymq_flexible.js" ></script>
+	<script type="text/javascript" src="../assets/js/swiper.min.js" ></script>
+	<script>
+		var swiper = new Swiper('.swiper-container', {
+			slidesPerView: 1.1875,
+			centeredSlides: false,
+			spaceBetween: 10
+		});
+		function downLoad(){
+			var u = navigator.userAgent;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			if(isiOS) {
+				window.location.href = "https://itunes.apple.com/us/app/%E4%B8%83%E4%B9%90%E5%90%88%E8%82%A5%E9%BA%BB%E5%B0%86/id1339096385?l=zh&ls=1&mt=8";//"http://fir.im/lcap";   //ios链接
+			} else {
+				window.location.href = "http://fir.im/6vwb"   //安卓链接
+			}
+		}
+	</script>
+</html>

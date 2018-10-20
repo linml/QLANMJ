@@ -1,0 +1,323 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class Agent extends Base {
+
+	private static $agent_info = 'agent_info';
+	private static $agent_level= 'agent_level';
+	private static $agent_account = 'agent_account';
+	private static $user_info = 'user_info';
+	private static $user_stat = 'user_stat';
+	private static $pigcms_user = 'pigcms_user';
+
+	/**
+	 * [getTitleSearch 获取抬头信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-31T15:47:19+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getTitleSearch(){
+		$db = self::__instance();
+		$sql = 'select pu.user_id,pu.user_name from '.self::$pigcms_user.' pu left join '.self::$agent_info.' ai on ai.adminid = pu.user_id where show_quicknote > 0';
+		$admin = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($admin) return $admin;else return array();
+	}
+
+	/**
+	 * [getlevel 获取代理等级表]
+	 * @Author   李龙
+	 * @DateTime 2018-08-31T15:48:13+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getlevel(){
+		$db = self::__instance();
+		$sql = 'select levelid,name from '.self::$agent_level;
+		return $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * [getAgentsList 获取代理列表]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T16:11:29+0800
+	 * @param    string                   $start     [开始]
+	 * @param    string                   $page_size [页显示条目]
+	 * @return   [type]                              [返回结果集]
+	 */
+	public static function getAgentsList($start='',$page_size='',$where){
+		$db = self::__instance();
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql = 'select ai.agentid,ai.userid,ai.agentname,ai.parentid,al.name,aa.rmb,aa.diamond,ai.status from '.self::$agent_info.' ai
+	left join  '.self::$agent_level.'  as al on ai.levelid = al.levelid
+	left join  '.self::$agent_account.'  as aa on ai.agentid = aa.agentid left join '.self::$user_info.' ui on ai.userid = ui.userid '.$where.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $key => $value) {
+			$result[$key] = array_merge($result[$key], self::getRebateAndReturnData($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getLowerAgentsNum($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getBindUserNum($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getDrawMoney($result[$key]['agentid']));
+		}
+		if($result) return $result;else array();
+	}
+
+	/**
+	 * [getAgentInfo 获取代理的详情信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-28T09:55:18+0800
+	 * @param    string                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getAgentInfoById($agentid=''){
+		if(empty($agentid)) return ;
+		$where = " where ai.agentid = $agentid";
+		$db = self::__instance();
+		$sql = 'select ui.userid,ai.agentid,ui.picfile,ai.mobilenum,ai.agentname,ui.realname,ai.wechatnum,al.name,al.levelid,ai.addtime,ai.status,ai.parentid,IFNULL(us.roomcnt,0) as roomcnt 
+	from '.self::$agent_info.' ai 
+	left join '.self::$user_info.' ui on ai.userid = ui.userid
+	left join '.self::$user_stat.' us on ai.userid = us.userid
+	left join '.self::$agent_level.' al on ai.levelid = al.levelid '.$where;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getRebateData 获取返利总额和体现总额]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:25:28+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getRebateAndReturnData($agentid){
+		$db = self::__instance();
+		$sql = 'select sum(IFNULL(paynum,0)) as sumpaynum,sum(IFNULL(returnrmb,0)) as sumreturnrmb from agent_return_log where agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+		if($result) return $result;
+	}
+
+	/**
+	 * [getLowerAgentsNum 获取下级代理数目]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:43:50+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getLowerAgentsNum($agentid){
+		$db = self::__instance();
+		$sql = 'select count(agentid) as loweragents from agent_info where parentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getBindUserNum 获取绑定玩家]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:28:14+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getBindUserNum($agentid){
+		$db = self::__instance();
+		$sql = 'select count(userid) as binduser from user_info where agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getDrawMoney 获取体现金额]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T16:59:12+0800
+	 * @param    [type]                   $agentid [玩家id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getDrawMoney($agentid){
+		$db = self::__instance();
+		$sql = 'select sum(rmb) as drawmoney from agent_transfer where cashtype = "C" and agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getAgentCount 获取代理数目]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T17:07:51+0800
+	 * @param    [type]                   $start     [description]
+	 * @param    [type]                   $page_size [description]
+	 * @return   [type]                              [description]
+	 */
+	public static function getAgentCount($start,$page_size,$where){
+		$db = self::__instance();
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql = 'select count(ai.agentid) from '.self::$agent_info.' ai left join '.self::$user_info.' ui on ai.userid = ui.userid '.$where.$limit;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	/**
+	 * [getResetPsd 初始化代理的密码]
+	 * @Author   李龙
+	 * @DateTime 2018-08-28T13:57:11+0800
+	 * @param    string                   $agentid [description]
+	 * @return   [type]                            [description]
+	 */
+	public static function getResetPsd($agentid=''){
+		if(empty($agentid)) return ;
+		$db = self::__instance();
+		$where = ["agentid" => $agentid];
+		$data = ["pw" => md5('123456')];
+		$result = $db->update(self::$agent_info,$data,$where);
+		return 0 + $result;
+	}
+
+	/**
+	 * [resetStatus 重设账号状态]
+	 * @Author   李龙
+	 * @DateTime 2018-08-28T17:41:55+0800
+	 * @param    string                   $agentid [description]
+	 * @param    string                   $status    [description]
+	 * @return   [type]                              [description]
+	 */
+	public static function resetStatus($agentid='',$status=''){
+		if(empty($agentid)||empty($status)) return ;
+		$db = self::__instance();
+		$sql = 'update '.self::$agent_info.' set status = '.($status-1).' where agentid = '.$agentid;
+		$ret = $db->exec($sql);
+		return 0 + $ret;	
+	}
+
+	/**
+	 * [resetLevel 重设代理等级]
+	 * @Author   李龙
+	 * @DateTime 2018-08-31T15:56:24+0800
+	 * @param    string                   $agentid [description]
+	 * @param    string                   $level   [description]
+	 * @return   [type]                            [description]
+	 */
+	public static function resetLevel($agentid = '',$level=''){
+		if(empty($agentid)||empty($level)) return;
+		$db = self::__instance();
+		$sql = 'update '.self::$agent_info.' set levelid = '.$level.' where agentid = '.$agentid;
+		$result = $db->exec($sql);
+		return 0+$result;
+	}
+
+
+	/**
+	 * [checkUserIdIfExist 查询玩家id是否存在并返回改玩家微信昵称]
+	 * @Author   李龙
+	 * @DateTime 2018-08-29T14:37:30+0800
+	 * @param    string                   $o_userid [玩家ID]
+	 * @return   [string]                             [玩家微信昵称,和上级代理ID,代理名]
+	 */
+	public static function checkUserIdIfExist($o_userid=''){
+		if(empty($o_userid)) return;
+		$db = self::__instance();
+		$sql_w = 'select nickname from '.self::$user_info.' where userid = '.$o_userid;
+		$sql_idname = 'select ai.agentname,ai.agentid from '.self::$agent_info.' ai left join '.self::$user_info.' ui on ui.agentid = ai.agentid where ui.userid = '.$o_userid;
+		$result1= $db->query($sql_w)->fetch(PDO::FETCH_ASSOC);
+		$result2= $db->query($sql_idname)->fetch(PDO::FETCH_ASSOC);
+		if(!empty($result2)){
+			$result = array_merge($result1,$result2);
+		}else{
+			$result = $result1;
+		}
+		
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getValidateo_useridByAgentId 验证玩家信息并取回玩家昵称和ID]
+	 * @Author   李龙
+	 * @DateTime 2018-08-30T09:14:30+0800
+	 * @param    string                   $o_userid [玩家ID]
+	 * @return   [type]                             [返回结果集]
+	 */
+	public static function getValidateo_useridByAgentId($o_userid=''){
+		if(empty($o_userid)) return;
+		$db = self::__instance();
+		$condition = ['userid'=>$o_userid];
+		$columes =" userid,nickname ";
+		$result = $db->select(self::$user_info,$columes,$condition);
+		if($result) return $result; else return false;
+	}
+
+	/**
+	 * [toAddAgent 增加代理]
+	 * @Author   李龙
+	 * @DateTime 2018-08-30T09:15:21+0800
+	 * @param    [type]                   $o_userid    [玩家ID]
+	 * @param    [type]                   $o_nickname  [玩家昵称]
+	 * @param    [type]                   $o_mobilenum [手机号]
+	 * @param    [type]                   $o_name      [姓名]
+	 * @param    [type]                   $o_wechanum  [微信号]
+	 * @param    [type]                   $o_dirAgent  [上级代理]
+	 * @param    [type]                   $o_level     [开通的代理等级]
+	 * @return   [type]                                [返回结果]
+	 */
+	public static function toAddAgent($o_userid,$o_nickname,$o_mobilenum,$o_name,$o_wechanum,$o_dirAgent,$o_level){
+		if(empty($o_userid)||empty($o_nickname)||empty($o_mobilenum)||empty($o_name)||empty($o_wechanum)||empty($o_level))return;
+		$db = self::__instance();
+		$produce = "call sp_agent_add(".$o_userid.",'".$o_mobilenum."','".$o_wechanum."','".$o_nickname."','123456','".$o_level."','".$o_name."',".$o_dirAgent.",@taa_out)";
+		//执行存储过程
+		$db->query($produce);
+		//调用存储用户变量
+		return $db->query("select @taa_out")->fetch(PDO::FETCH_ASSOC)['@taa_out'];
+	}
+
+	/**
+	 * [showAgentAcount 代理账号信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-30T11:14:15+0800
+	 * @param    string                   $agentid [代理ID]
+	 * @return   [type]                            [代理账号信息]
+	 */
+	
+	public static function showAgentAcount($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql = 'select ai.agentid,ai.userid,ai.agentname,aa.diamond from '.self::$agent_info.' ai left join '.self::$agent_account.' aa on ai.agentid = aa.agentid where ai.agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [SendDiamond 给代理赠送或者充值]
+	 * @Author   李龙
+	 * @DateTime 2018-08-31T14:19:49+0800
+	 * @param    [type]                   $agentid [代理ID]
+	 * @param    [type]                   $diamond [钻石数量]
+	 * @param    [type]                   $money   [金额]
+	 * @param    [type]                   $type    [是充值还是赠送]
+	 * @param    [type]                   $remark  [备注]
+	 */
+	public static function SendDiamond($agentid='',$diamond='',$money='',$type='',$remark=''){
+		$adminid = UserSession::getUserId();
+		$db = self::__instance();
+		$produce = "call sp_admin_agent_transfer(".$adminid.",".$agentid.",".$diamond.",".$money.",".$type.",'".$remark."',@p_out)";
+		$db->exec($produce);
+		return $db->query('select @p_out')->fetch(PDO::FETCH_ASSOC)['@p_out'];
+	}
+
+	/**
+	 * [changeDirAgent 修改上级代理]
+	 * @Author   李龙
+	 * @DateTime 2018-09-01T10:15:30+0800
+	 * @param    [type]                   $userid [玩家ID]
+	 * @return   [type]                           [description]
+	 */
+	public static function changeDirAgent($userid='',$agentid=''){
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$update = 'update '.self::$agent_info.' set parentid = '.$agentid.' where userid = '.$userid;
+		$sql = 'select count(agentid) from '.self::$agent_info.' where agentid = '.$agentid;
+		if(($db->query($sql)->fetchColumn()) == 0){
+			return 2;
+		}else{
+		$result = $db->exec($update);
+		return 0 + $result;
+		}
+	}
+}

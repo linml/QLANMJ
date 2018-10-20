@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogonServer</name>
+    </assembly>
+    <members>
+        <member name="T:QL.Server.BaseFrom.BaseDialogForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.BaseFrom.BaseDialogForm.OnLoad(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:QL.Server.InputDialog">
+            <summary>
+            表示一个文本输入框
+            </summary>
+        </member>
+        <member name="M:QL.Server.InputDialog.#ctor(System.String,System.String)">
+            <summary>
+            初始化一个文本输入框对象的新实例
+            </summary>
+            <param name="caption"></param>
+            <param name="m"></param>
+        </member>
+        <member name="F:QL.Server.InputDialog.Result">
+            <summary>
+            获取输入框的输入确认文本内容
+            </summary>
+        </member>
+        <member name="F:QL.Server.InputDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QL.Server.InputDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QL.Server.InputDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:QL.Server.LogonServer">
+            <summary>
+            登录服务器窗体类型
+            </summary>
+        </member>
+        <member name="P:QL.Server.LogonServer.Instance">
+            <summary>
+            服务器窗体实例对象
+            </summary>
+        </member>
+        <member name="F:QL.Server.LogonServer.ishide">
+            <summary>
+            是否是隐藏窗体服务
+            </summary>
+        </member>
+        <member name="M:QL.Server.LogonServer.#ctor">
+            <summary>
+            实例初始化
+            </summary>
+        </member>
+        <member name="M:QL.Server.LogonServer.DefWndProc(System.Windows.Forms.Message@)">
+            <summary>
+            
+            </summary>
+            <param name="m"></param>
+        </member>
+        <member name="F:QL.Server.LogonServer.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:QL.Server.LogonServer.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:QL.Server.LogonServer.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="F:QL.Server.LogonServer.notifyIcon">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.Program.Main(System.String[])">
+            <summary>
+            应用程序的主入口点。
+            </summary>
+        </member>
+        <member name="M:QL.Server.RegManage.SoftReg.GetDiskVolumeSerialNumber">
+            <summary>
+            取得设备硬盘的卷标号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.Server.RegManage.SoftReg.getCpu">
+            <summary>
+            获得CPU的序列号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.Server.RegManage.SoftReg.getMNum">
+            <summary>
+            生成机器码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:QL.Server.Properties.Resources">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.Culture">
+            <summary>
+              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.CSIco">
+            <summary>
+              查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.GSIco">
+            <summary>
+              查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.LSIco">
+            <summary>
+              查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.SETIco">
+            <summary>
+              查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.TMIco">
+            <summary>
+              查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+            </summary>
+        </member>
+    </members>
+</doc>

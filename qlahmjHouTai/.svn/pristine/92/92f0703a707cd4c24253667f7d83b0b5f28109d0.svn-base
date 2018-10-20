@@ -1,0 +1,30 @@
+<?php 
+require ('../include/init.inc.php');
+$page_no = $method = $money ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+$agentInfo = AgentCenter::getAgentInfoByAgentId(UserSession::getAgentId());
+
+if($method=="getOnvertedDiamonds"&&!empty($money)&&!empty($agentInfo['discount'])){
+	//获取代理账户人民币
+	$money = $agentInfo['rmb'] <= $money ? $agentInfo['rmb'] : $money;
+	//获取折扣后的数据
+	$result = DrawMoney::getOnvertedDiamonds($money,$agentInfo['discount']);
+	if(!empty($result)) exit('{"diamond":"'.$result.'","money":"'.$money.'"}');
+	exit('{"diamond":"0","money":"0.00"}');
+}else if($method=="toOnvertedDiamonds"&&!empty($money)&&!empty($agentInfo['discount'])){
+	if($agentInfo['rmb'] < $money) exit('0');
+	$result = DrawMoney::toOnvertedDiamonds($money,$agentInfo['discount']);
+	exit($result);
+}else if($method=='toCashOrder'&&!empty($money)){
+	if($money<100) exit('1');
+	if($agentInfo['rmb']<$money)exit('2');
+	//进行下单处理
+	$orderResult = WxPay::weCashToOrder($money,0.00,0.00);
+	exit($orderResult);
+}
+
+
+Template::assign ('agentInfo', $agentInfo);
+Template::assign ('discount', 1-$agentInfo['discount']);
+Template::display ( 'agentcenter/toDrawMoney.tpl' );

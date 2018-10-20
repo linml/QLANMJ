@@ -1,0 +1,49 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+$friendscircles_num = 3;
+$members_sum        = 100000;
+$desks_sum          = 100000;
+$consume_sum        = 100000;
+$friendscirclesList = array(
+						array(
+							'game_id'   => 20001,
+							'game_type' => 1,
+							'day_desks' => 10000000,
+							'day_gems'  => 1111111,
+							'members_num' => 223,
+							
+						),
+						array(
+							'game_id'   => 20001,
+							'game_type' => 2,
+							'day_desks' => 131,
+							'day_gems'  => 13,
+							'members_num' => 223,					       
+						),
+						array(
+							'game_id'   => 20001,
+							'game_type' => 3,
+							'day_desks' => 135,
+							'day_gems'  => 13583,
+							'members_num' => 223,
+
+						),
+						array(
+							'game_id'   => 20001,
+							'game_type' => 4,
+							'day_desks' => 135,
+							'day_gems'  => 13583,
+							'members_num' => 223,
+						 	'onlie' => true,
+						),
+					);
+
+Template::assign ('friendscircles_num', $friendscircles_num);
+Template::assign ('members_sum', $members_sum);
+Template::assign ('desks_sum', $desks_sum);
+Template::assign ('consume_sum', $consume_sum);
+
+Template::assign ('friendscirclesList', $friendscirclesList);
+Template::display ( 'agentcenter/FriendsCircle.tpl' );

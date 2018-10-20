@@ -1,0 +1,9 @@
+<div class="N_Footer clearfix">
+    <ul>
+        <li class="on"><a href="/dlIndex.php?m=Index&c=index&a=home"><i class="HomeIcon"></i>首页</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyGameUser&a=index"><i class="GameIcon"></i>玩家</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyAgent&a=index"><i class="AgencyIcon"></i>代理</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toTixian&a=index"><i class="MoneyIcon"></i>提现</a></li>
+        <li><a href="/dlIndex.php?m=Index&c=toMyInfo&a=index"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div>

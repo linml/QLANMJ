@@ -1,0 +1,100 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">玩家充值</div>
+    <!-- <a href="/dlIndex.php?m=Index&c=tofriendgiftcard&a=toGiftCardDetail" class="N_czMore">充钻记录</a> -->
+    <a href="/dlIndex.php?m=Index&c=tofriendgiftcard&a=toGiftCardDetail" class="N_czMore">充钻记录</a>
+    
+    </div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_Pad">
+                <div class="N_search marginAuto">
+                    <div class="N_ID"><input type="number" min="0" id="userid" class="bgfff inputStyle borderBox" value="" placeholder="请输入玩家ID"><i class="absolute bg_search"></i>
+</div>
+                    <div class="N_search_result absolute"><span id="N_Context">请正确填写ID账号！</span></div>
+                </div>
+                <div class="N_RechargeList clearfix">
+                    <ul>
+                        <li class="on">
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥20</div>
+                                <div class="N_RechargeListT2">钻石：190颗</div>
+                                <div class="N_RechargeListT2">赠送：20颗</div>
+                            </a>
+                            <input type="hidden" value="210">
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥6</div>
+                                <div class="N_RechargeListT2">钻石：55颗</div>
+                                <div class="N_RechargeListT2">赠送：0颗</div>
+                            </a>
+                            <input type="hidden" value="55">
+                        </li>
+                        <li class="brBNone brRNone">
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥50</div>
+                                <div class="N_RechargeListT2">钻石：500颗</div>
+                                <div class="N_RechargeListT2">赠送：60颗</div>
+                            </a>
+                            <input type="hidden" value="560">
+                        </li>
+                        <li class="brBNone">
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥128</div>
+                                <div class="N_RechargeListT2">钻石：1320颗</div>
+                                <div class="N_RechargeListT2">赠送：150颗</div>
+                            </a>
+                            <input type="hidden" value="1470">
+                        </li>
+                        <li class="brBNone">
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥249</div>
+                                <div class="N_RechargeListT2">钻石：2590颗</div>
+                                <div class="N_RechargeListT2">赠送：350颗</div>
+                            </a>
+                            <input type="hidden" value="2940">
+                        </li>
+                        <li class="brBNone brRNone">
+                            <a href="javascript:;">
+                                <div class="N_RechargeListT1">¥498</div>
+                                <div class="N_RechargeListT2">钻石：5480颗</div>
+                                <div class="N_RechargeListT2">赠送：1000颗</div>
+                            </a>
+                            <input type="hidden" value="6480">
+                        </li>
+                    </ul>
+                </div>
+                <div class="N_custom">
+                    <div>自定义数量：</div>
+                    <input type="number" class="m-wrap span12"  id="chargecount" min="0" placeholder="请输入自定义钻石数量！">
+                    <input type="hidden" id="vipType" value="P">
+                    <input type="hidden" id="usercode" value="15390402078">
+                    <input type="hidden" id="timems" value="1474730162982">
+                    <input type="hidden" id="nickname" value="">
+                </div>
+                <div class="N_RechargeStock">当前库存：<span id="agentCount" class="c_ff5d20"></span> 颗</div>
+                <div class="N_SubBottom clearfix">
+                    <!-- <a href="javascript:history.go(-1);" class="N_cancel fl">取消</a> -->
+                   <!--  <a href="/dlIndex.php?m=Index&c=tofriendgiftcard&a=toGiftCardDetail" class="N_cancel fl">记录</a> -->
+                    <input type="hidden" value="sichuan_db" id="province">
+                    <button id="save">立即充值</button>
+                </div>
+                <div class="N_Prompt">充值成功后，可能会有一定的延迟，请耐心等待或建议玩家重新登录游戏查看。</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    $(function(){
+        $(".N_RechargeList ul li").click(function(){
+            $(this).addClass("on").siblings().removeClass("on");
+            var _thisnum=$(this).children("input").val();
+            $("#chargecount").val(_thisnum);
+        }); 
+    })
+</script> -->

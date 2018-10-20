@@ -1,0 +1,33 @@
+<{include file = "simple_header.tpl"}>
+<style>
+    html{
+        height:100%;
+    }
+    body{
+        background:#ffffff !important;
+        height:100%;
+    }
+</style>
+<div class="N_LoginWrap">
+    <form class="form-vertical login-form" action="toLogin;JSESSIONID=9da86052-2d3c-43b5-b116-6008440a7549?t=111222#">
+        <div class="N_LoginMain">
+            <div class="N_LoginCell">
+                <div class="N_LoginLogo"><img src="../../assets/images/agentCenter/loginTitle.png"></div>
+                <div class="N_LoginForm">
+                    <dl class="clearfix">
+                        <dt class="N_Login_icon1"></dt>
+                        <dd><input type="text" placeholder="请输入手机号/账号名" id="username" name="username" value=""></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt class="N_Login_icon2"></dt>
+                        <dd><input type="password" placeholder="请输入密码" id="password" name="password"></dd>
+                    </dl>
+                    <div><input type="button" id="login" class="N_LoginSub" value="登录"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- <a href="/dlIndex.php?m=Index&c=toaddagent&a=index" class="N_resLinks">注册代理</a> -->
+</div>
+
+<!-- <{include file = "footer.tpl"}> -->

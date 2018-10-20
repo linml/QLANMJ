@@ -1,0 +1,327 @@
+<{include file ="ace/header.tpl"}> 
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+
+<div class="row">
+	<ul class="nav nav-pills" id="tabBtn">
+		<li class="active" onclick="Release()"><a href="#">消息发布</a></li>
+		<li class="" onclick="" title="该功能暂不开放"><a href="#">公告设置</a></li>
+	</ul>
+	<button id="addMessage" class="btn btn-info" style="position: absolute;top: 0;right: 2%" onclick="addmessage()">发布新消息</button>
+<div class="modal-body" id="tabContain">
+<table id="simple-table1" class="table table-striped table-bordered table-hover">
+		<thead>
+			<td>标题</td>
+			<td>内容</td>
+			<td>发布日期</td>
+			<td>开始日期</td>
+			<td>结束日期</td>
+			<td>发布对象</td>
+			<td>操作</td>
+		</thead>
+		<tbody id="messageRelease">
+			
+		</tbody>
+</table>
+
+<table id="simple-table2" class="table table-striped table-bordered table-hover">
+	<tr>
+		<td>大厅跑马灯公告</td>
+		<td>
+			<textarea></textarea>
+		</td>
+		<td>
+			<button class="btn btn-default">更新</button>
+		</td>
+	</tr>
+	<tr>
+		<td>游戏桌面滚动公告</td>
+		<td>
+			<textarea></textarea>
+		</td>
+		<td>
+			<button class="btn btn-default">更新</button>
+		</td>
+	</tr>
+</table>
+</div>
+<div class="modal fade" id="Message" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true" id="tabClose">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">消息发布</h4>
+			</div>
+			<form action="" method="POST" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">消息标题</label>
+				<div class="col-sm-9">
+					<input type="text" name="msgtitle" id="msgtitle" value="" placeholder="" > 
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">消息内容</label>
+				<div class="col-sm-9">
+					<textarea id="msgcontent" style="width: 262px;height: 191px">
+						
+					</textarea>
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">发布对象</label>
+				<div class="col-sm-9">
+					<select id="msgobject">
+						<option value="U">玩家</option>
+						<option value="A">代理</option>
+					</select>
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">开始日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="begintime"   name="begintime" value="" placeholder="输入开始日期"   > 
+					
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">结束日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="endtime" name="endtime" value="" placeholder="输入结束日期" > 
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9 no-padding-right">
+					<button class="btn btn-info pub" type="submit" id="">发布</button>
+				</div>
+			</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+			<div class="form-group">
+			<div class="col-sm-9" style="height:10px;"></div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+	<!--操作的确认层，相当于javascript:confirm函数-->
+	<{$osadmin_action_confirm}>
+
+	<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+	<{include file="ace/footer.tpl" }>
+<script type="text/javascript">
+		$(function() {
+		var date=$( "#begintime" );
+		date.datepicker({ dateFormat: "yy-mm-dd" });
+		date.datepicker( "option", "firstDay", 1 );
+		});
+		$(function() {
+			var date=$( "#endtime" );
+			date.datepicker({ dateFormat: "yy-mm-dd" });
+			date.datepicker( "option", "firstDay", 1 );
+		});
+	</script>
+<script type="text/javascript">
+	$(function(){
+		$('#tabContain').find('table').hide()
+		$('#tabContain').find('table:first').show()
+	    $('#tabBtn li').on('click',function(){
+	    	var index = $(this).index()
+	    	$('#tabContain').find('table').hide().eq(index).show()
+	    	$(this).addClass('active').siblings().removeClass('active');
+	    	// 隐藏未完成功能
+	    	$('#tabContain').find('table').eq(1).hide()
+	    })
+	    Release()
+	})
+	
+	function Release(){
+		$.ajax({
+			url:'message.php',
+			type:'POST',
+			data:{
+				method:'release'
+			},
+			success:function(data){
+				data = jQuery.parseJSON(data)
+				if(data == null) return false
+				result = '';
+				for(var i=0;i<data.length;i++){
+					if(data[i].content.length>30){
+					con = data[i].content.substring(0,30)+'...'						
+					}else{
+						con = data[i].content
+					}
+
+					if(data[i].msgobject == "U"){
+						msgobject = "玩家"
+					}else if(data[i].msgobject == "A"){
+						msgobject = "代理"
+					}
+					result += '<tr><td>'+data[i].title+'</td><td id="content" data-content="'+data[i].content+'" title="'+data[i].content+'" style="cursor:pointer">'+con+'</td><td>'+data[i].addtime+'</td><td>'+data[i].begintime+'</td><td>'+data[i].endtime+'</td><td>'+msgobject+'</td><td><button onclick="edit('+data[i].id+')">编辑</button><button onclick="del('+data[i].id+')">删除</button></td></tr>'
+				}
+				$('#messageRelease').html(result)
+			},
+			error:function(err){
+
+			}
+		})
+	}
+ 
+	function edit(id){
+		$('#Message').modal('show')
+		$('.pub').attr('id','publish')
+		$.ajax({
+			url:'message.php',
+			type:'POST',
+			data:{
+				method:'edit',
+				id:id
+			},
+			success:function(data){
+				data = jQuery.parseJSON(data)
+				$('#msgtitle').val(data.title)
+				$('#msgcontent').val(data.content)
+				$('#begintime').val(data.begintime)
+				$('#endtime').val(data.endtime)
+				$('#msgobject').find('option[value="'+data.msgobject+'"]').attr('selected','selected')
+			},
+			error:function(err){
+
+			}
+		})
+		$("#publish").on('click',function(){
+			title = $('#msgtitle').val()
+			content = $('#msgcontent').val()
+			begintime = $('#begintime').val()
+			endtime = $('#endtime').val()
+			object = $('#msgobject option:selected').val()
+			$.ajax({
+				url:'message.php',
+				type:'POST',
+				data:{
+					method:'publish',
+					id:id,
+					content:content,
+					title:title,
+					begintime:begintime,
+					endtime:endtime,
+					object:object
+				},
+				success:function(data){
+					data = jQuery.parseJSON(data)
+					if(data == '0'){
+						alert('更新失败')
+						window.location.reload()
+						return
+					}else if(data == '1'){
+						alert('更新成功')
+						window.location.reload()
+						return
+					}
+				},
+				error:function(err){
+					console.log(err)
+				}
+			})
+		})
+	}
+
+	function del(id){
+		if(!confirm('确定删除吗？')) return;
+		$.ajax({
+			url:'message.php',
+			type:'POST',
+			data:{
+				method:'del',
+				id:id
+			},
+			success:function(data){
+				data = jQuery.parseJSON(data)
+				if(data == '0'){
+					alert('删除失败')
+					window.location.reload()
+					return 
+				}else if(data == '1'){
+					alert('删除成功')
+					window.location.reload()
+					return
+				}
+			},
+			error:function(err){
+
+			}
+		})
+	}
+
+	function addmessage(){
+		$('#Message').modal('show')
+		$('.pub').attr('id','add')
+		$('#msgtitle').val('')
+		$('#msgcontent').val('')
+		$('#begintime').val('')
+		$('#endtime').val('')
+
+		$("#add").on('click',function(){
+			title = $('#msgtitle').val()
+			content = $('#msgcontent').val()
+			begintime = $('#begintime').val()
+			endtime = $('#endtime').val()
+			object = $('#msgobject option:selected').val()
+			$.ajax({
+				url:'message.php',
+				type:'POST',
+				data:{
+					method:'add',
+					content:content,
+					title:title,
+					begintime:begintime,
+					endtime:endtime,
+					object:object
+				},
+				success:function(data){
+					data = jQuery.parseJSON(data)
+					if(data == '0'){
+						alert('发布失败')
+						window.location.reload()
+						return
+					}else if(data == '1'){
+						alert('发布成功')
+						window.location.reload()
+						return
+					}
+				},
+				error:function(err){
+
+				}
+			})
+		})
+	}
+</script>
+
+<!-- <script type="text/javascript">
+	$(document).on('mouseover','#content',function(){
+		var content = $('.content').attr('data-content')
+		console.log('mouseover')
+		console.log(content)
+		$("#box").css("display","block")
+		$("#box").text(content)
+	})
+
+	$(document).on('mouseout','#content',function(){
+		console.log('mouseout')
+		$('#box').css('display','none')
+	})
+</script> -->

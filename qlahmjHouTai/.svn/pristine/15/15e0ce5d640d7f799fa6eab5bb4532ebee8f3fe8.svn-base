@@ -1,0 +1,78 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<button class="btn btn-primary btn-lg" data-toggle="modal"
+	id="wshowMyModal">test</button>
+
+<a href="https://statecheck.swiftpass.cn/pay/wappay?token_id=6f7b79612d2c8471621c4259066ead60&service=pay.weixin.wappayv3"><button class="new-btn-login" type="button">确认支付</button></div></a>
+	
+	
+<script type="text/javascript">
+$(function() {
+
+	
+	$('#wshowMyModal')
+	.click(
+			function(e) {
+				
+
+				var param = {
+						"merId":'21100600801',//'1704211633797212',// string(20) Y 商户编号，由神付通分配
+						"appId":	1681,//17421819,// int(11) Y 应用编号，由神付通分配
+						"merOrderId":"6651000001"
+						+ (new Date().Format('yyyyMMddHHmmss'))
+						+ (Math.floor(Math.random() * 9000) + 1000),// string(64) Y 商户订单编号，需保证唯一
+						"payerId":"6651000001"
+						+ (new Date().Format('yyyyMMddHHmmss'))
+						+ (Math.floor(Math.random() * 9000) + 1000),// string(32) Y 支付用户，需保证唯一
+						"reqFee":10,// decimal(16,6) Y 请求支付金额，以“分”为单位
+						"itemName":123456,// string(64) Y 商品名称
+						"itemDesc":7890,// string(1024) N 商品描述
+						"notifyUrl":'www.baidu.com',// string(255) Y 异步回调地址URL
+						"extInfo":'test',// string(255) N 扩展参数，原样返回
+						//"signValue":,// string(172) Y
+						};
+
+				
+				$.post('szhuyu.php',
+								param,
+								function(res) {
+									if (typeof (res) === 'string') {
+										res = JSON
+												.parse(res);
+									}
+									
+									
+											$(".modal-body")
+													.empty();
+											$(".modal-body")
+													.append(
+															'<img src="http://paysdk.weixin.qq.com/example/qrcode.php?data='
+																	+ res.code_url
+																	+ '" />');
+											$("#wmyModal").modal(
+													'show');
+
+											handler = setInterval(
+													function() {
+														check();
+													}, 1500);
+									
+
+									
+
+								});
+
+			});	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+</script>

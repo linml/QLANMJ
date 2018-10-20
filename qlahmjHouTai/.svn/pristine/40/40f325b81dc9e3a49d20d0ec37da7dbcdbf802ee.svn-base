@@ -1,0 +1,20 @@
+<?php 
+require ('../include/init.inc.php');
+$page_no = $method = $money ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+$agentInfo = AgentCenter::getAgentInfoByAgentId(UserSession::getAgentId());
+
+if($method=="getOnvertedDiamonds"&&!empty($money)&&!empty($agentInfo['discount'])){
+	//获取折扣后的数据
+	$result = DrawMoney::getOnvertedDiamonds($money,1-$agentInfo['discount']);
+	if(!empty($result)) exit('{"diamond":"'.$result.'"}');
+	exit();
+}else if($method=="toOnvertedDiamonds"&&!empty($money)&&!empty($agentInfo['discount'])){
+	$result = DrawMoney::toOnvertedDiamonds($money,$agentInfo['discount']);
+	exit($result);
+}
+
+Template::assign ('agentInfo', $agentInfo);
+Template::assign ('discount', 1-$agentInfo['discount']);
+Template::display ( 'agentcenter/toDrawmoney.tpl' );

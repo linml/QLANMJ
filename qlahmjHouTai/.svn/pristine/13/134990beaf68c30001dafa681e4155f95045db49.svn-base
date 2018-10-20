@@ -1,0 +1,10 @@
+<?php 
+require ('../include/init.inc.php');
+
+$playerid ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+$palyerInfo = Players::getPlayerInfoByUserid($playerid);
+
+Template::assign ('palyerInfo', $palyerInfo);
+Template::display ( 'agentcenter/toPlayersInfo.tpl');

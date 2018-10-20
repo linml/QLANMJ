@@ -1,0 +1,34 @@
+<?php 
+require ('../include/init.inc.php');
+
+$players_num =  20;
+$playersList = array(array(
+							'player_id' => 2333,
+							'avatar' => '/assets/avatars/avatar3.png',
+							'wxname' => '微信昵称',
+							'game_nums' => 10,
+							'gems' => 2000,
+						
+							),
+					array(
+							'player_id' => 233,
+							'avatar' => '/assets/avatars/avatar3.png',
+							'wxname' => '李四',
+							'game_nums' => 11,
+							'gems' => 222,
+	          			
+							),
+					array(
+							'player_id' => 123,
+							'avatar' => '/assets/avatars/avatar3.png',
+							'wxname' => '王麻子',
+							'game_nums' => 12,
+							'gems' => 199,
+				       
+							),
+					);
+
+
+Template::assign ('players_num', $players_num);
+Template::assign ('playersList', $playersList);
+Template::display ( 'agentcenter/Players.tpl' );

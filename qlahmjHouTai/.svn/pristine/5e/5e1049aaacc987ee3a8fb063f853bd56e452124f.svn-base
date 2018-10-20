@@ -1,0 +1,37 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="" class="ReturnUp" name="<?echo $_GET['tx_recorde_type']?>" id="tx_recorde">返回首页</a>
+    <div class="N_Header_title" >提现记录</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <div class="N_RecordTop">
+                <div class="clearfix">
+                    <form action="toRecommendedAward#">
+                    <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="选择开始日期" readonly="readonly" />
+                    <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="选择结束日期" readonly="readonly" />
+                    <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div> 
+                    </form>      
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix">
+                <ul class="wp_full record_tit clearfix">
+                    <li class="wp_33 borderBox fl textLeft">提现金额</li>
+                    <li class="wp_33 borderBox fl textLeft">状态</li>
+                    <li class="wp_33 borderBox fl textRight">时间</li>
+                </ul>
+                <table id="example" class="threeCol" aria-describedby="example_info">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                        <!-- 不同状态颜色有区分
+                            .c_4baf43 /*绿色 可作为'成功'*/
+                            .c_ff5d20 /*橘色 可作为'失败'*/
+                            .c_039cfe /*蓝色 可作为'处理中'*/
+                        -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

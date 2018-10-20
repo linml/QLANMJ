@@ -1,0 +1,24 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url( /assets/images/agentCenter/headerBg4.png );">
+    <!-- <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a> -->
+    <div class="ReturnUp" id="inviteAgent">返回首页</div>
+    <div class="N_Header_title">邀请代理</div>
+</div>
+
+<div class="relative invite_game" id="select">
+    <img src="/assets/images/agentCenter/invite_agent_hf.png" class="wp_full invite_agent_bt0" id="selectbanner" >
+    <!-- <img src="?m=Index&c=toTG&a=agentARCode" class="invite_agent_qCode absolute"> -->
+    <div class="invite_agent_wechat absolute bold c_039cfe"><?echo $weChat?></div>
+</div>
+<div class="pop">
+    <div class="popMain">
+        <div class="popTop"></div>
+        <div class="popMiddle">
+            <p>请用系统截图工具截图并分享</p>
+        </div>
+        <div class="popBottom">
+            <span class="confirm">确认</span>
+        </div>
+    </div>
+</div>

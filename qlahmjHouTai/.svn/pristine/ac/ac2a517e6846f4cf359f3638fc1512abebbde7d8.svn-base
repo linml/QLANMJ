@@ -1,0 +1,84 @@
+<?php
+require ('../include/init.inc.php');
+
+$method = $id = $note = $page_no = $search = $agent_uid = '';
+$name = $card_number = $id_number = $phone_number = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if ($method == 'check' && ! empty ( $id )) {
+	$touch = Touch::getTouchById ( $id );
+	if ($touch && $touch['status'] == 0) {
+		$data = array (
+				'status' => 4,
+				'name' => $name,
+				'card_number' => $card_number,
+				'id_number' => $id_number,
+				'phone_number' => $phone_number 
+		);
+		$result = Touch::updateTouch ( $id, $data );
+		SysLog::addLog ( UserSession::getUserName (), '对碰', '申请提现', $id, json_encode ( $data ) );
+		$data = array (
+				'status' => 1,
+				'msg' => "申请提现成功！" 
+		);
+		
+		if (UserSession::getAgentName () != $name || UserSession::getAgentCard_number () != $card_number || UserSession::getAgentId_number () != $id_number || UserSession::getAgentPhone_number () != $phone_number) {
+			
+			UserSession::setAgentName ($name);
+			UserSession::setAgentCard_number ($card_number);
+			UserSession::setAgentId_number ($id_number);
+			UserSession::setAgentPhone_number ($phone_number) ;
+			
+			$data2 = array (
+					'name' => $name,
+					'card_number' => $card_number,
+					'id_number' => $id_number,
+					'phone_number' => $phone_number 
+			);
+			
+			Agent::updateAgentStatus ( $touch['touch_uid'], $data2 );
+			
+		}
+		
+		echo json_encode ( $data );
+		exit ();
+	} else {
+		$data = array (
+				'status' => 0,
+				'msg' => "申请提现失败！" 
+		);
+		
+		echo json_encode ( $data );
+		exit ();
+	}
+}
+
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+
+$condition = array (
+		"touch_uid" => UserSession::getAgentUid () 
+);
+$row_count = Touch::count ( $condition );
+
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+
+$earnings_infos = Touch::getAllTouch ( UserSession::getAgentUid (), $start, $page_size );
+
+$page_html = Pagination::showPager ( "mytouchlist.php?agent_uid=$agent_uid&search=$search", $page_no, $page_size, $row_count );
+
+// $agent = Agent::getAgentByAgentuid(UserSession::getAgentUid());
+// Template::assign ( 'agent', $agent );
+Template::assign ( 'AgentName', UserSession::getAgentName () );
+Template::assign ( 'AgentCard_number', UserSession::getAgentCard_number () );
+Template::assign ( 'AgentId_number', UserSession::getAgentId_number () );
+Template::assign ( 'AgentPhone_number', UserSession::getAgentPhone_number () );
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'earnings_infos', $earnings_infos );
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+
+Template::display ( 'agentcenter/mytouchlist.tpl' );

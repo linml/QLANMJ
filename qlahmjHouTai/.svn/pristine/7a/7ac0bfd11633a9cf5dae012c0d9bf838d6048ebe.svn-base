@@ -1,0 +1,115 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+
+class Home extends Base {
+	// 表名
+	private static $agent_info = 'agent_info';
+	private static $agent_account = 'agent_account';
+	private static $agent_stat_day = 'agent_stat_day';
+	private static $agent_return_log  = 'agent_return_log ';
+	private static $user_info = 'user_info';
+
+	/**
+	 * [getAgentAccountInformation 获取代理的基本信息]
+	 * @Author   李爽
+	 * @DateTime 2018-08-04T09:42:09+0800
+	 * @param    string                   $agentid [代理商ID]
+	 * @return   [type]                            [结果集]
+	 */
+	public static function getAgentAccountInformation($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql="SELECT ai.wechatname,ai.userid,ui.picfile,aa.rmb,aa.diamond/*,aa.binduser,aa.agentnum,aa.indirectuser*/ FROM ".self::$agent_info." ai,".self::$agent_account." aa,".self::$user_info." ui WHERE ai.agentid = aa.agentid AND ai.userid =  ui.userid AND ai.agentid=".$agentid;
+
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else array();
+	}
+
+	/**
+	 * [getAgentMaidByAgentId 获取代理某天返利情况]
+	 * @Author   李爽
+	 * @DateTime 2018-08-07T09:35:01+0800
+	 * @param    [type]                   $agentid [代理玩家ID]
+	 * @return   [type]                             [结果集]
+	 */
+	public static function getAgentMaidByAgentId($agentid){
+		if(empty($agentid)) return;
+		$todayMaid = self::getAgetTodayMaidByAgentId($agentid);
+		$weeksMaid = self::getAgetWeeksMaidByAgentId($todayMaid,$agentid);
+		$monthsMaid = self::getAgetWeeksMaidByAgentId($todayMaid,$agentid);
+		return array('todayMaid'=>$todayMaid,'weeksMaid'=>$weeksMaid,'monthsMaid'=>$monthsMaid);
+	}
+
+	/**
+	 * [getAgetTodayMaidByAgentId 获取今日返佣]
+	 * @Author   李爽
+	 * @DateTime 2018-08-10T18:47:29+0800
+	 * @param    [type]                   $agentid [dailiID]
+	 * @return   [type]                            [今日返佣数]
+	 */
+	public static function getAgetTodayMaidByAgentId($agentid){
+		if(empty($agentid)) return;
+		$db=self::__instance();
+		$sql="SELECT IFNULL(SUM(arl.returnrmb),0)
+			  FROM ".self::$agent_return_log ." arl 
+			  WHERE arl.agentid='".$agentid."'
+			  AND arl.addtime>str_to_date(DATE_FORMAT(NOW(),'%Y-%m-%d'), '%Y-%m-%d')";
+		return 0 + $db->query($sql)->fetchColumn();
+ 	}
+
+ 	/**
+	 * [getAgetWeeksMaidByAgentId 获取本周返佣]
+	 * @Author   李爽
+	 * @DateTime 2018-08-10T18:47:29+0800
+	 * @param    [type]                   $agentid [dailiID]
+	 * @return   [type]                            [本周返佣数]
+	 */
+	public static function getAgetWeeksMaidByAgentId($todayMaid,$agentid){
+		if(empty($agentid)||empty($todayMaid)) return;
+		$db=self::__instance();
+		$sql="SELECT IFNULL(SUM(asd.dayreturn),0)
+			  FROM ".self::$agent_stat_day." asd
+			  WHERE asd.agentid='".$agentid."'
+			  AND asd.dateid>=DATE_FORMAT(subdate(curdate(),date_format(curdate(),'%w')-1), '%Y-%m-%d')";
+		return 0 + $todayMaid+ $db->query($sql)->fetchColumn();
+ 	}
+
+ 	/**
+	 * [getAgetMonthsMaidByAgentId 获取本月返佣]
+	 * @Author   李爽
+	 * @DateTime 2018-08-10T18:47:29+0800
+	 * @param    [type]                   $agentid [dailiID]
+	 * @return   [type]                            [本月返佣数]
+	 */
+	public static function getAgetMonthsMaidByAgentId($todayMaid,$agentid){
+		if(empty($agentid)||empty($todayMaid)) return;
+		$db=self::__instance();
+		$sql="SELECT IFNULL(SUM(asd.dayreturn),0)
+			  FROM ".self::$agent_stat_day." asd
+			  WHERE asd.agentid='".$agentid."'
+			  AND asd.dateid>=DATE_FORMAT(DATE_ADD(curdate(),interval -day(curdate())+1 day), '%Y-%m-%d')";
+		return 0 + $todayMaid+ $db->query($sql)->fetchColumn();
+ 	}
+
+
+ 	/**
+ 	 * [getAgentBindInforCountbyAgentid 获取代理绑定信息数量]
+ 	 * @Author   李爽
+ 	 * @DateTime 2018-08-11T09:35:33+0800
+ 	 * @return   [type]                   [结果集]
+ 	 */
+ 	public static function getAgentBindInforCountbyAgentid(){
+ 		$agentid = UserSession::getAgentId();
+ 		if(empty($agentid))return;
+ 		$playerCount = Players::getAgentBindPlayerCount($agentid);
+ 		$agentCount = AgentCenter::getAgentBindAgentCount($agentid);
+ 		$indirectPlayerCount = AgentCenter::getAgentBindIndirectPlayerCount($agentid);
+ 		return array_merge(array('playerCount'=>$playerCount),array('agentCount'=>$agentCount,'indirectPlayerCount'=>$indirectPlayerCount));
+ 	}
+
+ 	
+
+}

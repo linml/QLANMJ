@@ -1,0 +1,100 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+
+class Players extends Base {
+	// 表名
+	private static $user_info = 'user_info';
+	private static $user_account = 'user_account';
+
+	/**
+	 * [getAgentBindPlayerCount 获取游戏玩家数量数据]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T13:35:33+0800
+	 * @param    string                   $agentId [代理ID]
+	 * @return   [type]                   [返回绑定玩家数]
+	 */
+	public static function getAgentBindPlayerCount($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$condition = ["agentid" => $agentid];
+		return 0 + $db->count(self::$user_info ,$condition);
+	}
+
+
+	/**
+	 * [getAllPlayersByAgentId 获取玩家列表数据]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T14:13:42+0800
+	 * @param    string                   $agentid   [代理ID]
+	 * @param    string                   $player    [玩家ID]
+	 * @param    string                   $start     [起始数]
+	 * @param    string                   $page_size [页大小]
+	 * @return   [type]                              [玩家列表数组]
+	 */
+	public static function getAllPlayersByAgentId($agentid='',$player='', $start = '', $page_size = ''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		if($player){
+			$where.=" AND ui.userid = ".$player;
+		}
+
+		if($agentid){
+			$where.=" AND ui.agentid = ".$agentid;
+		}
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+
+		// $sql ="select ui.nickname,ui.userid,ui.picfile,ua.diamond,ua.playnum from ".self::$user_info." ui,".self::$user_account."  ua where ui.userid=ua.userid $where $limit";
+		$sql ="select ui.nickname,ui.userid,ui.picfile,ua.diamond from ".self::$user_info." ui,".self::$user_account."  ua where ui.userid=ua.userid $where $limit";
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+	public static function getAllPlayersCountByAgentId($agentid='',$player=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$where =" where 1=1 ";
+		if($player){
+			$where.=" AND userid = ".$player;
+		}
+
+		if($agentid){
+			$where.=" AND agentid = ".$agentid;
+		}
+
+		$sql ="select count(*) from ".self::$user_info .$where;
+		return 0 + $db->query($sql)->fetchColumn ();
+	}
+
+
+	public static function getPlayerInfoByUserid($userid=''){
+		if(empty($userid)) return;
+		$db= self::__instance();
+		$sql = "select ui.nickname,ui.userid,ui.picfile,ua.diamond,ui.addtime,ui.logintime from ".self::$user_info." ui,".self::$user_account." ua where ui.userid=ua.userid AND ui.userid = ".$userid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+
+	/**
+	 * [getPlayerUnbindRelationship 解散玩家关系]
+	 * @Author   李爽
+	 * @DateTime 2018-08-13T14:09:01+0800
+	 * @param    [type]                   $userid [代理ID]
+	 * @return   [type]                            [description]
+	 */
+	public static function getPlayerUnbindRelationship($userid){
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$sql="CALL sp_user_log(".$userid.",0,2,@pu_out)";
+		$db->exec($sql);
+		return $db->query('select @pu_out')->fetch(PDO::FETCH_ASSOC)['@pu_out'];
+	}
+
+	
+
+}

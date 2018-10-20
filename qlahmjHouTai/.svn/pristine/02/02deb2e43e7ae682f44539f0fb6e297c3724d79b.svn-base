@@ -1,0 +1,45 @@
+<?php
+require ('../include/init.inc.php');
+
+$method = $type = $page_no = $agent_uid = $startDate = $endDate =$id= $msg= $money = $agentid = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($method =='reject'&&!empty($id)&&!empty($msg)&&!empty($money)&&!empty($agentid)){
+	$ispayStatus = DrawReview::getTxRecordStatusById($id);
+	if($ispayStatus['ispay']!=0) exit('{"result":"tx_already"}');
+	$rejectArray = array('msg' =>$msg,'ispay'=>2);
+	$id = DrawReview::updateTXRecordRejectMsg($id,$rejectArray);
+	if($id > 0){
+		$upDlCash = Agent::updateAgentCashToBefore($agentid,$money*100);
+		if($upDlCash > 0){
+			exit('{"result":"ok"}');
+		}
+	}
+	exit('{"result":"fail"}');
+}
+if($method =='tixianIsOk'&&!empty($id)){
+	$ispayStatus = DrawReview::getTxRecordStatusById($id);
+	if($ispayStatus['ispay']!=0) exit('{"result":"tx_already"}');
+	$arrayName = array('ispay' => 1);
+	$id = DrawReview::updateTxRecordStatusById($id,$arrayName);
+	// exit('{"method":"'.$method.'","id":"'.$id.'","msg":"'.$msg.'"'}');
+	if($id > 0)
+		exit('{"result":"ok"}');
+	exit('{"result":"fail"}');
+}
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = DrawReview::getDrawReviewCount ($agent_uid,$type,$startDate,$endDate);
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$earnings_infos = DrawReview::getDrawReview ($agent_uid,$type,$start,$page_size,$startDate,$endDate);
+
+$page_html = Pagination::showPager ( "drawreview.php?agent_uid=$agent_uid&type=$type&startDate=$startDate&endDate=$endDate", $page_no, $page_size, $row_count );
+
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'earnings_infos', $earnings_infos );
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/drawreview.tpl' );

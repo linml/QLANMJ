@@ -1,0 +1,9 @@
+<?php 
+require ('../include/init.inc.php');
+$page_no ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+$agentInfo = AgentCenter::getAgentInfoByAgentId(UserSession::getAgentId());
+
+Template::assign ('agentInfo', $agentInfo);
+Template::display ( 'agentcenter/toDrawmoney.tpl' );

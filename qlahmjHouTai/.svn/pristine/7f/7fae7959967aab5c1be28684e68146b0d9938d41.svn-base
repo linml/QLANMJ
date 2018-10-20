@@ -1,0 +1,12 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+$data = array(
+			'gems'  => 233,
+			'money' => 666,
+			'discount' => 0.0037,
+		);
+
+Template::assign ('data', $data);
+Template::display ( 'agentcenter/toDrawmoney.tpl' );

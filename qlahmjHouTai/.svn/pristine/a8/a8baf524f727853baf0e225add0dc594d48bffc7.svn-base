@@ -1,0 +1,23 @@
+<?php 
+require ('../include/init.inc.php');
+
+//获取代理ID
+$agentid = UserSession::getAgentId();
+//通过代理获取代理信息
+$userInfo = Players::getPlayerInfoByUserid(UserSession::getAgentUserId());
+
+$shareData = array('bgName'=>'invite','iconName'=>'img1',
+
+	'icon'=>array('pos'=>array('x'=>30 ,'y'=>415 ),'size'=>array('width'=>90,'height'=>90)),
+
+	'qrcodeData'=>array('url' =>'http://'.$_SERVER['HTTP_HOST'].'/share/pushbind.php?agentid='.$agentid ,'userid'=>33601,'icon_url'=>'$userInfo["picfile"]'),
+
+	'qrcode'=>array('pos'=>array('x'=>390 ,'y'=>390 ),'size'=>array('width'=>180,'height'=>180)),
+
+	'font'=> array('fontSize'=>20,'angle'=>0,'x'=>30,'y'=>540,'color'=>array('r'=>0,'g'=>0,'b'=>255,'alpha'=>75))
+);
+
+$shareImages =  PhpqrCode::getSharePlayersQrCode($shareData);
+
+Template::assign ( 'shareImages',$shareImages );
+Template::display ( 'agentcenter/toInvitePlayers.tpl' );

@@ -1,0 +1,69 @@
+<?php
+require ('../include/init.inc.php');
+// ini_set('memory_limit', '512M');
+$fromuid = $touid = $startdate = $enddate = $page_no = $roomType= $method='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+//START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no=$page_no<1?1:$page_no;
+// $row_count = OpenRecord::getOpenGameRecordCount($fromuid,$touid,$roomType,$startdate,$enddate);
+
+$total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
+$total_page=$total_page<1?1:$total_page;
+$page_no=$page_no>($total_page)?($total_page):$page_no;
+$start = ($page_no - 1) * $page_size;
+
+// if(empty($fromuid) && empty($touid) && empty($startdate) && empty($enddate) && empty($roomType)){
+// 	//存在
+// 	if(file_exists(TEMPLATE_CACHE.'openRecord.json')&&json_decode(file_get_contents(TEMPLATE_CACHE.'openRecord.json'), true)[$page_no]){
+// 		// 从文件中读取数据到PHP变量  
+// 		$json_string = file_get_contents(TEMPLATE_CACHE.'openRecord.json');  
+// 		$jsonData = json_decode($json_string,true);
+// 		if(strtotime($jsonData['timePoint'])<strtotime(date('Y-m-d'))){
+// 			$records = OpenRecord::getOpenGameRecord($fromuid,$touid,$roomType,$startdate,$enddate,$start,$page_size);
+// 			$jsonData['timePoint'] = date('Y-m-d');
+// 			$jsonData= array($page_no =>$records ,'timePoint'=>date('Y-m-d'));
+// 			$json_string = json_encode($jsonData);
+// 			file_put_contents(TEMPLATE_CACHE.'openRecord.json', $json_string);  
+// 		}
+// 		// 把JSON字符串转成PHP数组  
+// 		$records = $jsonData[$page_no];   
+// 	}else{
+// 		$records = OpenRecord::getOpenGameRecord($fromuid,$touid,$roomType,$startdate,$enddate,$start,$page_size);
+// 		// 把PHP数组转成JSON字符串  
+// 		if(file_exists(TEMPLATE_CACHE.'openRecord.json')){
+// 			$json_string = file_get_contents(TEMPLATE_CACHE.'openRecord.json');
+// 			// $jsonData = json_decode($json_string,JSON_FORCE_OBJECT);
+// 			$jsonData = json_decode($json_string,true);
+// 			$jsonData[$page_no] = $records;
+// 			$json_string = json_encode($jsonData);
+// 		}else{
+// 			// $json_string = json_encode(array($arrayData));
+// 			$arrayData = array($page_no=>$records,'timePoint'=>date('Y-m-d'));
+// 			$json_string = json_encode($arrayData);
+// 		}
+// 		// 写入文件  
+// 		file_put_contents(TEMPLATE_CACHE.'openRecord.json', $json_string);  
+// 	}
+// }else{
+// 	$records = OpenRecord::getOpenGameRecord($fromuid,$touid,$roomType,$startdate,$enddate,$start,$page_size);
+// }
+
+// if(!empty($method)&&$method=='download'){
+// 	$filename = '开房记录'.date('YmdHis');  
+// 	$header = array('创建时间','方式','房间号','游戏','局数','付费','耗钻','房主ID','微信昵称','分数');  
+// 	$index = array('time','type','room','room_type','jushu','payway','cost','userid','name','score');
+// 	$tp_recordes = OpenRecord::getOpenGameRecord($fromuid,$touid,$roomType,$startdate,$enddate);  
+// 	OpenRecord::createtable($tp_recordes,$filename,$header,$index);  
+// }
+
+// $page_html=Pagination::showPager("openRecord.php?fromuid=$fromuid&touid=$touid&roomType=$roomType&startdate=$startdate&enddate=$enddate&page_no=$page_no",$page_no,$page_size,$row_count);
+
+Template::assign ( '_REQUEST', $_REQUEST);
+Template::assign ( 'records', $records );
+
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+
+Template::display ( 'agent/openRecord.tpl' );

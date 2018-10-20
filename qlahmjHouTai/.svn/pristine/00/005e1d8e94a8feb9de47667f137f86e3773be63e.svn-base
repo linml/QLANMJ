@@ -1,0 +1,112 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class AgentCenter extends Base {
+
+	// 表名
+	private static $agent_info = 'agent_info';
+	private static $agent_account = 'agent_account';
+	private static $agent_level = 'agent_level';
+	private static $user_info = 'user_info';
+
+	/**
+	 * [getLowerAgentAndBingdingPlayer 获取下级代理和绑定玩家数量]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T16:38:51+0800
+	 * @param    string                   $agentid [代理ID]
+	 * @return   [type]                          [返回对象数组]
+	 */
+	public static function getLowerAgentAndBingdingPlayer($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql="select binduser,agentnum from " .self::$agent_account ." where agentid = ". $agentid;
+		$result =$db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result ; else return array();
+	}
+
+	/**
+	 * [getAllAgentsCountByAgentId 获取代理数]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T16:45:46+0800
+	 * @param    string                   $agentid [代理ID]
+	 * @return   [type]                            [返回代理数量]
+	 */
+	public static function getAllAgentsCountByAgentId($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$condition= array('parentid'=>$agentid);
+		return 0 + $db->count(self::$agent_info,$condition);
+
+	}
+
+
+	/**
+	 * [getAllAgentsByAgentId 获取代理下面绑定代理]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T17:08:10+0800
+	 * @param    string                   $agentid   [代理ID]
+	 * @param    string                   $start     [起始记录]
+	 * @param    string                   $page_size [页大小]
+	 * @return   [type]                              [对象数组]
+	 */
+	public static function getAllAgentsByAgentId($agentid='',$start='',$page_size=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql ="SELECT ai.agentid, ai.userid,ui.picfile,ai.wechatname,al.`name`,aa.binduser FROM ".self::$agent_info." ai , ".self::$agent_account." aa ,".self::$agent_level ." al ,".self::$user_info." ui WHERE ai.agentid = aa.agentid AND ai.levelid = al.levelid  AND ui.userid = ai.userid AND ai.parentid = $agentid $limit";
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+
+	/**
+	 * [getAgentsInfoByAgentId 获取代理信息]
+	 * @Author   李爽
+	 * @DateTime 2018-08-03T17:49:49+0800
+	 * @param    string                   $agentid [代理ID]
+	 * @return   [type]                            [代理对象数组]
+	 */
+	public static function getAgentsInfoByAgentId($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql="SELECT ui.picfile,ui.userid,ai.wechatname ,al.`name`,aa.binduser,ai.addtime,ai.logintime FROM ".self::$agent_info." ai,".self::$agent_level." al,".self::$agent_account." aa,".self::$user_info ." ui WHERE ai.agentid = aa.agentid AND ai.userid = ui.userid AND ai.levelid =al.levelid AND ai.agentid=".$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [toJudgeAgentIsExist 通过玩家ID获取代理数量]
+	 * @Author   李爽
+	 * @DateTime 2018-08-04T16:23:34+0800
+	 * @param    string                   $playerid [玩家ID]
+	 * @return   [type]                             [数量]
+	 */
+	public static function toJudgeAgentIsExist($playerid=''){
+		if(empty($playerid)) return;
+		$db = self::__instance();
+		$condition =array('userid'=>$playerid);
+		$result = $db->count(self::$agent_info,$condition);
+		if($result>0) return $result; else return false;
+	}
+
+	/**
+	 * [getUpLevelByAgentLevle 获取下级代理级别]
+	 * @Author   李爽
+	 * @DateTime 2018-08-04T16:37:36+0800
+	 * @param    string                   $levelid [代理等级]
+	 * @return   [type]                            [返回下级代理结果集]
+	 */
+	public static function getUpLevelByAgentLevle($levelid=''){
+		if(empty($levelid)) return;
+		$db = self::__instance();
+		$sql="SELECT levelid,`name` ,FLOOR(discount*100) as discount  FROM agent_level WHERE levelid >".$levelid;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+
+	}
+	
+}

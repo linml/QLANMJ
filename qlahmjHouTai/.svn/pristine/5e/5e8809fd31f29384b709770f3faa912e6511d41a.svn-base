@@ -1,0 +1,32 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class AgentsInfo extends Base {
+	// 表名
+	private static $table_name = 'agent_info';
+	// 列名
+	private static $columns = 'agentid,parentid,userid,mobilenum,pw,wechatnum,wechatname,addtime,levelid,discount,status,agentname,idcard,loginip,adminid';
+
+	public static function getTableName(){
+		return self::$table_name;
+	}
+
+	/**
+	 * [get_subordinate_agent_count description]
+	 * @Author   李龙
+	 * @DateTime 2018-08-03T09:29:18+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [下级代理和]
+	 */
+	public static function get_subordinate_agent_count($agentid){
+		$db        = self::__instance();
+		$condition = ['parentid' => $agentid];
+		$count     = $db->count(self::$table_name,$condition);
+		if($count){
+			return $count;
+		}
+		return 0;
+	}
+}

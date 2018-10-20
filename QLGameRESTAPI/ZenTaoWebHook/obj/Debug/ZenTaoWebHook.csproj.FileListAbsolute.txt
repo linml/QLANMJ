@@ -1,0 +1,12 @@
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\ZenTaoWebHook.exe.config
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\ZenTaoWebHook.exe
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\ZenTaoWebHook.pdb
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\QL.DBHelper.dll
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\QL.dll
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\Import.dll
+G:\QLGameRESTAPI\ZenTaoWebHook\bin\Debug\MySql.Data.dll
+G:\QLGameRESTAPI\ZenTaoWebHook\obj\Debug\ZenTaoWebHook.csprojAssemblyReference.cache
+G:\QLGameRESTAPI\ZenTaoWebHook\obj\Debug\ZenTaoWebHook.csproj.CoreCompileInputs.cache
+G:\QLGameRESTAPI\ZenTaoWebHook\obj\Debug\ZenTaoWebHook.csproj.CopyComplete
+G:\QLGameRESTAPI\ZenTaoWebHook\obj\Debug\ZenTaoWebHook.exe
+G:\QLGameRESTAPI\ZenTaoWebHook\obj\Debug\ZenTaoWebHook.pdb

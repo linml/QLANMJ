@@ -1,0 +1,51 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-07-31 17:44:09
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\toUpdatePassword.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:229615b602159e5b949-63150357%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'cf2919ad6fb50c4eca65be65d94b7b7894b34739' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\toUpdatePassword.tpl',
+      1 => 1532599303,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '229615b602159e5b949-63150357',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b602159e9dfd4_95441596',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b602159e9dfd4_95441596')) {function content_5b602159e9dfd4_95441596($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="javascript:history.go(-1);" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">账户安全</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <form action="javascript:;" id="passwordfrm">
+            <div class="N_AddForm N_AddForm2">
+                <dl>
+                    <dt>当前密码</dt>
+                    <dd><input type="password" id="prepsw" placeholder="请输入当前密码"></dd>
+                </dl>
+                <dl>
+                    <dt>设置密码</dt>
+                    <dd><input type="password" id="newpsw" placeholder="请输入您的新密码"></dd>
+                </dl>
+                <dl>
+                    <dt>确认密码</dt>
+                    <dd><input type="password" id="confirmpsw" placeholder="请确认您的新密码"></dd>
+                </dl>
+            </div>
+            <div class="NbcBtn"><button type="button" id="updatePsw">确认修改</button> </div>
+            </form>
+        </div>
+    </div>
+</div><?php }} ?>

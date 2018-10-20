@@ -1,0 +1,50 @@
+<?
+require ('../include/init.inc.php');
+require ('../include/class/share/jssdk.php');
+
+//判断二维码代理解析出来的代理ID是否存在
+if(empty($_REQUEST['agentid'])){var_dump("<script>alert('二维码解析有误！');</script>"); return;}
+$agentid = $_REQUEST['agentid'];
+
+//1、 判断代理ID是否有效
+if(AgentCenter::toJudgeAgentIsExistByAgentId($agentid)<=0) {var_dump("<script>alert('代理不存在！');</script>"); return;}
+
+// 2、 获取微信code 
+if(empty($_GET['code'])){
+	$redirctUrl = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+	$url = "http://lamj.qilehuyu.cn/redirect.php?redirectUrl=".$redirctUrl."&".$_SERVER["QUERY_STRING"];
+	Header("Location: $url");
+	exit();
+}
+
+if(empty($_GET['code'])) {var_dump("<script>alert('授权code获取失败！');</script>"); return;}
+
+// 3、获取微信access_token
+$acces_token = JSSDK::getAccessToken($_GET['code']);
+
+if(empty($acces_token)){var_dump("<script>alert('获取Token失败！');</script>"); return;}
+
+// 4、根据access_toke 获取用户信息
+$userInfo = JSSDK::getUserInfoByAccessToken($acces_token->access_token,$acces_token->openid);
+
+if(empty($userInfo)){var_dump("<script>alert('获取玩家信息失败！');</script>"); return;}
+
+//5、创建玩家账户
+$AUResult = JSSDK::addUserAccount($userInfo->nickname,$userInfo->sex,$agentid,$userInfo->headimgurl,$userInfo->unionid,$userInfo->openid);
+
+if($AUResult==1)
+	// 1、成功 跳转下载页面
+	var_dump("<script>alert('成功跳转！');</script>");
+else if($AUResult==0)
+	Template::display ( 'sharedownload/download.tpl' );
+	// var_dump("<script>alert('玩家已注册或者代理不存在！');</script>");
+else 
+	var_dump("<script>alert('开通玩家账号有误！');</script>");
+
+return;
+
+
+
+// 2、失败 返回失败信息
+
+

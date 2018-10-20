@@ -1,0 +1,82 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class DrawReview extends Base {
+	private static $agent_info = 'agent_info';
+	private static $agent_transfer = 'agent_transfer';
+
+	/**
+	 * [getWhere 处理参数]
+	 * @Author   李龙
+	 * @DateTime 2018-09-03T16:54:09+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getWhere($startDate,$endDate){
+		if($startDate==$enddate&&!empty($startDate)&&!empty($endDate)) $startDate = $startDate." 00:00:00";$endDate = $endDate." 23:59:59";
+		if($startDate&&$endDate) $where = " and at.addtime between '$startDate' and '$endDate' ";else $where = "";
+		return $where;
+	}
+	/**
+	 * [getDrawMoneyRecord 提现记录列表信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-08T18:02:37+0800
+	 * @param    string                   $agnetid   [代理id]
+	 * @param    string                   $startDate [开始日期]
+	 * @param    string                   $endDate   [结束日期]
+	 * @param    string                   $start     [开始页]
+	 * @param    string                   $page_size [页数]
+	 * @return   [array]                             [结果集]
+	 */
+	public static function getDrawMoneyRecord($limit='',$where=''){
+		$db = self::__instance();
+		$sql = 'SELECT
+					at.id,
+					at.rmb,
+					at.status,
+					at.addtime,
+					at.agentid,
+					ai.agentname,
+					at.dealtime,
+					ui.userid,
+					ui.nickname
+				FROM
+					agent_transfer at
+				LEFT JOIN agent_info ai ON at.agentid = ai.agentid
+				LEFT JOIN user_info ui ON ai.userid = ui.userid
+				WHERE
+					at.cashtype = "C" '.$where.'
+				ORDER BY
+					at.addtime DESC '.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result){
+			return $result;
+		}
+		return array();
+	}
+
+	/**
+	 * [getAllCount 获取数据条目数]
+	 * @Author   李龙
+	 * @DateTime 2018-08-23T10:20:38+0800
+	 * @return   [int]                              [返回整形]
+	 */
+	public static function getAllCount($where=''){
+		$db = self::__instance();
+		$sql = 'select count(id) from '.self::$agent_transfer.' at where cashtype = "C" '.$where;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	/**
+	 * [getMoneyPendingAndProcessed 查询已处理和未处理]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T11:20:38+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getMoneyPendingAndProcessed(){
+		$db = self::__instance();
+		$sql = 'select (select sum(rmb) from '.self::$agent_transfer.' where status>0 and cashtype = "C") as pending,sum(rmb) as processed from '.self::$agent_transfer.' where status = 0 and cashtype = "C"';
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+}

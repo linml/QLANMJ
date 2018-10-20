@@ -1,0 +1,22 @@
+<?php
+    require ('include/init.inc.php');
+    // $test = array(
+    //  'url' =>'好好学习天天向上！' ,
+    //  'userid'=>33601,
+    //  'icon_url'=>'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLO6XvxfFPMGeqGb79sFN2ykUEPuZiaqxT7X0RYicKluAZ0qcYNny43n2NAQmp8WlZwpcUWA8nkRn5w/132' );
+
+
+    $shareData = array('bgName'=>'invite','iconName'=>'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLO6XvxfFPMGeqGb79sFN2ykUEPuZiaqxT7X0RYicKluAZ0qcYNny43n2NAQmp8WlZwpcUWA8nkRn5w/132',
+
+    'icon'=>array('pos'=>array('x'=>99 ,'y'=>188 ),'size'=>array('width'=>95,'height'=>95)),
+
+    'qrcodeData'=>array('url' =>"http://manage.qileah.cn/share/pushbind.php?agentid=107" ,'userid'=>"850070",'icon_url'=>"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLO6XvxfFPMGeqGb79sFN2ykUEPuZiaqxT7X0RYicKluAZ0qcYNny43n2NAQmp8WlZwpcUWA8nkRn5w/132"),
+
+    'qrcode'=>array('pos'=>array('x'=>254 ,'y'=>576 ),'size'=>array('width'=>245,'height'=>245)),
+
+    'font'=> array('fontSize'=>18,'angle'=>0,'x'=>110,'y'=>303,'color'=>array('r'=>88,'g'=>42,'b'=>146,'alpha'=>0))
+);
+
+    $aa = PhpqrCode::getSharePlayersQrCode($shareData);
+    var_dump($aa);
+?>

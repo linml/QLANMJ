@@ -1,0 +1,77 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<div class="col-xs-12">
+		<form id="tab" method="post" action="" autocomplete="off" class="form-horizontal" role="form">
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">名称</label>
+				<div class="col-sm-9">
+					<input type="text" name="menu_name" value="<{$menu.menu_name}>" class="input-xlarge" required="true">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">链接 <span class="label label-important">不可重复</span></label>
+				<div class="col-sm-9">
+					<input type="text" name="menu_url" value="<{$menu.menu_url}>" class="input-xlarge" required="true" >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">所属模块</label>
+				<div class="col-sm-9">
+					<{if $menu.menu_id >100 }>
+					<{html_options name=module_id id="DropDownTimezone" class="input-xlarge" options=$module_options_list selected=$menu.module_id}>
+					<{else }>
+					<{html_options name=module_id id="DropDownTimezone" class="input-xlarge" options=$module_options_list disabled="true" selected=$menu.module_id}>
+					<{/if}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">是否左侧菜单栏显示</label>
+				<div class="col-sm-9">
+					<{html_options name=is_show id="DropDownTimezone" class="input-xlarge" options=$show_options_list selected=$menu.is_show}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">所属菜单</label>
+				<div class="col-sm-9">
+					<{html_options name=father_menu id="DropDownTimezone" class="input-xlarge" options=$father_menu_options_list selected=$menu.father_menu}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">是否有效</label>
+				<div class="col-sm-9">
+					<{html_options name=online id="DropDownTimezone" class="input-xlarge" options=$online_options_list selected=$menu.online}>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">功能类型</label>
+				<div class="col-sm-9">
+					<{html_options name=menu_type id="DropDownTimezone" class="input-xlarge" options=$type_options_list selected=$menu.menu_type}>
+				</div>
+			</div>
+
+			<input type="hidden" name="shortcut_allowed" value="1">
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">描述</label>
+				<div class="col-sm-9">
+					<textarea name="menu_desc" rows="3" class="input-xlarge"><{$menu.menu_desc}></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<button class="btn btn-info" type="submit">提交</button>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+	</div>
+</div>
+
+<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+<{include file="ace/footer.tpl" }>

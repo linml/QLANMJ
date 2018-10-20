@@ -1,0 +1,161 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+
+
+<{$osadmin_action_alert}>
+
+<{if $status!=1}>
+					
+					<{else}>
+<button class="btn btn-primary btn-lg" data-toggle="modal"
+	id="wshowMyModal">充值100，100个钻石</button>	<{/if}>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="wmyModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<input type="hidden" id="out_trade_no" name="out_trade_no" value="" />
+	<div class="modal-dialog" style="width: 330px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">请使用微信扫描 二维码以完成支付</h4>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+</div>
+<{include file="ace/footer.tpl" }>
+<!-- 页面定时检查订单状态 -->
+<script type="text/javascript">
+	var lastcode = -1;
+	var handler;
+	$(document).ready(function() {
+		//handler = setInterval(function() {
+		//	check();
+		//}, 1500);
+	});
+
+	function check() {
+		var out_trade_no = $("#out_trade_no").attr("value");
+		$.ajax({
+			type : "POST",
+			url : "wnative.php/checkorderstate",
+			data : {
+				out_trade_no : out_trade_no
+			},
+			dataType : "json",
+			success : function(result) {
+				if (result.status == 0) {
+					if (result.ostatus == -2) {
+					} else if (result.ostatus == 0) {
+						//未付款等待付款
+					} else if (result.ostatus == 1) {
+						//付款成功
+						//显示付款成功
+						clearInterval(handler);
+						$(".modal-body").empty();
+						$(".modal-body").append('付款成功');
+					} else if (result.ostatus == 2) {
+						//付款失败
+						//显示付款失败
+						clearInterval(handler);
+					} else {
+						//付款失败
+						//显示付款失败
+						clearInterval(handler);
+					}
+
+				} else {
+					//付款失败
+					//显示付款失败
+					clearInterval(handler);
+				}
+
+			},
+			error : function(XMLHttpRequest, textcode, errorThrown) {
+				//付款失败
+				clearInterval(handler);
+			}
+		});
+	}
+
+	$(function() {
+		$('#wshowMyModal')
+				.click(
+						function(e) {
+							
+
+							var param = {
+								method : 'submitOrderInfo'
+							};
+
+							// 设计提交方法
+							//param['method'] = routeUrl[curPage
+							//		+ '_method'];
+							// 终端IP
+							//param['mch_create_ip'] = '127.0.0.1';
+							// 附加信息
+							//param['attach'] = "附加信息";
+							// 订单编号
+							param['out_trade_no'] = "6651000001"
+									+ (new Date().Format('yyyyMMddHHmmss'))
+									+ (Math.floor(Math.random() * 9000) + 1000);
+							// 商品描述
+							param['body'] = "麻将钻石";							
+							// 总金额
+							param['total_fee'] = 1;							
+							
+			
+	
+		
+	
+	
+
+							$("#out_trade_no").attr("value", param['out_trade_no']);
+							$
+									.post(
+											'../WxpayAPI_php_v3/example/native.php',
+											param,
+											function(res) {
+												if (typeof (res) === 'string') {
+													res = JSON
+															.parse(res);
+												}
+												
+												
+														$(".modal-body")
+																.empty();
+														$(".modal-body")
+																.append(
+																		'<img src="http://paysdk.weixin.qq.com/example/qrcode.php?data='
+																				+ res.code_url
+																				+ '" />');
+														$("#wmyModal").modal(
+																'show');
+
+														handler = setInterval(
+																function() {
+																	check();
+																}, 1500);
+												
+
+												
+
+											});
+
+						});
+
+		$('#wmyModal').on('hide.bs.modal', function() {
+			clearInterval(handler);
+		});
+	});
+</script>

@@ -1,0 +1,23 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<div class="col-xs-12">
+		<form id="tab" method="post" action="" autocomplete="off" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<a href="order.php" class="btn btn-info" type="submit">充值100，100个钻石</a>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+	</div>
+</div>
+	
+<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+<{include file="ace/footer.tpl" }>

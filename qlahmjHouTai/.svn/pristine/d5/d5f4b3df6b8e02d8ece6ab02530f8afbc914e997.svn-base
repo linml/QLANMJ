@@ -1,0 +1,518 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class Agent extends Base {
+
+
+	// 表名
+	private static $table_name = 'agent_info';
+	// 代理后台
+	private static $columns = 'agentid,agentname,parentid, userid, mobilenum, pw, wechatnum, wechatname,addtime, logintime, levelid,discount,status,idcard,loginip,adminid';
+
+	public static function getTableName(){
+		return self::$table_name;
+	}
+
+	public static function getColumns(){
+		return self::$columns;
+	}
+
+	/**
+	 * 获取代理商总数
+	 * 
+	 * @return number
+	 */
+	public static function getAllAgentsCount($agent='', $t1Agent='',$type='') {
+		$db = self::__instance ();
+		$where =" where 1=1 ";
+		if($type){
+			$where.=" and istop = $type";
+		}
+		if($agent){
+			$where.=" and user_game_id ='$agent' or gName like'%$agent%'";
+		}
+		if($t1Agent){
+			$where.="and t1UserId = '$t1Agent' or directName like '%$t1Agent%'";
+		}
+		$sql ='select COUNT(user_game_id) as count  from (
+
+			(select s_id as s1 ,user_game_id,nickName as gName,weChat,tel,istop,addtime from pigcms_dl_users) t1 
+
+			LEFT JOIN 
+
+			(select id,user_game_id as t1UserId ,nickName as directName from pigcms_dl_users ) t2 
+
+			ON t1.s1 = t2.id
+			
+		)';
+		return 0 + ($db->query ( $sql.$where )->fetchColumn ());
+	}
+
+	/**
+	 * 获取代理商列表
+	 * 
+	 * @param string $start        	
+	 * @param string $page_size        	
+	*/
+	public static function getAllAgent($agent='',$t1Agent='', $type='', $start = '', $page_size = '') {
+		$db = self::__instance ();
+		$limit = "";
+		$where =" where 1=1 ";
+		if($type){
+			$where.=" and istop=$type ";
+		}
+		if($agent){
+			$where.=" and user_game_id ='$agent' or gName like'%$agent%'";
+		}
+		if($t1Agent){
+			$where.="and t1UserId = '$t1Agent' or directName like '%$t1Agent%'";
+		}
+
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+
+		$sql ="select user_game_id,tel as login ,gName,istop,tel,weChat, t1UserId,directName , indirectName, addtime ,status from (
+
+			(select s_id as s1 ,user_game_id,nickName as gName,weChat,tel,istop,status,addtime from pigcms_dl_users) t1 
+
+			LEFT JOIN 
+
+			(select id,s_id as s2,user_game_id as t1UserId ,nickName as directName from pigcms_dl_users ) t2 
+
+			ON t1.s1 = t2.id
+			
+			LEFT JOIN
+			
+			(select id,nickName as indirectName from pigcms_dl_users ) t3
+
+			ON t3.id = t2.s2
+		) $where order by addtime desc $limit ";
+		// echo  $sql;
+		$list = $db->query ( $sql )->fetchAll ();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	public static function getallAgents(){
+		$db=self::__instance();
+		$proceduer = "CALL GETALLAGENTS";
+
+		$result = $db->query($proceduer)->fetch(PDO::FETCH_ASSOC);
+		if ($result) {
+			return $result;
+		}
+		return array ();
+	}
+	
+	// 通过agentid 获取代理信息
+	public static function getAgentFromAgentId($agentid){
+		$db = self::__instance ();
+		if($agentid)
+			$where = " where user_game_id = $agentid ";
+
+		$sql = "select user_game_id,tel as login ,gName,istop,tel,weChat, directUserid,directName , indirectUserid,indirectName, addtime  from (
+
+			(select s_id as s1 ,user_game_id,nickName as gName,weChat,tel,istop,addtime from pigcms_dl_users) t1 
+
+			LEFT JOIN 
+
+			(select id,user_game_id as directUserid,s_id as s2,nickName as directName from pigcms_dl_users ) t2 
+
+			ON t1.s1 = t2.id
+			
+			LEFT JOIN
+			
+			(select id, user_game_id as indirectUserid ,nickName as indirectName from pigcms_dl_users ) t3
+
+			ON t3.id = t2.s2
+		) $where ";
+		$list = $db->query ( $sql )->fetch (); // self::getTableName(), self::$columns, $condition );
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//获取代理信息
+	public static function getAgentByOsaUserId($osaUserId) {
+		$db = self::__instance ();
+		$sql = "select * from pigcms_dl_users where user_game_id = $osaUserId";
+		// echo  $sql;
+		$list = $db->query ( $sql )->fetch (); // self::getTableName(), self::$columns, $condition );
+		
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//通过UID获取代理信息
+	public static function getAgentByOsaUId($uid) {
+		$db = self::__instance ();
+		$sql = "select * from pigcms_dl_users where id = $uid";
+
+		$list = $db->query ( $sql )->fetch (); 
+		
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//通过微信获取代理信息
+	public static function getAgentByWechat($wechat) {
+		$db = self::__instance ();
+		$sql = "select * from pigcms_dl_users where weChat = '$wechat'";
+		$list = $db->query ( $sql )->fetch (); 
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//通过电话获取代理信息
+	public static function getAgentByTelphone($tel) {
+		$db = self::__instance ();
+		$sql = "select * from pigcms_dl_users where tel = $tel";
+		$list = $db->query ( $sql )->fetch (); 
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//修改代理信息
+	public static function updateAgentByUserid($agent='',$data){
+		if(!$agent||!is_array($data)){
+			return ;
+		}
+		$db =self::__instance();
+		$condiction = array('user_game_id' => $agent );
+		return $db->update('pigcms_dl_users',$data,$condiction);
+	}
+
+	//重置代理登录密码
+	public static function resetPasswordByAgentId($agentid){
+		$db = self::__instance();
+		$sql = "update pigcms_dl_users set pwd = 123456 where user_game_id = ".$agentid ;
+		$db->query($sql);
+	}
+
+	//myearnings 中 获取代理返利信息
+	public static function getAllAgentFanLiByPlayer($agent ='',$topAgent='', $start = '', $page_size = '',$startDate='',$endDate=''){
+		$db = self::__instance();
+		$limit = '';
+		$where =' where 1 = 1 ';
+		if($agent){
+			$where.=" and game_uid = '$agent' or nickname like '%$agent%'";
+		}
+		if($startDate){
+			$where = $where." and date(addtime) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(addtime) <= '".$endDate."' ";
+		}
+		if($topAgent){
+			$where.=" and fx1Userid ='$topAgent' or fx1Name like '%$topAgent%' 
+
+					OR fx2Userid ='$topAgent' or fx2Name like '%$topAgent%' 
+
+					OR fx3Userid ='$topAgent' or fx3Name like '%$topAgent%' ";
+		}
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+
+		$sql = "select game_uid,nickname,traded_num,addtime, fx1Userid ,fx1Name , fx_1_num ,rd_1_money, fx1Top , fx2Userid ,fx2Name , fx_2_num ,rd_2_money,fx2Top,fx3Userid,fx3Name,fx_3_num,rd_3_money,fx3Top ,fx_4_userid,fx4Name,fx_4_num,rd_4_money ,fx_5_userid,fx5Name,fx_5_num ,rd_5_money from(
+
+			(select game_uid,floor(traded_num/100) as traded_num ,nickname,fx_1_id,round(fx_1_num/100,2) as fx_1_num,round(rd_1_money/100,2) as rd_1_money,fx_2_id,round(fx_2_num/100,2) as fx_2_num , round(rd_2_money/100,2) as rd_2_money ,fx_3_id, round(fx_3_num/100,2) as fx_3_num ,round(rd_3_money/100,2) as rd_3_money,fx_4_userid ,round(fx_4_num/100,2) as fx_4_num ,round(rd_4_money/100,2) as rd_4_money, fx_5_userid ,round(fx_5_num/100,2) as fx_5_num ,round(rd_5_money/100,2) as rd_5_money,addtime from pigcms_traded_dl_log) t1
+
+			LEFT JOIN
+
+			(select user_game_id ,istop,Cash from pigcms_dl_users) t2
+
+			ON t1.game_uid = t2.user_game_id
+
+			LEFT JOIN
+
+			(select id as fx1 ,user_game_id as fx1Userid ,nickName as fx1Name  ,istop as fx1Top from pigcms_dl_users)t3
+
+			ON t1.fx_1_id = t3.fx1
+
+			LEFT JOIN
+
+			(select id as fx2 ,user_game_id as fx2Userid ,nickName as fx2Name  ,istop as fx2Top from pigcms_dl_users) t4
+
+			ON t1.fx_2_id = t4.fx2
+
+			LEFT JOIN
+
+			(select id as fx3 ,user_game_id as fx3Userid ,nickName as fx3Name ,istop as fx3Top from pigcms_dl_users) t5
+
+			ON t1.fx_3_id = t5.fx3 
+
+			LEFT JOIN
+
+			(SELECT userid,nickname as fx4Name FROM pigcms_game_user) t6 ON t1.fx_4_userid = t6.userid
+
+			LEFT JOIN
+
+			(SELECT userid,nickname as fx5Name FROM pigcms_game_user) t7 ON t1.fx_5_userid = t7.userid
+
+
+		) $where ORDER BY addtime desc  $limit";
+		// var_dump($sql);
+		$result = $db->query($sql)->fetchAll();
+		if($result)
+			return $result;
+		return array();
+	}
+
+	//myearnings  获取代理返利数量
+	public static function getAllAgentFanLiByPlayerCount($agent='',$topAgent='',$startDate='',$endDate=''){
+		$db = self::__instance();
+		$where =" where 1=1";
+		if($agent){
+			$where.=" and game_uid = '$agent' or nickname like '%$agent%'";
+		}
+		if($startDate){
+			$where = $where." and date(addtime) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(addtime) <= '".$endDate."' ";
+		}
+		if($topAgent){
+			$where.=" and fx1Userid ='$topAgent' OR fx1Name like '%$topAgent%' 
+
+					OR fx2Userid ='$topAgent' or fx2Name like '%$topAgent%' 
+
+					OR fx3Userid ='$topAgent' or fx3Name like '%$topAgent%' ";
+		}
+		$sql ="select COUNT(game_uid) as count from(
+
+			(select game_uid ,nickname,fx_1_id,fx_2_id ,fx_3_id ,addtime from pigcms_traded_dl_log) t1
+
+			LEFT JOIN
+
+			(select id as fx1 ,user_game_id as fx1Userid ,nickName as fx1Name  from pigcms_dl_users)t3
+
+			ON t1.fx_1_id = t3.fx1
+
+			LEFT JOIN
+
+			(select id as fx2 ,user_game_id as fx2Userid ,nickName as fx2Name  from pigcms_dl_users) t4
+
+			ON t1.fx_2_id = t4.fx2
+
+			LEFT JOIN
+
+			(select id as fx3 ,user_game_id as fx3Userid ,nickName as fx3Name  from pigcms_dl_users) t5
+
+			ON t1.fx_3_id = t5.fx3
+
+		) $where";
+		// var_dump($sql);
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	//agentBinding 获取代理之间对应关系表
+	public static function getAgentBindRelationship($type){
+		$AgentBindRelationship = array();
+		$topAgents = self::getAgentsIsTop();
+		foreach ($topAgents as $key => $value) {
+			array_push($AgentBindRelationship, $topAgents[$key]);	
+		}	
+		$result['citylist']=$AgentBindRelationship;
+		return $result;
+	}	
+
+	//agentBinding 获取顶级代理数组
+	public static function getAgentsIsTop(){
+		$db = self::__instance();
+		$sql ="select id,user_game_id,nickName,istop from pigcms_dl_users WHERE istop = 1";
+		$result = $db->query($sql)->fetchAll();
+		if($result)
+			return $result;
+		return array();
+	}
+	//agentBinding 获取代理下级用户
+	public static function getAgentsJunior($uid,$type){
+		$db= self::__instance();
+		$sql="select * from pigcms_dl_users where s_id = $uid and istop = $type";
+		$result = $db->query($sql)->fetchAll();
+		if($result)
+			return $result;
+		return arrray();
+	}
+
+	//drawreview 修改拒绝提现，金额修改
+	public static function updateAgentCashToBefore($agentid,$money){
+		if(!$agentid||!$money){
+			return;
+		}
+		$db = self::__instance();
+		return $db->query("UPDATE pigcms_dl_users SET Cash = Cash + ".$money."  WHERE user_game_id = '".$agentid."'");
+	}
+
+	//删除代理
+	public static function onDeleteAgentByUserid($agent){
+		$db = self::__instance();
+		$condiction = array('user_game_id' =>$agent);
+		$result = $db->delete('pigcms_dl_users',$condiction);
+		if($result){
+			return '删除成功！';
+		}
+		return '删除失败！';
+		// $http = AGENT_C_RELATIONSHIP."setBindAgent?uid=".$agent."&agent= 0";
+		// $curl_url = self::curl_init($http);
+		// if($result) return json_encode("{'delete':'$result','curl_url':'$curl_url'}");
+	}
+
+	//改变代理绑定关系
+	public static function changeAgentRelationShip($gUserid,$agentId){
+		//1. 查询这个玩家是否是代理
+		$gameUser = self::getAgentByOsaUserId($gUserid);
+		//存在就修改上级代理对应关系
+		if(!empty($gameUser)){
+			$agent = self::getAgentByOsaUserId($agentId);
+			$gameTemp = array('s_id' =>$agent['id']);
+			self::updateAgentByUserid($gUserid,$gameTemp);
+		}
+		$http = AGENT_C_RELATIONSHIP."setBindAgent?uid=".$gUserid."&agent=".$agentId;
+		return self::curl_init($http);
+	}
+
+	//获取上级代理
+	public static function getAgentIsTopInfor($userid='',$istop=''){
+		if(empty($userid)||empty($istop)) return 'n';
+		$db = self::__instance();
+		$temp_flag = true;
+		while($temp_flag){
+			$agentid = self::getGameTopCode($userid);
+			if($userid != $agentid){
+				if($agentid){
+					$agent = self::getAgentByOsaUserId($agentid);
+					if($agent){
+						if($agent['istop']<=$istop){
+							$temp_flag = false;
+							if($agent['istop']<$istop){
+								//小于的时候，只会向上查找等级
+								return $agent;
+							}else{
+								//等于的时候只会有1 2 3 
+								$agentByUID = self::getAgentByOsaUId($agent['s_id']);
+								return $agentByUID;
+							}
+						}else{
+							$tp_top = $agent['istop'];
+							while($tp_top>=$istop){
+								$agentTopByUID = self::getAgentByOsaUId($agent['s_id']);
+								if($agentTopByUID['istop'] < $istop || !$agentTopByUID){
+									$temp_flag = false;
+									return $agentTopByUID;
+								}
+								$tp_top = $agentTopByUID['istop'] ? $agentTopByUID['istop'] : 0;
+							}
+						}
+					}
+				}
+			}else{
+				$temp_flag = false;
+				return 'e';
+			}
+		}
+	}
+
+	//查询对应关系上级
+	public static function getGameTopCode($userid =''){
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$sql ='SELECT code FROM pigcms_game_user WHERE userid = '.$userid;
+		return $db->query($sql)->fetch()['code'];
+	}
+
+	//插入代理信息
+	public static function insertToAgentsMessage($agentArray = array()){
+		if (!$agentArray || ! is_array ( $agentArray )) {
+			return false;
+		}
+		$db=self::__instance();
+		$id = $db->insert ('pigcms_dl_users', $agentArray );
+		return $id;
+	}
+
+	//roseAgentRecord 中使用 总代统计数据查询
+	public static function getRoseAgentRecordAllData($years =''){
+		if(empty($years)) return;
+		$db=self::__instance();
+		$sql= 'SELECT st_id,DATE_FORMAT(addtime,"%Y-%m") as months,ROUND(SUM(traded_num/100),2) as sumScore FROM pigcms_traded_dl_log  WHERE st_id != 0 AND YEAR(addtime) = "'.$years.'" GROUP BY st_id,months ORDER BY st_id DESC';
+		// var_dump($sql);
+		$result = $db->query($sql)->fetchAll();
+		$rose_list = self::getRoseAgentListData($years);
+		if($result){
+			return self::changeRoseAgentData($result,$rose_list);
+		}
+		return array();
+	}
+
+	public static function changeRoseAgentData($roseData=array(),$rose_list=array()){
+		$tp_roseData = array();
+		$body_i_data ='';
+		for($i= date('n'); $i>0; $i--){
+			$tp_months = date("Y-m",strtotime(date('Y-').$i));
+			$tp_rd = '';
+			$tp_rd['nowDate'] = $tp_months;
+			$tp_i = $tp_i_tp = 0 ;
+			foreach ($rose_list as $key => $value) {
+				$ok_result = false;
+				foreach ($roseData as $keys => $value) {
+					if($roseData[$keys]['months'] == $tp_months){
+						if($rose_list[$key]['st_id'] == $roseData[$keys]['st_id']){
+							$tp_rd['body_'.$rose_list[$key]['st_id']] = $roseData[$keys]['sumScore'];
+							$ok_result = true;
+						}
+					}
+				}
+				if(!$ok_result){
+					$tp_rd['body_'.$rose_list[$key]['st_id']] = 0;
+				}
+			}		
+			array_push($tp_roseData, $tp_rd);
+		}
+		return $tp_roseData;
+	}
+
+	public static function getRoseAgentListData($years=''){
+		if(empty($years)) return;
+		$db=self::__instance();
+		$sql= 'SELECT st_id ,user_game_id,nickName FROM(
+
+			(SELECT st_id FROM pigcms_traded_dl_log WHERE st_id != 0 AND YEAR(addtime) = "'.$years.'" GROUP BY st_id ) tb1
+
+			LEFT JOIN 
+
+			(SELECT id ,user_game_id,nickName FROM pigcms_dl_users ) tb2
+
+			ON tb1.st_id = tb2.id
+
+		)ORDER BY st_id DESC';
+		$result = $db->query($sql)->fetchAll();
+		if($result){
+			return $result;
+		}
+		return array();
+	}
+
+	public static function getRoseAgentListChangeData($years=''){
+		if(empty($years)) return;
+		$roseListData = self::getRoseAgentListData($years);
+		foreach ($roseListData as $key => $value) {
+			$roseListData[$key]['st_id'] = 'body_'.$roseListData[$key]['st_id'];
+		}
+		return $roseListData;
+	}	
+}

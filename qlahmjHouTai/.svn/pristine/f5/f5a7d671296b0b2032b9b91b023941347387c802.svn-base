@@ -1,0 +1,39 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class DrawMoney extends Base {
+	
+	/**
+	 * [getOnvertedDiamonds 获取返利钻石数量]
+	 * @Author   李爽
+	 * @DateTime 2018-08-08T14:02:42+0800
+	 * @param    [type]                   $money    [金额]
+	 * @param    [type]                   $discount [折扣]
+	 * @return   [type]                             [返回钻石]
+	 */
+	public static function getOnvertedDiamonds($money,$discount){
+		if(empty($money)||empty($discount)) return;
+		return 0 + ceil($money/$discount*10);
+	}
+
+	/**
+	 * [toOnvertedDiamonds 金额转钻石]
+	 * @Author   李爽
+	 * @DateTime 2018-08-08T15:29:27+0800
+	 * @param    [type]                   $money    [金额]
+	 * @param    [type]                   $discount [折扣]
+	 * @return   [type]                             [标识]
+	 */
+	public static function toOnvertedDiamonds($money,$discount){
+		if(empty($money)||empty($discount)) return;
+		$agentid = UserSession::getAgentId();
+		$diamond = self::getOnvertedDiamonds($money,$discount);
+		if(empty($agentid)||empty($diamond)) return;
+		$db = self::__instance();
+		$progress = "call sp_agent_out_diamond(".$agentid.",".$money.",".$diamond.",".(1-$discount).",@tod_out)";
+		$db->exec($progress);
+		return $db->query("select @tod_out")->fetch(PDO::FETCH_ASSOC)['@tod_out'];
+	}
+}

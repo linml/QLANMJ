@@ -1,0 +1,33 @@
+<?php
+require ('../include/init.inc.php');
+$method = $agentid = $page_no = $type = $contains = $startdate = $enddate = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+$where = AgentRebateRecord::getWhere($type,$contains);
+// START 数据库查询及分页数据
+$page_no = $page_no < 1 ? 1 : $page_no;
+$page_size = PAGE_SIZE;
+$row_count = AgentRebateRecord::getRowCount ($startdate,$enddate,$where);
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+if($page_size) $limit = " limit $start,$page_size";else $limit = '';
+$rebateList = AgentRebateRecord::getRebateSumList($start,$page_size,$startdate,$enddate,$where);
+$page_html = Pagination::showPager ( "agentRebate.php?startdate=$startdate&enddate=$enddate", $page_no, $page_size, $row_count );
+
+if($method == 'day' && !empty($agentid)){
+	$result = AgentRebateRecord::getDayData($agentid,$startdate,$enddate);
+	exit(json_encode($result));
+}
+
+if($method == 'month' && !empty($agentid)){
+	$result = AgentRebateRecord::getMonthData($agentid);
+	exit(json_encode($result));
+}
+
+Template::assign ( '_REQUEST', json_encode($_REQUEST) );
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'rebateList', $rebateList );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/agentRebateRecord.tpl' );
+

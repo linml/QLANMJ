@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>closeserver</name>
+    </assembly>
+    <members>
+        <member name="M:colseserver.Program.PostMessage(System.IntPtr,System.Int32,System.Int32,System.Int32)">
+            <summary>    
+            该函数将一个消息放入（寄送）到与指定窗口创建的线程相联系消息队列里    
+            </summary>    
+        </member>
+    </members>
+</doc>

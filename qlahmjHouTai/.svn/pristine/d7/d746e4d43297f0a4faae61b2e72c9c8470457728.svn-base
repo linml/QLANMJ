@@ -1,0 +1,55 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class ClubManage extends Base {
+	private static $friend_info = 'friend_info';
+	private static $friend_game = 'friend_game';
+	private static $friend_user = 'friend_user';
+	private static $agent_info = 'agent_info';
+
+	/**
+	 * [getWhere 筛选条件的处理]
+	 * @Author   李龙
+	 * @DateTime 2018-09-03T18:27:01+0800
+	 * @param    string                   $id       [类型]
+	 * @param    string                   $contains [内容]
+	 * @return   [type]                             [description]
+	 */
+	public static function getWhere($id='',$contains=''){
+		if(!empty($id)&&!empty($contains)) $where = " where 1=1 and $id = $contains";else $where = '';
+		return $where;
+	}
+
+	/**
+	 * [getFriendInfo 成员信息]
+	 * @Author   李龙
+	 * @DateTime 2018-09-03T18:25:24+0800
+	 * @param    string                   $where     [筛选条件]
+	 * @param    string                   $start     [开始]
+	 * @param    string                   $page_size [页数目]
+	 * @param    string                   $order     [排序]
+	 * @return   [type]                              [description]
+	 */
+	public static function getFriendInfo($where='',$start='',$page_size='',$order=''){
+		if(empty($page_size)) return;else $limit = " limit $start,$page_size";
+		if(empty($order)) $order = " order by fi.addtime";else $order = " order by members ".$order;
+		$db = self::__instance();
+		$sql = 'SELECT fi.addtime,fi.userid,ai.agentname,fi.friendid,fi.friendname,rulestr,(select count(fu.userid) from '.self::$friend_user.' fu where fu.friendid = fi.friendid) as members FROM '.self::$friend_info.' fi LEFT JOIN '.self::$friend_game.' fg ON fi.friendid = fg.friendid LEFT JOIN '.self::$agent_info.' ai ON fi.userid = ai.userid'.$where.$order.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}	
+
+	/**
+	 * [getFriendCount 获取亲友圈数目]
+	 * @Author   李龙
+	 * @DateTime 2018-09-03T18:00:56+0800
+	 * @param    [type]                   $where [筛选条件]
+	 * @return   [type]                          [返回数目]
+	 */
+	public static function getFriendCount($where){
+		$db = self::__instance();
+		$sql = 'select count(fi.friendid) from '.self::$friend_info.' fi '.$where;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+}

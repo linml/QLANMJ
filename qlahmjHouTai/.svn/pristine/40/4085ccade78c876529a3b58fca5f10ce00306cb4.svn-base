@@ -1,0 +1,6 @@
+<?php 
+require ('../include/init.inc.php');
+$userid = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+Template::assign ('userid', $userid);
+Template::display ( 'agentcenter/toGemsRecharge.tpl' );

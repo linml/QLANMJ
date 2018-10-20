@@ -1,0 +1,95 @@
+<?php
+require ('../include/init.inc.php');
+$playerid = '';
+$toplayerid = '';
+$gemsnumber = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+Template::assign ( 'status', UserSession::getAgentStatus() );
+//STools::log("\nagentStatus:");
+//STools::log(UserSession::getAgentStatus());
+// if(UserSession::getAgentStatus()!=1) {
+// 	 if(UserSession::getAgentStatus()==2)
+// 	 	OSAdmin::alert ( "error", "账户被冻结" );
+// 	 else
+// 		OSAdmin::alert ( "error", "账户未激活" );
+// 	Template::Display ( 'agentcenter/order.tpl' );
+// 	exit();
+// }
+
+$playerid = empty($playerid) ? null : intval ( $playerid );
+$userid = '';
+$name = '';
+$gems = '';
+$msg = '';
+if ($playerid) {
+	$user = Sell::getTuserByUid ( $playerid );
+	
+	if ($user) {
+		$userid = $user['userid'];
+		$name = base64_decode($user['name']) ;
+		$gems = $user['gems'];
+	} else {
+		$msg = "玩家id不存在";
+	}
+}
+
+// 玩家id必须存在 kc
+// 代理商房卡数大于转卡数 kc
+// 转卡不能转自己 kc
+// 转卡 kc
+//保存转卡记录
+Template::assign ( 'playerid', $playerid );
+if (Common::isPost ()) {
+	if(UserSession::getAgentStatus()!=1) {
+		OSAdmin::alert ( "error", "代理账户未激活，请联系管理员处理。" );
+		Template::Display ( 'agentcenter/sell.tpl' );
+		exit();
+	}
+	$agent = Sell::getTuserByUid(UserSession::getAgentUid () );
+	$exist_agent = Agent::getAgentByAgentuid ( UserSession::getAgentUid ());
+
+	if(!$agent || !$exist_agent){
+		OSAdmin::alert ( "error", "获取代理身份失败，请联系管理员处理。" );
+	}elseif($exist_agent['givegems'] != 1){
+		OSAdmin::alert ( "error", "尚未开通转钻权限，请联系管理员处理。" );
+	}
+	elseif (empty ( $toplayerid )) {
+		OSAdmin::alert ( "error", "玩家UID不存在" );
+	} elseif ($toplayerid == '玩家UID不存在') {		
+		OSAdmin::alert ( "error", "玩家UID不存在" );
+	} elseif ($gemsnumber <= 0) {
+		OSAdmin::alert ( "error", "出售钻石数必须大于0" );
+	} elseif ($toplayerid == UserSession::getAgentUid ()) {
+		OSAdmin::alert ( "error", "钻石不可以转给自己" );
+	} elseif($agent['gems']<$gemsnumber)
+	{
+		OSAdmin::alert ( "error", "出售卡数不可以大于可销售钻石数：".$agent['gems'] );
+	}
+	else {
+		$exist = Sell::getTuserByUid ( $toplayerid );
+		if ($exist) {
+			$group_data=array('AgentUid'=>UserSession::getAgentUid (),
+				'toplayerid'=>	$toplayerid,
+					'gemsnumber'=>$gemsnumber
+			);
+			Sell::SellGems( UserSession::getAgentUid (),$toplayerid,$gemsnumber);
+			sell::SellGemsRecord(UserSession::getAgentUid (),0,$toplayerid,$gemsnumber,$agent['gems']-$gemsnumber,'subtract');
+			sell::SellGemsRecord($toplayerid,0,UserSession::getAgentUid (),$gemsnumber,$exist['gems']+$gemsnumber,'add');
+			if ($result >= 0) {
+				SysLog::addLog ( UserSession::getUserName (), 'Sell::SellGems', 'sell', $group_id, json_encode ( $group_data ) );
+				Common::exitWithSuccess ( ErrorMessage::SUCCESS_SELL_GEMS_NUMBER, 'agentcenter/sell.php' );
+			} else {
+				OSAdmin::alert ( "error" );
+			}
+		} else {
+			OSAdmin::alert ( "error", "查无此玩家。" );
+		}
+	}
+}
+// $agent = Sell::getTuserByUid(UserSession::getAgentUid () );
+// Template::assign ( 'gemcount', $agent['gems'] );
+Template::assign ( 'userid', $userid );
+Template::assign ( 'name', $name );
+Template::assign ( 'gems', $gems );
+Template::assign ( 'msg', $msg );
+Template::display ( 'agentcenter/sell.tpl' );

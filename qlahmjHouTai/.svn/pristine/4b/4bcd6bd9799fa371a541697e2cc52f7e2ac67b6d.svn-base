@@ -1,0 +1,118 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class FriendsCircle extends Base {
+	private static $friend_info = 'friend_info';
+	private static $friend_user = 'friend_user';
+
+	/**
+	 * [getFriendList 朋友圈列表数据]
+	 * @Author   李龙
+	 * @DateTime 2018-08-08T13:50:52+0800
+	 * @param    string                   $userid [代理的玩家id]
+	 * @return   [array]                           [列表数据]
+	 */
+	public static function getFriendList($userid = ''){
+		if(empty($userid)) return ;
+		$db = self::__instance();
+		$sql = 'SELECT
+					fi.friendid,
+					fi.friendname,
+					fi.picpath,
+					(
+						SELECT
+							count(fu.id)
+						FROM
+							friend_user fu
+						WHERE
+							fu.friendid = fi.friendid
+					) AS countUser
+				FROM
+					friend_info fi
+				WHERE
+					userid = '.$userid;
+		$result = $db->query($sql)->fetchAll();
+		foreach ($result as $key => $value) {
+			if($result[$key]['friendid'])
+				$result[$key] = array_merge($result[$key],self::getTodayGameNumAndDiamonConsume($result[$key]['friendid']));
+		}
+		if($result) return $result;else return array();
+	}
+
+
+	/**
+	 * [getFriendTiltleInformation description]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T11:01:34+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getFriendTiltleInformation(){
+		$userid = UserSession::getAgentUserId();
+		if(empty($userid)) return;
+		$frirendCount = self::getFriendCount($userid);
+		$frirendUserCount = self::getFriendUserCount($userid);
+		$friendTableOrDiamondCount = self::getFriendTableOrDiamondCount($userid);
+		return array_merge($friendTableOrDiamondCount,array('frirendCount'=>$frirendCount,'frirendUserCount'=>$frirendUserCount));
+	}
+
+
+	/**
+	 * [getFriendCount 获取朋友圈数量]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T09:02:56+0800
+	 * @return   [type]                   [返回数量]
+	 */
+	public static function getFriendCount($userid){
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$sql = 'SELECT COUNT(fi.friendid)  FROM '.self::$friend_info.' fi  WHERE fi.userid= '.$userid;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	/**
+	 * [getFriendUserCount 获取]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T09:03:37+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getFriendUserCount($userid){
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$sql = 'SELECT COUNT(DISTINCT userid) FROM friend_user fu WHERE fu.friendid IN (SELECT friendid FROM friend_info fi WHERE fi.userid = '.$userid.' )';
+		return 0 + $db->query($sql)->fetchColumn();;
+	}
+
+	/**
+	 * [getFriendTableOrDiamondCount 获取朋友圈桌数，耗钻数]
+	 * @Author   李爽
+	 * @DateTime 2018-08-11T10:54:37+0800
+	 * @param    [type]                   $player [玩家ID]
+	 * @return   [type]                           [description]
+	 */
+	public static function getFriendTableOrDiamondCount($player){
+		if(empty($player))return;
+		$db =self::__instance();
+		$sql="SELECT IFNULL(SUM(fg.totalcnt),0) as totalcnt,IFNULL(SUM(fg.totalamt),0) AS totalamt  FROM friend_game fg WHERE fg.friendid IN (SELECT fi.friendid FROM friend_info fi WHERE fi.userid =".$player." )";
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else array();
+	}
+
+	/**
+	 * [getGameNumAndDiamonConsume 获取某个朋友圈今日消耗钻石和桌数]
+	 * @Author   李龙
+	 * @DateTime 2018-08-15T09:58:06+0800
+	 * @param    string                   $friendid [朋友圈id]
+	 * @return   [type]                             [返回结果集]
+	 */
+	public static function getTodayGameNumAndDiamonConsume($friendid=''){
+		$db = self::__instance();
+	
+		$where = ' and friendid = '.$friendid;
+		//今日游戏次数和耗钻
+		$sql = 'select totalcnt,totalamt from friend_game where DATEDIFF(addtime,NOW()) = 0'.$where;	
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+}

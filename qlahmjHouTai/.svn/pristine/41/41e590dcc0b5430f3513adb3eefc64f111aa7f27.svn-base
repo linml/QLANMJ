@@ -1,0 +1,62 @@
+<?php
+require ('../include/init.inc.php');
+$method = $uid = $page_no  = $gems = $type = $agentId=$money=$m_type='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($_POST['method']){
+	$method = $_POST['method'];
+}
+if($_POST['userid']){
+	$uid = $_POST['userid'];
+}
+if($_POST['gems']){
+	$gems = $_POST['gems'];
+}
+if(empty($type)){
+	$type = 1;
+	$_REQUEST['type'] = 1;
+}
+
+if ($method == 'getGameMessage' && ! empty ( $uid)) {
+	$exist_agent = GamePlayer::getGameUserByUserid($uid);
+	exit(json_encode($exist_agent));
+}
+if($method == 'addGems'&& !empty($uid) && !empty($gems)&&!empty($m_type)){
+	if($m_type==1&&empty($money))exit('{"result":"false"}');
+	GamePlayer::updateGameGemsByUserid($uid,$gems);
+	$order_no = date("Ymd");
+	$username = UserSession::getUserName();
+	$gemsRecord = array('from_agent' =>1008 ,'to_user'=>$uid,'item_id'=>'ITEM_GEM_DIAMOND','amount'=>$gems,'status'=>1,'order_no'=>'1008'.$order_no ,'total'=>$money,'openid'=>$m_type,'wxnick'=>$username);
+	GamePlayer::insertGameGemsRecord($gemsRecord);
+	exit('{"result":"'.$order_no.'"}');
+}
+if($method=='checkAgentIsisset'&& !empty($agentId)){
+	$agentData = Agent::getAgentByOsaUserId($agentId);
+	if($agentData){
+		exit('{"result":"'.$agentData["nickName"].'"}');
+	}
+	exit('{"result":"fail"}');	
+}
+if($method =='checkAgentRelationShip'&&!empty($uid)&&!empty($agentId)){
+	$result = Agent::changeAgentRelationShip($uid,$agentId);
+	exit('{"result":"'.$result.'"}');
+}
+
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = GamePlayer::getAllUsersCount ($uid,$type);
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$agents = GamePlayer::getAllUsers ($uid ,$type, $start, $page_size );
+$userGoupId = UserSession::getUserGroup() <= GROUP_CONFIGURE ? true : false ; 
+$page_html = Pagination::showPager ( "gameplayer.php?uid=$uid&type=$type", $page_no, $page_size, $row_count );
+
+Template::assign ( '_REQUEST', $_REQUEST);
+Template::assign ( 'agents', $agents );
+Template::assign ( 'group_judge', $userGoupId );
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+
+Template::display ( 'agent/gameplayer.tpl' );

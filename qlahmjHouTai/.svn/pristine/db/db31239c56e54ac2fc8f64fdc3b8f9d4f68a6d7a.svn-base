@@ -1,0 +1,96 @@
+<?php
+require ('../include/init.inc.php');
+
+ini_set ( 'date.timezone', 'Asia/Shanghai' );
+// error_reporting(E_ERROR);
+
+//require_once "../WxpayAPI_php_v3/lib/WxPay.Api.php";
+//require_once "../WxpayAPI_php_v3/example/WxPay.NativePay.php";
+//require_once '../WxpayAPI_php_v3/example/log.php';
+if (Common::isPost ()) {
+	$data = array (
+			'status' => 0,
+			'ostatus' => 0,
+			'msg' => '' 
+	);
+	try {
+		$postout_trade_no = $_POST ['out_trade_no'];
+		$order = Order::get_Order_By_out_trade_no ($postout_trade_no);
+		if ($order) {
+			$data ['ostatus'] = $order ['status'];
+		} else {
+			$data ['ostatus'] = -2;
+			$data ['msg'] = '订单异常';
+		}
+		echo json_encode ( $data );
+		exit ();
+	} catch ( Exception $e ) {
+		$data ['ostatus'] = - 1;
+		$data ['msg'] = '请求异常';		
+		echo json_encode ( $data );
+		exit ();
+	}
+}
+// 模式一
+/**
+ * 流程：
+ * 1、组装包含支付信息的url，生成二维码
+ * 2、用户扫描二维码，进行支付
+ * 3、确定支付之后，微信服务器会回调预先配置的回调地址，在【微信开放平台-微信支付-支付配置】中进行配置
+ * 4、在接到回调通知之后，用户进行统一下单支付，并返回支付信息以完成支付（见：native_notify.php）
+ * 5、支付完成之后，微信服务器会通知支付成功
+ * 6、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
+ */
+$notify = new NativePay ();
+// $url1 = $notify->GetPrePayUrl ( "123456789" );
+
+// 模式二
+/**
+ * 流程：
+ * 1、调用统一下单，取得code_url，生成二维码
+ * 2、用户扫描二维码，进行支付
+ * 3、支付完成之后，微信服务器会通知支付成功
+ * 4、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
+ */
+
+// 生产自定义订单数据，保存数据库
+$transaction_id = WxPayConfig::MCHID . date ( "YmdHis" );
+$uid = UserSession::getAgentUid();
+$payment = 1;
+$price = 1;
+$number = 100;
+
+$input_data = array (
+		'transaction_id' => $transaction_id,
+		'uid' => $uid,
+		'payment' => 100,//$payment,
+		'price' => $price,
+		'number' => $number,
+		'status' => 0,
+		'payment_way' => "weixin",
+		'proportion_status' => 0 
+);
+$oid = Order::addOrder ( $input_data );
+
+$Attach = "{'oid':$oid,'transaction_id':$transaction_id}";
+
+$input = new WxPayUnifiedOrder ();
+$input->SetBody ( "购买钻石" ); // 确认交易title
+$input->SetAttach ( $Attach ); // 设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+$input->SetOut_trade_no ( $transaction_id ); // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号。如：139442440220170324110801
+$input->SetTotal_fee ( $payment ); // 支付金额分
+$input->SetTime_start ( date ( "YmdHis" ) );
+$input->SetTime_expire ( date ( "YmdHis", time () + 600 ) );
+$input->SetGoods_tag ( "t" ); // 设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+$input->SetNotify_url ( "http://paysdk.weixin.qq.com/example/notify.php" ); // 设置接收微信支付异步通知回调地址http://paysdk.weixin.qq.com/example/notify.php
+$input->SetTrade_type ( "NATIVE" );
+$input->SetProduct_id ( "123456789" );
+$result = $notify->GetPayUrl ( $input );
+$url2 = $result ["code_url"];
+
+Template::assign ( 'oid', $oid );
+Template::assign ( 'url2', $url2 );
+Template::Display ( 'agentcenter/native.tpl' );
+
+
+

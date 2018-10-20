@@ -1,0 +1,13 @@
+<?php 
+require ('../include/init.inc.php');
+
+$data = array('avatar' => '/assets/images/agentCenter/img1.png', 
+			  'name' => '王富贵', 
+	          'id' => 23160, 
+	          'grade' => '1', 
+			);
+
+$agentid = UserSession::getAgentId();
+// $result  = Mine::getAgentInfo($agentid);
+Template::assign ('data', $data);
+Template::display ( 'agentcenter/Mine.tpl' );

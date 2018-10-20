@@ -1,0 +1,108 @@
+<?php
+require ('../include/init.inc.php');
+$method = $page_no = $agent_type = $agent= $t1agent= $userid = $gUserid = $rose_type = $flowpoint ='' ;
+// 设置一级代理
+
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($_POST['method']){
+	$method = $_POST['method'];
+}
+if($_POST['agentid']){
+	$agent = $_POST['agentid'];
+}
+
+if ($method == 'getAgentInfor' && ! empty ( $agent)) {
+
+	$result = Agent::getAgentFromAgentId ( $agent);
+	
+	exit(json_encode($result));
+}
+
+if($method =='resetPassword' && !empty($agent)){
+	Agent::resetPasswordByAgentId($agent);
+	exit();
+} 
+
+if($method=='deleteAgent'&&!empty($agent)){
+	$data = Agent::onDeleteAgentByUserid($agent);
+	exit($data);
+}
+
+if($method =='changeAgentRelationShip'&&!empty($gUserid)&&!empty($agent_type)&&!empty($rose_type)){
+	//1.检测等级是否修改和返利点设置
+	$agent_t = Agent::getAgentByOsaUserId($gUserid);
+	if($agent_t){
+		$condition=array();
+		if($agent_t['istop']!=$agent_type){
+			$condition = array_merge($condition,array('istop' => $agent_type));
+			$r1_st = '等级';
+		}
+		if($rose_type==2){
+			if(!empty($flowpoint)){
+				$condition = array_merge($condition,array('rose_type' => ($rose_type - 1),'flowpoint'=>$flowpoint));
+				if(empty($r1_st)){
+					$r2_st = '返利点';
+				}else{
+					$r2_st = '和返利点';
+				}
+			}else{
+				exit('{"result":"代理设置的返利点为NULL！"}');
+			}
+		}
+		$UpdateResult = Agent::updateAgentByUserid($gUserid,$condition);
+		if($UpdateResult>0)
+			$curl_url ="代理".$r1_st.$r2_st."修改成功！";
+		else
+			$curl_url="代理".$r1_st.$r2_st."修改失败！";
+	}
+	//2.解除关系
+	if(!empty($agent)&&!empty($userid)){
+		if($agent==1)
+			$agent -= 1;
+		$http = AGENT_C_RELATIONSHIP."setBindAgent?uid=".$userid."&agent= ".$agent;
+		$curl_url = self::curl_init($http);
+	}
+	exit('{"result":"'.$curl_url.'"}');
+}else if ($method == 'openAgent' && ! empty ( $agent )) {
+	$data = array (
+			'status' => 1 
+	);
+	$result = Agent::updateAgentByUserid ( $agent, $data );
+	
+	if ($result) {
+		SysLog::addLog ( UserSession::getUserName (), '自由', '打开代理', $agent, json_encode ( $data ) );
+		Common::exitWithSuccess ( '您已放飞梦想,自由飞翔吧！',  "agent/agent.php?agent_type=$agent_type&t1agent=$t1agent");
+	}
+} else if ($method == 'closeAgent' && ! empty ( $agent )) {
+	$data = array (
+			'status' => 0 
+	);
+	$result = Agent::updateAgentByUserid ( $agent, $data );
+	if ($result) {
+		SysLog::addLog ( UserSession::getUserName (), '禁锢', '禁锢代理', $agent, json_encode ( $data ) );
+		Common::exitWithSuccess ( '您已被放入牢中,请自首！',  "agent/agent.php?agent_type=$agent_type&t1agent=$t1agent");
+	}
+}
+
+// START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = Agent::getAllAgentsCount ($agent,$t1agent,$agent_type);
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$agents = Agent::getAllAgent ($agent,$t1agent,$agent_type, $start, $page_size );
+$userGoupId = UserSession::getUserGroup() <= GROUP_CONFIGURE ? true : false ; 
+
+$page_html = Pagination::showPager ( "agent.php?agent=$agent&t1agent=$t1agent&agent_type=$agent_type", $page_no, $page_size, $row_count );
+
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'agents', $agents );
+Template::assign ( 'group_judge', $userGoupId );
+Template::assign ( 'user_name', UserSession::getUserName());
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+
+Template::display ( 'agent/agent.tpl' );

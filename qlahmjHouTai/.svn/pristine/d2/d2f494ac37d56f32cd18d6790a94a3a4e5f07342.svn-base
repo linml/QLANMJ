@@ -1,0 +1,131 @@
+<?php
+	require 'config/config.inc.php';
+	require "lib/SConsole.class.php";
+
+	if(IS_DEV){
+		error_reporting(E_ALL ^ E_NOTICE);
+	}else{
+		error_reporting(E_ERROR);
+	}
+	session_start ();
+	function OSAdminAutoLoad($classname) {
+
+
+		$filename = str_replace ( '_', '/', $classname ) . '.class.php';
+		// class类
+		$filepath = ADMIN_BASE_CLASS . $filename;
+		if (file_exists ( $filepath )) {
+			return include $filepath;
+		} else {
+			// 仅对Class仅支持一级子目录
+			// 如果子目录中class文件与CLASS根下文件同名，则子目录里的class文件将被忽略
+			$handle = opendir ( ADMIN_BASE_CLASS );
+			while ( false !== ($file = readdir ( $handle )) ) {
+				if (is_dir ( ADMIN_BASE_CLASS . "/" . $file )) {
+					$filepath = ADMIN_BASE_CLASS . "/" . $file . "/" . $filename;
+					if (file_exists ( $filepath )) {
+						return include $filepath;
+					}
+				}
+			}
+		}
+
+		// lib库文件
+		$filepath = ADMIN_BASE_LIB . $filename;
+
+		if (file_exists ( $filepath )) {
+			return include $filepath;
+		}
+		// var_dump($filepath);
+		throw new Exception ( $filepath . ' NOT FOUND!' );
+	}
+	spl_autoload_register ( 'OSAdminAutoLoad' );
+
+	//设置时区
+	if (! isset ( $_SESSION['osa_timezone'] )) {
+		$timezone = System::get ( 'timezone' );
+		$_SESSION['osa_timezone'] = $timezone;
+	}
+	date_default_timezone_set ( $_SESSION['osa_timezone'] );
+
+	//不需要登录就可以访问的链接地址配置
+	$no_need_login_page = array (
+			"/block.php",
+			"/panel/login.php",
+			// "/panel/agentLogin.php",
+			"/panel/loginwx.php",
+			"/panel/logout.php",
+			"/panel/register.php",
+			"/api/weixinnotify.php",
+			"/api/index.php",
+			"/WxpayAPI_php_v3/example/native.php",
+			"/WxpayAPI_php_v3/example/notify.php",
+			"/payInterface/request.php",
+			"/agentcenter/horder.php",
+			"/share/pushbind.php",
+			"/share/showqrcode.php",
+			"/share/download.php",
+			"/agentcenter/szhuyu.php",
+			"/szhuyu/native.php",
+			"/szhuyu/notify.php",
+			"/sharedownload/index.php",
+			"/sharedownload/test.php",
+			"/sharedownload/t.php",
+			"/api/qrcode.php",
+			"/api/ioscallback.php",
+			"/mycode/index.php",
+			"/api/ai.php",
+			"/pay/wxCash.php"
+	); 
+
+
+	// 获取当前访问的链接 类似/panel/login.php
+	$action_url = Common::getActionUrl ();
+
+	if (Common::checkNoNeedLogin ( $action_url, $no_need_login_page )===false){
+		$menu = MenuUrl::getMenuByUrl($action_url);
+		$menu_type = $menu['menu_type']==1?ADMIN:($menu['menu_type']==2?AGENT:'');
+		// $menu_type='exitSystem';
+		switch ($menu_type) {
+			case ADMIN:
+					//管理后台 
+					if (empty( $_SESSION[UserSession::SESSION_NAME] )) {
+						$user_id = User::getCookieRemember(ADMIN);
+						if ($user_id > 0) {
+							User::loginDoSomething(ADMIN,$user_id);
+						}
+					}
+				break;
+
+			case AGENT:
+					//代理后台 
+					if (empty( $_SESSION[UserSession::SESSION_NAME_AGENT] )) {
+						$agent_id = User::getCookieRemember(AGENT);
+						if ($agent_id > 0) {
+							User::loginDoSomething(AGENT,$agent_id);
+						}
+					}
+				break;
+			default:
+				break;
+		}
+
+		User::checkLogin ($menu_type);
+		if($menu_type==ADMIN){
+			User::checkActionAccess ();
+			// 如果非ajax请求
+			if (stripos ( $_SERVER['SCRIPT_NAME'], "/ajax" ) === false) {
+				// 显示菜单、导航条
+				$sidebar = SideBar::getTree ();
+				// $menu = MenuUrl::getMenuByUrl($action_url);
+				//ob_get_clean(); //在这之前可能输出了什么东西 导致页面高度异常 此函数可将其清空
+				Template::assign ( 'page_title', $menu['menu_name'] );
+				Template::assign ( 'content_header', $menu );
+				Template::assign ( 'sidebar', $sidebar );
+				Template::assign ( 'current_module_id', $menu['module_id'] );
+				Template::assign ( 'user_info', UserSession::getSessionInfo () );
+				Template::assign ( 'isMobile', MobileDetect::checkMobile() );
+			}
+		}
+	}
+?>

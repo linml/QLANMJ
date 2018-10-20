@@ -1,0 +1,17 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+class OpenRecord extends Base {
+	
+	private static $gameroom_info = 'gameroom_info';
+	
+
+	public static function getWhere(){
+
+	}
+
+	public static function getGameRoomList($start,$page_size,$where){
+		if($page_size) $limit = " limit $start,$page_size";
+		$db = self::__instance();
+		$sql = '';
+	}
+}

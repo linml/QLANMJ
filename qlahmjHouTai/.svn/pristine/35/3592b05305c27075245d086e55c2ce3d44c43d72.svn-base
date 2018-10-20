@@ -1,0 +1,10 @@
+<?php
+	require ('include/init.inc.php');
+	$page_no ='';
+	extract ( $_REQUEST, EXTR_IF_EXISTS );
+    // $result = OpenAgents::getValidatePlayerByAgentId(104,1);
+	//1、判断此玩家是否是代理
+	$agentCount = AgentCenter::getUPLevelByAgentLevle(1);
+	var_dump($agentCount);
+	exit();
+?>

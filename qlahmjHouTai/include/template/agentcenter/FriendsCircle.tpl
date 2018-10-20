@@ -1,0 +1,67 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <div class="N_Header_title">亲友圈</div>
+    
+</div>
+<!-- <div class="btn_invite fixed top8 left0">开通代理</div> -->
+<div class="N_Wrap bottm60" style="margin-top: 50px">
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop clearfix mgTp1A" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft20 c_fff"><{$friendTitleInfo.frirendCount}></p>
+                  <p class="c_fff ft14">我的亲友圈</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft20 c_fff"><{$friendTitleInfo.frirendUserCount}></p>
+                  <p class="c_fff ft14">累计成员数</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft20 c_fff"><{$friendTitleInfo.totalcnt}></p>
+                  <p class="c_fff ft14">累计桌数</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft20 c_fff"><{$friendTitleInfo.totalamt}></p>
+                  <p class="c_fff ft14">累计消耗</p>
+                </div>
+            </div>
+            <div class="record_wrap clearfix  wp_94 mgTp3A">
+                <ul>
+                  <{foreach $friendscirclesList as $friendscircle}>
+                  <li class="relative C_wh_80 bgc_fff mgb10">
+                      <img src="/assets/images/agentCenter/bg6c.png">
+                       <div class="absolute N_IndexC3_tit" style="top:4%">亲友圈ID:&nbsp;&nbsp;<i><{$friendscircle.friendid}></i></div>
+                      <div class="wxavatar absolute left5 top20 gamebox">
+                        <img src="<{$friendscircle.picpath|default:'/assets/images/agentCenter/img1.png'}>">
+                      </div>
+                      <div class="absolute f_return left4 top97">
+                       <{$friendscircle.friendname}>
+                      </div>
+                      <div class="absolute left33 top31 wp_50 hp_60" style="padding-top: 2%">
+                        <div class="floatL hp_50 ft20"><{round($friendscircle.totalcnt)}></div>
+                        <div class="f_return absolute left_10 top70">今日桌数</div>
+                      </div>
+
+                      <div class="absolute left60 top31 wp_50 hp_60" style="padding-top: 2%">
+                        <div class="floatL hp_50 ft20"><{round($friendscircle.totalamt)}></div>
+                        <div class="f_return absolute left_10 top70">今日耗钻</div>
+                      </div>
+                      <div class="absolute left89 top15">
+                        <a href="/agentCenter/friendscircleinfo.php?friendid=<{$friendscircle.friendid}>">
+                        <img src="/assets/images/agentCenter/singlearrow.svg" width="20" height="80" style="padding-top:30px">
+                        </a>
+                      </div>
+                      <i class="absolute left70 top4">
+                        <img src="/assets/images/agentCenter/group.svg" width="20" height="20">
+                        <span class="f_return">成员:<{$friendscircle.countUser}>人</span>
+                      </i>
+                  </li>
+                  <{/foreach}>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<{include file = "simple_footer.tpl"}>

@@ -1,0 +1,102 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <!-- <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a> -->
+    <div class="N_Header_title">玩家</div>
+    <!--<a href="/dlIndex.php?m=Index&c=toMyGameUser&a=topidusers" class="N_czMore">玩家贡献明细</a>-->
+</div>
+<div class="N_Wrap bottm60" >
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="N_agentTopNum"><span id="usercount"><{$players_num}></span></div>
+                <div class="N_agentTopT1">我的玩家人数</div>
+            </div>
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                    <form action="" method="POST">
+                        <div class="clearfix">
+                             <input type="text" class="N_agentIpt MyAgent_input fl" placeholder="请输入玩家ID"  id="userid" min="0" name="userid">
+                             <div class="N_RecordSub MyAgent_search fl"><button id="search" type="submit">查询</button></div> 
+                        </div>
+                    </form>      
+                </div>
+            </div>
+
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix  wp_94 mgTp3A">
+                <ul>
+                  <{foreach $playersList as $player}>
+                  <li class="relative C_wh bgc_fff mgb10">
+                      <img src="/assets/images/agentCenter/bg6.png">
+                       <div class="absolute N_IndexC3_tit">游戏ID:&nbsp;&nbsp;<i><{$player.userid}></i></div>
+                      <div class="wxavatar absolute left5 top20">
+                        <!-- <img src="/assets/avatars/avatar3.png" width="45" height="45"> -->
+                        <img src="<{$player.picfile}>" width="45" height="45">
+                      </div>
+                      <div class="absolute f_return left5 top97"><{$player.nickname}></div>
+                      <div class="absolute ft20 left32 top43"><{$player.playnum}></div>
+                      <div class="absolute f_return left30 top97">游戏次数</div>
+                      <div class="absolute ft20 top43 left49"><{round($player.diamond)}></div>
+                      <div class="absolute f_return top97 left50">钻石</div>
+                      <div class="absolute left70 top54 bTn"><a class="c_fff" href="/agentCenter/gemsrecharge.php">充值</a></div>
+                      <div class="absolute left89 top54">
+                        <a href="/agentCenter/playersinfo.php" onclick="">
+                          <img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30">
+                        </a>
+                      </div>
+                  </li>
+                  <{/foreach}>
+                </ul>
+
+                <{$page_html}>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<{include file = "simple_footer.tpl"}>
+
+<script type="text/javascript">
+  // function searchPlayers(userid){
+  //   $.ajax({
+  //     url:"/agentCenter/players.php",
+  //     data:{
+  //       userid:userid
+  //     },
+  //     type:'POST',
+  //     dataType:'',
+  //     success:function(data){
+  //       console.log("查询成功");
+  //     },
+  //     error:function(){
+  //       alert("请核对玩家ID");
+  //     }
+  //   });
+  // }
+  // $(function(){
+  //   var $search = $('#userid')
+
+  //   $('#search').click(function(){
+  //     if($("#userid").attr("value")== ''){
+  //       // alert("请输入用户id")
+  //       return false
+  //     }else{
+  //       $.ajax({
+  //         type:"POST",
+  //         url:"/agentCenter/players.php",
+  //         data:{
+  //           search:$search.val()
+  //         },
+  //         dataType:'',
+  //         success:function(data){
+  //           console.log("success")
+  //         }
+  //         error:function(data){
+  //           console.log("error")
+  //         }
+  //       })
+  //     }
+  //   })
+  // })
+</script>

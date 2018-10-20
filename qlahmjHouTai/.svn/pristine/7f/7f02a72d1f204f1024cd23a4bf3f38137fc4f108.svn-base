@@ -1,0 +1,41 @@
+<?php
+require ('../include/init.inc.php');
+
+
+$user_group = $method = $user_name = $user_id = $page_no = $search = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+
+$page_size = PAGE_SIZE;
+$page_no=$page_no<1?1:$page_no;
+
+
+$row_count = Agent::get_tuiguang_detaile_count (UserSession::getAgentUid());
+
+$total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
+$total_page=$total_page<1?1:$total_page;
+$page_no=$page_no>($total_page)?($total_page):$page_no;
+$start = ($page_no - 1) * $page_size;
+
+$earnings_infos = Agent::get_tuiguang_detaile ( UserSession::getAgentUid(),$start , $page_size  );
+
+$page_html=Pagination::showPager("tuiguangdetaile.php",$page_no,$page_size,$row_count);
+
+$agent = Agent::getAgentByAgentuid(UserSession::getAgentUid());
+Template::assign ( 'agent', $agent );
+
+Template::assign ( 'earnings_infos', $earnings_infos );
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+
+
+Template::assign ( 'tips', "" );
+if(UserSession::getAgentStatus()!=1) {
+
+	Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+}
+
+Template::Display ( 'agentcenter/tuiguangdetaile.tpl' );
+
+
+

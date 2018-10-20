@@ -1,0 +1,113 @@
+<?php
+require ('../include/init.inc.php');
+
+
+$user_group = $method = $user_name = $user_id = $page_no = $search = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+$agent = Agent::getAgentByAgentuid(UserSession::getAgentUid());
+if($agent){
+	$agent_uid = $agent['agent_uid'];
+	$osa_uid = $agent['osa_user_id'];
+}else{
+	echo '系统错误 uid：' . UserSession::getAgentUid();
+	exit();
+}
+
+//代理信息
+Template::assign ( 'agent', $agent );
+
+//今天
+$today           = date("Y-m-d");
+//昨天
+$yesterday       = date("Y-m-d", strtotime(date("Y-m-d"))-86400);
+//上周
+$lastweek_start  = date("Y-m-d",mktime(0, 0, 0, date("m"), date("d")-date("w")+1-7, date("Y")));
+$lastweek_end    = date("Y-m-d",mktime(23, 59, 59, date("m"), date("d")-date("w")+7-7, date("Y")));
+//本周
+$thisweek_start  = date("Y-m-d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1, date("Y"))); 
+$thisweek_end    = date("Y-m-d",mktime(23, 59, 59, date("m"), date("d")-date("w")+7, date("Y"))); 
+//上月
+$lastmonth_start = date("Y-m-d",mktime(0, 0, 0, date("m")-1, 1, date("Y"))); 
+$lastmonth_end   = date("Y-m-d",mktime(23, 59, 59, date("m"), 0, date("Y"))); 
+//本月
+$thismonth_start = date("Y-m-d",mktime(0, 0, 0, date("m"), 1, date("Y"))); 
+$thismonth_end   = date("Y-m-d",mktime(23, 59, 59, date("m"), date("t"), date("Y"))); 
+
+//查询1级发展人数
+$tuiguangCount = array ();
+$tuiguangCount['today1'] =     Agent::getChidrenCountByLevel($agent_uid,1,$today,$today);
+$tuiguangCount['yesterday1'] = Agent::getChidrenCountByLevel($agent_uid,1,$yesterday,$yesterday);
+$tuiguangCount['thismonth1'] = Agent::getChidrenCountByLevel($agent_uid,1,$thismonth_start,$thismonth_end);
+$tuiguangCount['lastmonth1'] = Agent::getChidrenCountByLevel($agent_uid,1,$lastmonth_start,$lastmonth_end);
+
+//2级发展人数 大于一级提成则显示
+if($agent['agent_type'] != 4){
+	$tuiguangCount['today2'] =     Agent::getChidrenCountByLevel($agent_uid,2,$today,$today);
+	$tuiguangCount['yesterday2'] = Agent::getChidrenCountByLevel($agent_uid,2,$yesterday,$yesterday);
+	$tuiguangCount['thismonth2'] = Agent::getChidrenCountByLevel($agent_uid,2,$thismonth_start,$thismonth_end);
+	$tuiguangCount['lastmonth2'] = Agent::getChidrenCountByLevel($agent_uid,2,$lastmonth_start,$lastmonth_end);
+}
+
+//3级发展人数 大于二级提成则显示
+if($agent['agent_type'] == 3 || $agent['agent_type'] == 1){
+	$tuiguangCount['today3'] =     Agent::getChidrenCountByLevel($agent_uid,3,$today,$today);
+	$tuiguangCount['yesterday3'] = Agent::getChidrenCountByLevel($agent_uid,3,$yesterday,$yesterday);
+	$tuiguangCount['thismonth3'] = Agent::getChidrenCountByLevel($agent_uid,3,$thismonth_start,$thismonth_end);
+	$tuiguangCount['lastmonth3'] = Agent::getChidrenCountByLevel($agent_uid,3,$lastmonth_start,$lastmonth_end);
+}
+
+//全部发展人数
+$tuiguangCount['all1']= Agent::getChidrenCountByLevel($agent_uid,1,null,null);
+if($agent['agent_type'] != 4){
+	$tuiguangCount['all2'] = Agent::getChidrenCountByLevel($agent_uid,2,null,null);
+}
+if($agent['agent_type'] == 3 || $agent['agent_type'] == 1){
+	$tuiguangCount['all3'] = Agent::getChidrenCountByLevel($agent_uid,3,null,null);
+}
+Template::assign('tuiguangCount', $tuiguangCount);
+
+//收益情况
+$profit = array();
+$profit['today']     = Agent::getProfitByDate($agent_uid, $today, $today);
+$profit['yesterday'] = Agent::getProfitByDate($agent_uid, $yesterday, $yesterday);
+$profit['thismonth'] = Agent::getProfitByDate($agent_uid, $thismonth_start, $thismonth_end);
+$profit['lastmonth'] = Agent::getProfitByDate($agent_uid, $lastmonth_start, $lastmonth_end);
+//$profit['all'] = Agent::getProfitByDate($osa_uid,null,null);
+Template::assign( 'profit', $profit );
+
+//充值情况
+$payment = array();
+//1级
+$payment['today1'] = Agent::getPayment4G1($agent_uid,$today,$today);
+$payment['yesterday1'] = Agent::getPayment4G1($agent_uid,$yesterday,$yesterday);
+$payment['thismonth1'] = Agent::getPayment4G1($agent_uid,$thismonth_start,$thismonth_end);
+$payment['lastmonth1'] = Agent::getPayment4G1($agent_uid,$lastmonth_start,$lastmonth_end);
+//2级
+if($agent['agent_type'] != 4){
+	$payment['today2'] = Agent::getPayment4G2($agent_uid,$today,$today);
+	$payment['yesterday2'] = Agent::getPayment4G2($agent_uid,$yesterday,$yesterday);
+	$payment['thismonth2'] = Agent::getPayment4G2($agent_uid,$thismonth_start,$thismonth_end);
+	$payment['lastmonth2'] = Agent::getPayment4G2($agent_uid,$lastmonth_start,$lastmonth_end);
+}
+//3级
+if($agent['agent_type'] == 3 || $agent['agent_type'] == 1){
+	$payment['today3'] = Agent::getPayment4G3($agent_uid,$today,$today);
+	$payment['yesterday3'] = Agent::getPayment4G3($agent_uid,$yesterday,$yesterday);
+	$payment['thismonth3'] = Agent::getPayment4G3($agent_uid,$thismonth_start,$thismonth_end);
+	$payment['lastmonth3'] = Agent::getPayment4G3($agent_uid,$lastmonth_start,$lastmonth_end);
+}
+//历史所有
+$payment['all1']= Agent::getPayment4G1($agent_uid,null,null);
+$payment['all2']= Agent::getPayment4G2($agent_uid,null,null);
+$payment['all3']= Agent::getPayment4G3($agent_uid,null,null);
+Template::assign ( 'payment', $payment );
+
+//提示消息
+Template::assign ( 'tips', "" );
+if(UserSession::getAgentStatus() != 1) {
+	Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+}
+Template::Display ( 'agentcenter/summary.tpl' );
+
+
+

@@ -1,0 +1,229 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-13 17:36:29
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\toRebateRecord.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:113655b71430d121d04-61072224%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '36558f226d372d0982becaab3301d6856e933408' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\toRebateRecord.tpl',
+      1 => 1534146370,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '113655b71430d121d04-61072224',
+  'function' => 
+  array (
+  ),
+  'variables' => 
+  array (
+    'rebateRecordList' => 0,
+    'record' => 0,
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b71430d168215_39314866',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b71430d168215_39314866')) {function content_5b71430d168215_39314866($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<style type="text/css">
+    .demo {
+        height: 35px;
+        margin: 15px 0;
+        display: flex;
+        display: -webkit-flex;
+        display: -moz-flex;
+    }
+    
+    .demo >input {
+        display: block;
+        border: 0;
+        border-radius: 3px;
+        padding: 0 8px;
+        height: 75%;
+        flex: 1;
+        -webkit-flex: 1;
+        -moz-flex: 1;
+        font-size: 14px;
+        width:75%;
+        background-color: transparent;
+    }
+    
+    .demo >button {
+        background-color: #00c599;
+        color: #fff;
+        border: 0;
+        height: 100%;
+        margin-left: 8px;
+        padding: 0 15px;
+        border-radius: 3px;
+        font-size: 14px;
+    }
+    </style>
+<div class="pdlr20" style="margin-top: 50px">
+<div class="N_Header" style="background-image:url( /assets/images/agentCenter/headerBg4.png );">
+    <a href="/agentCenter/mine.php" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">佣金记录</div>
+</div>
+
+<div class="CM">
+	<div class="C_wh pdT15 relative" style="margin-bottom: 3%">
+		<p class="ft20 mgB10">2017年7月</p>
+		<div class="ft16">
+		<span>支出:<i>200</i>元</span>
+		<span>收入:<i>200</i>元</span>
+		</div>
+		<div class="relative S_wh bgc_0d86e6 round absolute top22 right1" id="dateSelectorOne">
+			<div class="demo">
+                <form id="form" method="POST" action="">
+                <input class="absolute left12 top12"  type="hidden" name="startDate" id="startDate">
+    			<input class="absolute left12 top12"  type="hidden" name="endDate" id="endDate">
+                </form>
+    			<img class="absolute mCenter mg_lt" src="/assets/images/agentCenter/date.svg" width="30" height="30" id="">
+			</div>
+		</div>
+	</div>
+	<ul class="">
+        <?php  $_smarty_tpl->tpl_vars['record'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['record']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['rebateRecordList']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['record']->key => $_smarty_tpl->tpl_vars['record']->value) {
+$_smarty_tpl->tpl_vars['record']->_loop = true;
+?>
+        <?php if ($_smarty_tpl->tpl_vars['record']->value['fundtype']==83) {?>
+        <li class="relative C_wh bgc_fff" style="margin-top: 2%">
+            <div class="S_wh round bgc_red f_get absolute top15 left5" style="font-style: inherit;text-indent: 16px;font-size:32px ">支</div>
+            <div class="C_wh72 floatR B_b_bfbfbf">
+            <div class="floatL">
+                <p class="f_shop">余额进<?php echo round($_smarty_tpl->tpl_vars['record']->value['diamond']);?>
+钻</p>             
+                <p class="f_return" style="text-align: left">[代理进钻]</p>    
+            </div>
+            <div class="floatR">
+                <input class="f_money" style="position: absolute;left:34%;top:1%; color:red;background-color: transparent;" value="<?php echo $_smarty_tpl->tpl_vars['record']->value['fundmoney'];?>
+" disabled>
+                <p class="f_return" style="position: absolute;left:59%;top:72%;"><?php echo $_smarty_tpl->tpl_vars['record']->value['addtime'];?>
+</p>
+            </div>
+            </div>
+        </li>
+        <?php } elseif ($_smarty_tpl->tpl_vars['record']->value['fundtype']==85) {?>
+        <li class="relative C_wh bgc_fff" style="margin-top: 2%">
+            <div class="S_wh round bgc_1296db f_get absolute top15 left5" style="font-style: inherit; text-indent: 16px;">提</div>
+            <div class="C_wh72 floatR B_b_bfbfbf">
+            <div class="floatL">
+                <p class="f_shop">账户余额提现</p>             
+                <p class="f_return" style="text-align: left">[佣金提现]</p>    
+            </div>
+            <div class="floatR">
+                <input class="f_money" style="position: absolute;left:34%;top:1%; color:red;background-color: transparent;" value="<?php echo $_smarty_tpl->tpl_vars['record']->value['fundmoney'];?>
+" disabled>
+                <p class="f_return" style="position: absolute;left:59%;top:72%;"><?php echo $_smarty_tpl->tpl_vars['record']->value['addtime'];?>
+</p>
+            </div>
+            </div>
+        </li>
+        <?php } elseif ($_smarty_tpl->tpl_vars['record']->value['fundtype']==86) {?>
+        <li class="relative C_wh bgc_fff" style="margin-top: 2%">
+            <div class="S_wh round bgc_0e932e f_get absolute top15 left5">收</div>
+            <div class="C_wh72 floatR B_b_bfbfbf">
+            <div class="floatL">
+                <p class="f_shop">[玩家<span><?php echo $_smarty_tpl->tpl_vars['record']->value['userid'];?>
+</span>]消费<span><?php echo $_smarty_tpl->tpl_vars['record']->value['paynum'];?>
+</span>元</p>
+                <?php if ($_smarty_tpl->tpl_vars['record']->value['returnlevel']==1) {?>
+                <p class="f_return" style="text-align: left">[玩家返佣]</p>
+                <?php } elseif ($_smarty_tpl->tpl_vars['record']->value['returnlevel']==2) {?>
+                <p class="f_return" style="text-align: left">[一层返佣]</p>
+                <?php } elseif ($_smarty_tpl->tpl_vars['record']->value['returnlevel']==3) {?>
+                <p class="f_return" style="text-align: left">[二层返佣]</p>
+                <?php } elseif ($_smarty_tpl->tpl_vars['record']->value['returnlevel']==4) {?>
+                <p class="f_return" style="text-align: left">[三层返佣]</p>
+                <?php }?>
+            </div>
+            <div class="floatR">
+                <input class="f_money" style="position: absolute;left:34%;top:1%;background-color: transparent;" value="<?php echo $_smarty_tpl->tpl_vars['record']->value['fundmoney'];?>
+" disabled>
+                <p class="f_return" style="position: absolute;left:59%;top:72%;"><?php echo $_smarty_tpl->tpl_vars['record']->value['addtime'];?>
+</p>
+            </div>
+            </div>
+        </li>
+        <?php }?>
+        <?php } ?>
+	
+		
+	</ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+       result = new Mdate(
+           "dateSelectorOne",
+            {
+                //"dateSelectorOne"为你点击触发Mdate的id，必填项
+                acceptId: {
+                    beginMdateId:"startDate",
+                    endMdateId:'endDate'
+                },
+                //此项为你要显示选择后的日期的input，不填写默认为上一行的"dateShowBtn"
+                beginYear: "2017",
+                //此项为Mdate的初始年份，不填写默认为2000
+                beginMonth: "1",
+                //此项为Mdate的初始月份，不填写默认为1
+                beginDay: "1",
+                //此项为Mdate的初始日期，不填写默认为1
+                endYear: "2020",
+                //此项为Mdate的结束年份，不填写默认为当年
+                endMonth: "12",
+                //此项为Mdate的结束月份，不填写默认为当月
+                // endDay: "",
+                //此项为Mdate的结束日期，不填写默认为当天
+                format: "-"
+                //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+            }
+        );
+       /*$("#dateSelectorOne").click(function(){
+            console.log(result);
+       })*/
+       
+
+    });
+
+// 
+// new Mdate("dateShowBtn", {
+//     acceptId: "dateSelectorTwo",
+//     beginYear: "2002",
+//     beginMonth: "10",
+//     beginDay: "24",
+//     endYear: "2017",
+//     endMonth: "1",
+//     endDay: "1",
+//     format: "-"
+// })
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#dateSure').click(function(){
+            var $startDate = $('#startDate').val()
+            var $endDate = $('#endDate').val()
+            if($startDate > $endDate){
+                alert('开始时间不能大于结束时间')
+            }
+            $.ajax({
+                url:"/agentCenter/rebaterecord.php",
+                type:"post",
+                data:{"startDate":$startDate,"endDate":$endDate},
+                success:function(data){
+                    alert('success')
+                },
+                error:function(data){
+                    alert('请求错误')
+                },
+                dataType:"json"
+            })
+        })
+    })
+</script>
+
+<?php }} ?>

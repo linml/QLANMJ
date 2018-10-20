@@ -1,0 +1,32 @@
+<?php
+require ('../include/init.inc.php');
+$method = $page_no = $userid  = $agentid = '' ;
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+if($method == 'getAgentInfo'&&!empty($agentid)){
+	$getAgentInfo = Agent::getAgentInfoById($agentid);
+	exit(json_encode($getAgentInfo));
+}
+
+
+
+
+// START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$row_count = Agent::getAgentCount ($start,$page_size);
+$agentsList = Agent::getAgentsList($start,$page_size);
+$page_html = Pagination::showPager ( "agent.php", $page_no, $page_size, $row_count );
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::assign ( 'agents', $agents );
+Template::assign ( 'group_judge', $userGoupId );
+Template::assign ( 'user_name', UserSession::getUserName());
+Template::assign ( 'page_no', $page_no );
+
+Template::assign ( 'agentsList', $agentsList );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/agent.tpl' );

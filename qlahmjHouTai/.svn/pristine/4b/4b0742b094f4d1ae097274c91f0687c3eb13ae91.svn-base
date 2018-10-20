@@ -1,0 +1,210 @@
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:111,menu_name:充值记录,menu_url:/agentcenter/topuprecord.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:143,menu_name:推广概况,menu_url:/agentcenter/summary.php,module_id:5,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:推广收益,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:2
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:111,menu_name:充值记录,menu_url:/agentcenter/topuprecord.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:2
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:143,menu_name:推广概况,menu_url:/agentcenter/summary.php,module_id:5,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:推广收益,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:132,menu_name:公告,menu_url:/agentcenter/notice.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:143,menu_name:推广概况,menu_url:/agentcenter/summary.php,module_id:5,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:推广收益,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:2
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:2
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:111,menu_name:充值记录,menu_url:/agentcenter/topuprecord.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:2
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:143,menu_name:推广概况,menu_url:/agentcenter/summary.php,module_id:5,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:推广收益,module_url:/index.php}
+
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+checkLogin:
+\checkLogin session name:!:coolsir3 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+1 getMenu :135,111,112,132,145,109,124,125,126,143,1,5,23
+sql=select * from osa_menu_url me ,osa_module mo where me.menu_id in (135,111,112,132,145,109,124,125,126,143,1,5,23) and me.online=1 and me.module_id = mo.module_id and  mo.online=1
+{menu_id:145,menu_name:转送钻石,menu_url:/agentcenter/sell.php,module_id:4,is_show:1,online:1,shortcut_allowed:1,menu_desc:,father_menu:0,module_name:代理中心,module_url:/index.php}
+
+agentStatus:1
+我跳转了

@@ -1,0 +1,30 @@
+<div class="N_Footer clearfix">
+    <ul>
+        <li id="home"><a href="/agentCenter/home.php"><i class="HomeIcon"></i>首页</a></li>
+        <li id="players"><a href="/agentCenter/players.php"><i class="GameIcon"></i>玩家</a></li>
+        <li id="agents"><a href="/agentCenter/agents.php"><i class="AgencyIcon"></i>代理</a></li>
+        <li id="friendscircle"><a href="/agentCenter/friendscircle.php"><i class="MoneyIcon"></i>亲友圈</a></li>
+        <li id="mine"><a href="/agentCenter/mine.php"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+	$(function(){
+     //获取location的地址
+     let href = window.location.href;
+
+     //获取所有li元素
+     let lis = $('.N_Footer ul li')
+     //遍历所有的li，拿id 跟当前的url对比，
+     for(let i =0;i<lis.size();i++){
+
+        let liObj = lis.eq(i);
+        let liId = liObj.attr('id') || '';
+        // console.log('id:'+liId,);
+        if(href.indexOf(liId)>0){
+          // console.log('xuanzhong:'+liId)
+          liObj.addClass('on').siblings().removeClass();
+          break;
+        }
+     }
+  })
+</script>

@@ -1,0 +1,123 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class ClubManage extends Base {
+	
+	//获取redis 
+	public static function getClubDataRedis($data){
+		$db = self::__ConnectRedis();
+		return $db->hgetall($data);
+	}
+
+	//获取俱乐条件查询数量
+	public static function getClubDataToPagingCount($agent='',$clubId=''){
+		$clubArray = self::changeClubMapToArray('db_club_map');
+		$clubDataToPaging =  array();
+		for($i =0 ;$i<count($clubArray);$i++){
+				if(!empty($agent)||!empty($clubId)){
+					if($clubArray[$i]['clubId']==$clubId || $clubArray[$i]['clubOwner']==$agent){
+						array_push($clubDataToPaging,$clubArray[$i]);
+					}
+				}else{
+					array_push($clubDataToPaging,$clubArray[$i]);
+				}
+		}
+		return count($clubDataToPaging);
+	}
+	//获取俱乐部分页数据
+	public static function getClubDataToPaging($agent='',$clubId='',$start='',$page_size=''){
+		$clubArray = self::changeClubMapToArray('db_club_map');
+		$clubDataToPaging =  array();
+		for($i =$start ;$i<count($clubArray);$i++){
+			if(count($clubDataToPaging)<= $page_size){
+				if(!empty($agent)||!empty($clubId)){
+					if($clubArray[$i]['clubId']==$clubId || $clubArray[$i]['clubOwner']==$agent){
+						array_push($clubDataToPaging,$clubArray[$i]);
+					}
+				}else{
+					array_push($clubDataToPaging,$clubArray[$i]);
+				}
+			}
+		}
+		return $clubDataToPaging;
+	}
+
+	//格式化redis hash 数据 成 Array 
+	public static function changeClubMapToArray($db_name='',$clubArray=array()){
+		global $CLUB_RALATIONSHIP;	
+		$clubArray = $CLUB_RALATIONSHIP;
+		$clubToArrayData = array();
+		$clubArrayKeys = array_keys($clubArray);
+		$clubData = self::getClubDataRedis($db_name);
+		foreach ($clubData as $key => $value) {
+			$clubData[$key]=json_decode($clubData[$key],true);
+			foreach ($clubArrayKeys as $c_key => $value) {
+				$tempData[$clubArrayKeys[$c_key]] = $clubData[$key][$clubArray[$clubArrayKeys[$c_key]]];
+				
+			}
+			$club_UserArrray =self::getClubInfoArrayFromByClubID($clubData[$key]['m_clubId']);
+			$tempData['clubCount'] = count($club_UserArrray);
+			array_push($clubToArrayData, $tempData);
+		}
+		return $clubToArrayData;
+	}
+
+	//获取某个房间的玩家数组
+	public static function getClubInfoArrayFromByClubID($clubId='',$club_info_Array=array()){
+		global $CLUB_INFOR_FOR_CLUBID;
+		$club_info_Array = $CLUB_INFOR_FOR_CLUBID;
+		$clubToArrayData = array();
+		$clubArrayKeys = array_keys($club_info_Array);
+		$clubData = self::getClubDataRedis('db_club_mem_info'.$clubId);
+		foreach ($clubData as $key => $value) {
+			$clubData[$key]=json_decode($clubData[$key],true);
+			foreach ($clubArrayKeys as $c_key => $value) {
+				$clubGameUserTempData = $clubData[$key][$club_info_Array[$clubArrayKeys[$c_key]]];
+				if($clubArrayKeys[$c_key]=='time'){
+					$clubGameUserTempData = date("Y-m-d H:i",$clubData[$key][$club_info_Array[$clubArrayKeys[$c_key]]]/ 1000) ;
+				}
+				$tempData[$clubArrayKeys[$c_key]] = $clubGameUserTempData;
+			}
+			array_push($clubToArrayData, $tempData);
+		}
+		return $clubToArrayData;
+	}
+
+	//获取某个俱乐部中玩家分页
+	public static function getClubGameUserDataToPaging($clubId='',$gameId='',$start='',$page_size=''){
+		$clubGameUserArray = self::getClubInfoArrayFromByClubID($clubId);
+		$clubGameUserDataToPaging =  array();
+		for($i = $start ;$i<count($clubGameUserArray);$i++){
+			if(count($clubGameUserDataToPaging)<= $page_size){
+				if(!empty($gameId)){
+					if($clubGameUserArray[$i]['uid']==$gameId){
+						array_push($clubGameUserDataToPaging,$clubGameUserArray[$i]);
+					}
+				}else{
+					array_push($clubGameUserDataToPaging,$clubGameUserArray[$i]);
+				}
+			}
+		}
+		return $clubGameUserDataToPaging;
+	}
+
+	//获取某个俱乐部中玩家分页
+	public static function getClubGameUserDataToPagingCount($clubId='',$gameId=''){
+		$clubGameUserArray = self::getClubInfoArrayFromByClubID($clubId);
+		$clubGameUserDataToPaging =  array();
+		for($i =0 ;$i<count($clubGameUserArray);$i++){
+			if(!empty($gameId)){
+				if($clubGameUserArray[$i]['uid']==$gameId){
+					array_push($clubGameUserDataToPaging,$clubGameUserArray[$i]);
+				}
+			}else{
+				array_push($clubGameUserDataToPaging,$clubGameUserArray[$i]);
+			}
+			
+		}
+		return count($clubGameUserDataToPaging);
+	}
+
+
+}

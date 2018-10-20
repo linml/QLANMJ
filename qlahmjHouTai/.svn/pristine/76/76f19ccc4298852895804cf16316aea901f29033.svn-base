@@ -1,0 +1,39 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="" class="ReturnUp" id="data_month_back" name="<?echo $_GET['DMType']?>">返回首页</a>
+    <div class="N_Header_title" id ="header_titil">返佣汇总</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto">
+        <div class="N_Pad">
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                <form action="toRecommendedAward#" class="form-search cf">
+                    <div class="clearfix">
+                        <!-- <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="日收入" readonly="readonly" /> -->
+                        <div class="N_RecordTime" style="background-color: #929292">日收入</div>
+                        <!-- <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="月收入" readonly="readonly" /> -->
+                        <div class="N_RecordTime">月收入</div>
+                        <!-- <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div>  -->
+                    </div>
+                </form>     
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix wp_94 mgTp3A">
+                <!-- <div class="change_by wp_full ">
+                    <div class="borderBox btnT bgBlue boxShadowA" id="toChange" name='<?echo $_GET["type"]?>'>查看按月汇总</div>
+                </div> -->
+                 <ul class="wp_full record_tit clearfix textCenter">
+                    <li class="wp_50 borderBox fl textLeft">日期</li>
+                    <li class="wp_50 borderBox fl textRight">佣金总额</li>
+                </ul>
+                <table id="example" class="twoCol" aria-describedby="example_info" style="margin-left: 0px; width: 100%;">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">没有您要的内容</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

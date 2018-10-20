@@ -1,0 +1,456 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+<div class="row">
+	<form role="" class="form-inline" action="" method="GET">
+		<div class="form-group">
+			<select name="s_type">
+				<option value="ai.agentid" selected>代理ID</option>
+				<option value="ai.agentname">代理昵称</option>
+				<option value="ai.parentid">上级代理ID</option>
+			</select>
+			<input type="text" name="contains" placeholder="请输入">
+			<select name="s_grade">
+				<{foreach $level as $val}>
+				<option value="<{$val.levelid}>"><{$val.name}></option>
+				<{/foreach}>
+			</select>
+			<select name="s_ischeck">
+				<option value="1" selected>未审核</option>
+				<option value="2">已审核</option>
+			</select>
+			<select name="s_admin">
+				<{foreach $admin as $val}>
+				<option value="<{$val.user_id}>"><{$val.user_name}></option>
+				<{/foreach}>
+			</select>
+			<button class="btn btn-info" type="">查询</button>
+		</div>
+	</form>
+	<button class="btn btn-info" style="position: fixed;left: 92%;top:9%" onclick="ShowOpenAgent()">开通代理</button>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="table-header">账号列表</div>
+  		<table id="simple-table" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+
+					<th>代理ID/昵称</th>
+					<th>上级</th>	
+					<th>级别</th>
+					<th>贡献总额</th>
+					<th>返利总额</th>
+					<th>已提现</th>
+					<th>余额</th>
+					<th>下级数目</th>
+					<th>绑定玩家</th>
+					<th>钻石库存</th>
+					<th>状态</th>
+					<th>操作</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<{foreach $agentsList as $agent}>
+				<tr>
+					
+					<td>(<{$agent.agentid}>)<{$agent.agentname}></td>
+					
+					<td ><{$agent.parentid}></td>
+					<td><{$agent.name|truncate:2:''}></td>
+					<td><{$agent.sumpaynum|default:0}></td>
+					<td><{$agent.sumreturnrmb|default:0}></td>
+					<td><{$agent.drawmoney|default:0}></td>
+					<td><{$agent.rmb}></td>
+					<td><{$agent.loweragents}></td>
+					<td><{$agent.binduser}></td>
+					<td><{$agent.diamond}></td>
+
+					<{if $agent.status == 1}>
+					<td>正常</td>
+					<{else if $agent.status == 0}>
+					<td>锁定</td>
+					<{/if }>
+
+						<td>
+							<button id="" class="btn btn-danger" onclick="">划拨</button>
+							<button id="" class="btn btn-info" onclick ="showagentInfo('<{$agent.agentid}>')" >详情</button>
+						</td>
+				
+
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+		<!-- START 分页模板 -->
+        <{$page_html}>
+		<!-- END -->
+	</div>
+</div>
+
+
+<div class="modal fade" id="agentInfoModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true" id="tabClose">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">详情</h4>
+			</div>
+			<div class="modal-body" id="tabContain">
+			<table id="simple-table1" class="table table-striped table-bordered table-hover">
+				<tr>
+					<td>微信头像:</td>
+					<td id="">
+						<img src="" id ="a_avatar" width="50" height="50">
+					</td>
+				</tr>
+				<tr>
+					<td>游戏ID:</td>
+					<td id='a_guId'></td>
+				</tr>
+				<tr>
+					<td>登录账号:</td>
+					<td id='a_account'></td>
+				</tr>
+				<tr>
+					<td>代理昵称:</td>
+					<td id='a_nickname'></td>
+				</tr>
+				<tr>
+					<td>姓名:</td>
+					<td id='a_realname'></td>
+				</tr>
+				<tr>
+					<td>微信号:</td>
+					<td id='a_wechatnum'></td>
+				</tr>
+				<tr>
+					<td>代理级别:</td>
+					<td id='a_grade'>
+						<select name="a_grade">
+							<option value="1">核心</option>
+							<option value="2">白金</option>
+							<option value="3">金牌</option>
+							<option value="4">普通</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>注册时间:</td>
+					<td id='a_addtime'></td>
+				</tr>
+				<tr>
+					<td>直接上级:</td>
+					<td id='a_diragent'></td>
+				</tr>
+				<tr>
+					<td>参与对局:</td>
+					<td id='a_gaming'></td>
+				</tr>
+				<tr>
+					<td>账户状态:</td>
+					<td id='a_status'>
+					<input type="radio" name="c_type" value="2">正常
+					<input type="radio" name="c_type" value="1">冻结
+					<input type="hidden" name="oldStatus" value="">
+					</td>
+				</tr>
+				<tr>
+					<td>账户重置:</td>
+					<td >
+						<input type="hidden" value="" id="a_reset">
+						<button class="btn btn-info" onclick="reSetPassword()">重置密码</button>
+					</td>
+				</tr>
+			</table>
+			<div class="modal-footer">
+              <button type="button" id="sub" class="btn btn-primary" onclick="resetStatus()">
+					确认
+				</button>
+			</div>
+			<div class="form-group">
+			<div class="col-sm-9" style="height:10px;"></div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+
+<div class="modal fade" id="openAgentModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true" id="tabClose">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">详情</h4>
+			</div>
+			<div class="modal-body" id="tabContain">
+			<div class="form-horizontal" >
+  				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">游戏ID</label>
+    				<div class="col-sm-7">
+    				<input required type="text" class="form-control" id="o_userid" placeholder="请输入ID">			
+    				</div>
+    				<div col-sm-2>
+    					<button class="btn btn-default" id="o_search" onclick="checkExist()">检索</button>
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">微信昵称</label>
+    				<div class="col-sm-7">
+    				<input required type="text" class="form-control" id="o_wechatname" disabled>
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">手机号</label>
+    				<div class="col-sm-7">
+    				<input required type="text" class="form-control" id="o_mobilenum" placeholder="">    					
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">姓名</label>
+    				<div class="col-sm-7">
+    				<input required type="text" class="form-control" id="o_name" placeholder="">    					
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">微信号</label>
+    				<div class="col-sm-7">
+    				<input required type="text" class="form-control" id="o_wechanum" placeholder="">    					
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">绑定代理</label>
+    				<div class="col-sm-7">
+    					<select id="o_dirAgent">
+    						<option>查询绑定的玩家ID和昵称</option>
+    						<option>不绑定该玩家</option>
+    					</select> 					
+    				</div>
+ 				</div>
+ 				<div class="form-group">
+    				<label for="name" class="col-sm-3 control-label">开通级别</label>
+    				<div class="col-sm-7">
+    				<select id="o_level">
+    					<option value="1">核心</option>
+    					<option value="2">铂金</option>
+    					<option value="3">金牌</option>
+    					<option value="4">普通</option>
+    				</select>
+ 				</div>
+ 				<div class="form-group">
+ 					<div class="col-md-offset-5">
+ 					<button class="btn btn-info" onclick="openAgent()">确定</button>
+ 					</div>
+ 				</div>
+			</div>
+			<div class="form-group">
+			<div class="col-sm-9" style="height:10px;"></div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+
+
+<div class="modal fade" id="SendAgentModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 430px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true" id="tabClose">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">详情</h4>
+			</div>
+			<div class="modal-body" id="tabContain">
+			<table id="simple-table1" class="table table-striped table-bordered table-hover">
+				
+			</table>
+			<div class="modal-footer">
+              
+			</div>
+			<div class="form-group">
+			<div class="col-sm-9" style="height:10px;"></div>
+			</div>
+			<div style="clear:both;"></div>
+			</div>
+			</div>
+		<!-- /.modal-content -->
+		</div>
+	<!-- /.modal -->
+</div>
+
+
+
+<!--操作的确认层，相当于javascript:confirm函数-->
+<{$osadmin_action_confirm}>
+
+<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+<{include file="ace/footer.tpl" }>
+
+<script type="text/javascript">
+
+	function showagentInfo(agentid)
+	{	
+		$("#agentInfoModal").modal('show');
+		$.ajax({
+			url: 'agent.php',
+			data: {
+					method:'getAgentInfo',
+					agentid:agentid,
+				},
+			type: "POST",
+			dataType: '',
+			success:function(data){
+				var data = jQuery.parseJSON(data)
+				$('#a_avatar').attr('src',data.picfile)
+				$('#a_guId').text(data.userid)
+				$('#a_account').text(data.mobilenum)
+				$('#a_nickname').text(data.agentname)
+				$('#a_realname').text(data.realname)
+				$('#a_wechatnum').text(data.wechatnum)
+
+				$('#a_grade').find('option[value="'+data.levelid+'"]').attr('selected','selected')
+
+				$('#a_addtime').text(data.addtime)
+				$('#a_diragent').text(data.parentid)
+				$('#a_gaming').text(data.roomcnt)
+				$('#a_status input[name=c_type][value="'+(parseInt(data.status)+1)+'"]').attr('checked',true)
+				$('#a_status input[name=oldStatus]').attr("value",(parseInt(data.status)+1))
+
+				$('#a_reset').attr("value",data.agentid)
+			},
+			error:function() {
+
+			}
+		});
+	}
+
+	function reSetPassword(){
+		var agentid = $('#a_reset').val()
+		$.ajax({
+			url:"agent.php",
+			data:{
+				method:"resetPassword",
+				agentid:agentid
+			},
+			type:'POST',
+			dataType:'',
+			success:function(data){
+				alert("初始密码为123456！");
+				// console.log(data)
+				return;
+			},
+			error:function(){
+
+			}
+		});
+	}
+
+	function resetStatus(){
+		var status = $('#a_status input:radio:checked').val()
+		var oldStatus = $('#a_status input[name=oldStatus]').val()
+		var	agentid = $('#a_reset').val()
+		console.log(status)
+		console.log(oldStatus)
+		console.log(agentid)
+
+		if(status == oldStatus) return ;
+		$.ajax({
+			url:'agent.php',
+			data:{
+				method:"resetStatus",
+				agentid:agentid,
+				status:status
+			},
+			type:'POST',
+			dataType:'',
+			success:function(data){
+				alert('修改成功')
+				$("#agentInfoModal").modal('hide');
+				window.location.reload();
+				return;
+			},
+			error:function(){
+
+			}
+		})
+	}
+
+	function ShowOpenAgent(){
+		$("#openAgentModal").modal('show')
+	}
+	function checkExist(){
+		var o_userid = $('#o_userid').val();
+		if(o_userid == ""){
+			alert('ID不为空')
+			return
+		}
+		if(isNaN(o_userid)){
+			alert('玩家ID不合法')
+			return
+		}
+			$.ajax({
+				url:'agent.php',
+				type:'POST',
+				dataType:'',
+				data:{
+					method:'checkIDExist',
+					o_userid:o_userid
+				},
+				success:function(data){
+					data = jQuery.parseJSON(data)
+					console.log(data)
+					if(data == 0){
+						alert('玩家ID不存在')
+						return
+					}else{
+					$('#o_wechatname').val(data.wechatname)		
+					$('#o_dirAgent').html('<option value="'+data.agentid+'">'+'('+data.agentid+')'+data.agentname+'</option><option value="">不绑定该代理</option>')
+					}
+				},
+				error:function(err){
+
+				}
+			})
+		
+	}
+
+
+	function openAgent(){
+		var o_userid = $('#o_userid').val()
+		var o_wechatname = $('#o_wechatname').val()
+		var o_mobilenum = $('#o_mobilenum').val()
+		var o_name = $('#o_name').val()
+		var o_wechanum = $('#o_wechanum').val()
+		var o_dirAgent = $('#o_dirAgent option:selected').val()
+		var o_level = $('#o_level option:selected').val()
+		if(!o_userid&&!o_wechatname&&!o_mobilenum&&!o_name&&!o_wechanum&&!o_dirAgent&&!o_level){
+			$.ajax({
+				url:'agent.php',
+				type:'POST',
+				dataType:'',
+				data:{
+					method:'openAgent',
+					
+				}
+			})
+		}
+
+	}
+</script>

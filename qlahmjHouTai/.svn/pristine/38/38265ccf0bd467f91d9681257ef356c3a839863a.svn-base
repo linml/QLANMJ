@@ -1,0 +1,58 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class FriendsCircle extends Base {
+	private static $friend_info = 'friend_info';
+	private static $friend_user = 'friend_user';
+
+	/**
+	 * [getFriendList 朋友圈列表数据]
+	 * @Author   李龙
+	 * @DateTime 2018-08-08T13:50:52+0800
+	 * @param    string                   $userid [代理的玩家id]
+	 * @return   [array]                           [列表数据]
+	 */
+	public static function getFriendList($userid = ''){
+		if(empty($userid)) return ;
+
+		$db = self::__instance();
+		// 查询朋友圈id,名字，头像
+		$sql = 'select friendid,friendname,picpath,(select count(fu.userid) as countUser from '.self::$friend_user.' as fu left join '.self::$friend_info.' as fi on fi.friendid=fu.friendid where fi.userid = '.$userid .') as countUser from '.self::$friend_info.' as fi where fi.userid = '.$userid;
+		$result = $db->query($sql)->fetchAll();
+		if($result){
+			return $result;
+		}
+		return array();
+	}
+	/**
+	 * [getFriendTitle 亲友圈抬头信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-08T14:30:57+0800
+	 * @param    string                   $userid [代理的用户id]
+	 * @param    [int]                   $type   [查询的信息类型]
+	 * @return   [string]                           [返回的信息]
+	 */
+	public static function getFriendTitle($userid = '',$type = ''){
+		if(empty($userid)||empty($type)) return ;
+		$db = self::__instance();
+		$sql = '';
+		switch($type){
+			case 1:
+				$sql = 'select count(friendid) as countFriend from '.self::$friend_info.' where userid = '.$userid;
+				break;
+			case 2:
+				// $sql = 'select count(DISTINCT(userid)) as countUserSum from '.self::$friend_user.' where friendid in (select friendid from '.self::$friend_info.' where userid = '.$userid.')';
+				$sql = 'select count(DISTINCT(userid)) as countUserSum from '.self::$friend_user.' as fu where exists (select 1 from '.self::$friend_user.','.self::$friend_info.' as fi where fu.friendid = fi.friendid and fi.userid = '.$userid.')';
+				break;
+			default:
+				break;
+		}
+		$result = $db->query($sql)->fetch();
+		if($result){
+			return $result[0];
+		}
+		return array();
+	}
+}

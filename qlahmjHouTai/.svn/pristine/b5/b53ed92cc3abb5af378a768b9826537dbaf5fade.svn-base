@@ -1,0 +1,108 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header">
+    <div class="N_Header_title">代理首页</div>
+</div>
+
+<div class="N_Wrap">
+    <div class="N_WrapAuto">
+        <div class="N_Pad" style="margin-top: 54px">
+            <div class="N_IndexC1">
+                <div class="N_IndexC1Top">
+                    <div class="N_IndexC1TopPad clearfix">
+                        <div class="N_IndexC1TopImg fl">
+                            <a href="/agentCenter/mine.php"><img src="/assets/images/agentCenter/img1.png"></a>
+                        </div>
+                        <div class="N_IndexC1TopName fl">
+                            <div>
+                                <ul>
+                                    <li class="clearfix">
+                                        <div class="fl"><?php echo $nickName;?></div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <!-- <div class="fl">ID：</div> -->
+                                        <div class="fl"><span class="text" id="gameId">微信昵称</span></div>
+                                    </li>
+                                    <li class="clearfix ft10">
+                                        <div class="fl">ID：</div>
+                                        <div class="fl"><span class="text" id="fx_userid">31681</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="N_IndexC1Bottom clearfix">
+                    <ul>
+                        <li class="N_IndexC1BottomBox1">
+                            <a href="/agentCenter/drawmoney.php">
+                                <div class="N_IndexC1BottomT1">可提现余额</div>
+                                <div class="N_IndexC1BottomT2"><span>387.2<?php echo $todayEarning;?></span><span class="ft12 c_fff bq">&nbsp;提现</span></div>
+                            </a>
+                        </li>
+                        <li class="N_IndexC1BottomBox2">
+                            <a href="/agentCenter/purchase.php">
+                                <div class="N_IndexC1BottomT1">库存钻石</div>
+                                <div class="N_IndexC1BottomT2"><span>183<?php echo $weeksEarning;?></span><span class="ft12 c_fff bq">&nbsp;进货</span></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="N_IndexC3">
+                <ul>
+                    <li class="relative N_IndexC3_li">
+                        <img src="/assets/images/agentCenter/bg6.png">
+                        <div class="absolute N_IndexC3_tit">我的收益</div>
+                        <a href="###">
+                            <div class="absolute N_IndexC3_num1"><?echo $allGame_count ?></div>
+                            <div class="absolute N_IndexC3_f1">2</div>
+                            <a href="###" class="absolute N_IndexC3_btn1 fontBold">今日返佣</a>
+                         </a>
+                        <a href="###">
+                            <div class="absolute N_IndexC3_num2"><?echo $monthToSendCards?></div>
+                            <div class="absolute N_IndexC3_f2">239</div>
+                            <a href="###" class="absolute N_IndexC3_btn2 fontBold">本周返佣</a>
+                        </a>
+                        <a href="###">
+                            <div class="absolute N_IndexC3_num3"><?echo $monthToSendCards?></div>
+                            <div class="absolute N_IndexC3_f3">3812</div>
+                            <a href="###" class="absolute N_IndexC3_btn3 fontBold">本月返佣</a>
+                        </a>
+                    </li>
+                    <li class="relative N_IndexC3_li">
+                        <a href="/agentCenter/inviteplayers.php" class="N_IndexC3_btn">邀请玩家</a>
+                        <a href="/agentCenter/openagents.php" class="N_IndexC3_btn">开通代理</a>
+                        <a href="/agentCenter/players.php" class="N_IndexC3_btn">玩家充钻</a>
+                    </li>
+                     <li class="relative N_IndexC3_li">
+                        <img src="/assets/images/agentCenter/bg6.png">
+                        <div class="absolute N_IndexC3_tit">推广能力</div>
+                                                <a href="###">
+                            <div class="absolute N_IndexC3_num1"><?echo $allGame_count ?></div>
+                            <div class="absolute N_IndexC3_f1">2</div>
+                            <a href="###" class="absolute N_IndexC3_btn1 fontBold">绑定玩家</a>
+                         </a>
+                        <a href="###">
+                            <div class="absolute N_IndexC3_num2"><?echo $monthToSendCards?></div>
+                            <div class="absolute N_IndexC3_f2">239</div>
+                            <a href="###" class="absolute N_IndexC3_btn2 fontBold">下级代理</a>
+                        </a>
+                        <a href="###">
+                            <div class="absolute N_IndexC3_num3"><?echo $monthToSendCards?></div>
+                            <div class="absolute N_IndexC3_f3">3812</div>
+                            <a href="###" class="absolute N_IndexC3_btn3 fontBold">间接玩家</a>
+                        </a>
+                    </li>
+                    <!-- 此处放图 -->
+                    <img src="/assets/chartImages/agent/img_<{$img_url}>.PNG" alt="">
+                    <!-- <img src="/qlahmjHouTai/assets/chartImages/agent/img_33452.PNG" alt=""> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 
+</div>
+
+<{include file = "simple_footer.tpl"}>

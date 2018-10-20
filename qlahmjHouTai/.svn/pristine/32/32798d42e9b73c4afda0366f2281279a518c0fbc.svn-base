@@ -1,0 +1,39 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class RebateSummary extends Base {
+	// 表名
+	private static $agent_stat_day = 'agent_stat_day';
+
+	/**
+	 * [getRebate 日月返利汇总]
+	 * @Author   李龙
+	 * @DateTime 2018-08-06T16:15:57+0800
+	 * @param    string                   $userid    [代理的用户id]
+	 * @param    string                   $type      [日返利=1 月返利=2]
+	 * @param    integer                  $start     [跳过]
+	 * @param    string                   $page_size [分页]
+	 * @return   [type]                              [返回的数据]
+	 */
+	public static function getRebate($userid = '',$type = '',$start = '',$page_size = ''){
+		if(empty($userid)||empty($type)) return ;
+		$db = self::__instance();
+		$where = ['userid' => $userid];
+		if($page_size){
+			$limit = ' limit $start,$page_size ';
+		}
+		if($type == 1){
+			$sql = 'select dateid,dayreturn as rebate from '.self::$agent_stat_day.' where userid = '.$userid;
+		}elseif($type == 2){
+			$sql = 'select STR_TO_DATE(dateid,"%Y-%m") as dateid,max(monthreturn) as rebate from '.self::$agent_stat_day.' group by STR_TO_DATE(dateid,"%Y-%m") '. $limit;
+		}
+		$result = $db->query($sql)->fetchAll();
+		if($result){
+			return $result;
+		}
+		return array();
+		
+	}
+}

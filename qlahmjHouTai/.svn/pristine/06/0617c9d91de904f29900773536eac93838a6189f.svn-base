@@ -1,0 +1,114 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+class OpenRecord extends Base {
+	
+	// 表名
+	private static $table_name = 'users';
+	// 查询字段
+	private static $columns = 'oid,weixin_out_trade_no, uid, payment, price, number, create_time, status, payment_time, payment_ way, proportion_status';
+
+	public static function getTableName(){
+		return parent::$table_prefix_t.self::$table_name;
+	}
+	
+	//获取开房记录
+	public static function getOpenGameRecord($gameid = '',$roomid = '', $roomType='' ,$startDate = '' ,$endDate = '',$start = '', $page_size = ''){
+		$db=self::__instance(pigcms_game);
+		$sql= "select temp.time ,temp.type,temp.room,temp.room_type,temp.jushu,temp.payway,temp.cost, temp.userid , temp.`name`,temp.score from (
+
+						select created as time ,if(clubid !=0 ,'俱乐部','组局') as type ,room_id as room, room_type, jushu , if(payway=0,'房主','AA') as payway ,cost0 as cost, uid0 as userid,nickname0 as name,score0 as score from ninedt_battle_log where uid0 !=0 
+
+						UNION ALL
+
+						select created as time,if(clubid !=0 ,'俱乐部','组局') as type ,room_id as room, room_type, jushu , if(payway=0,'房主','AA') as payway ,cost1 as cost, uid1 as userid,nickname1 as name,score1 as score from ninedt_battle_log where uid1 !=0  
+
+						UNION ALL
+
+						select created as time,if(clubid !=0 ,'俱乐部','组局') as type ,room_id as room, room_type, jushu , if(payway=0,'房主','AA') as payway ,cost2 as cost, uid2 as userid,nickname2 as name,score2 as score from ninedt_battle_log where uid2 !=0  
+
+						UNION ALL
+
+						select created as time,if(clubid !=0 ,'俱乐部','组局') as type ,room_id as room, room_type, jushu , if(payway=0,'房主','AA') as payway ,cost3 as cost, uid3 as userid,nickname3 as name,score3 as score from ninedt_battle_log where uid3 !=0 
+						
+						UNION ALL
+
+						select created as time,if(clubid !=0 ,'俱乐部','组局') as type ,room_id as room, room_type, jushu , if(payway=0,'房主','AA') as payway ,cost4 as cost, uid4 as userid,nickname4 as name,score4 as score from ninedt_battle_log where uid4 !=0
+
+		) temp";
+
+		$where = " where 1 = 1 ";
+		if($gameid){
+			$where = $where.' and temp.userid = '.$gameid;
+		}
+		if($roomid){
+			$where = $where.' and temp.room = '.$roomid;
+		}
+		if($roomType){
+			$where = $where.' and temp.room_type = "'.$roomType.'"';
+		}
+
+		if($startDate){
+			$where = $where." and date(temp.time) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(temp.time) <= '".$endDate."' ";
+		}
+
+		$where = $where.' order by temp.time desc ';
+		$limit = "";
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$list = $db->query($sql.$where.$limit)->fetchAll();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	public static function getOpenGameRecordCount($gameid = '',$roomid = '',$roomType='' ,$startDate = '' ,$endDate = ''){
+		$db=self::__instance(pigcms_game);
+		$sql= "select count(temp.userid) as count from (
+
+						select created as time ,room_id as room, room_type, uid0 as userid from ninedt_battle_log where uid0 !=0 
+
+						UNION ALL
+
+						select created as time,room_id as room, room_type,uid1 as userid from ninedt_battle_log where uid1 !=0  
+
+						UNION ALL
+
+						select created as time,room_id as room, room_type,uid2 as userid from ninedt_battle_log where uid2 !=0  
+
+						UNION ALL
+
+						select created as time,room_id as room, room_type,uid3 as userid from ninedt_battle_log where uid3 !=0 
+						
+						UNION ALL
+
+						select created as time,room_id as room, room_type,uid4 as userid from ninedt_battle_log where uid4 !=0
+
+		) temp";
+
+		$where = " where 1 = 1 ";
+		if($gameid){
+			$where = $where.' and temp.userid = '.$gameid;
+		}
+		if($roomid){
+			$where = $where.' and temp.room = '.$roomid;
+		}
+		if($roomType){
+			$where = $where.' and temp.room_type = "'.$roomType.'"';
+		}
+		if($startDate){
+			$where = $where." and date(temp.time) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(temp.time) <= '".$endDate."' ";
+		}
+		$count = 0 + $db->query($sql.$where)->fetchColumn();
+		// var_dump('$count');
+		return $count;
+	}
+	
+}

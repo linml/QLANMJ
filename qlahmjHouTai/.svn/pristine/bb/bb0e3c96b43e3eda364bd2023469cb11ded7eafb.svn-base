@@ -1,0 +1,63 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">为代理充值</div>
+    <a href="/dlIndex.php?m=Index&c=toMyAgent&a=toMoneyDetail" class="N_czMore">充值记录</a>
+</div>
+
+<div class="send_wrap">
+
+    <div class="">
+        <form action="javascript:;" class="form-horizontal">
+            <div class="send_item1 boxShadowA relative borderBox">
+                <div>代理ID</div>
+                <div class="select_item controls absolute">
+                    <select name="userid" class="inputStyle c_28_8" id="userid">
+                        <option value="" name="">--请选择代理--</option>
+                    </select>
+                    <input type="hidden" class="m-wrap span12" id="nickname"  value="">
+                </div>
+            </div>
+    
+            <div class="row-fluid">
+                <div class="lH_2">
+                    <div>代理级别：<span id="jb_type">请选择代理</span></div>
+                </div>
+
+                 <div class="send_item1 boxShadowA relative borderBox">
+                    <div>钻石数量：</div>
+                    <div class="controls select_item controls absolute">
+                        <input type="number" class="m-wrap inputStyle" id="chargecount" placeholder="请输入充值的数量" min="0">
+                        <input type="hidden" id="vipType" value="P">
+                        <input type="hidden" id="usercode" value="15390402078">
+                        <input type="hidden" id="timems" value="1474730162982">
+                    </div>
+                </div>
+
+                <div class="lH_2">
+                    <div>当前库存：<span id="agentCount" class="c_ff5d20"></span>颗</div>
+                </div>
+
+               
+                   <!--  <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <font color="red"><b></b></font>
+                        </div>
+                    </div>-->
+            </div>
+            <div>
+                <input type="hidden" value="sichuan_db" id="province">
+                <button id="save" class="send_btn_save bg_btn1 inputStyle">立即充值</button>
+                <!-- <button class="btn" id ="hb_info">记录</button> -->
+                <!-- <a href="/dlIndex.php?m=Index&c=toMyAgent&a=toMoneyDetail" class="N_czMore">充钻记录</a> -->
+                <!-- <button class="btn" id="cancel">取消</button> -->
+            </div>
+            <p class="c_999 send_hint">提示：充值成功后，代理商库存将增加，我的库存会减少。</p>
+        </form>
+    </div>
+
+    <!-- END PAGE -->
+
+</div>

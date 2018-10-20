@@ -1,0 +1,56 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="javascript:history.go(-1);" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">代理资料</div>
+</div>
+<div class="N_Wrap " style="bottom:0;">
+    <div class="N_WrapAuto mgTp3A">
+        <div class="N_Pad">
+            <form action="javascript:;">
+            <div class="N_AddForm N_AddForm2">
+                <dl>
+                    <dt>微信头像</dt>
+                    <dd class="textRight"><span id="WXavatar"></span></dd>
+                </dl>
+                <dl>
+                    <dt>微信昵称</dt>
+                    <dd class="textRight"><span id="WXNickName">我是微信名称</span></dd>
+                </dl>
+                <dl>
+                    <dt>游戏ID</dt>
+                    <dd class="textRight"><span id="gameID">32093</span></dd>
+                </dl>
+                <dl>
+                    <dt>代理等级</dt>
+                    <dd class="textRight"><span id="gameID">391</span></dd>
+                </dl>
+                <dl>
+                    <dt>绑定玩家</dt>
+                    <dd class="textRight"><span id="gameID">312</span></dd>
+                </dl>
+                <dl>
+                    <dt>成员信息</dt>
+                    <dd class="textRight"><span id="gameID">暂不提供</span></dd>
+                </dl>
+                <dl>
+                    <dt>亲友圈</dt>
+                    <dd class="textRight"><span id="gameID">暂不提供</span></dd>
+                </dl> 
+            </div>
+
+            <div class="N_AddForm N_AddForm2">
+                 <dl>
+                    <dt>注册时间</dt>
+                    <dd class="textRight"><span id="regersterTime"></span></dd>
+                </dl>
+                 <dl>
+                    <dt>最后登录游戏时间</dt>
+                    <dd class="textRight"><span id="lastLoginTime"></span></dd>
+                </dl>
+            </div>
+            <div class="NbcBtn wp_94 marginAuto"><button type="button" id="updateMyInfo">解除上下级关系</button> </div>
+            </form>
+        </div>
+    </div>
+</div>

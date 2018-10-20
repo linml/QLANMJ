@@ -1,0 +1,86 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+class JSRecord extends Base {
+	
+	// 表名
+	private static $table_name = 'users';
+	// 查询字段
+	private static $columns = 'oid,weixin_out_trade_no, uid, payment, price, number, create_time, status, payment_time, payment_ way, proportion_status';
+
+	public static function getTableName(){
+		return parent::$table_prefix_t.self::$table_name;
+	}
+	
+	/*
+	转送房卡记录查询
+	*/
+	public static function getJSGameRecord($roomType = '',$startDate = '',$endDate = '',$start = '', $page_size = ''){
+		$db=self::__instance(pigcms_game);
+
+		
+		if($roomType==1){
+			$where1 = " where clubid != 0 ";
+		}
+		if($roomType==0){
+			$where1 = " where clubid = 0 ";
+		}
+
+		$sql= "SELECT temp.time,
+			SUM(temp.cost) as costAll,
+			SUM(temp.count) as countAll,
+			SUM( CASE WHEN temp.type = 'LAHZ' THEN temp.cost ELSE 0 END ) AS lahzCost,
+			SUM( CASE WHEN temp.type = 'HQMJ' THEN temp.cost ELSE 0 END ) AS hqmjCost,
+			SUM( CASE WHEN temp.type = 'BJ' THEN temp.cost ELSE 0 END ) AS bjCost,
+			SUM( CASE WHEN temp.type = 'LAMJ' THEN temp.cost ELSE 0 END ) AS lamjCost,
+			SUM( CASE WHEN temp.type = 'LAHZ' THEN temp.count ELSE 0 END ) AS lahzCount,
+			SUM( CASE WHEN temp.type = 'HQMJ' THEN temp.count ELSE 0 END ) AS hqmjCount,
+			SUM( CASE WHEN temp.type = 'BJ' THEN temp.count ELSE 0 END ) AS bjCount,
+			SUM( CASE WHEN temp.type = 'LAMJ' THEN temp.count ELSE 0 END ) AS lamjCount
+		  FROM (select ABS(SUM(cost0+cost1+cost2+cost3+cost4)) as cost,count(room_id) as count ,room_type as type ,DATE_FORMAT(created,'%Y-%m-%d') as time from ninedt_battle_log $where1 GROUP BY room_type ,time) temp
+		 GROUP BY temp.time desc";
+
+		$where = " having 1 = 1 ";
+
+
+		if($startDate){
+			$where = $where." and date(temp.time) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(temp.time) <= '".$endDate."' ";
+		}
+		$where = $where.' order by temp.time desc ';
+		$limit = "";
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$list = $db->query($sql.$where.$limit)->fetchAll();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+	public static function getJSGameRecordCount($roomType = '',$startDate = '' ,$endDate = ''){
+		$db=self::__instance(pigcms_game);
+
+		if($roomType==1){
+			$where1 = " where clubid != 0 ";
+		}
+		if($roomType==0){
+			$where1 = " where clubid = 0 ";
+		}
+		$sql= "select COUNT(temp.count) as count from(select count(room_id) as count,DATE_FORMAT(created,'%Y-%m-%d') as time from ninedt_battle_log $where1 GROUP BY time) temp";
+		$where = " where 1 = 1 ";
+
+		if($startDate){
+			$where = $where." and date(temp.time) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(temp.time) <= '".$endDate."' ";
+		}
+		// var_dump($sql.$where);
+		$count = 0 + $db->query($sql.$where)->fetchColumn();
+		// var_dump('$count');
+		return $count;
+	}
+	
+}

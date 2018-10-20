@@ -1,0 +1,70 @@
+<?php 
+require ('../include/init.inc.php');
+require_once ADMIN_BASE_LIB."WxPay/pay/WxCash.class.php";
+$order_no =  '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+// 金额的验证
+if(empty($order_no)){exit("<script>alert('订单号有误！');window.location.href='../agent/drawreview.php';</script>");}
+
+//验证代理是否有金额小于体现金额
+if(WxPay::checkWxCasOrderIsExist($order_no)!=1){exit("<script>alert(提现订单有误！');window.location.href='../agent/drawreview.php';</script>");}
+
+$tools = new WxCash();
+//获取微信code 
+$openid = $tools->GetOpenid();
+
+if(empty($openid)) exit("<script>alert('OPENID获取失败！');</script>");
+
+//获取订单信息
+$orderMInfo = WxPay::getWxCashOrderByOrderNo($order_no);
+
+if(empty($orderMInfo)) {exit("<script>alert(订单信息获取失败！');window.location.href='../agent/drawreview.php';</script>");}
+
+if($orderMInfo['status']!==0){exit("<script>alert(提现订单已被处理！');window.location.href='../agent/drawreview.php';</script>");}
+
+$oderData = array(
+	'partner_trade_no' =>$order_no,
+	'openid'=>$openid,
+	'check_name'=>'NO_CHECK',
+	'amount'=>$orderMInfo['rmb']*100,
+	'desc'=>'代理商提现'
+);
+$wecashResult = $tools->WeChatCash($oderData);
+$uWeCashOrderData = array(
+			'order_no' =>$order_no,
+			'agentid'=>UserSession::getAgentId(),
+		);
+if ($wecashResult['return_code'] == 'SUCCESS' && $wecashResult['result_code'] == 'SUCCESS') {
+    //1、成功的业务处理
+    $uWeCashOrderData['transaction_id'] =  $wecashResult['payment_no'];
+    $uWeCashOrderData['status'] =  1;
+    $isrr = array(
+        'code'=>true,
+        'msg' =>'ok',
+    );
+} else {
+	//2、失败的业务处理
+	$uWeCashOrderData['transaction_id'] =  $order_no;
+    $uWeCashOrderData['status'] =  2;
+    $isrr = array(
+        'code' => false,
+        'msg' => (string)$wecashResult['return_msg']
+    );
+}
+
+$cashOrderResult = WxPay::updateWeCashOrder($uWeCashOrderData);
+if($cashOrderResult==-1){
+	$isrr['code'] = false;
+	if($isrr['code'])
+		$isrr['msg'] ='提现失败';
+	else 
+		$isrr['msg'] =$isrr['msg']."</br>" .'提现失败';
+}else if($cashOrderResult==0){
+	$isrr['code'] = false;
+	if($isrr['code'])
+		$isrr['msg'] ='无订单号或余额不足';
+	else 
+		$isrr['msg'] =$isrr['msg']."</br>" .'无订单号或余额不足';
+}
+exit("<script>alert('".$isrr['msg']."');window.location.href='../agentcenter/drawmoney.php';</script>");

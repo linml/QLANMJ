@@ -1,0 +1,12 @@
+<?php 
+require ('../include/init.inc.php');
+$user_name = $password ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+
+
+
+//获取代理等级
+$levleData = AgentCenter::getUpLevelByAgentLevle(UserSession::getAgentLevelId());
+Template::assign ('levleData', $levleData);
+Template::display ( 'agentcenter/toPurchase.tpl');

@@ -1,0 +1,106 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+class OpenRecord extends Base {
+	
+	private static $order_settlement = 'order_settlement';
+	private static $order_settlement_detail = 'order_settlement_detail';
+	private static $game_info = 'game_info';
+	private static $user_info = 'user_info';
+	
+	/**
+	 * [getWhere 处理筛选条件]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T10:09:12+0800
+	 * @param    [type]                   $startdate [开始日期]
+	 * @param    [type]                   $enddate   [结束日期]
+	 * @param    [type]                   $ownerid   [房主ID]
+	 * @param    [type]                   $roomid    [房间号]
+	 * @param    [type]                   $game      [游戏ID]
+	 * @return   [type]                              [description]
+	 */
+	public static function getWhere($startdate,$enddate,$ownerid,$roomid,$game){
+		if($startdate&&$enddate) $time = " and os.addtime between $startdate and $enddate ";
+		if($ownerid) $ownerid = " and os.ownerid = ".$ownerid;
+		if($roomid) $roomid = " and os.roomid = ".$roomid;
+		if($game) $game = " and os.gameid = ".$game;
+		$where = " where 1=1 ".$ownerid.$roomid.$game.$time;
+		return $where;
+	}
+
+	/**
+	 * [getGameRoomList 获取房间信息]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T09:38:57+0800
+	 * @param    [type]                   $start     [开始]
+	 * @param    [type]                   $page_size [每页显示条目]
+	 * @param    [type]                   $where     [筛选条件]
+	 * @return   [type]                              [返回结果集]
+	 */
+	public static function getGameRoomList($start,$page_size,$where){
+		if($page_size) $limit = " limit $start,$page_size";
+		$db = self::__instance();
+		$sql = 'SELECT os.setid,os.gameid,gi.gamename,os.groupid,os.roomid,os.RoomCostType,os.RoomCost,os.ownerid,os.addtime,os.gamenum,ui.nickname , osd.moneynum FROM '.self::$order_settlement.' os left join game_info gi on os.gameid = gi.gameid left join user_info ui on os.ownerid = ui.userid  LEFT JOIN '.self::$order_settlement_detail.' osd on os.setid = osd.setid and os.ownerid=osd.userid '.$where.' order by os.addtime desc '.$limit;
+		$osdata = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		/*foreach ($osdata as $key => $value) {
+			$osdata[$key] = array_merge($osdata[$key],self::getUserMoneyNum($osdata[$key]['setid'],$osdata[$key]['ownerid']));
+		}*/
+		if($osdata) return $osdata;else return array();
+	}
+
+	/**
+	 * [getUserMoneyNum 获取玩家在对局中战绩]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T09:38:16+0800
+	 * @param    [type]                   $setid  [对局ID]
+	 * @param    [type]                   $userid [description]
+	 * @return   [type]                           [description]
+	 */
+	public static function getUserMoneyNum($setid,$userid){
+		if(empty($setid)||empty($userid))return ;
+		$db = self::__instance();
+		$sql = 'select moneynum from '.self::$order_settlement_detail.' osd where setid = '.$setid.' and userid = '.$userid;
+		$data = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($data)return $data;else return array();
+	}
+
+	/**
+	 * [getGameRoomCount 计算房间表条目用于分页]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T09:52:25+0800
+	 * @param    [type]                   $where [筛选条件]
+	 * @return   [type]                          [返回条目数]
+	 */
+	public static function getGameRoomCount($where){
+		$db = self::__instance();
+		$sql = 'select count(os.setid) from '.self::$order_settlement.' os '.$where;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	/**
+	 * [getGameInfo 查询游戏列表信息]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T10:43:38+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getGameInfo(){
+		$db = self::__instance();
+		$sql = 'select gameid,gamename from '.self::$game_info;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getRoomDetail 获取房间内的玩家信息列表]
+	 * @Author   李龙
+	 * @DateTime 2018-09-06T13:38:59+0800
+	 * @param    [type]                   $setid [description]
+	 * @return   [type]                          [description]
+	 */
+	public static function getRoomDetail($setid){
+		if(empty($setid)) return ;
+		$db = self::__instance();
+		$sql = 'select osd.userid,ui.nickname,osd.moneynum from '.self::$order_settlement_detail.' osd left join '.self::$user_info.' ui on ui.userid = osd.userid where osd.setid = '.$setid;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+}

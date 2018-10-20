@@ -1,0 +1,57 @@
+<?php
+require ('../include/init.inc.php');
+$page_no = $type = $uid = $method = $userid = $gems = $money = $m_type = $agentid = $status = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+if(!empty($uid)&&!empty($type)){
+	switch ($type) {
+		case '1':
+			$uid = " where ui.nickname = ".$uid;
+			break;
+		case '2':
+			$uid = " where ui.userid = ".$uid;
+			break;
+		case '3':
+			$uid = " where ai.agentid = ".$uid;
+			break;
+		case '4':
+			$uid = " where ai.agentname = ".$uid;
+			break;
+		default:
+			break;
+	}
+}
+if($method == 'getGameMessage'&&!empty($userid)){
+	$GameMessage = GamePlayer::getUserById($userid);
+	exit(json_encode($GameMessage));
+}
+
+if($method == 'addGems'&&!empty($userid)){
+	$result = GamePlayer::addGemsForUser($userid,$gems,$money);
+	exit(json_encode($result));
+}
+if($method == 'changeParentAgent'&&!empty($agentid)&&!empty($userid)){
+	$result = GamePlayer::changeParentAgent($userid,$agentid);
+	exit(json_encode($result));
+}
+if($method == 'showInfo'&&!empty($userid)){
+	$Info = GamePlayer::showInfo($userid);
+	exit(json_encode($Info));
+}
+if($method == 'updateUserStatus'&&!empty($userid)&&!empty($status)){
+	$result = GamePlayer::updateUserStatus($userid,$status);
+	exit($result);
+}
+
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = GamePlayer::getCountUsers();
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+
+$gameplayerList = GamePlayer::getAllUsers($uid,$start,$page_size);
+$page_html = Pagination::showPager ( "gameplayer.php", $page_no, $page_size, $row_count );
+Template::assign ( 'List', $gameplayerList );
+Template::assign ( 'page_html', $page_html );
+Template::display ( 'agent/gameplayer.tpl' );

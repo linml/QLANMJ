@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QLGameRESTAPI", "QLGameRESTAPI\QLGameRESTAPI.csproj", "{E7FE583F-7B80-4CDC-835A-C09F0EA57787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenTaoWebHook", "ZenTaoWebHook\ZenTaoWebHook.csproj", "{30E698FD-074D-447B-A4F5-56A41C57050B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Review|Any CPU = Review|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Review|Any CPU.ActiveCfg = Release|Any CPU
+		{E7FE583F-7B80-4CDC-835A-C09F0EA57787}.Review|Any CPU.Build.0 = Release|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Review|Any CPU.ActiveCfg = Review|Any CPU
+		{30E698FD-074D-447B-A4F5-56A41C57050B}.Review|Any CPU.Build.0 = Review|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4A6914E-70A0-4276-9144-3B9FBB1C7441}
+	EndGlobalSection
+EndGlobal

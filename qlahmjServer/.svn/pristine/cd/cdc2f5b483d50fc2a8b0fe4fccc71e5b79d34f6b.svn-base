@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DebugLib</name>
+    </assembly>
+    <members>
+        <member name="T:DebugLib.Class1">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,8 @@
+<?php
+require ('../include/init.inc.php');
+$type = 1;
+extract($_REQUEST,EXTR_IF_EXISTS);
+$userid = UserSession::getAgentUserId();
+$result = RebateSummary::getRebate($userid,$type,$page_size = 3);
+Template::assign('result',$result);
+Template::display ('agentcenter/toRebateSummary.tpl');

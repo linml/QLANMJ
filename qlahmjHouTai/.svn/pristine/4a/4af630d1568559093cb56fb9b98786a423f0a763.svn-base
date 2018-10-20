@@ -1,0 +1,49 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/agentCenter/Mine.php" class="ReturnUp" name="" id="tx_recorde">返回首页</a>
+    <div class="N_Header_title" >提现记录</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <div class="N_RecordTop">
+                <div class="clearfix">
+                    <form action="" method="POST">
+                    <input style="padding:4px 0px" type="date" class="N_RecordTime" name="startDate"  value="<{$startDate}>">
+                    <input style="padding:4px 0px" type="date" class="N_RecordTime" name="endDate"  value="<{$endDate}>">
+                    <div class="N_RecordSub fl"><button id="search" type="submit">查询</button></div>
+                    </form>
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix">
+                <ul class="wp_full record_tit clearfix">
+                    <li class="wp_30 borderBox fl textLeft">提现金额</li>
+                    <li class="wp_25 borderBox fl textCenter">状态</li>
+                    <li class="wp_40 borderBox fl textRight">时间</li>
+                </ul>
+                <table id="example" class="threeCol" aria-describedby="example_info">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                        <!-- 不同状态颜色有区分
+                            .c_4baf43 /*绿色 可作为'成功'*/
+                            .c_ff5d20 /*橘色 可作为'失败'*/
+                            .c_039cfe /*蓝色 可作为'处理中'*/
+                        -->
+                        <{foreach $data as $val}>
+                        <tr>
+                            <td style="width:30%"><{$val.rmb}></td>
+                            <{if $val.status eq 1 }>
+                            <td style="width:14%">成功</td>
+                            <{elseif $val.status eq 2 }>
+                            <td style="width:14%; color:red;">失败</td>
+                            <{/if}>
+                            <td style="width:40%"><{$val.addtime}></td>
+                        </tr>
+                        <{/foreach}>
+                    </tbody>
+                </table>
+                <{$page_html}>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<{include file = "simple_header.tpl"}>
+<div class="mt50">
+<div class="N_Header" style="background-image:url( /assets/images/agentCenter/headerBg4.png );">
+    <a href="../agentcenter/purchase.php" class="ReturnUp">返回首页</a>
+    <!-- <div class="ReturnUp" id="inviteAgent">返回首页</div> -->
+    <div class="N_Header_title">订单状态</div>
+</div>
+
+<div class="box pa10 tac">
+  <p class="mt20"><img src="/assets/images/agentCenter/ico_fail.png" style="width:65px;" alt="失败" /></p>
+  <p class="fz18 cor_1 mt10 fwb">支付失败</p>
+  <div class="lh18 cor_2 fz12 mt20"> 
+    <p>因某某原因导致未能成功</p>
+    <p>请重新提交</p>
+  </div>
+  <p class="mt30"><a href="../agentcenter/home.php" title="" class="btn_4">返回代理首页</a></p>
+
+</div>
+</div>
+
+

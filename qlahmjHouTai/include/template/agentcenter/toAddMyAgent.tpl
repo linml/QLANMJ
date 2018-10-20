@@ -1,0 +1,50 @@
+<{include file = "simple_header.tpl"}>
+<div class="pdlr20">
+<div class="openAgent">
+    <div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg3.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">开通代理</div>
+    <a href="/dlIndex.php?m=Index&c=toMyAgent&a=index" class="N_czMore">查看代理</a>
+    </div>
+    <div class="w_710 mgTp3A">
+                <div class="pdg_lr30 relative borderBox w_full h_100 lh_100  mgTp3 font28 c_28 bgfff">
+                    游戏ID
+                    <input type="number" placeholder="请输入代理的游戏ID" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id="UserGameId" min="0"/>
+                </div>
+                <p class="font24 mgTp3 c_999">验证结果：<span id="yz_name" class="c_28">王林</span><span class="c_4baf43" id="yzc_faild">(未注册)</span><span class="c_ff5d20" id="yzc_ok">(已注册)</span></p>
+                <div class="mgTp3 bgfff">
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        姓名
+                        <input type="text"  class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='nickName' disabled="true" />
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        手机号
+                        <input type="number"  min="0" placeholder="请输入正确的代理手机号" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id='UserTel' />
+                    </div>
+
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        微信号
+                        <input type="text" placeholder="请输入微信号" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='WeChat'/>
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        级别
+                        <select class="inputStyle absolute font28 bg_arrowR h_full wp_75 c_28_8 top0 leftP23" id = "AgentSet">
+                            <option value="0">请选择代理等级</option>
+                            <option value="2">铂金 (享受55%返利)</option>
+                            <option value="3">金牌 (享受45%返利)</option>
+                        </select>
+                    </div>
+                    <div id="gameUserDJ" style="display:none" ><?echo $agentMomoneType?></div>
+                </div>
+                
+                <div class="textCenter font32 mgTp3 c_fff w_full h_90 lh_90 br_8 bg_btn3" id="addAgent">开通代理</div>
+                <p class="mgTp3 ft14 c_999">
+                    1、游戏ID请在游戏大厅里获取。<br/>
+                    2、代理商需熟悉游戏玩法，有较广的人脉，有一定的推广经验。<br/>
+                    3、建议开通后，制定开局要求，每天开局至少保持10局。<br/>
+                    4、开通后，代理的玩家充值后你可获得间接返利。<br/>
+                    5、返利详情可咨询客服，微信号：qllamj
+                </p>
+    </div>
+</div>
+</div>

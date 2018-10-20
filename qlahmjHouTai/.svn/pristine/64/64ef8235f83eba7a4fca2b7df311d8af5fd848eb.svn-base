@@ -1,0 +1,30 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+
+class Home extends Base {
+	// 表名
+	private static $agent_info = 'agent_info';
+	private static $agent_account = 'agent_account';
+	private static $agent_stat_day = 'agent_stat_day';
+	private static $user_info = 'user_info';
+
+	/**
+	 * [getAgentAccountInformation 获取代理的基本信息]
+	 * @Author   李爽
+	 * @DateTime 2018-08-04T09:42:09+0800
+	 * @param    string                   $agentid [代理商ID]
+	 * @return   [type]                            [结果集]
+	 */
+	public static function getAgentAccountInformation($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql="SELECT ai.wechatname,ai.userid,ui.picfile,aa.rmb,aa.diamond,asd.dayreturn,asd.weekreturn,asd.weekreturn,aa.binduser,aa.agentnum,aa.indirectuser FROM ".self::$agent_info." ai,".self::$agent_account." aa,".self::$agent_stat_day." asd ,".self::$user_info." ui WHERE ai.agentid = aa.agentid AND ai.userid = asd.userid AND ai.userid =  ui.userid AND ai.agentid=".$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else array();
+
+	}
+
+}

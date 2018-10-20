@@ -1,0 +1,165 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+<div class="row">
+	<div class="col-xs-12">
+		<div id="search" class="collapse in">
+		<form action="" method="GET" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">代理商玩家UID</label>
+				<div class="col-sm-9">
+					<input type="text" name="agent" id="user_name" value="<{$_REQUEST.agent}>" placeholder="输入代理商玩家UID" > 
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">上级代理搜索</label>
+				<div class="col-sm-9">
+					<input type="text" name="topAgent" id="user_name" value="<{$_REQUEST.topAgent}>" placeholder="输入上级代理ID或名称" > 
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">开始日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="startdate"   name="startdate" value="<{$_REQUEST.startdate}>" placeholder="输入开始日期"   > 
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">结束日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="enddate" name="enddate" value="<{$_REQUEST.enddate}>" placeholder="输入结束日期" > 
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<button class="btn btn-info" type="submit">检索</button>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">返利明细</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+					    <th>用户</th>
+					    <th>充值</th>
+					    <th>充值时间</th>
+					    <th>直接玩家</th>
+					    <th>直接返利</th>
+					    <th>原返利玩家</th>
+					    <th>原返利</th>
+						<th>金牌代理</th>
+						<th>返利</th>
+						<th>铂金代理</th>
+						<th >返利</th>
+						<th>核心代理</th>
+						<th>返利</th>
+					</tr>
+				</thead> 
+				<tbody>
+					<{foreach name=earnings from=$earnings_infos item=earnings_info}>
+					<tr>
+						<td>(<{$earnings_info.game_uid}>)<{$earnings_info.nickname}></td>
+						<td><{$earnings_info.traded_num}></td>
+						<td><{$earnings_info.addtime}></td>
+						<{if $earnings_info.fx_4_userid == 0}>
+							<td></td>
+						<{else}>
+							<td>(<{$earnings_info.fx_4_userid}>)<{$earnings_info.fx4Name}></td>
+						<{/if}>
+
+						<{if $earnings_info.fx_4_num == 0}>
+							<td></td>
+						<{else}>
+							<td>￥<{$earnings_info.fx_4_num}><br>余额:<{$earnings_info.rd_4_money}></td>
+						<{/if}>
+
+						<{if $earnings_info.fx_5_userid == 0}>
+							<td></td>
+						<{else}>
+							<td>(<{$earnings_info.fx_5_userid}>)<{$earnings_info.fx5Name}></td>
+						<{/if}>
+
+						<{if $earnings_info.fx_5_userid == 0}>
+							<td></td>
+						<{else}>
+							<td>￥<{$earnings_info.fx_5_num}><br>余额:<{$earnings_info.rd_5_money}></td>
+						<{/if}>
+
+						<{if $earnings_info.fx1Top ==3}>
+							<td>(<{$earnings_info.fx1Userid}>)<{$earnings_info.fx1Name}></td>
+							<td>￥<{$earnings_info.fx_1_num}><br>余额:<{$earnings_info.rd_1_money}></td>
+						<{else if $earnings_info.fx1Top==2}>
+							<td></td>
+							<td></td>
+							<td>(<{$earnings_info.fx1Userid}>)<{$earnings_info.fx1Name}></td>
+							<td>￥<{$earnings_info.fx_1_num}><br>余额:<{$earnings_info.rd_1_money}></td>
+						<{else if $earnings_info.fx1Top==1}>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td> 
+							<td>(<{$earnings_info.fx1Userid}>)<{$earnings_info.fx1Name}></td>
+							<td>￥<{$earnings_info.fx_1_num}><br>余额:<{$earnings_info.rd_1_money}></td>
+						<{/if}>
+						<{if $earnings_info.fx1Top ==3}>
+							<{if $earnings_info.fx2Top ==2}>
+								<td>(<{$earnings_info.fx2Userid}>)<{$earnings_info.fx2Name}></td>
+								<td>￥<{$earnings_info.fx_2_num}><br>余额:<{$earnings_info.rd_2_money}></td>
+							<{else if $earnings_info.fx2Top ==1}>
+								<td></td>
+								<td></td>
+								<td>(<{$earnings_info.fx2Userid}>)<{$earnings_info.fx2Name}></td>
+								<td>￥<{$earnings_info.fx_2_num}><br>余额:<{$earnings_info.rd_2_money}></td>
+							<{/if}>
+
+						<{else if $earnings_info.fx2Top}>
+								<td>(<{$earnings_info.fx2Userid}>)<{$earnings_info.fx2Name}></td>
+								<td>￥<{$earnings_info.fx_2_num}><br>余额:<{$earnings_info.rd_2_money}></td>
+						<{/if}>
+
+						<{if $earnings_info.fx3Top ==1}>
+							<td>(<{$earnings_info.fx3Userid}>)<{$earnings_info.fx3Name}></td>
+							<td>￥<{$earnings_info.fx_3_num}><br>余额:<{$earnings_info.rd_3_money}></td>
+						<{/if}>
+
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!-- START 分页模板 -->
+			<{$page_html}>
+			<!-- END -->
+		</div>
+	</div>
+
+	<!--操作的确认层，相当于javascript:confirm函数-->
+	<{$osadmin_action_confirm}>
+
+	<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+	<{include file="ace/footer.tpl" }>
+
+	<script type="text/javascript">
+		$(function() {
+		var date=$( "#startdate" );
+		date.datepicker({ dateFormat: "yy-mm-dd" });
+		date.datepicker( "option", "firstDay", 1 );
+		});
+		$(function() {
+			var date=$( "#enddate" );
+			date.datepicker({ dateFormat: "yy-mm-dd" });
+			date.datepicker( "option", "firstDay", 1 );
+		});
+
+	</script>

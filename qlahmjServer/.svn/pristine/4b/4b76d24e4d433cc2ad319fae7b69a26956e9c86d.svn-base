@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QL.DBHelper</name>
+    </assembly>
+    <members>
+        <member name="T:QL.DBHelper.CMySqlParameter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QL.DBHelper.CMySqlParameter.DbType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QL.DBHelper.DBEntityProvideHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.DBHelper.DBEntityProvideHelper.GetMSSQLServerDBEntityProvide">
+            <summary>
+            获取 MSSQLServer 数据库的操作支持对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.DBHelper.DBEntityProvideHelper.GetMySqlDBEntityProvide">
+            <summary>
+             获取 MySql 数据库的操作支持对象
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

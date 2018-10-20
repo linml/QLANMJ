@@ -1,0 +1,1 @@
+ WHERE menu_url = '/agentCenter/home.php' WHERE module_id = '4' WHERE agentid = '104'call sp_agent_out_diamond(107,200,3637,0.45,@tod_out)

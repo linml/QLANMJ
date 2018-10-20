@@ -1,0 +1,42 @@
+<?php 
+require ('../include/init.inc.php');
+require_once ADMIN_BASE_LIB."WxPay/pay/WxPay.JsApiPay.class.php";
+require_once ADMIN_BASE_LIB."WxPay/lib/WxPay.Api.class.php";
+$money =  '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+/*if (isset($_GET['code'])){
+	var_dump($_GET['code']);
+	var_dump($money);
+	exit();
+}*/
+//判断等级是否存在
+$discount = AgentCenter::getAgentLevleByLevelid(UserSession::getAgentLevelId())['discount'];
+
+if(empty($discount)){exit("<script>alert('玩家数据出现丢失，请重新登录！');window.location.href='../agentcenter/purchase.php';</script>");}
+
+$coin  = json_decode(WxPayConfig::GLOBLE_MONEY_INDET_CARD,true)[$discount][$money*100];
+if(empty($coin)){exit("<script>alert('支付金额参数有误！');window.location.href='../agentcenter/purchase.php';</script>");} 
+
+$tools = new JsApiPay();
+//获取微信code 
+$openid = $tools->GetOpenid();
+
+$out_trade_no = WxPay::getWxPayOrder($money*100,$coin);
+
+if($out_trade_no=='-1') exit("<script>alert('订单产生失败！');</script>");
+
+$oderData = array(
+	'body' =>'wxpay',
+	'attach'=>'game',
+	'total'=>$money*100,
+	'goods'=>'ITEM_GEM_'.intval($money/100),
+	'trade_no'=>$out_trade_no,
+	'openid'=>$openid
+);
+
+$jsApiParameters = $tools->ToDoWxPayUnifiedOrder($oderData);
+
+Template::assign ('money', $money);
+Template::assign ('jsApiParameters', $jsApiParameters);
+Template::display ( 'agentcenter/confirmRechargeInfo.tpl');

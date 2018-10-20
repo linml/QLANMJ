@@ -1,0 +1,148 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-03 12:13:13
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\FriendsCircle.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:179515b602057ce96a1-38388149%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'a82a0cfcc89f6b4a8262406c3ab151fcc5cb23e9' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\FriendsCircle.tpl',
+      1 => 1533263425,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '179515b602057ce96a1-38388149',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b602057cf5226_86969894',
+  'variables' => 
+  array (
+    'friendscircles_num' => 0,
+    'members_sum' => 0,
+    'desks_sum' => 0,
+    'consume_sum' => 0,
+    'friendscirclesList' => 0,
+    'friendscircle' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b602057cf5226_86969894')) {function content_5b602057cf5226_86969894($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_replace')) include 'F:\\project\\qlahmjHouTai\\include\\config/../../include/lib/Smarty/plugins\\modifier.replace.php';
+?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <div class="N_Header_title">亲友圈</div>
+    
+</div>
+<!-- <div class="btn_invite fixed top8 left0">开通代理</div> -->
+<div class="N_Wrap bottm60" style="margin-top: 50px">
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop clearfix mgTp1A" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['friendscircles_num']->value;?>
+个</p>
+                  <p class="c_fff ft14">我的亲友圈</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['members_sum']->value;?>
+</p>
+                  <p class="c_fff ft14">累计成员数</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['desks_sum']->value;?>
+</p>
+                  <p class="c_fff ft14">累计桌数</p>
+                </div>
+                <div class="C_wh25 floatL pdT15 pdB15">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['consume_sum']->value;?>
+</p>
+                  <p class="c_fff ft14">累计消耗</p>
+                </div>
+            </div>
+            <div class="record_wrap clearfix  wp_94 mgTp3A">
+                <ul>
+                  <?php  $_smarty_tpl->tpl_vars['friendscircle'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['friendscircle']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['friendscirclesList']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['friendscircle']->key => $_smarty_tpl->tpl_vars['friendscircle']->value) {
+$_smarty_tpl->tpl_vars['friendscircle']->_loop = true;
+?>
+                  <li class="relative C_wh bgc_fff mgb5">
+                      <img src="/assets/images/agentCenter/bg6.png">
+                       <div class="absolute N_IndexC3_tit">亲友圈ID:&nbsp;&nbsp;<i><?php echo $_smarty_tpl->tpl_vars['friendscircle']->value['game_id'];?>
+</i></div>
+                      <div class="wxavatar absolute left5 top20 gamebox">
+                        <?php if ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==1) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],1,"霍邱");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==2) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],2,"拼十");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==3) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],3,"比鸡");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==4) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],4,"红中");?>
+
+                        <?php }?>
+                      </div>
+                      <div class="absolute f_return left4 top97">
+                        <?php if ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==1) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],1,"霍邱麻将");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==2) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],2,"快乐拼十");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==3) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],3,"快乐比鸡");?>
+
+                        <?php } elseif ($_smarty_tpl->tpl_vars['friendscircle']->value['game_type']==4) {?>
+                        <?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['friendscircle']->value['game_type'],4,"红中麻将");?>
+
+                        <?php }?>
+                      </div>
+                      <div class="absolute left24 top31 wp_50 hp_60" style="padding-top: 2%">
+                        <div class="floatL hp_50"><?php echo $_smarty_tpl->tpl_vars['friendscircle']->value['day_desks'];?>
+</div>
+                          <i class="floatL">
+                            <img src="/assets/images/agentCenter/desk.svg" width="20" height="20">
+                          </i>
+                        <div class="f_return absolute left3 top68">今日桌数</div>
+                      </div>
+
+                      <div class="absolute left60 top31 wp_50 hp_60" style="padding-top: 2%">
+                        <div class="floatL hp_50"><?php echo $_smarty_tpl->tpl_vars['friendscircle']->value['day_gems'];?>
+</div>
+                          <i class="floatL wp_50">
+                            <img src="/assets/images/agentCenter/gems.svg" width="20" height="20">
+                          </i>
+                        <div class="f_return absolute left_2 top68">今日耗钻</div>
+                      </div>
+                      
+                      <!-- <div class="absolute left70 top38 bTn">划拨</div> -->
+                      <div class="absolute left89 top38">
+                        <a href="/agentCenter/friendscircleinfo.php">
+                        <img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30">
+                        </a>
+                      </div>
+
+
+                      
+
+                      <i class="absolute left70 top4">
+                        <img src="/assets/images/agentCenter/group.svg" width="20" height="20">
+                        <span class="f_return">成员:<?php echo $_smarty_tpl->tpl_vars['friendscircle']->value['members_num'];?>
+人</span>
+                      </i>
+                  </li>
+                  <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $_smarty_tpl->getSubTemplate ("simple_footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+<?php }} ?>

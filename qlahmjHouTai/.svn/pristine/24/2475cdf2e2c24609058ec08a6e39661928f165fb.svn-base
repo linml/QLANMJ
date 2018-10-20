@@ -1,0 +1,29 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class Message extends Base {
+	
+	/*
+	 * 获取公告信息
+	 */
+	public static function getMessage() {
+		// $filename=TEMPLATE_CACHE."gonggao.txt";
+		$filename="../../app/gonggao.txt";
+		$file=fopen($filename, "a+");
+		fclose($file);
+		$gongao=file_get_contents($filename);
+		return $gongao;
+	}
+	/*
+	 * 修改公告信息
+	 */
+	public static function updateMessage($data) {
+		// $new_gonggao=TEMPLATE_CACHE."gonggao.txt";
+		$new_gonggao="../../app/gonggao.txt";
+		$file=fopen($new_gonggao, "w+");
+		fwrite($file, $data);
+		fclose($file);
+	}
+	
+}

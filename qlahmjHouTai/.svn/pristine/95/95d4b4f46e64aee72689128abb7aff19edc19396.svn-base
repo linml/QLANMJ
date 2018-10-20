@@ -1,0 +1,22 @@
+<?php
+require ('../include/init.inc.php');
+$method = $type = $page_no = $agent_uid = $startDate = $endDate =$id= $msg= $money = $agentid = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+if($method == 'dealDrawMoney'&&!empty($id)&&!empty($status)){
+	
+}
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = DrawReview::getAllCount ($startDate,$endDate);
+$total_page = $row_count % $page_size == 0 ? $row_count / $page_size : ceil ( $row_count / $page_size );
+$total_page = $total_page < 1 ? 1 : $total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+$page_html = Pagination::showPager ("drawreview.php",$page_no, $page_size, $row_count);
+$drawInfoList = DrawReview::getDrawMoneyRecord($start,$page_size,$startDate,$endDate);
+$getMoneyPendingAndProcessed = DrawReview::getMoneyPendingAndProcessed();
+Template::assign ( 'drawInfoList', $drawInfoList );
+Template::assign ( 'page_html', $page_html );
+Template::assign ( 'pendAndProc', $getMoneyPendingAndProcessed );
+Template::assign ( '_REQUEST', $_REQUEST );
+Template::display ( 'agent/drawreview.tpl' );

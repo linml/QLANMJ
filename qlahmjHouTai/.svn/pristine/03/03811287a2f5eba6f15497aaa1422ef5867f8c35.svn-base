@@ -1,0 +1,8 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class UpdateMyInfo extends Base {
+	
+}

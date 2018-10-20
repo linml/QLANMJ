@@ -1,0 +1,55 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/agentCenter/mine.php" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">账户安全</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 mgTp3A">
+        <div class="N_Pad">
+            <form action="" id="passwordfrm" method="POST">
+            <div class="N_AddForm N_AddForm2">
+                <dl>
+                    <dt>当前密码</dt>
+                    <dd><input type="password" name="prepsw" id="prepsw" placeholder="请输入当前密码" required></dd>
+                </dl>
+                <dl>
+                    <dt>设置密码</dt>
+                    <dd><input type="password" name="newpsw" id="newpsw" placeholder="6-18位字符" onblur="valiPassword()" required minlength="6" maxlength="18"></dd>
+                </dl>
+                <dl>
+                    <dt>确认密码</dt>
+                    <dd><input name="confirmpsw" type="password" id="confirmpsw" placeholder="6-18位字符" onblur ="validate()" required minlength="6" maxlength="18"></dd>
+                </dl>
+            </div>
+            <div class="NbcBtn"><button type="submit" id="updatePsw">确认修改</button> </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+          function validate() {
+              var pwd1 = document.getElementById("newpsw").value;
+              var pwd2 = document.getElementById("confirmpsw").value;
+    // <!-- 对比两次输入的密码 -->
+              if(pwd1 == pwd2) {   
+                  document.getElementById("updatePsw").disabled = false;
+              }
+              else {
+                  alert("两次输入密码不相同")
+                document.getElementById("updatePsw").disabled = true;
+              }
+          }
+
+          function valiPassword(){
+            var newpsw = document.getElementById("newpsw").value;
+            var prepsw = document.getElementById("prepsw").value;
+            if(newpsw == prepsw) {
+              $("#confirmpsw").val('');
+              $("#newpsw").val('');
+              $("#newpsw").focus();
+              alert('当前密码和修改密码相同,请更换密码！');
+              document.getElementById("updatePsw").disabled = false;
+            }
+          }
+</script>

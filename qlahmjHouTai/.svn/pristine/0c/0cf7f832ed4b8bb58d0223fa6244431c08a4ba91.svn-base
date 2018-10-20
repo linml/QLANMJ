@@ -1,0 +1,19 @@
+<?php
+require ('../include/init.inc.php');
+Template::assign ( 'status', UserSession::getAgentStatus() );
+if(UserSession::getAgentStatus()!=1) {
+	    
+		OSAdmin::alert ( "error", "账户未激活" );
+		Template::Display ( 'agentcenter/order.tpl' );
+	    exit();
+	} 
+	Template::assign ( 'tips', "" );
+	if(UserSession::getAgentStatus()!=1) {
+	
+		Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+	}
+	
+Template::Display ( 'agentcenter/order.tpl' );
+
+
+

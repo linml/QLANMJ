@@ -1,0 +1,11 @@
+<?php
+	require ('include/init.inc.php');
+	$page_no ='';
+	extract ( $_REQUEST, EXTR_IF_EXISTS );
+    // $result = OpenAgents::getValidatePlayerByAgentId(104,1); 3,李爽,coolsir,小黑,15155928010,2
+	//1、判断此玩家是否是代理
+	$agentCount = AgentCenter::toAddAgent(3,'李爽','coolsir','小黑','15155928010',2);
+	// $agentCount = AgentCenter::getallAgents();
+	var_dump($agentCount);
+	exit();
+?>

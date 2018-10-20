@@ -1,0 +1,130 @@
+<{include file ="ace/header.tpl"}> 
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+
+		
+	<div class="row">
+	<div class="col-xs-12">
+		<div id="search" class="collapse in">
+		<form action="" method="POST" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">玩家UID</label>
+				<div class="col-sm-9">
+					<input type="text" id="id" name="agentid" value="<{$_REQUEST.agentid}>" placeholder="输入玩家UID或名称" > 
+					<select name="agent_type" id='agentType'>
+						<option value="">--筛选状态--</option>
+						<option value="1">未支付</option>
+						<option value="2">未发货</option>
+						<option value="3">已发货</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">开始日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="startdate"   name="startdate" value="<{$_REQUEST.startdate}>" placeholder="输入开始日期"   > 
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">结束日期</label>
+				<div class="col-sm-9">
+					<input type="text"  id="enddate" name="enddate" value="<{$_REQUEST.enddate}>" placeholder="输入结束日期" > 
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<button class="btn btn-info" type="submit">检索</button>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">充值订单</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+			
+						<th>时间</th>
+						<th>游戏ID</th>
+						<th>微信昵称</th>
+						<th>渠道</th>
+						<th>充值金额</th>
+						<th>充值状态</th>
+						<th>邀请人ID</th>
+						<th>微信昵称</th>
+						<th>订单号</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<{foreach name=earnings from=$topuprerecord_infos item=topuprerecord_info}>
+					<tr>
+						<td><{$topuprerecord_info.created}></td>
+                        <td>
+                        	<a href="topupearnings.php?agentid=<{$topuprerecord_info.to_user}>" ><{$topuprerecord_info.to_user}></a>
+                        </td>
+						<td><{$topuprerecord_info.gameName}></td>
+						<td><{$topuprerecord_info.channel}></td>
+						<td><{$topuprerecord_info.amount}></td>
+						<td>
+							
+							<{if $topuprerecord_info.status == 2}>
+								<span class="green">成功</span>
+							<{else if $topuprerecord_info.status == 1}>
+								<span class="">待支付</span>
+							<{else if $topuprerecord_info.status == 0}>
+								<span class="red">失败</span>
+							<{/if}>
+
+						</td>
+						<td><{$topuprerecord_info.agentid}></td>
+						<td><{$topuprerecord_info.agentName}></td>
+						<td><{$topuprerecord_info.order_no}></td>
+						
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!-- START 分页模板 -->
+			<{$page_html}>
+			<!-- END -->
+		</div>
+	</div>
+
+	<!--操作的确认层，相当于javascript:confirm函数-->
+	<{$osadmin_action_confirm}>
+
+	<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+	<{include file="ace/footer.tpl" }>
+	<script type="text/javascript">
+		$(function() {
+		var date=$( "#startdate" );
+		date.datepicker({ dateFormat: "yy-mm-dd" });
+		date.datepicker( "option", "firstDay", 1 );
+		});
+		$(function() {
+			var date=$( "#enddate" );
+			date.datepicker({ dateFormat: "yy-mm-dd" });
+			date.datepicker( "option", "firstDay", 1 );
+		});
+
+		$(function(){
+			//设置传入的select 的值设置默认选项
+			$("#agentType option[value='<{$_REQUEST.agent_type}>']").attr('selected',true);
+		});
+	</script>

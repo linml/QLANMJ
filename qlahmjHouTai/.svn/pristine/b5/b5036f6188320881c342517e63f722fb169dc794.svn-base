@@ -1,0 +1,10 @@
+<?php 
+require ('../include/init.inc.php');
+
+$agentid = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+
+$agentsInfo = AgentCenter::getAgentsInfoByAgentId($agentid);
+
+Template::assign ('agentsInfo', $agentsInfo);
+Template::display ( 'agentcenter/toAgentsInfo.tpl');

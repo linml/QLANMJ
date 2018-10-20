@@ -1,0 +1,29 @@
+<?php 
+require ('../include/init.inc.php');
+$shapeData = array('data' =>array(11,9,2,4,3,13,17),'color'=>'orange','name'=>'开局','onlie'=>true);
+
+$brokenLine = array('data' =>array(11,9,2,4,3,13,17),'color'=>'blue','weight'=>2,'name'=>'返佣','onlie'=>true);
+
+$XaxisData = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug');
+$userId = '33452';
+$fileName = ADMIN_BASE_QRCOD."/chartImages/agent/img_".$userId.".PNG";
+$baseData = array('size'=>array(400,200),'margin'=>array(40,130,20,40),'title'=>'日活返佣统计图','userid'=>$userId,'xaxis'=>'月份','yaxis'=>'日活、返佣');
+
+
+//创建代理图表
+Jpgraph::getJpgraph($shapeData,$brokenLine,$XaxisData,$baseData);
+$agentid = UserSession::getAgentId();
+//获取代理基本信息
+$AgentsInfo = Home::getAgentAccountInformation($agentid);
+//获取代理当天返利情况
+$agentMaidData = Home::getAgentMaidByAgentId(UserSession::getAgentId());
+
+//获取代理绑定数量
+$agentBindData = Home::getAgentBindInforCountbyAgentid();
+
+Template::assign ('AgentsInfo',$AgentsInfo);
+Template::assign ('agentMaidData',$agentMaidData);
+Template::assign ('agentBindData',$agentBindData);
+
+Template::assign ( 'img_url', md5($baseData['userid'].'|'.$shapeData['onlie'].'|'.$brokenLine['onlie']));
+Template::display ( 'agentcenter/Home.tpl' );

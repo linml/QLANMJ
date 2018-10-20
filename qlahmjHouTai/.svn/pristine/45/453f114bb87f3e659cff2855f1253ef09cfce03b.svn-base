@@ -1,0 +1,30 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-07-31 17:31:29
+         compiled from "F:\project\qlahmjHouTai\include\template\simple_footer.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:179175b5c0335a413e2-13346852%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '990eb110e8d7f92fc675d20fc9cbcea6a24f5b29' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\simple_footer.tpl',
+      1 => 1533024889,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '179175b5c0335a413e2-13346852',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b5c0335a413e3_76171866',
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b5c0335a413e3_76171866')) {function content_5b5c0335a413e3_76171866($_smarty_tpl) {?><div class="N_Footer clearfix">
+    <ul>
+        <li class="on"><a href="/agentCenter/home.php"><i class="HomeIcon"></i>首页</a></li>
+        <li><a href="/agentCenter/players.php"><i class="GameIcon"></i>玩家</a></li>
+        <li><a href="/agentCenter/agents.php"><i class="AgencyIcon"></i>代理</a></li>
+        <li><a href="/agentCenter/friendscircle.php"><i class="MoneyIcon"></i>亲友圈</a></li>
+        <li><a href="/agentCenter/mine.php"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div><?php }} ?>

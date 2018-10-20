@@ -1,0 +1,44 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="openAgent">
+    <div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg3.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">开通代理</div>
+    <!-- <a href="/dlIndex.php?m=Index&c=toMyAgent&a=index" class="N_czMore">查看代理</a> -->
+    </div>
+    <div class="w_710 mgTp3A">
+                <div class="mgTp3 boxShadowA bgfff">
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        手机号
+                        <input type="number"  min="0" placeholder="" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id='UserTel' />
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        短信验证码
+                        <input type="number"  min="0" placeholder="" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id='UserTel' />
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        游戏ID
+                        <input type="text"  class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='nickName' disabled="true" />
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        游戏昵称
+                        <input type="text"  class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='nickName' disabled="true" placeholder="请仔细核对" />
+                    </div>
+
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        微信昵称
+                        <input type="text" placeholder="请仔细核对" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='WeChat'/>
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        微信号
+                        <input type="text" placeholder="" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='WeChat'/>
+                    </div>
+                    <div id="gameUserDJ" style="display:none" ><?echo $agentMomoneType?></div>
+                </div>
+                
+                <div class="textCenter font32 mgTp3 c_fff w_full h_90 lh_90 br_8 bg_btn3" id="addAgent">提交</div>
+                <div class="qlprotocol">
+                    <input type="checkbox" name="isagree" autocomplete="off"><label class="">我已阅读并同意<a target="_blank" href="">《七乐安徽麻将推广员合作协议》</a></label>
+                </div>
+    </div>
+</div>

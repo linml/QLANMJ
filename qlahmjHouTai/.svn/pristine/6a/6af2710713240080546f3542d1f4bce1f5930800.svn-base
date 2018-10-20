@@ -1,0 +1,21 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class Mine extends Base {
+	// 表名
+	private static $table_name = 'agent_info';
+	//表字段
+	private static $columns = 'agentid,parentid,userid,mobilenum,pw,wechatnum,wechatname,addtime,logintime,levelid,,discount,status,agentname,idcard,loginip,adminid';
+
+	
+	public static function getTableName(){
+		return self::$table_name;
+	}
+
+
+	public static function MineInfo($userId){
+		
+	}
+}

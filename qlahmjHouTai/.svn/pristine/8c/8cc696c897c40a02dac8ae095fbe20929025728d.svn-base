@@ -1,0 +1,14 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+$gagentid = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+// 获取当前库存
+$agentid = UserSession::getAgentId();
+$AgentsInfo = Home::getAgentAccountInformation($agentid);
+$diamond = $AgentsInfo['rmb'];
+Template::assign ('agentid', $agentid);
+Template::assign ('diamond', $diamond);
+Template::display ( 'agentcenter/toSendMoney.tpl' );

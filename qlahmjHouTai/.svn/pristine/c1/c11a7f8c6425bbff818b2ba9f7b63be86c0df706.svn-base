@@ -1,0 +1,12 @@
+<?php
+require ('../include/init.inc.php');
+$gonggao ='' ;
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+if(!empty($gonggao)){
+	Message::updateMessage($gonggao);
+	Common::exitWithSuccess ( '已修改','agent/message.php' );
+}
+	
+$gongGaoDate = Message::getMessage();
+Template::assign ( 'message', $gongGaoDate );
+Template::display ( 'agent/message.tpl' );

@@ -1,0 +1,154 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<ul class="nav nav-pills" id="tabBtn">
+		<li class="active" method="day" onclick="dayData()"><a href="javascript:;">局数日报</a></li>
+		<li class="" method="month" onclick="monthData()"><a href="javascript:;">局数月报</a></li>
+	</ul>
+	<div class="col-xs-12">
+		<div class="modal-body" id="tabContain">
+		<div class="tableBox">
+			<input id="monthTime" type="text" name="" value="">
+			<select name="type" id="monthType" value="">
+			<option value="">全部</option>
+			<option value="1">组局</option>
+			<option value="2">亲友圈</option>
+			</select>
+			<button id="searchBtn" class="btn btn-info" onclick="dayData()">查询</button>
+		<div class="table-header">局数报表</div>
+		<table id="simple-table1" class="table table-striped table-bordered table-hover">
+			<thead>
+
+				<td>日期</td>
+				<td>房间数<br>总耗钻</td>
+				<td>快乐比鸡<br>耗钻</td>
+				<td>霍邱麻将<br>耗钻</td>
+				<td>临泉麻将<br>耗钻</td>			
+			</thead>
+			<tbody id="dayData">	
+			</tbody>
+		</table>
+		</div>
+		<div class="tableBox">
+		<select id="yearTime">
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+			<option value="2020">2020</option>
+			<option value="2021">2021</option>
+		</select>
+		<select name="type" id="yearType" value="">
+		<option value="">全部</option>
+		<option value="1">组局</option>
+		<option value="2">亲友圈</option>
+		</select>
+		<button id="searchBtn" class="btn btn-info" onclick="monthData()">查询</button>
+		<div class="table-header">局数报表</div>
+		<table id="simple-table2" class="table table-striped table-bordered table-hover">
+			<thead>
+				<td>日期</td>
+				<td>房间数<br>总耗钻</td>
+				<td>快乐比鸡<br>耗钻</td>
+				<td>霍邱麻将<br>耗钻</td>
+				<td>临泉麻将<br>耗钻</td>		
+			</thead>
+			<tbody id="monthData">
+					
+			</tbody>
+		</table>
+		</div>
+	</div>		
+</div>
+<{$page_html}>
+	<!-- 操作的确认层，相当于javascript:confirm函数 -->
+	<{$osadmin_action_confirm}>
+
+ <!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可  -->
+	<{include file="ace/footer.tpl" }>
+	<script type="text/javascript">
+	$(function(){
+		$('#tabContain').find('.tableBox').hide()
+		$('#tabContain').find('.tableBox:first').show()
+	    $('#tabBtn li').on('click',function(){
+	    	var index = $(this).index()
+	    	$('#tabContain').find('.tableBox').hide().eq(index).show()
+	    	$(this).addClass('active').siblings().removeClass('active');
+	    })
+	})
+	
+	$(function() {
+	var date=$( "#monthTime" );
+	date.datepicker({ dateFormat: "yy-mm" });
+	});
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			console.log("我知道分页有问题,先凑活用吧")
+			dayData()
+		})
+		function dayData(){
+			var myDate = new Date()
+			ToMonth = myDate.getMonth()+1
+			if(ToMonth<10) ToMonth = '0'+ToMonth
+			nowMonth = myDate.getFullYear() +'-'+ ToMonth
+			monthTime = $('#monthTime').val()
+			monthType = $('#monthType option:selected').val()
+			if(monthTime == ''){
+				$("#monthTime").attr("value",nowMonth)
+			}
+			
+			$.ajax({
+				url:'jushuRecord.php',
+				type:'POST',
+				data:{
+					method:'day',
+					time:monthTime,
+					type:monthType
+				},
+				success:function(data){
+
+					data = jQuery.parseJSON(data)
+					result = '';
+					$('#dayData').html("");
+					for(var i=0;i<data.length;i++){
+						result += '<tr><td>'+data[i].addtime+'</td><td><span style="color:red">'+data[i].counttable+'</span><br>'+data[i].sumroomcost+'</td><td><span style="color:red">'+data[i].counttableBJ+'</span><br>'+data[i].sumroomcostBJ+'</td><td><span style="color:red">'+data[i].counttableHQ+'</span><br>'+data[i].sumroomcostHQ+'</td><td><span style="color:red">'+data[i].counttableLQ+'</span><br>'+data[i].sumroomcostLQ+'</td></tr>'
+					}
+					$('#dayData').html(result)
+				}
+			})
+		}
+
+		function monthData(){
+			var myDate = new Date()
+			nowYear = myDate.getFullYear()
+			$("#yearTime").find('option[value="'+nowYear+'"]').attr("selected","selected")
+			yearTime = $('#yearTime').val()
+			yearType = $('#yearType option:selected').val()
+			$.ajax({
+				url:'jushuRecord.php',
+				type:'POST',
+				data:{
+					method:'month',
+					time:yearTime,
+					type:yearType
+				},
+				success:function(data){
+					data = jQuery.parseJSON(data)
+					result = '';
+					$('#monthData').html("")
+					for(var i=0;i<data.length;i++){
+						result += '<tr><td>'+data[i].addtime+'</td><td><span style="color:red">'+data[i].counttable+'</span><br>'+data[i].sumroomcost+'</td><td><span style="color:red">'+data[i].counttableBJ+'</span><br>'+data[i].sumroomcostBJ+'</td><td><span style="color:red">'+data[i].counttableHQ+'</span><br>'+data[i].sumroomcostHQ+'</td><td><span style="color:red">'+data[i].counttableLQ+'</span><br>'+data[i].sumroomcostLQ+'</td></tr>'
+					}
+					$('#monthData').html(result)
+				}
+			})
+		}
+
+	</script>

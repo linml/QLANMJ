@@ -1,0 +1,53 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class WxPay extends Base {
+	
+
+	/**
+	 * [getWxPayOrder 微信下单]
+	 * @Author   李爽
+	 * @DateTime 2018-08-15T09:32:20+0800
+	 * @param    [type]                   $money [金额]
+	 * @param    [type]                   $coin  [钻石]
+	 * @return   [type]                          [返回信息]
+	 */
+	public static function getWxPayOrder($money,$coin){
+		if(empty($money)||empty($coin)) return;
+		$userid = UserSession::getAgentUserId();
+		if(empty($userid)) return;
+		$db = self::__instance();
+		$db->exec("call sp_agent_pay(".$userid.",".$money.",".$coin.",@od_out)");
+		return $db->query("select @od_out")->fetch(PDO::FETCH_ASSOC)["@od_out"];
+	}
+
+	/**
+	 * [agentPurchaseNotify 微信支付回掉]
+	 * @Author   李爽
+	 * @DateTime 2018-08-16T16:52:29+0800
+	 * @param    [type]                   $notifyArray [description]
+	 * @return   [type]                                [description]
+	 */
+	public static function agentPurchaseNotify($notifyArray){
+		if(empty($notifyArray)) return;
+		$db = self::__instance();
+		$db->exec("call sp_agent_pay(".$notifyArray['order_no'].",".$notifyArray['total_fee'].",".$notifyArray['status'].",".$notifyArray['transaction_id'].",".$notifyArray['trade_type'].",@ap_out)");
+		return $db->query('select @ap_out')->fetch(PDO::FETCH_ASSOC)[@ap_out];
+	}
+
+	/**
+	 * [checkOrderNoIsExit 检查订单]
+	 * @Author   李爽
+	 * @DateTime 2018-08-16T15:17:16+0800
+	 * @param    [type]                   $order_no [订单号]
+	 * @return   [type]                             [是否存在]
+	 */
+	public static function checkOrderNoIsExit($order_no){
+		if(empty($order_no)) return;
+		$db = self::__instance();
+		$sql ="select count(id) from order_pay where id = ".$order_no;
+		return 0 + $db->query($sql)->fetchColumn();
+
+	}
+}

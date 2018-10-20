@@ -1,0 +1,45 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class Players extends Base {
+
+	/**
+	 * [MyUsersConts description]
+	 * @Author   李龙
+	 * @DateTime 2018-08-03T11:58:14+0800
+	 * @param    string                   $userid [description]
+	 */
+	public static function getMyUsersCounts($userid = ''){
+		$tableName = 'user_info';
+		$db 	   = self::__instance();
+		$condition = ['agentid' => $userid];
+		$return    = $db->count($tableName,$condition);
+		if($return){
+			return $return;
+		}
+		return 0;
+	}
+
+
+	public static function getUsersById($userid = ''){
+		$tableName = 'user_info';
+		$db 	   = self::instance();
+		$join 	   = [
+						"[>]user_account" => ["userid" => "userid"],
+						"[>user_stat]"    => ["userid" => "userid"],
+					];
+		$columns   = [
+						"user_info.picfile",
+						"user_info.nickname",
+						"user_stat.dayplay",
+						"user_account.diamond",
+					];
+		$order     =[
+						""
+					];
+		return 0;
+
+	}
+}

@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+    <script src="<{$smarty.const.ADMIN_URL}>/include/js/STools.js"></script>
+    <script>
+		if(checkBrowserType(BrowserType.ANDROID)) {
+            window.location.href="<{$DOWNLOAD_ANDROID}>";
+        }else if(checkBrowserType(BrowserType.IOS)) {
+            window.location.href="<{$DOWNLOAD_IOS}>";
+        }
+	</script>
+</head>
+<body>
+</body>
+</html>

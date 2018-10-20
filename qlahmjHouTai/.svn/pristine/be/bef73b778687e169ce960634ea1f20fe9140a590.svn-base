@@ -1,0 +1,17 @@
+<?php 
+require ('../include/init.inc.php');
+$endDate = $page_no = $method = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+$page_no = $page_no < 1 ? 1 : $page_no;
+
+if($method == 'loadData'&&!empty($page_no)){
+	$GemsRecordList = GemsRecord::getDiamonRecord(($page_no-1)*PAGE_SIZE,PAGE_SIZE,$endDate);
+	if(empty($endDate)) $date = date('Y年m月',time());else $date = date('Y年m月',strtotime($endDate));
+	exit(json_encode(array('recordData'=>$GemsRecordList,'DateTime'=>$date)));
+}
+
+GemsRecord::getRechargeUsers(12);
+GemsRecord::getSendAgents(13);
+GemsRecord::getPurchage(14);
+Template::assign ('data', $GemsRecordList);
+Template::display ('agentcenter/toGemsRecord.tpl');

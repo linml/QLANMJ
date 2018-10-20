@@ -1,0 +1,29 @@
+<?php 
+require ('../include/init.inc.php');
+
+$agentid     = UserSession::getAgentId();
+
+// START数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1 ? 1 : $page_no;
+$row_count = AgentCenter::getAllAgentsCountByAgentId($agentid);
+$total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
+$total_page=$total_page<1?1:$total_page;
+$page_no = $page_no > ($total_page) ? ($total_page) : $page_no;
+$start = ($page_no - 1) * $page_size;
+
+
+$data        = AgentCenter::getLowerAgentAndBingdingPlayer($agentid);
+$subordinate_agent = $data['agentnum'];
+$bind_players      = $data['binduser'];
+
+$agentsList  = AgentCenter::getAllAgentsByAgentId($agentid,$start,$page_size);
+// var_dump($agentsList);
+// exit();
+$page_html = Pagination::showPager ( "agents.php", $page_no, $page_size, $row_count );
+
+Template::assign ('subordinate_agent', $subordinate_agent);
+Template::assign ('bind_players', $bind_players);
+Template::assign ('agentsList', $agentsList);
+Template::assign ('page_html', $page_html);
+Template::display ( 'agentcenter/Agents.tpl' );

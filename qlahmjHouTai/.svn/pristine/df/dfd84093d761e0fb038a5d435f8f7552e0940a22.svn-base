@@ -1,0 +1,149 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<div role="" class="form-inline">
+		<form class="form-group" method="POST" action="">
+			<select name="s_type" id="s_type" value="">
+				<option value="ai.agentid">代理ID</option>
+				<option value="ai.agentname">代理昵称</option>
+				<option value="ai.parentid">上级代理ID</option>
+			</select>
+			<input id="contains" type="text" name="contains" placeholder="请输入" value="">
+			<!-- <select name="s_grade" id="s_grade" value="<{$_REQUEST.s_grade}>"> -->
+			<select name="s_grade" id="s_grade" value="">
+				<option value="" selected>代理等级</option>
+				<{foreach $level as $val}>
+				<option value="<{$val.levelid}>"><{$val.name}></option>
+				<{/foreach}>
+			</select>
+			<select id="s_ischeck" name="s_ischeck" value="">
+				<option value="" selected>是否审核</option>
+				<option value="1">未审核</option>
+				<option value="2">已审核</option>
+			</select>
+			<select id="s_admin" name="s_admin" value="">
+				<option value="">管理员ID</option>
+				<{foreach $admin as $val}>
+				<option value="<{$val.user_id}>"><{$val.user_name}></option>
+				<{/foreach}>
+			</select>
+			<button id="searchBtn" class="btn btn-info">查询</button>
+		</div>
+	</form>
+	<button class="btn btn-info" style="position: fixed;left: 92%;top:9%" onclick="ShowOpenAgent()">开通代理</button>
+</div>
+<div class="row" style="margin:10px 0">
+	<div class="col-xs-12">
+	<ul class="nav nav-pills" id="tabBtn">
+		<li class="active"><a href="#">充钻记录</a></li>
+		<li class=""><a href="#">代理划拨</a></li>
+		<li class=""><a href="#">进钻记录</a></li>
+		<li class=""><a href="#">系统划拨</a></li>
+		<li class=""><a href="#">售钻/赠送</a></li>
+	</ul>
+	</div>
+</div>	
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">钻石记录</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover" id="tabContain">
+				<thead id="title">
+				</thead>
+				<tbody id="contain">
+				</tbody>
+			</table>
+			<!-- START 分页模板 -->
+			<{$page_html}>
+			<!-- END -->
+		</div>
+	</div>
+
+	<!--操作的确认层，相当于javascript:confirm函数-->
+	<{$osadmin_action_confirm}>
+
+	<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+	<{include file="ace/footer.tpl" }>
+	<script type="text/javascript">
+	$("#fromuid").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+
+	$("#touid").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+	
+	$(function() {
+	var date=$( "#startdate" );
+	date.datepicker({ dateFormat: "yy-mm-dd" });
+	date.datepicker( "option", "firstDay", 1 );
+	});
+	$(function() {
+		var date=$( "#enddate" );
+		date.datepicker({ dateFormat: "yy-mm-dd" });
+		date.datepicker( "option", "firstDay", 1 );
+		$("#topAgent option[value='<{$_REQUEST.topAgent}>']").attr('selected',true);
+		$("#m_type option[value='<{$_REQUEST.m_type}>']").attr('selected',true);
+	});
+	</script>
+	<!-- <tr>
+		<td>流水号</td>
+		<td>时间</td>
+		<td>玩家ID/昵称</td>
+		<td>充值数量</td>
+		<td>当前钻石</td>
+		<td>充值人</td>
+		<td>状态</td>
+	</tr>
+
+	<tr>
+		<td>流水号</td>
+		<td>时间</td>
+		<td>代理ID/昵称</td>
+		<td>级别</td>
+		<td>支付方式</td>
+		<td>进钻金额</td>
+		<td>钻石数量</td>
+		<td>状态</td>
+	</tr>
+
+	<tr>
+		<td>流水号</td>
+		<td>时间</td>
+		<td>代理ID/昵称</td>
+		<td>方式</td>
+		<td>级别</td>
+		<td>进钻金额</td>
+		<td>钻石数量</td>
+		<td>状态</td>
+		<td>管理员</td>
+	</tr> -->
+
+<!-- 	<tr>
+		<td>流水号</td>
+		<td>时间</td>
+		<td>玩家ID/昵称</td>
+		<td>方式</td>
+		<td>进钻金额</td>
+		<td>钻石数量</td>
+		<td>状态</td>
+		<td>管理员</td>
+	</tr> -->

@@ -1,0 +1,129 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<{if $status!=1}>
+					
+<{else}>
+<div class="table-header">您当前的剩余钻石数量为：<{$gemcount}></div>
+<br/>
+<div class="row form-horizontal">
+	<div class="col-xs-12">
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">玩家UID</label>
+			<div class="col-sm-9">
+				<input type="text" id="splayerid" name="splayerid" maxlength="10"
+					value="<{$playerid}>" class="input-xlarge" autofocus="true" >
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-3 col-md-9">
+				<button id="search" class="btn btn-info" type="submit">查询玩家</button>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+<script type="text/javascript">
+	$("#search").click(function() {
+		location.replace('sell.php?playerid=' + $("#splayerid").val());
+	});
+	
+</script>
+
+
+
+
+<div class="row">
+	<div class="col-xs-12"></div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="tab" method="post" action="" autocomplete="off"
+			class="form-horizontal" role="form">
+
+			<div class="row form-horizontal">
+				<div class="col-xs-12">
+		<!-- 			<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">玩家ID</label>
+						<div class="col-sm-9"> -->
+						<{if !$msg}>
+							<input type="hidden" id="toplayerid" name="toplayerid"
+								value="<{$userid}>" class="input-xlarge" autofocus="true"
+								readonly="true"  required="true">
+						<{/if}>
+		<!-- 				</div>
+					</div> -->
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" >玩家昵称</label>
+						<div class="col-sm-9">
+						<{if $msg}>
+							<input type="text" id="playername" name="playername" value="<{$msg}>" placeholder="请务必查询玩家确认昵称"
+								class="input-xlarge" autofocus="true" readonly="true">
+						<{else}>
+							<input type="text" id="toplayername" name="toplayername"
+								value="<{$name}>" class="input-xlarge" autofocus="true"
+								readonly="true">
+						<{/if}>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" >钻石数量</label>
+						<div class="col-sm-9">
+						<{if !$msg}>
+							<input type="text" id="gems" name="gems"
+								value="<{$gems}>" class="input-xlarge" autofocus="true"
+								readonly="true">
+						<{/if}>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="row form-horizontal">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">转钻数量</label>
+						<div class="col-sm-9">
+							<input type="text" id="gemsnumber" name="gemsnumber" gemsnumber"" value=""
+								class="input-xlarge" autofocus="true"  required="true" maxlength="4">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info">确认转钻</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+		</form>
+	</div>
+</div>
+		<{/if}>
+<{include file="ace/footer.tpl" }>
+<script type="text/javascript">
+	
+	$("#gemsnumber").keyup(function(){    
+		
+        var tmptxt=$(this).val();
+        if(tmptxt!='0')		
+        $(this).val(tmptxt.replace(/\D|^0/g,''));     
+    }).bind("paste",function(){     
+        var tmptxt=$(this).val();     
+        $(this).val(tmptxt.replace(/\D|^0/g,''));     
+    }).css("ime-mode", "disabled");    
+</script>
+

@@ -1,0 +1,44 @@
+<{include file = "simple_header.tpl"}>
+<div class="pdlr20">
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg.png);">
+    <a href="javascript:history.back(-1)" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">代理充值</div>
+<!--     <a href="/dlIndex.php?m=Index&c=toMyAgent&a=toMoneyDetail" class="N_czMore">充值记录</a>
+ --></div>
+
+<div class="send_wrap" style="margin: 20% auto">
+
+    <div class="">
+        <form action="" class="form-horizontal" method="POST">
+            <div class="send_item1 boxShadowA relative borderBox">
+                <div>代理ID</div>
+                <div class="select_item controls absolute">
+                    <span class="c_ff5d20 ft25"><{$gagentid}></span>
+                    <input type="hidden" name="gagentid" value="<{$gagentid}>"/>
+                </div>
+            </div>
+    
+            <div class="row-fluid">
+                <div class="send_item1 boxShadowA relative borderBox">
+                    <div>钻石数量：</div>
+                    <div class="controls select_item controls absolute">
+                        <input type="number" class="m-wrap inputStyle" name="diamondCount" id="chargecount" required="true" placeholder="请输入充值的数量" min="0">
+                    </div>
+                </div>
+
+                <div class="lH_2">
+                    <div>当前库存：<span id="agentCount" class="c_ff5d20"><{$diamond}></span>颗</div>
+                </div>
+            </div>
+            <div>
+                <button id="save" class="send_btn_save bg_btn1 inputStyle">立即充值</button>
+            </div>
+            <p class="c_999 send_hint">提示：充值成功后，代理商库存将增加，我的库存会减少。</p>
+        </form>
+    </div>
+
+    <!-- END PAGE -->
+
+</div>
+</div>
+

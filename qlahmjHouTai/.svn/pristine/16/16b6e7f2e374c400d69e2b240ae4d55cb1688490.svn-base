@@ -1,0 +1,190 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class AgentRebateRecord extends Base {
+
+	/**
+	 * [getWhere 处理参数]
+	 * @Author   李龙
+	 * @DateTime 2018-09-03T16:47:47+0800
+	 * @param    string                   $s_type    [搜索类型]
+	 * @param    string                   $contains  [搜索内容]
+	 * @param    string                   $s_grade   [等级]
+	 * @param    string                   $s_ischeck [是否审核]
+	 * @param    string                   $s_admin   [管理]
+	 * @return   [type]                              [description]
+	 */
+	public static function getWhere($type='',$contains=''){
+		if(!empty($contains)){
+			switch ($type) {
+				case '1':
+					$q_id = " and ui.userid = '$contains' ";
+					break;
+				case '2':
+					$q_id = " and ui.nickname like '%$contains%' ";
+					break;
+				case '3':
+					$ret = parent::getAUInfo('userid',$contains);				
+					$q_id = " and ai.parentid = ".$ret['Magentid']." ";
+					break;
+				default:
+					break;
+			}
+		}
+		$where = ' where 1=1 '.$q_id;
+		return $where;
+	}
+
+	/**
+	 * [getRebateSumList 代理报表数据]
+	 * @Author   李龙
+	 * @DateTime 2018-09-20T16:20:21+0800
+	 * @param    [type]                   $start     [description]
+	 * @param    string                   $page_size [description]
+	 * @param    [type]                   $where     [description]
+	 * @return   [type]                              [description]
+	 */
+	public static function getRebateSumList($start,$page_size='',$startdate='',$enddate='',$where){
+		if($page_size) $limit = " limit $start,$page_size";
+		if($startdate==$enddate&&!empty($startdate)&&!empty($enddate)) $startdate = $startdate." 00:00:00";$enddate = $enddate." 23:59:59";
+		if($startdate&&$enddate) $time = " and arl.addtime between '$startdate' and '$enddate' ";else $time = " and DATE_FORMAT( arl.addtime,'%Y-%m' ) = DATE_FORMAT( CURDATE(),'%Y-%m' ) ";
+		$db = self::__instance();
+		$sql = 'SELECT
+					arl.agentid,
+					sum(IFNULL(lfa.fundmoney,0)) AS sumfundmoney,
+					sum(IFNULL(arl.paynum,0)) AS sumpaynum,
+					sum(CASE WHEN arl.returnlevel = "1" THEN arl.returnrmb ELSE 0 END) AS onerebate,
+					sum(CASE WHEN arl.returnlevel = "2" THEN arl.returnrmb ELSE 0 END) AS tworebate,
+					sum(CASE WHEN arl.returnlevel = "3" THEN arl.returnrmb ELSE 0 END) AS threerebate,
+					sum(CASE WHEN arl.returnlevel = "4" THEN arl.returnrmb ELSE 0 END) AS fourrebate
+				FROM
+					agent_return_log arl
+				LEFT JOIN agent_level al ON arl.agentlevel = al.levelid 
+				LEFT JOIN agent_info ai ON arl.agentid = ai.agentid 
+				LEFT JOIN user_info ui ON ai.userid = ui.userid 
+				LEFT JOIN agent_info b ON ai.parentid = b.agentid 
+				LEFT JOIN user_info c ON b.userid = c.userid 
+				LEFT JOIN log_funds_agent lfa ON arl.agentid = lfa.agentid 
+				AND lfa.fundtype = "81" 
+				AND lfa.accounttype = "VD" 
+				AND DATE_FORMAT(arl.addtime,"%Y-%m-%d") = DATE_FORMAT(lfa.addtime,"%Y-%m-%d") 
+				'.$time.' 
+				'.$where.$time.' 
+				GROUP BY 
+					arl.agentid '.$limit; 
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $key => $value) {
+			$result[$key] = array_merge($result[$key],self::Aux($result[$key]['agentid']));
+		}
+		if($result) return $result;else return array();
+	}
+
+
+	public static function Aux($agentid=''){
+		if(empty($agentid)) return;
+		$db = self::__instance();
+		$sql = 'SELECT
+					b.userid,
+					b.nickname,
+					al.name,
+					ui.nickname upnickname,
+					ui.userid upuserid
+				FROM
+					agent_info ai
+				LEFT JOIN agent_info a ON ai.parentid = a.agentid
+				LEFT JOIN user_info ui ON a.userid = ui.userid
+				LEFT JOIN user_info b ON ai.userid = b.userid
+				LEFT JOIN agent_level al ON ai.levelid = al.levelid
+				WHERE
+					ai.agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getRowCount 获取信息条目]
+	 * @Author   李龙
+	 * @DateTime 2018-09-25T14:15:18+0800
+	 * @param    string                   $startdate [开始时间]
+	 * @param    string                   $enddate   [结束时间]
+	 * @param    [type]                   $where     [筛选条件]
+	 * @return   [type]                              [description]
+	 */
+	public static function getRowCount($startdate='',$enddate='',$where){
+		if($startdate==$enddate&&!empty($startdate)&&!empty($enddate)) $startdate = $startdate." 00:00:00";$enddate = $enddate." 23:59:59";
+		if($startdate&&$enddate) $time = " and arl.addtime between '$startdate' and '$enddate' ";else $time = " and DATE_FORMAT( arl.addtime,'%Y-%m' ) = DATE_FORMAT( CURDATE(),'%Y-%m' ) ";
+		$db = self::__instance();
+		$sql = 'SELECT
+					count(DISTINCT(arl.agentid))
+				FROM
+					agent_return_log arl 
+				LEFT JOIN agent_info ai ON arl.agentid = ai.agentid
+				LEFT JOIN user_info ui ON ai.userid = ui.userid
+				LEFT JOIN agent_info b ON ai.parentid = b.agentid
+				'.$where.$time;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+
+	/**
+	 * [getDayData 获取日数据]
+	 * @Author   李龙
+	 * @DateTime 2018-09-25T14:19:14+0800
+	 * @param    string                   $agentid    [玩家ID]
+	 * @param    string                   $startdate [开始时间]
+	 * @param    string                   $enddate   [结束时间]
+	 * @return   [type]                              [description]
+	 */
+	public static function getDayData($agentid='',$startdate='',$enddate=''){
+		if(empty($agentid)) return ;
+		if($startdate==$enddate&&!empty($startdate)&&!empty($enddate)) $startdate = $startdate." 00:00:00";$enddate = $enddate." 23:59:59";
+		if($startdate&&$enddate) $time = " and arl.addtime between '$startdate' and '$enddate' ";else $time = " and DATE_FORMAT( arl.addtime,'%Y-%m' ) = DATE_FORMAT( CURDATE(),'%Y-%m' ) ";
+		$db = self::__instance();
+		$sql = 'SELECT DATE_FORMAT(arl.addtime,"%Y-%m-%d") AS addtime,
+						sum(IFNULL(lfa.fundmoney,0)) AS sumfundmoney,
+						sum(IFNULL(arl.paynum,0)) AS sumpaynum,
+						sum(CASE WHEN arl.returnlevel = "1" THEN arl.returnrmb ELSE 0 END) AS onerebate,
+						sum(CASE WHEN arl.returnlevel = "2" THEN arl.returnrmb ELSE 0 END) AS tworebate,
+						sum(CASE WHEN arl.returnlevel = "3" THEN arl.returnrmb ELSE 0 END) AS threerebate,
+						sum(CASE WHEN arl.returnlevel = "4" THEN arl.returnrmb ELSE 0 END) AS fourrebate
+				from agent_return_log arl
+				LEFT JOIN log_funds_agent lfa ON arl.agentid = lfa.agentid
+				AND lfa.fundtype = "81"
+				AND lfa.accounttype = "VD" 
+				AND DATE_FORMAT(arl.addtime,"%Y-%m-%d") = DATE_FORMAT(lfa.addtime,"%Y-%m-%d") 
+				WHERE arl.agentid = '.$agentid.$time.'  
+				GROUP BY DATE_FORMAT(arl.addtime,"%Y-%m-%d") order by DATE_FORMAT(arl.addtime,"%Y-%m-%d") desc ';
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getMonthData 获取月数据]
+	 * @Author   李龙
+	 * @DateTime 2018-09-25T14:19:31+0800
+	 * @param    string                   $agentid [玩家ID]
+	 * @return   [type]                           [description]
+	 */
+	public static function getMonthData($agentid=''){
+		if(empty($agentid)) return ;	
+		$db = self::__instance();
+		$sql = 'SELECT 
+						DATE_FORMAT(arl.addtime,"%Y-%m") AS addtime,
+						sum(IFNULL(lfa.fundmoney,0)) AS sumfundmoney,
+						sum(IFNULL(arl.paynum,0)) AS sumpaynum,
+						sum(CASE WHEN arl.returnlevel = "1" THEN arl.returnrmb ELSE 0 END) AS onerebate,
+						sum(CASE WHEN arl.returnlevel = "2" THEN arl.returnrmb ELSE 0 END) AS tworebate,
+						sum(CASE WHEN arl.returnlevel = "3" THEN arl.returnrmb ELSE 0 END) AS threerebate,
+						sum(CASE WHEN arl.returnlevel = "4" THEN arl.returnrmb ELSE 0 END) AS fourrebate
+				from agent_return_log arl
+				LEFT JOIN log_funds_agent lfa ON arl.agentid = lfa.agentid
+				AND lfa.fundtype = "81"
+				AND lfa.accounttype = "VD"
+				AND DATE_FORMAT(arl.addtime,"%Y-%m") = DATE_FORMAT(lfa.addtime,"%Y-%m") 
+				WHERE arl.agentid = '.$agentid.'
+				group by DATE_FORMAT(arl.addtime,"%Y-%m") order by DATE_FORMAT(arl.addtime,"%Y-%m") DESC '; 
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+}
+

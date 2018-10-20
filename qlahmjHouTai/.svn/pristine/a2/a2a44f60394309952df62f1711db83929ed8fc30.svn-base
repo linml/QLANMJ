@@ -1,0 +1,12 @@
+<?php 
+require ('../include/init.inc.php');
+$playerid = $method ='';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+if($method=="playerUnbindRelationship"&&!empty($playerid)){
+	$result = Players::getPlayerUnbindRelationship($playerid);
+	exit($result);
+}
+$palyerInfo = Players::getPlayerInfoByUserid($playerid);
+
+Template::assign ('palyerInfo', $palyerInfo);
+Template::display ( 'agentcenter/toPlayersInfo.tpl');

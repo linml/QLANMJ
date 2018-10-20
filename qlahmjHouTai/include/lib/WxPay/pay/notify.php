@@ -1,0 +1,82 @@
+<?php
+ini_set('date.timezone','Asia/Shanghai');
+error_reporting(E_ERROR);
+require ('../../../init.inc.php');
+require_once "../lib/WxPay.Api.class.php";
+require_once '../lib/WxPay.Notify.class.php';
+require_once 'log.php';
+
+//初始化日志
+$logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.log');
+$log = Log::Init($logHandler, 15);
+
+class PayNotifyCallBack extends WxPayNotify
+{
+	//查询订单
+	public function Queryorder($transaction_id)
+	{
+		$input = new WxPayOrderQuery();
+		$input->SetTransaction_id($transaction_id);
+		Log::DEBUG("transaction_id:" . json_encode($input));
+		$result = WxPayApi::orderQuery($input);
+		Log::DEBUG("query:" . json_encode($result));
+		if(array_key_exists("return_code", $result)
+			&& array_key_exists("result_code", $result)
+			&& $result["return_code"] == "SUCCESS"
+			&& $result["result_code"] == "SUCCESS")
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	//重写回调处理函数
+	public function NotifyProcess($data, &$msg)
+	{
+		Log::DEBUG("call back:" . json_encode($data));
+
+		$notfiyOutput = array();
+		
+		if(!array_key_exists("transaction_id", $data)){
+			$msg = "输入参数不正确";
+			return false;
+		}
+		//查询订单，判断订单真实性
+		if(!$this->Queryorder($data["transaction_id"])){
+			$msg = "订单查询失败";
+			return false;
+		}
+
+		Log::DEBUG("判断订单存在：" . WxPay::checkOrderNoIsExit($data["out_trade_no"]));
+
+		//查询本地订单是否存在
+		if(WxPay::checkOrderNoIsExit($data["out_trade_no"])>0){
+			//调用处理订单回调
+			$purchaseData = array(
+							'order_no'=>$data['out_trade_no'],
+							'total_fee'=>$data['total_fee'],
+							'status'=>'1',
+							'transaction_id'=>$data['transaction_id']);
+			Log::DEBUG("修改订单：" . json_encode($purchaseData));
+			$result = WxPay::agentPurchaseNotify($purchaseData);
+			Log::DEBUG("staus" . $result);
+			//订单成功
+			if($result!=1){
+				Log::DEBUG("---------------支付订单修改错误--------------");
+				$purchaseData['status'] = '2';
+				WxPay::agentPurchaseNotify($purchaseData);
+				$msg ="业务订单修改错误！";
+				return false;
+			}
+			Log::DEBUG("---------------订单成功--------------");
+			return true;
+		}
+		$msg = "业务订单查询失败";
+		return false;
+	}
+
+}
+
+Log::DEBUG("-------------------begin notify----------------------");
+$notify = new PayNotifyCallBack();
+$notify->Handle(false);

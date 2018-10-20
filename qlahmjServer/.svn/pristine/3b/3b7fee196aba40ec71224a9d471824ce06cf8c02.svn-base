@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ServerDataConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <FilesPath>
+    <string>GameIF.dll</string>
+  </FilesPath>
+  <txtOutFolder>D:\OutDir</txtOutFolder>
+</ServerDataConfig>

@@ -1,0 +1,7 @@
+<?php 
+require ('../include/init.inc.php');
+$start = $pagesize = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+$GemsRecordList = GemsRecord::getDiamonRecord(0,10);
+Template::assign ('data', $GemsRecordList);
+Template::display ('agentcenter/toGemsRecord.tpl');

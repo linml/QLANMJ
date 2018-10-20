@@ -1,0 +1,62 @@
+<{include file = "simple_header.tpl"}>
+<div class="mt50">
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg2.png);">
+    <a href="/dlIndex.php?m=Index&c=index&a=home" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">我要进货</div>
+</div>
+<div class="box pa10">
+  <!-- 金额 -->
+  <div class="bg1 ov">
+    <table class="table_2">
+      <tr>
+        <td>¥100</td>
+        <td class="current">¥200</td>
+        <td>¥500</td>
+      </tr>
+      <tr>
+        <td>¥1000</td>
+        <td>¥3000</td>
+        <td>¥5000</td>
+      </tr>
+    </table>
+  </div><!-- #金额 -->
+
+  <div class="bg1 mt10"> 
+    <ul class="fz14 list_1">
+      <li class="flex_box">
+        <span>我的代理级别：</span>
+        <span class="item tar fwb cor_1">铂金代理</span>
+      </li>
+      <li class="flex_box">
+        <span>专享进货折扣：</span>
+        <span class="item tar fwb cor_1">0.55折</span>
+      </li>
+      <li class="flex_box">
+        <span>可货钻石：</span>
+        <span class="item tar fwb cor_5">3652钻</span>
+      </li>
+    </ul>
+  </div><!-- #bg1 -->
+
+  <p class="flex_box mt20">
+    <a href="#" title="" class="btn_2 item mr10">进钻记录</a>
+    <a href="#" title="" class="btn_3 item">微信支付</a>
+  </p>
+<br>
+  <ul class="lh22 cor_2 fz14 mt10">
+    <li>1、支付成功后，系统将发货至你的代理库存(不是游戏ID哦)。</li>
+    <li>2、进货后的钻石可销售给绑定的玩家。</li>
+    <li>3、请严格按照商城售钻比例进行销售，详情请参考充钻页面。</li>
+  </ul>
+</div>
+</div>
+
+<script type="text/javascript" src="<{$smarty.const.ADMIN_URL}>/assets/js/zepto.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('.table_2 td').click(function(){
+        $('.table_2 td').removeClass('current');
+        $(this).addClass('current');
+    })
+})
+</script>

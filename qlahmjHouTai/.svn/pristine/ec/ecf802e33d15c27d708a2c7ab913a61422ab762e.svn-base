@@ -1,0 +1,35 @@
+<?php
+require ('../include/init.inc.php');
+$user_group = $method = $user_name = $user_id = $page_no = $search = '';
+extract ( $_REQUEST, EXTR_IF_EXISTS );
+
+//START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no=$page_no<1?1:$page_no;
+
+$condition = array('AND'=> array('s.uid'=>UserSession::getAgentUid(),'s.type'=>'subtract'));
+$row_count = Agent::Getsellrecord_count ($condition);
+$total_page = $row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
+$total_page = $total_page<1?1:$total_page;
+$page_no = $page_no>($total_page)?($total_page):$page_no;
+$start = ($page_no - 1) * $page_size;
+$sellrecord_infos = Agent::Getsellrecord_infos ( UserSession::getAgentUid(),$start , $page_size  );
+
+$page_html = Pagination::showPager("sellrecord.php",$page_no,$page_size,$row_count);
+
+$sum = Agent::getSellGemCount($condition);
+Template::assign ( 'totalcount', $sum);
+Template::assign ( 'sellrecord_infos', $sellrecord_infos );
+//Template::assign ( '_GET', $_GET );
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+//Template::assign ( 'osadmin_action_confirm' , $confirm_html);
+
+Template::assign ( 'tips', "" );
+if(UserSession::getAgentStatus()!=1) {
+	Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+}
+
+Template::display ( 'agentcenter/sellrecord.tpl' );
+
+//Template::Display ( 'agentcenter/myearnings.tpl' );

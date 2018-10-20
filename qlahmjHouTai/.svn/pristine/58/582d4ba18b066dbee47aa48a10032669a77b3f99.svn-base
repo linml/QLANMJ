@@ -1,0 +1,70 @@
+<?php
+require ('../include/init.inc.php');
+
+$merId = $appId = $merOrderId = $payerId = $reqFee = $itemName = $itemDesc = $notifyUrl = $extInfo = '';
+extract ( $_POST, EXTR_IF_EXISTS );
+//echo  rand(pow(10,($length-1)), pow(10,$length)-1);
+//echo date ( "YmdHis" ) ;
+if (Common::isPost ()) {
+	
+	$date2 = array (
+			"merId" => $merId, // string(20) Y 商户编号，由神付通分配
+			"appId" => $appId, // int(11) Y 应用编号，由神付通分配
+			"merOrderId" => $merOrderId, // string(64) Y 商户订单编号，需保证唯一
+			"payerId" => $payerId, // string(32) Y 支付用户，需保证唯一
+			"reqFee" => $reqFee, // decimal(16,6) Y 请求支付金额，以“分”为单位
+			"itemName" => $itemName, // string(64) Y 商品名称
+			"itemDesc" => $itemDesc, // string(1024) N 商品描述
+			"notifyUrl" => $notifyUrl, // string(255) Y 异步回调地址URL
+			"extInfo" => $extInfo 
+	);
+	
+	ksort ( $date2 );	
+	$string = "";
+	foreach ( $date2 as $k => $v ) {
+		if ($k != "sign" && $v != "" && ! is_array ( $v )) {
+			$string .= $k . "=" . $v . "&";
+		}
+	}	
+	$string = trim ( $string, "&" );	
+	// 签名步骤二：在string后加入KEY
+	$string = $string . "44F3411D4C4A490F91D2D16C893C5145"; // "98BFC62BF106489491F9BB489ABDCCB6";
+	//var_dump ( $string );
+	// 签名步骤三：MD5加密
+	$string = md5 ( $string );
+	// 签名步骤四：所有字符转为大写
+	$date2['signValue'] = strtoupper ( $string );
+	//var_dump ( ($date2) );
+	//var_dump ( json_encode ( $date2 ) );
+	
+	
+	$string = "";
+	foreach ( $date2 as $k => $v ) {
+		if ($k != "sign" && $v != "" && ! is_array ( $v )) {
+			$string .= $k . "=" . $v . "&";
+		}
+	}
+	$string = trim ( $string, "&" );
+	//var_dump ( $string );
+	
+	$url = 'http://payment-test.szhuyu.com/wap/weixin/wft';
+	$ch = curl_init ();
+	curl_setopt ( $ch, CURLOPT_URL, $url );
+	curl_setopt ( $ch, CURLOPT_HEADER, false );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	
+	//curl_setopt ( $ch, CURLOPT_COOKIEFILE, $cookie );
+	
+	//$cookie_jar = tempnam ( ".", "logincookie" );
+	//curl_setopt ( $ch, CURLOPT_COOKIEJAR, $cookie_jar );
+	
+	curl_setopt ( $ch, CURLOPT_POSTFIELDS, $string );
+	
+	$output = curl_exec ( $ch );
+	$info = curl_getinfo ( $ch, CURLINFO_EFFECTIVE_URL );
+	curl_close ( $ch );
+	echo json_encode($output);
+	exit ();
+}
+
+Template::Display ( 'agentcenter/szhuyu.tpl' );

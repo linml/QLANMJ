@@ -1,0 +1,116 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class GemsRecord extends Base {
+	// 表名
+	private static $log_funds_agent = 'log_funds_agent';
+	private static $agent_transfer  = 'agent_transfer';
+	
+	public static function getDiamonRecord($start,$pagesize){
+		if($pagesize) $limit = " limit $start,$pagesize";
+		$agentid = UserSession::getAgentId();
+		if(empty($agentid)) return User::logout();
+		$db = self::__instance();
+		$sql = 'select lfa.fundtype,lfa.relationid from '.self::$log_funds_agent.' as lfa where lfa.agentid = '.$agentid.' and lfa.accounttype = "VD" '.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		$diamonRecordData = array();
+		foreach($result as $key => $value){
+			if($result[$key]['fundtype'] == '81'){
+				array_push($diamonRecordData,self::getRechargeUsers($result[$key]['relationid']));
+			}else if($result[$key]['fundtype'] == '82'){
+				array_push($diamonRecordData,self::getSendAgents($result[$key]['relationid']));
+			}else if($result[$key]['fundtype'] == '83'){
+				array_push($diamonRecordData,self::getPurchage($result[$key]['relationid']));
+			}else return array();
+		}
+		if($diamonRecordData) return $diamonRecordData;else return array();
+	}
+
+	/**
+	 * [getRechargeUsers 给玩家充钻]
+	 * @Author   李龙
+	 * @DateTime 2018-08-13T10:53:42+0800
+	 * @param    string                   $relationid [单号]
+	 * @return   [type]                   [返回查询结果集]
+	 */
+	public static function getRechargeUsers($relationid=''){
+		$agentid = UserSession::getAgentId();
+		if(empty($agentid)||empty($relationid)) return ;
+		$db = self::__instance();
+		$sql = 'select at.auid,lfa.addtime,lfa.fundmoney,lfa.agomoney,lfa.fundtype from 
+				'.self::$agent_transfer.' as at left join 
+				'.self::$log_funds_agent.' as lfa on lfa.relationid = at.id 
+				where at.agentid = '.$agentid.' and lfa.accounttype = "VD" and lfa.relationid = '.$relationid.' and at.cashtype = "U" and at.status = "1"';
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+	
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getSendAgents 给代理划拨]
+	 * @Author   李龙
+	 * @DateTime 2018-08-13T10:55:23+0800
+	 * @param    string                   $relationid [单号]
+	 * @return   [type]                   [返回插叙结果集]
+	 */
+	public static function getSendAgents($relationid=''){
+		$agentid = UserSession::getAgentId();
+		if(empty($agentid)||empty($relationid)) return ;
+		$db = self::__instance();
+		$sql = 'select at.auid,lfa.addtime,lfa.fundmoney,lfa.agomoney,lfa.fundtype from 
+				'.self::$agent_transfer.' as at left join 
+				'.self::$log_funds_agent.' as lfa on at.id = lfa.relationid 
+				where at.agentid = '.$agentid.' and lfa.accounttype = "VD" and at.cashtype = "H" and lfa.relationid = '.$relationid.' and at.status = "1"';
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result; else return array();
+	}
+
+	/**
+	 * [getPurchage 代理进钻]
+	 * @Author   李龙
+	 * @DateTime 2018-08-13T10:58:11+0800
+	 * @param    string                   $relationid [单号]
+	 * @return   [type]                   [返回查询结果集]
+	 */
+	public static function getPurchage($relationid=''){
+		$agentid = UserSession::getAgentId();
+		if(empty($agentid)||empty($relationid)) return ;
+		$db = self::__instance();
+		$sql = 'select lfa.addtime,lfa.fundmoney,lfa.agomoney,lfa.fundtype from 
+					'.self::$agent_transfer.' as at left join 
+					'.self::$log_funds_agent.' as lfa on at.id = lfa.relationid 
+					where at.agentid = '.$agentid.' and lfa.accounttype = "VD" and at.cashtype = "D" and lfa.relationid = '.$relationid.' and at.status = "1"';
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getSysSend 系统赠送]
+	 * @Author   李龙
+	 * @DateTime 2018-08-13T10:59:22+0800
+	 * @param    string                   $relationid [单号]
+	 * @return   [type]                   [返回查询结果集]
+	 * TIP:fixme
+	 */
+	public static function getSysSend(){
+		// $agentid = UserSession::getAgentId();
+		// if(empty($agentid)) return ;
+		// $db = self::__instance();
+	}
+
+	/**
+	 * [getSysTransfer 系统划拨]
+	 * @Author   李龙
+	 * @DateTime 2018-08-13T11:00:53+0800
+	 * @param    string               $relationid [单号]
+	 * @return   [type]               [返回查询结果集]
+	 * TIP:fixme
+	 */
+	public static function getSysTransfer(){
+		// $agentid = UserSession::getAgentId();
+		// if(empty($agentid)) return ;
+		// $db = self::__instance();
+	}
+}

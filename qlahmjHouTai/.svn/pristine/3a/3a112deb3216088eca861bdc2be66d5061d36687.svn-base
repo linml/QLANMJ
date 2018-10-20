@@ -1,0 +1,102 @@
+<{include file = "simple_header.tpl"}>
+<div class="pdlr20">
+<div class="openAgent">
+    <div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg3.png);">
+    <a href="javascript:history.back(-1)" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">开通代理</div>
+    </div>
+    <div class="w_710" style="margin-top: 22%">
+                <div class="pdg_lr30 relative borderBox w_full h_100 lh_100  mgTp3 font28 c_28 bgfff">
+                    游戏ID
+                    <input type="number" placeholder="请输入代理的游戏ID" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id="UserGameId" min="0"/>
+                </div>
+                <p class="font24 mgTp3 c_999">验证结果：<span id="yz_name" class="c_28">等待验证</span><span class="c_4baf43 hidden" id="yzc_faild">(未注册)</span><span class="c_ff5d20 hidden" id="yzc_ok">(已注册)</span></p>
+                <div class="mgTp3 bgfff">
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        姓名
+                        <input type="text"  class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='nickName' disabled="true" />
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        手机号
+                        <input type="number"  min="0" placeholder="请输入正确的代理手机号" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id='UserTel' />
+                    </div>
+
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        微信号
+                        <input type="text" placeholder="请输入微信号" class="inputStyle absolute font28  h_full wp_75 c_28_8 top0 leftP23" id ='WeChat'/>
+                    </div>
+                    <div class="pdg_lr30 relative borderBox w_full h_100 lh_100 borderB_f0 font28 c_28">
+                        级别
+                        <select class="inputStyle absolute font28 bg_arrowR h_full wp_75 c_28_8 top0 leftP23" id = "AgentSet">
+                            <{foreach from=$levleData item=levle}>
+                                <option value="<{$levle.levelid}>"><{$levle.name}> (享受<{$levle.discount}>%返利)</option>
+                            <{/foreach}>
+                        </select>
+                    </div>
+                    <div id="gameUserDJ" style="display:none" ><?echo $agentMomoneType?></div>
+                </div>
+                
+                <div class="textCenter font32 mgTp3 c_fff w_full h_90 lh_90 br_8 bg_btn3" id="addAgent">开通代理</div>
+                <p class="mgTp3 ft14 c_999">
+                    1、游戏ID请在游戏大厅里获取。<br/>
+                    2、代理商需熟悉游戏玩法，有较广的人脉，有一定的推广经验。<br/>
+                    3、建议开通后，制定开局要求，每天开局至少保持10局。<br/>
+                    4、开通后，代理的玩家充值后你可获得间接返利。<br/>
+                    5、返利详情可咨询客服，微信号：qllamj
+                </p>
+    </div>
+</div>
+</div>
+
+
+<script>
+    $(function(){
+        //1、失去焦点验证
+        $("#UserGameId").blur(function(){
+            var playerid = $(this).val();
+            $("#yz_name").show();
+            $("#yzc_faild").show();
+            $("#yzc_ok").show();
+            if(!playerid){
+                $("#yz_name").text('参数为空！');
+                $("#yzc_faild").hide();
+                $("#yzc_ok").hide();
+                return;
+            }
+            $.ajax({
+                url: 'openagents.php',
+                type: 'POST',
+                dataType: '',
+                data: {'method': 'valiPlayer','playerid':playerid},
+                success:function(data){
+                    data = $.parseJSON(data);
+                    if(data.status==1) {
+                        $("#yz_name").text('服务器验证参数为空！');
+                        $("#yzc_faild").hide();
+                        $("#yzc_ok").hide();
+                    }else if(data.status==2){
+                        $("#yz_name").text('未绑定该玩家');
+                        $("#yzc_faild").hide();
+                        $("#yzc_ok").hide();
+                    }else if(data.status==3){
+                        $("#yz_name").text(data.name.nickname);
+                        $("#nickName").val(data.name.nickname);
+                        $("#yzc_faild").hide();
+                        $("#yzc_ok").show();
+                    }else if(data.status==4){
+                        $("#yz_name").text('此玩家已代理！');
+                        $("#yzc_faild").hide();
+                        $("#yzc_ok").hide();
+                    }
+                },
+                error:function(err){}
+            })
+        });
+        //2、获取焦点隐藏提示
+        $("#UserGameId").focus(function(){
+            $("#yz_name").hide();
+            $("#yzc_faild").hide();
+            $("#yzc_ok").hide();
+        });
+    });
+</script>

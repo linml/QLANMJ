@@ -1,0 +1,121 @@
+<{include file ="ace/header.tpl"}>
+<{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row" style="margin: 1% 0">
+	<div class="col-xs-12">
+		<div id="search" class="collapse in">
+		<form action="" method="POST" class="form-inline" role="form">		
+			<div class="form-group">
+					<select name="id" id='id' value="">
+						<option value="fi.userid">代理ID</option>
+						<option value="fi.friendid">亲友圈ID</option>
+					</select>
+			</div>
+			<input type="text" id="contains" name="contains" value="" placeholder="请输入">
+			<div class="form-group">
+					<select name="order" id='order' value="">
+						<option value="asc">按成员排序(升序)</option>
+						<option value="desc">按成员排序(降序)</option>
+					</select>
+			</div>
+			<button class="btn btn-info" type="submit" id="search_reuslt">检索</button>			
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">俱乐部管理</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>创建时间</th>
+						<th>代理ID/昵称</th>
+						<th>亲友圈ID/名称</th>
+						<th>玩法</th>
+						<th>赛事</th>
+						<th>成员</th>
+						<th>管理</th>
+					</tr>
+				</thead>
+				<tbody>
+					<{foreach $clubdata as $val}>
+					<tr>
+                        <td><{$val.addtime}></td>
+                        <td><{$val.userid}>/<{$val.agentname}></td>
+                        <td><{$val.friendid}>/<{$val.friendname}></td>
+                        <td><{$val.rulestr}></td>
+                        <td>赛事</td>
+                        <td><{$val.members}></td>
+                        <td>
+                        	<button>成员</button>
+                        	<button>数据</button>
+                        	<button>解散</button>
+                        </td>
+                        
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!-- START 分页模板 -->
+			<{$page_html}>
+			<!-- END -->
+		</div>
+	</div>
+
+	<!--操作的确认层，相当于javascript:confirm函数-->
+	<{$osadmin_action_confirm}>
+
+	<!-- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
+	<{include file="ace/footer.tpl" }>
+	<script type="text/javascript">
+	$("#fromuid").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+
+	$("#touid").keyup(function() {
+		var tmptxt = $(this).val();
+		if (tmptxt != '0')
+			$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).bind("paste", function() {
+		var tmptxt = $(this).val();
+		$(this).val(tmptxt.replace(/\D|^0/g, ''));
+	}).css("ime-mode", "disabled");
+	
+	$(function() {
+	var date=$( "#startdate" );
+	date.datepicker({ dateFormat: "yy-mm-dd" });
+	date.datepicker( "option", "firstDay", 1 );
+	});
+	$(function() {
+		var date=$( "#enddate" );
+		date.datepicker({ dateFormat: "yy-mm-dd" });
+		date.datepicker( "option", "firstDay", 1 );
+	});
+
+	$(document).ready(function(){
+		var _REQUEST = <{$_REQUEST}>
+		// var id = $('#id').val()
+		// var order = $('#order').val()
+		// console.log(id)
+		// console.log(order)
+		$('#id option[value="'+_REQUEST.id+'"]').attr('selected','selected')
+		$('#order option[value="'+_REQUEST.order+'"]').attr('selected','selected')
+		$('#contains').attr('value',_REQUEST.contains)
+	})
+	</script>

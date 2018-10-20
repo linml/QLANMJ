@@ -1,0 +1,70 @@
+<?php
+require ('../include/init.inc.php');
+$user_name = $password ='';
+extract ( $_POST, EXTR_IF_EXISTS );
+if (Common::isPost ()) {
+	$agent_info = User::checkPassword (AGENT,$user_name, $password);
+	if ($agent_info) {
+		if($agent_info['status']==1){
+			User::loginDoSomething(AGENT,$agent_info['user_game_id']);
+			Common::jumpUrl ( 'panel/index.php' );
+			
+		}else{
+			OSAdmin::alert("error",ErrorMessage::BE_PAUSED);
+		}
+	} else {
+		OSAdmin::alert("error",ErrorMessage::USER_OR_PWD_WRONG);
+		SysLog::addLog ( $user_name, 'LOGIN','User' ,'' , json_encode(ErrorMessage::USER_OR_PWD_WRONG) );
+	}	
+}
+
+$_POST['user_name'] ='13761299992';
+$_POST['password'] ='x117698b';
+
+Template::assign ( '_POST',$_POST );
+Template::assign ( 'page_title','登入' );
+// Template::Display ( 'agentcenter/AgentRegister.tpl' );              // 代理商注册
+Template::Display ( 'agentLogin.tpl' );                       // 代理商登录
+
+// Template::Display ( 'agentcenter/home.tpl' );                      // 代理首页
+// Template::Display ( 'agentcenter/tuiguangdetail.tpl' );            // 邀请玩家
+
+// Template::Display ( 'agentcenter/toPurchase.tpl' );             // 我要进货
+
+// Template::Display ( 'agentcenter/orderStatus_s.tpl' );             // 订单状态-成功
+// Template::Display ( 'agentcenter/orderStatus_f.tpl' );             // 订单状态-失败
+
+
+// Template::Display ( 'agentcenter/gemsRecharge.tpl' );             // 钻石充值(我要充钻)
+  // Template::Display ( 'agentcenter/purchaseRecord.tpl' );             // 进钻记录
+
+// Template::Display ( 'agentcenter/sendMoney.tpl' );                 // 划拨库存
+  // Template::Display ( 'agentcenter/toMoneyDetail.tpl' );             // 划拨记录
+
+// Template::Display ( 'agentcenter/toAddMyAgent.tpl' );             // 开通代理
+																	 //查看代理
+
+
+// Template::Display ( 'agentcenter/Players.tpl' );           // 玩家
+
+// Template::Display ( 'agentcenter/PlayersInfoDetail.tpl' );             // 玩家资料
+// Template::Display ( 'agentcenter/AgentsInfoDetail.tpl' );             // 代理资料
+
+// Template::Display ( 'agentcenter/toGiftCard.tpl' );                // 玩家充值
+// Template::Display ( 'agentcenter/toGiftCardDetail.tpl' );          // 充值记录
+// Template::Display ( 'agentcenter/inviteAgents.tpl' );              // 邀请代理
+
+// Template::Display ( 'agentcenter/toMyAgent.tpl' );                 // 我绑定的代理人列表
+// Template::Display ( 'agentcenter/toTixian.tpl' );                  // 余额提现
+// Template::Display ( 'agentcenter/tixianrecord.tpl' );              // 提现记录
+// Template::Display ( 'agentcenter/toMyInfo.tpl' );                  // 我的
+// Template::Display ( 'agentcenter/toRWAgentsDetail.tpl' );          // 代理贡献明细
+// Template::Display ( 'agentcenter/toRWUsersDetail.tpl' );           // 玩家贡献明细
+// Template::Display ( 'agentcenter/toRoseAgentDetail.tpl' );         // 总代月统计金额详情
+// Template::Display ( 'agentcenter/toRWDateOrMonthDetail.tpl' );     // 返佣汇总
+// Template::Display ( 'agentcenter/commissionRecord.tpl' );     // 佣金记录
+// Template::Display ( 'agentcenter/gemsRecord.tpl' );     // 钻石记录
+
+// Template::Display ( 'agentcenter/toUpdatePassword.tpl' );          // 账户安全
+
+?>

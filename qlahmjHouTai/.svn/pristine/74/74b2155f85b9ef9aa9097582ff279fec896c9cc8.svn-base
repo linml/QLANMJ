@@ -1,0 +1,132 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class Agent extends Base {
+
+	private static $agent_info = 'agent_info';
+	private static $agent_level= 'agent_level';
+	private static $agent_account = 'agent_account';
+	private static $user_info = 'user_info';
+	private static $user_stat = 'user_stat';
+
+	/**
+	 * [getAgentsList 获取代理列表]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T16:11:29+0800
+	 * @param    string                   $start     [开始]
+	 * @param    string                   $page_size [页显示条目]
+	 * @return   [type]                              [返回结果集]
+	 */
+	public static function getAgentsList($start='',$page_size=''){
+		$db = self::__instance();
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql = 'select ai.agentid,ai.agentname,ai.parentid,al.name,aa.rmb,aa.diamond,ai.status from '.self::$agent_info.' ai
+	left join  '.self::$agent_level.'  as al on ai.levelid = al.levelid
+	left join  '.self::$agent_account.'  as aa on ai.agentid = aa.agentid'.$limit;
+		$result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $key => $value) {
+			$result[$key] = array_merge($result[$key], self::getRebateAndReturnData($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getLowerAgentsNum($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getBindUserNum($result[$key]['agentid']));
+			$result[$key] = array_merge($result[$key], self::getDrawMoney($result[$key]['agentid']));
+		}
+		if($result) return $result;else array();
+	}
+
+	/**
+	 * [getAgentInfo 获取代理的详情信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-28T09:55:18+0800
+	 * @param    string                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getAgentInfoById($agentid=''){
+		if(empty($agentid)) return ;
+		$where = " where ai.agentid = $agentid";
+		$db = self::__instance();
+		$sql = 'select ui.userid,ai.agentid,ui.picfile,ai.mobilenum,ai.agentname,ui.realname,ai.wechatnum,al.name,al.levelid,ai.addtime,ai.status,ai.parentid,IFNULL(us.roomcnt,0) as roomcnt 
+	from '.self::$agent_info.' ai 
+	left join '.self::$user_info.' ui on ai.userid = ui.userid
+	left join '.self::$user_stat.' us on ai.userid = us.userid
+	left join '.self::$agent_level.' al on ai.levelid = al.levelid '.$where;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;else return array();
+	}
+
+	/**
+	 * [getRebateData 获取返利总额和体现总额]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:25:28+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getRebateAndReturnData($agentid){
+		$db = self::__instance();
+		$sql = 'select sum(IFNULL(paynum,0)) as sumpaynum,sum(IFNULL(returnrmb,0)) as sumreturnrmb from agent_return_log where agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+		if($result) return $result;
+	}
+
+	/**
+	 * [getLowerAgentsNum 获取下级代理数目]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:43:50+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getLowerAgentsNum($agentid){
+		$db = self::__instance();
+		$sql = 'select count(agentid) as loweragents from agent_info where parentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getBindUserNum 获取绑定玩家]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T15:28:14+0800
+	 * @param    [type]                   $agentid [代理id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getBindUserNum($agentid){
+		$db = self::__instance();
+		$sql = 'select count(userid) as binduser from user_info where agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getDrawMoney 获取体现金额]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T16:59:12+0800
+	 * @param    [type]                   $agentid [玩家id]
+	 * @return   [type]                            [description]
+	 */
+	public static function getDrawMoney($agentid){
+		$db = self::__instance();
+		$sql = 'select sum(rmb) as drawmoney from agent_transfer where cashtype = "C" and agentid = '.$agentid;
+		$result = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+		if($result) return $result;
+	}
+
+	/**
+	 * [getAgentCount 获取代理数目]
+	 * @Author   李龙
+	 * @DateTime 2018-08-27T17:07:51+0800
+	 * @param    [type]                   $start     [description]
+	 * @param    [type]                   $page_size [description]
+	 * @return   [type]                              [description]
+	 */
+	public static function getAgentCount($start,$page_size){
+		$db = self::__instance();
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql = 'select count(agentid) from '.self::$agent_info.$limit;
+		return 0 + $db->query($sql)->fetchColumn();
+	}
+}

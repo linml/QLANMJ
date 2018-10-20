@@ -1,0 +1,122 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+require_once (ADMIN_BASE_LIB.'Qrcode.class.php');
+class PhpqrCode extends Base{
+    
+    /**
+     * [getPhpqrCode 获取带icon的二维码]
+     * @Author   李爽
+     * @DateTime 2018-07-31T15:17:18+0800
+     * @param    array                    $QRcodeData [数据数组]
+     * @return   [type]                               [返回名称]
+    */
+    public static function getPhpqrCode($QRcodeData = array()){
+        if(!is_array($QRcodeData)||empty($QRcodeData)) return;
+
+        // 纠错级别：L、M、Q、H
+        $errorCorrectionLevel = 'M';
+
+        // 点的大小：1到10
+        $matrixPointSize = 4;
+
+        // 保存文件名
+        $filename = ADMIN_BASE_QRCOD."/qrcode/".md5($QRcodeData['userid'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        //判断文件是否存在
+        if(!file_exists($filename)){
+            //生成二维码
+            QRcode::png($QRcodeData['url'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+             
+            //获取二维码
+            $qrcode = file_get_contents($filename);
+            $qrcode = imagecreatefromstring($qrcode);
+            $qrcode_width = imagesx($qrcode);
+            $qrcode_height = imagesy($qrcode);
+
+            //圆角图片
+            $corner = file_get_contents(ADMIN_BASE_QRCOD.'/images/agentCenter/bg8.png');
+            $corner = imagecreatefromstring($corner);
+            $corner_width = imagesx($corner);
+            $corner_height = imagesy($corner);
+
+            //计算圆角图片的宽高及相对于二维码的摆放位置,将圆角图片拷贝到二维码中央
+            $corner_qr_height = $corner_qr_width = $qrcode_width/5;
+            $from_width = ($qrcode_width-$corner_qr_width)/2;
+            imagecopyresampled($qrcode, $corner, $from_width, $from_width, 0, 0, $corner_qr_width, $corner_qr_height, $corner_width, $corner_height);
+
+
+            //logo图片
+            $logo = file_get_contents($QRcodeData['icon_url']);
+            $logo = imagecreatefromstring($logo);
+            $logo_width = imagesx($logo);
+            $logo_height = imagesy($logo);
+
+
+            //计算logo图片的宽高及相对于二维码的摆放位置,将logo拷贝到二维码中央
+            $logo_qr_height = $logo_qr_width = $qrcode_width/5 - 6;
+            $from_width = ($qrcode_width-$logo_qr_width)/2;
+            imagecopyresampled($qrcode, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+
+
+            // header('Content-type: image/png');
+            imagepng($qrcode,$filename);
+            imagedestroy($qrcode);
+            imagedestroy($corner);
+            imagedestroy($logo);
+        }
+        return md5($QRcodeData['userid'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize);
+    }
+
+    public static function getSharePlayersQrCode(){
+
+        //1、配置底图
+        // $bg_basePath = ADMIN_BASE_QRCOD."/sharedownload/";
+        $bg_basePath = ADMIN_BASE_QRCOD."/images/agentCenter/"..".png";
+        //2、配置ICON
+        $icon_basePath =ADMIN_BASE_QRCOD."/images/agentCenter/"..".png";
+        //3、拼图二维码
+        $qrcode_basePath = ADMIN_BASE_QRCOD."/qrcode".self::getPhpqrCode();
+        //4、字体拼图
+        
+        //5、合图保存
+
+
+        // 原始底图
+        $path_base = "public/template/base.jpg";
+        // logo图片 
+        $path_logo = "public/template/logo.jpg";
+        // 载入图像资源
+        $image_logo = imagecreatefrompng($path_logo);
+        $image_base = imagecreatefromjpeg($path_base );
+
+        $imgWidth = 430;
+        $imgHeight = 430;
+        /*bool imagecopyresampled (resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h ,int $src_w , int $src_h  );
+        $dst_image：新建的图片
+        $src_image：需要载入的图片
+        $dst_x：设定需要载入的图片在新图中的x坐标
+        $dst_y：设定需要载入的图片在新图中的y坐标
+        $src_x：设定载入图片要载入的区域x坐标
+        $src_y：设定载入图片要载入的区域y坐标
+        $dst_w：设定载入的原图的宽度（在此设置缩放）
+        $dst_h：设定载入的原图的高度（在此设置缩放）
+        $src_w：原图要载入的宽度
+        $src_h：原图要载入的高度*/
+        // 将 logo图片资源载入到原始图片上
+        imagecopyresampled($image_base, $image_logo, 90, 90, 0, 0,$imgWidth,$imgHeight,imagesx($image_logo), imagesy($image_logo));
+        $new_path = 'downloa/new.jpg';
+        // 生成一个合并后的新图
+        imagejpeg($image_base,"./".$new_path);
+        // 载入字体 （下载一个字体库文件）
+        $fontfile = "./public/fonts/black.ttf";
+        $str = "需要写到图片上的文字";
+        // 载入新图像资源
+        $new_pic = imagecreatefromjpeg($new_path);
+        // 分配颜色和透明度
+        $color = imagecolorallocatealpha($new_pic,0, 0, 255, 75);
+        // 将文字写入到新图资源上
+        imagettftext($new_pic,30,0,1600,480,$color,$fontfile,$str);
+        // 生成写入文字的的新图
+        imagejpeg($new_pic,'./'.$new_path);
+    }
+}

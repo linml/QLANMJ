@@ -1,0 +1,50 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">总计转送数量：<{$totalcount}></div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<!-- <th>#</th> -->
+						<th>转钻日期</th>
+						<th>玩家UID</th>
+						<th>转钻数量</th>
+						<th>转后剩余</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<{foreach name=earnings from=$sellrecord_infos
+					item=sellrecord_info}>
+					<tr>
+						<!-- <td><{$sellrecord_info.id}></td> -->
+						<td><{$sellrecord_info.create_time}></td>
+
+						<td><{$sellrecord_info.selluid}></td>
+						<td><{$sellrecord_info.gems}></td>
+						<td><{$sellrecord_info.after_the_gems}></td>
+					
+
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!--- START 分页模板 --->
+			<{$page_html}>
+			<!--- END --->
+		</div>
+	</div>
+
+	<!---操作的确认层，相当于javascript:confirm函数--->
+	<{$osadmin_action_confirm}>
+
+	<!--- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 --->
+	<{include file="ace/footer.tpl" }>

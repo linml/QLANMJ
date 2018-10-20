@@ -1,0 +1,40 @@
+*{padding: 0;margin: 0;}
+body{max-width: 1024px;margin: 0 auto;}
+img{display: block;width: 100%;}
+
+.relative{position: relative;}
+.absolute{position: absolute;}
+
+.fontBold{font-weight: bold;}
+.font20{font-size: 0.267rem;}
+.font22{font-size: 0.293rem}
+.font24{font-size: 0.32rem;}
+.font26{font-size: 0.346rem;}
+.font28{font-size: 0.373rem;}
+.font30{font-size: 0.4rem;}
+.font32{font-size: 0.4267rem;}
+.font34{font-size: 0.453rem;}
+.font36{font-size: 0.48rem;}
+.font38{font-size: 0.506rem;}
+.font40{font-size: 0.533rem;}
+.font42{font-size: 0.56rem;}
+.font44{font-size: 0.586rem;}
+.font48{font-size: 0.64rem;}
+
+.c_fff4d6{color: #fff4d6;}  /*黄色*/
+.c_d9daff{color: #d9daff;}  /*淡紫色*/
+.c_7072b4{color: #7072b4;}  /*淡紫色*/
+
+.tc{text-align: center;}
+.borderBox{box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
+
+.logo_Big{width: 100%;top: 5.7%;}
+.logo_title{width: 100%;text-align: center;top: 23.8%;}
+.logo_Small{width: 33.3%;left: 33.3%;top: 32.1%;}
+.logo_title2{width: 100%;text-align: center;top: 49.5%;}
+.btn_down{width: 100%;top: 54.1%;}
+.download{width: 100%;}
+.v_num{top: 62.2%;left: 10%;opacity: 0.5;}
+.v_time{top: 62.2%;right: 10%;opacity: 0.5;}
+.swiper_img{width: 100%;height: 24%;top: 67.5%;padding: 0 2.5%;}
+.footer{bottom: 1.6%;width: 100%;opacity: 0.5;}

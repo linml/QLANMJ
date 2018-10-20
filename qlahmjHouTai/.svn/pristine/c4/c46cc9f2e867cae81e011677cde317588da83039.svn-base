@@ -1,0 +1,27 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class RebateRecord extends Base{
+
+	private static $agent_return_log = 'agent_return_log';
+	private static $column  = "  ";
+	/**
+	 * [getRebateRecordList 返佣记录列表信息]
+	 * @Author   李龙
+	 * @DateTime 2018-08-10T16:34:41+0800
+	 * @param    [string]                   $agentid [代理id]
+	 * @return   [array]                            [返回数组]
+	 */
+	public static function getRebateRecordList($agentid){
+		if(empty($agentid)) return ;
+		$db = self::__instance();
+		$sql = 'select `userid`,`paynum`,`relationid`,`returnrmb`,`addtime` from '.self::$agent_return_log.' where agentid = '.$agentid;
+		$result = $db->query($sql)->fetchAll();
+		if($result){
+			return $result;
+		}
+		return array();
+	}
+}

@@ -1,0 +1,41 @@
+<?php
+require ('../include/init.inc.php');
+$user_group = $method = $user_name = $user_id = $page_no = $search = '';
+extract( $_REQUEST, EXTR_IF_EXISTS );
+
+//START 数据库查询及分页数据
+$page_size = PAGE_SIZE;
+$page_no = $page_no < 1? 1:$page_no;
+
+//osa_t_order
+//查询条件
+$condition = array('AND'=> array('o.uid'=>UserSession::getAgentUid(),'o.status'=>1));
+//总条数
+$row_count = Agent::Gettopuprecord_count($condition);
+//总页数
+$total_page = $row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
+$total_page = $total_page<1?1:$total_page;
+//当前页
+$page_no = $page_no>($total_page)?($total_page):$page_no;
+//将要展示的条目的开始处下标
+$start = ($page_no - 1) * $page_size;
+//真正显示的条目
+$topuprerecord_infos = Agent::Gettopuprecord_infos(UserSession::getAgentUid(), $start, $page_size);
+
+$page_html = Pagination::showPager("topuprecord.php", $page_no, $page_size, $row_count);
+
+Template::assign ( 'topuprerecord_infos', $topuprerecord_infos );
+
+Template::assign ( 'page_no', $page_no );
+Template::assign ( 'page_html', $page_html );
+Template::assign ( 'tips', "" );
+if(UserSession::getAgentStatus()!=1) {
+
+	Template::assign ( 'tips', "账户未激活，请联系客服微信号：".WeChat );
+}
+
+Template::display ( 'agentcenter/topuprecord.tpl' );
+
+
+
+

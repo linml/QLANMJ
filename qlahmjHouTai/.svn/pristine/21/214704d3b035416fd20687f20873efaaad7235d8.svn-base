@@ -1,0 +1,13 @@
+<?php 
+if(!defined('ACCESS')) {
+	exit('Access denied.');
+}
+
+class GemsRecord extends Base {
+	// 表名
+	private static $log_funds_agent = 'log_funds_agent';
+	
+	public static function getDiamonRecord($agentid = ''){
+
+	}
+}

@@ -1,0 +1,62 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+
+		
+
+<{if $tips!=""}>
+		<div  class="alert alert-info">
+			
+			<{$tips}>
+		</div>
+		<{/if}>
+<div class="row">
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">推广明细</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<!-- <th data-show='pc'>序号</th>						 -->
+						<th>玩家UID</th>		
+							<th>玩家昵称</th>				
+						<th>绑定时间</th>	
+						<th>玩家身份</th>
+						<th >推广人数</th>
+						<th>子代理人数</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<{foreach name=earnings from=$earnings_infos item=earnings_info}>
+					<tr>
+						<!-- <td data-show='pc'><{$earnings_info.id}></td> -->
+						
+						<td><{$earnings_info.uid}></td>
+						<td><{base64_decode($earnings_info.name)}></td>
+						<td><{$earnings_info.create_time}></td>
+						<td><{$earnings_info.clevel}></td>
+						<td><{$earnings_info.count1}></td>	
+					    <td><{$earnings_info.count2}></td>	
+					
+
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!--- START 分页模板 --->
+			<{$page_html}>
+			<!--- END --->
+		</div>
+	</div>
+
+	<!---操作的确认层，相当于javascript:confirm函数--->
+	<{$osadmin_action_confirm}>
+
+	<!--- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 --->
+	<{include file="ace/footer.tpl" }>

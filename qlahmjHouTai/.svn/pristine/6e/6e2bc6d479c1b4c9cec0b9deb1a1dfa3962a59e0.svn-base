@@ -1,0 +1,8 @@
+<?php 
+/*
+创建人:李龙
+*/
+require ('../include/init.inc.php');
+
+Template::assign ('data', $data);
+Template::display ('agentcenter/toUpdatePassword.tpl');

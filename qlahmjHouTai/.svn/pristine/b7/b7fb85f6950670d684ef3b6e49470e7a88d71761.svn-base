@@ -1,0 +1,9 @@
+<div class="N_Footer clearfix">
+    <ul>
+        <li class="on"><a href="/agentCenter/home.php"><i class="HomeIcon"></i>首页</a></li>
+        <li><a href="/agentCenter/players.php"><i class="GameIcon"></i>玩家</a></li>
+        <li><a href="/agentCenter/agents.php"><i class="AgencyIcon"></i>代理</a></li>
+        <li><a href="/agentCenter/friendscircle.php"><i class="MoneyIcon"></i>亲友圈</a></li>
+        <li><a href="/agentCenter/mine.php"><i class="MyIcon"></i>我的</a></li>
+    </ul>
+</div>

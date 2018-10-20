@@ -1,0 +1,200 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-13 16:20:32
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\Agents.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:178545b601fed7015d6-96380051%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '974bc3b786abea0da31415167bfad2a7740ac9a0' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\Agents.tpl',
+      1 => 1534144801,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '178545b601fed7015d6-96380051',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b601fed710fd9_96340332',
+  'variables' => 
+  array (
+    'agentCount' => 0,
+    'playerCount' => 0,
+    'agentsList' => 0,
+    'agent' => 0,
+    'page_html' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b601fed710fd9_96340332')) {function content_5b601fed710fd9_96340332($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_truncate')) include 'F:\\project\\qlahmjHouTai\\include\\config/../../include/lib/Smarty/plugins\\modifier.truncate.php';
+?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <div class="N_Header_title">代理商</div>
+    
+</div>
+<div class="N_Wrap bottm60" style="margin-top: 50px">
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop clearfix mgTp1A" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="C_wh50 floatL pd30">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['agentCount']->value;?>
+</p>
+                  <p class="c_fff">下级代理</p>
+                </div>
+                <div class="C_wh50 floatL pd30">
+                  <p class="ft25 c_fff"><?php echo $_smarty_tpl->tpl_vars['playerCount']->value;?>
+</p>
+                  <p class="c_fff">绑定玩家</p>
+                </div>
+            </div>
+            <div class="record_wrap clearfix wp_94 mgTp3A">
+                <ul>
+                 <!--  <?php  $_smarty_tpl->tpl_vars['agent'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['agent']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['agentsList']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['agent']->key => $_smarty_tpl->tpl_vars['agent']->value) {
+$_smarty_tpl->tpl_vars['agent']->_loop = true;
+?>
+                     <li class="relative C_wh bgc_fff mgb5">
+                         <img src="/assets/images/agentCenter/bg6.png">
+                          <div class="absolute N_IndexC3_tit">游戏ID:&nbsp;&nbsp;<i><?php echo $_smarty_tpl->tpl_vars['agent']->value['userid'];?>
+</i></div>
+                         <div class="wxavatar absolute left5 top20" style="border-radius: 5px">
+                           <img src="<?php echo $_smarty_tpl->tpl_vars['agent']->value['picfile'];?>
+" width="45" height="45">
+                         </div>
+                         <div class="absolute f_return left4 top77"><?php echo $_smarty_tpl->tpl_vars['agent']->value['wechatname'];?>
+</div>
+                         <div class="absolute ft18 left29 top43 c_666">
+                           <?php echo smarty_modifier_truncate($_smarty_tpl->tpl_vars['agent']->value['name'],"2",'');?>
+
+                         </div>
+                      
+                   
+                 
+                         <div class="absolute f_return left30 top77">级别</div>
+                         <div class="absolute ft25 top43 left49"><?php echo $_smarty_tpl->tpl_vars['agent']->value['binduser'];?>
+</div>
+                         <div class="absolute f_return top77 left50">绑定玩家</div>
+                 
+                         <div class="absolute left70 top38 bTn"><a class="c_fff" href="/agentCenter/sendmoney.php?gagentid=<?php echo $_smarty_tpl->tpl_vars['agent']->value['agentid'];?>
+">划拨</a></div>
+                         <div class="absolute left89 top38">
+                           <a href="/agentCenter/agentsinfo.php?agentid=<?php echo $_smarty_tpl->tpl_vars['agent']->value['agentid'];?>
+">
+                             <img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30">
+                           </a>
+                         </div>
+                     </li>
+                 <?php } ?> -->
+                </ul>
+                <?php echo $_smarty_tpl->tpl_vars['page_html']->value;?>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $_smarty_tpl->getSubTemplate ("simple_footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<script>
+  $(function(){
+      // 页数
+      var page = 0;
+      // 每页展示10个
+      var size = 10;
+
+      // dropload
+      $('.record_wrap').dropload({
+          scrollArea : window,
+          domUp : {
+              domClass   : 'dropload-up',
+              domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+              domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+              domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+          },
+          domDown : {
+              domClass   : 'dropload-down',
+              domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+              domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+              domNoData  : '<div class="dropload-noData">暂无数据</div>'
+          },
+          loadUpFn : function(me){
+              $.ajax({
+                  url: 'players.php',
+                  type: 'POST',
+                  data:{'method':'loadData','page_no':1},
+                  dataType: '',
+                  success: function(data){
+                      data = jQuery.parseJSON(data);
+                      var arrLen = data.length;
+                      var result = '';
+                      for(var i = 0; i < arrLen; i++){
+                          result +=   '<li class="relative C_wh bgc_fff mgb10"><img src="/assets/images/agentCenter/bg6.png"><div class="absolute N_IndexC3_tit">游戏ID:&nbsp;&nbsp;<i>'+data[i].userid+'</i></div><div class="wxavatar absolute left5 top20"><img src="/assets/avatars/avatar3.png" width="45" height="45"><img src="'+data[i].picfile+'" width="45" height="45"></div><div class="absolute f_return left5 top97">'+data[i].nickname+'</div><div class="absolute ft20 left32<div class="absolute f_return left30 top97">游戏次数</div><div class="absolute ft20 top43 left49">'+data[i].diamond+'</div><div class="absolute f_return top97 left50">钻石</div><div class="absolute left70 top54 bTn"><a class="c_fff" href="/agentCenter/gemsrecharge.php?userid='+data[i].userid+'">充值</a></div><div class="absolute left89 top54"><a href="/agentCenter/playersinfo.php?playerid='+data[i].userid+'"><img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30"></a></div></li>';
+                          // result+="<li style='height:50px ;background-color:#cccc;margin-top:10px;'>"+i+"</li>";
+                      }
+                      // 为了测试，延迟1秒加载
+                      setTimeout(function(){
+                          $('.record_wrap>ul').html(result);
+                          // 每次数据加载完，必须重置
+                          me.resetload();
+                          // // 重置页数，重新获取loadDownFn的数据
+                          page = 0;
+                          // 解锁loadDownFn里锁定的情况
+                          me.unlock();
+                          me.noData(false);
+                      },500);
+                  },
+                  error: function(xhr, type){
+                      alert('Ajax error!');
+                      // 即使加载出错，也得重置
+                      me.resetload();
+                  }
+              });
+          },
+          loadDownFn : function(me){
+              page++;
+              // 拼接HTML
+              var result = '';
+              $.ajax({
+                  type: 'GET',
+                  url: 'players.php',
+                  data:{'method':'loadData','page_no':page},
+                  dataType: '',
+                  success: function(data){
+                      data = jQuery.parseJSON(data);
+                      var arrLen = data.length;
+                      if(arrLen > 0){
+                          for(var i=0; i<arrLen; i++){
+                              result +=   '<li class="relative C_wh bgc_fff mgb10"><img src="/assets/images/agentCenter/bg6.png"><div class="absolute N_IndexC3_tit">游戏ID:&nbsp;&nbsp;<i>'+data[i].userid+'</i></div><div class="wxavatar absolute left5 top20"><img src="/assets/avatars/avatar3.png" width="45" height="45"><img src="'+data[i].picfile+'" width="45" height="45"></div><div class="absolute f_return left5 top97">'+data[i].nickname+'</div><div class="absolute ft20 left32<div class="absolute f_return left30 top97">游戏次数</div><div class="absolute ft20 top43 left49">'+data[i].diamond+'</div><div class="absolute f_return top97 left50">钻石</div><div class="absolute left70 top54 bTn"><a class="c_fff" href="/agentCenter/gemsrecharge.php?userid='+data[i].userid+'">充值</a></div><div class="absolute left89 top54"><a href="/agentCenter/playersinfo.php?playerid='+data[i].userid+'"><img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30"></a></div></li>';
+                              // result+="<li style='height:50px ;background-color:#cccc;margin-top:10px;'>"+i+"</li>";
+                          }
+                      // 如果没有数据
+                      }else{
+                          // 锁定
+                          me.lock();
+                          // 无数据
+                          me.noData();
+                      }
+                      // 为了测试，延迟1秒加载
+                      setTimeout(function(){
+                          // 插入数据到页面，放到最后面
+                          $('.record_wrap>ul').append(result);
+                          // 每次数据插入，必须重置
+                          me.resetload();
+                      },500);
+                  },
+                  error: function(xhr, type){
+                      alert('Ajax error!');
+                      // 即使加载出错，也得重置
+                      me.resetload();
+                  }
+              });
+          },
+          threshold : 50
+      });
+  });
+</script><?php }} ?>

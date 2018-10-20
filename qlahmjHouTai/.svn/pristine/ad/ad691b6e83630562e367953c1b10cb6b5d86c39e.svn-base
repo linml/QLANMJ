@@ -1,0 +1,117 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class GamePlayer extends Base {
+	
+
+	/**
+	 * 获取玩家总数
+	 * @return number
+	 */
+	public static function getAllUsersCount($uid='',$type='') {
+		$db = self::__instance (pigcms_game);
+		if($uid && $type==1){
+			$where =" and m_lUid = '$uid' or m_sNickName like '%$uid%' ";
+		}
+		if($uid && $type==2){
+			$where =" and m_lAgent = '$uid'";
+		}
+		$sql = "SELECT
+	
+			COUNT(*)
+
+		FROM
+			ninedt_user 
+		WHERE
+
+		m_sNickName != 'default user'".$where;
+		// var_dump($sql);
+		return 0 + ($db->query ($sql)->fetchColumn ());
+	}
+	/**
+	 * 获取玩家列表
+	 * @param string $start
+	 * @param string $page_size
+	 */
+	public static function getAllUsers($uid = '',$type='' ,$start = '', $page_size = '') {
+		$db = self::__instance (pigcms_game);
+		$limit = "";
+		$where ='';
+		if($uid && $type==1){
+			$where =" where userid = '$uid' or gameName like '%$uid%' ";
+		}
+		if($uid && $type==2){
+			$where =" where agentid = '$uid'";
+		}
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		$sql = "select userid,gameName,gems,IFNULL(gmcount,0) as gmcount,IFNULL(zfcount,0) as zfcount,agentid,agentName,registerTime from (
+					(select t1.m_lUid as userid ,t1.m_sNickName as gameName,t1.m_lTotalGem as gems ,t2.m_lUid as agentid,t2.m_sNickName as agentName ,t1.m_RegisterTime  as registerTime from ninedt_user t1 LEFT JOIN ninedt_user t2 ON t1.m_lAgent = t2.m_lUid  where t1.m_sNickName !='default user'  ORDER BY registerTime desc) tb1
+
+					LEFT JOIN (select ROUND(sum(amount)/100,2) as zfcount, to_user from yxpay where status =2 GROUP BY to_user) tb2 ON tb1.userid = tb2.to_user
+
+					LEFT JOIN (
+									select count(temp.userid) as gmcount , temp.userid as userid2  from (
+
+											select uid0 as userid from ninedt_battle_log where uid0 !=0 
+
+											UNION ALL
+
+											select uid1 from ninedt_battle_log where uid1 !=0  
+
+											UNION ALL
+
+											select uid2  from ninedt_battle_log where uid2 !=0  
+
+											UNION ALL
+
+											select uid3  from ninedt_battle_log where uid3 !=0 
+											
+											UNION ALL
+
+											select uid4  from ninedt_battle_log where uid4 !=0
+
+									) temp GROUP BY userid 
+
+					) tb3 ON tb1.userid = tb3.userid2
+								
+				) $where ORDER BY registerTime desc $limit";
+				
+		$list = $db->query ( $sql )->fetchAll ();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+	/*
+		获取指定userid 玩家信息
+	 */
+	public static function getGameUserByUserid($userid){
+		$db = self::__instance (pigcms_game);
+		$sql = "select m_lUid,m_sNickName,m_lTotalGem from ninedt_user where m_lUid=$userid";
+		$list = $db->query ( $sql )->fetch ();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+	//通过userid 查询更新钻石
+	public static function updateGameGemsByUserid($userid,$gems){
+		$db = self::__instance(pigcms_game);
+		$sql = 'update ninedt_user set m_lTotalGem = m_lTotalGem + '.$gems.' where m_lUid = '.$userid;
+		$db->query($sql);
+	}
+
+	//增加转钻数据类型
+	public static function insertGameGemsRecord($reportData){
+		if (! $reportData || ! is_array ( $reportData )) {
+			return false;
+		}
+		$db=self::__instance(pigcms_game);
+		$id = $db->insert ( "dailipay", $reportData);
+		return $id;
+	}
+}

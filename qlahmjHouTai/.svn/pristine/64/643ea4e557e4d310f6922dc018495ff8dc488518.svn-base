@@ -1,0 +1,14 @@
+<?php
+require ('../include/init.inc.php');
+Template::assign ( 'status', UserSession::getAgentStatus() );
+if(UserSession::getAgentStatus()!=1) {
+	 
+	OSAdmin::alert ( "error", "账户未激活" );
+	Template::Display ( 'agentcenter/order.tpl' );
+	exit();
+}
+
+Template::Display ( 'agentcenter/worder.tpl' );
+
+
+

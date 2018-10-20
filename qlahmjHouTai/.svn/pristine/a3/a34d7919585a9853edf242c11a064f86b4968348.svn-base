@@ -1,0 +1,75 @@
+<{include file ="ace/header.tpl"}> <{include file ="ace/navibar.tpl"}>
+<{include file ="ace/sidebar.tpl"}>
+
+<!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+
+<{$osadmin_action_alert}>
+<div class="row">
+	<div class="col-xs-12">  	
+		<div class="alert alert-info">
+			
+			
+			历史总收益:<{$history_count_earnings/100.00}>
+		</div>
+		</div>
+		</div>
+		
+
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="table-header">收益明细</div>
+			<table id="simple-table"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<!-- <th>#</th>					 -->
+					    <th>玩家UID</th>
+					    <th>玩家昵称</th>
+					    <!-- <th>订单编号</th> -->
+						<th>充值总额（元）</th>
+						<th>提成基数（元）</th>
+			
+						<th>收益比例(%)</th>
+						<th >存入收益</th>
+						<th>总收益</th>
+<th>日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<{foreach name=earnings from=$earnings_infos item=earnings_info}>
+					<tr>
+						<!-- <td><{$earnings_info.id}></td> -->
+						
+						<td><{$earnings_info.uid}></td>
+						<td><{base64_decode($earnings_info.name)}></td>
+						<!-- <td><{$earnings_info.out_trade_no}></td> -->
+						
+						
+		
+					<td><{$earnings_info.payment/100.00}></td>
+					<td><{$earnings_info.payment_base/100.00}></td>
+				
+
+						
+
+						<td><{$earnings_info.proportion}></td>
+						<td><{$earnings_info.propor_payment/100.00}></td>
+						<td><{$earnings_info.after_the_proportion_earnings/100.00}></td>
+<td><{$earnings_info.create_time}></td>
+					</tr>
+					<{/foreach}>
+				</tbody>
+			</table>
+			<!--- START 分页模板 --->
+			<{$page_html}>
+			<!--- END --->
+		</div>
+	</div>
+
+	<!---操作的确认层，相当于javascript:confirm函数--->
+	<{$osadmin_action_confirm}>
+
+	<!--- END 以下内容不需更改，请保证该TPL页内的标签匹配即可 --->
+	<{include file="ace/footer.tpl" }>

@@ -1,0 +1,88 @@
+<?php
+ini_set('date.timezone','Asia/Shanghai');
+error_reporting(E_ERROR);
+
+require_once "../lib/WxPay.Api.class.php";
+require_once '../lib/WxPay.Notify.class.php';
+require_once 'log.php';
+
+//初始化日志
+$logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.log');
+$log = Log::Init($logHandler, 15);
+
+class PayNotifyCallBack extends WxPayNotify
+{
+	//查询订单
+	public function Queryorder($transaction_id)
+	{
+		$input = new WxPayOrderQuery();
+		$input->SetTransaction_id($transaction_id);
+		Log::DEBUG("transaction_id:" . json_encode($input));
+		$result = WxPayApi::orderQuery($input);
+		Log::DEBUG("query:" . json_encode($result));
+		if(array_key_exists("return_code", $result)
+			&& array_key_exists("result_code", $result)
+			&& $result["return_code"] == "SUCCESS"
+			&& $result["result_code"] == "SUCCESS")
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	//重写回调处理函数
+	public function NotifyProcess($data, &$msg)
+	{
+		Log::DEBUG("call back:" . json_encode($data));
+		$notfiyOutput = array();
+		
+		if(!array_key_exists("transaction_id", $data)){
+			$msg = "输入参数不正确";
+			return false;
+		}
+		//查询订单，判断订单真实性
+		if(!$this->Queryorder($data["transaction_id"])){
+			$msg = "订单查询失败";
+			return false;
+		}
+
+		$out_traded_no = $data["out_trade_no"];
+		$total_fee = $data["total_fee"];
+		$attach = $data["attach"];
+		$url=WxPayConfig::CURL_GAME_BASE."/dlIndex.php?m=Index&c=pay&traded_no=".$out_traded_no."&money=".$total_fee;
+		if($attach=="admin"){
+			$adminData = $this->curl_exec($url."&a=admin_notity");
+			$obj = json_decode($adminData,true);
+			if($obj['code']!="OK"){
+				$msg = "代理订单未完成！";
+				return false;
+			}
+		}else if($attach=="game"){
+			$gameData = $this->curl_exec($url."&a=game_notity");
+			$obj = json_decode($gameData,true);
+			if($obj['code']!="OK"){
+				$msg = "玩家订单未完成！";
+				return false;
+			}
+		}else{
+			$msg ="订单异常！";
+			return false;
+		}
+		return true;
+	}
+
+	public function curl_exec($url){
+	    $ch = curl_init();
+	    curl_setopt($ch, CURLOPT_URL,$url);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); //相当关键，这句话是让curl_exec($ch)返回的结果可以进行赋值给其他的变量进行，json的数据操作，如果没有这句话，则curl返回的数据不可以进行人为的去操作（如json_decode等格式操作）
+	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	    $r = curl_exec($ch);
+		curl_close($ch);
+		return $r;
+	}
+}
+
+Log::DEBUG("begin notify");
+$notify = new PayNotifyCallBack();
+$notify->Handle(false);

@@ -1,0 +1,78 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-07 11:45:46
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\toRebateSummary.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:95315b602121b70a66-43704064%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'b72b58cd7f190349ace7cbb726f9ebfaf30a148e' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\toRebateSummary.tpl',
+      1 => 1533606268,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '95315b602121b70a66-43704064',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b602121bb30f5_10769006',
+  'variables' => 
+  array (
+    'result' => 0,
+    'val' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b602121bb30f5_10769006')) {function content_5b602121bb30f5_10769006($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg4.png);">
+    <a href="/agentCenter/Mine.php" class="ReturnUp" id="data_month_back" name="">返回首页</a>
+    <div class="N_Header_title" id ="header_titil">返佣汇总</div>
+</div>
+<div class="N_Wrap" style="bottom:0;">
+    <div class="N_WrapAuto">
+        <div class="N_Pad">
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                <form action="toRecommendedAward#" class="form-search cf">
+                    <div class="clearfix">
+                        <!-- <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="日收入" readonly="readonly" /> -->
+                        <a href="/agentCenter/rebatesummary.php?type=1" class="N_RecordTime" style="background-color: #929292;width: 50%">日收入</a>
+                        <!-- <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="月收入" readonly="readonly" /> -->
+                        <a href="/agentCenter/rebatesummary.php?type=2" class="N_RecordTime" style="width: 50%">月收入</a>
+                        <!-- <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div>  -->
+                    </div>
+                </form>     
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix wp_94 mgTp3A">
+                 <ul class="wp_full record_tit clearfix textCenter">
+                    <li class="borderB wp_full h40">
+                        <span class="wp_50 borderBox fl textCenter">日期</span>
+                        <span class="wp_50 borderBox fl textCenter">佣金金额</span>
+                    </li>
+                    <?php  $_smarty_tpl->tpl_vars['val'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['val']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['result']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['val']->key => $_smarty_tpl->tpl_vars['val']->value) {
+$_smarty_tpl->tpl_vars['val']->_loop = true;
+?>
+                    <li class="borderB wp_full h40">
+                        <span class="wp_50 borderBox fl textCenter"><?php echo $_smarty_tpl->tpl_vars['val']->value['dateid'];?>
+</span>
+                        <span class="wp_50 borderBox fl textCenter"><?php echo $_smarty_tpl->tpl_vars['val']->value['rebate'];?>
+</span>
+                    </li>
+                    <?php } ?>
+                </ul>
+                <!-- <table id="example" class="twoCol" aria-describedby="example_info" style="margin-left: 0px; width: 100%;">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">没有您要的内容</td></tr>
+                    </tbody>
+                </table> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php }} ?>

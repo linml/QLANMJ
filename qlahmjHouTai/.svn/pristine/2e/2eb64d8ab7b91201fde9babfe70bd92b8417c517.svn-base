@@ -1,0 +1,88 @@
+<?php
+if (! defined ( 'ACCESS' )) {
+	exit ( 'Access denied.' );
+}
+class TopupEarnings extends Base {
+
+	/*已经用到的*/
+	public static function getAllTopupEarningsCount($agentid ='' , $type = '',$startDate='',$endDate='') {
+		$db = self::__instance (pigcms_game);
+		$where=" where 1 = 1 ";
+		if($agentid){
+			$where.=" and to_user =  '$agentid' or gameName like '%$agentid%' ";
+		}
+		if($type){
+			$where.=" and `status` = $type - 1";
+		}
+
+		if($startDate){
+			$where = $where." and date(created) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(created) <= '".$endDate."' ";
+		}
+		$sql ="select count(to_user) as count from (
+			(select to_user, channel,amount, `status`,order_no,created from yxpay) t1
+
+			LEFT JOIN
+
+			(select m_lUid as gameid,m_lAgent,m_sNickName as gameName from ninedt_user) t2
+
+			ON t1.to_user = t2.gameid
+
+		) $where ";
+		// var_dump($sql);
+		return 0 + ($db->query ($sql)->fetchColumn ());
+	}
+
+	/**
+	 * 获取代理商列表
+	 * 
+	 * @param string $start        	
+	 * @param string $page_size        	
+	 */
+	public static function getAllTopupEarnings($agentid ='' , $type = '' ,$start = '', $page_size = '',$startDate='',$endDate='') {
+		$db = self::__instance (pigcms_game); 	
+		$limit = "";
+		$where=" where 1 = 1 ";
+		if ($page_size) {
+			$limit = " limit $start,$page_size ";
+		}
+		if($agentid){
+			$where.=" and to_user =  '$agentid' or gameName like '%$agentid%' ";
+		}
+		if($type){
+			$where.=" and `status` = $type - 1";
+		}
+
+		if($startDate){
+			$where = $where." and date(created) >= '".$startDate."' ";
+		}
+		if($endDate){
+			$where = $where." and date(created) <= '".$endDate."' ";
+		}
+	
+		$sql ="select created,to_user,gameName,channel,ROUND(amount/100,2) as amount,`status`,agentid,agentName,order_no from (
+				(select to_user, channel,amount, `status`,order_no,created from yxpay) t1
+
+				LEFT JOIN
+
+				(select m_lUid as gameid,m_lAgent,m_sNickName as gameName from ninedt_user) t2
+
+				ON t1.to_user = t2.gameid
+
+				LEFT JOIN
+
+				(select m_lUid as agentid ,m_sNickName AS agentName from ninedt_user) t3
+
+				ON t2.m_lAgent = t3.agentid
+			) $where order by created desc $limit";
+		// var_dump($sql);
+		$list = $db->query ( $sql )->fetchAll ();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+
+}

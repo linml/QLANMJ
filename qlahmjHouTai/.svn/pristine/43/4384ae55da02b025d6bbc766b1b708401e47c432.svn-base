@@ -1,0 +1,31 @@
+<{include file = "simple_header.tpl"}>
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg3.png);">
+    <a href="javascript:history.go(-1);" class="ReturnUp">返回首页</a>
+    <div class="N_Header_title">划拨记录</div>
+</div>
+<div class="N_Wrap MDetail_wrap" style="bottom:0;">
+    <div class="N_WrapAuto wp_94 marginAuto">
+        <div class="N_Pad">
+            <div class="N_RecordTop">
+                <div class="clearfix selectData">
+                    <input type="text" class="N_RecordTime" name="start_date" id="startDate" placeholder="选择开始日期" readonly="readonly" />
+                    <input type="text" class="N_RecordTime" name="end_date" id="endDate" placeholder="选择结束日期" readonly="readonly" />
+                    <div class="N_RecordSub fl"><button id="search" type="button">查询</button></div>       
+                </div>
+            </div>
+            <div class="record_wrap N_RecordBottom clearfix MDetail_table">
+                <ul class="wp_full record_tit clearfix">
+                    <li class="wp_40 borderBox fl textLeft">玩家</li>
+                    <li class="wp_25 borderBox fl textLeft">数量</li>
+                    <li class="wp_35 borderBox fl textRight">时间</li>
+                </ul>
+                <table id="example" class="threeCol threeCol2" aria-describedby="example_info">
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

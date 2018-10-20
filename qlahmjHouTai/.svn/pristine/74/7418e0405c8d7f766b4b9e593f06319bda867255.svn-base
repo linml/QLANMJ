@@ -1,0 +1,102 @@
+<?php /* Smarty version Smarty-3.1.15, created on 2018-08-04 15:19:46
+         compiled from "F:\project\qlahmjHouTai\include\template\agentcenter\Players.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:136975b599d807a5372-08246241%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'ad81ec13a25faf03f232a9870568c2e9179a8a57' => 
+    array (
+      0 => 'F:\\project\\qlahmjHouTai\\include\\template\\agentcenter\\Players.tpl',
+      1 => 1533363443,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '136975b599d807a5372-08246241',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_5b599d807d7ff0_11328100',
+  'variables' => 
+  array (
+    'players_num' => 0,
+    '_REQUEST' => 0,
+    'playersList' => 0,
+    'player' => 0,
+    'page_html' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5b599d807d7ff0_11328100')) {function content_5b599d807d7ff0_11328100($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("simple_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<div class="N_Header" style="background-image:url(/assets/images/agentCenter/headerBg5.png);">
+    <div class="N_Header_title">玩家</div>
+</div>
+<div class="N_Wrap bottm60" >
+    <div class="N_WrapAuto">
+        <div class="N_bg">
+            <div class="N_agentTop" style="background:url(/assets/images/agentCenter/bg9.png) no-repeat center top/100% auto;">
+                <div class="N_agentTopNum"><span id="usercount"><?php echo $_smarty_tpl->tpl_vars['players_num']->value;?>
+</span></div>
+                <div class="N_agentTopT1">我的玩家人数</div>
+            </div>
+            <div class="N_RecordTop wp_94 mgTp3A">
+                <div class="clearfix">
+                    <form action="" method="POST">
+                        <div class="clearfix">
+                             <input type="text" class="N_agentIpt MyAgent_input fl" placeholder="请输入玩家ID"  id="userid" min="0" name="playerid" value="<?php echo $_smarty_tpl->tpl_vars['_REQUEST']->value['playerid'];?>
+">
+                             <div class="N_RecordSub MyAgent_search fl"><button id="search" type="submit">查询</button></div> 
+                        </div>
+                    </form>      
+                </div>
+            </div>
+
+            <div class="record_wrap N_RecordBottom N_RecordBottom2 clearfix  wp_94 mgTp3A">
+                <ul>
+                  <?php  $_smarty_tpl->tpl_vars['player'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['player']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['playersList']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['player']->key => $_smarty_tpl->tpl_vars['player']->value) {
+$_smarty_tpl->tpl_vars['player']->_loop = true;
+?>
+                  <li class="relative C_wh bgc_fff mgb10">
+                      <img src="/assets/images/agentCenter/bg6.png">
+                       <div class="absolute N_IndexC3_tit">游戏ID:&nbsp;&nbsp;<i><?php echo $_smarty_tpl->tpl_vars['player']->value['userid'];?>
+</i></div>
+                      <div class="wxavatar absolute left5 top20">
+                        <!-- <img src="/assets/avatars/avatar3.png" width="45" height="45"> -->
+                        <img src="<?php echo $_smarty_tpl->tpl_vars['player']->value['picfile'];?>
+" width="45" height="45">
+                      </div>
+                      <div class="absolute f_return left5 top97"><?php echo $_smarty_tpl->tpl_vars['player']->value['nickname'];?>
+</div>
+                      <div class="absolute ft20 left32 top43"><?php echo $_smarty_tpl->tpl_vars['player']->value['playnum'];?>
+</div>
+                      <div class="absolute f_return left30 top97">游戏次数</div>
+                      <div class="absolute ft20 top43 left49"><?php echo round($_smarty_tpl->tpl_vars['player']->value['diamond']);?>
+</div>
+                      <div class="absolute f_return top97 left50">钻石</div>
+                      <div class="absolute left70 top54 bTn"><a class="c_fff" href="/agentCenter/gemsrecharge.php?userid=<?php echo $_smarty_tpl->tpl_vars['player']->value['userid'];?>
+">充值</a></div>
+                      <div class="absolute left89 top54">
+
+                        <a href="/agentCenter/playersinfo.php?playerid=<?php echo $_smarty_tpl->tpl_vars['player']->value['userid'];?>
+">
+                          <img src="/assets/images/agentCenter/doublearrow.svg" width="30" height="30">
+                        </a>
+                      </div>
+                  </li>
+                  <?php } ?>
+                </ul>
+
+                <?php echo $_smarty_tpl->tpl_vars['page_html']->value;?>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<?php echo $_smarty_tpl->getSubTemplate ("simple_footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+<?php }} ?>

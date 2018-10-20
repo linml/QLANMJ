@@ -1,0 +1,470 @@
+<?php
+if(!defined('ACCESS')) {exit('Access denied.');}
+
+class User extends Base{
+	
+	// 表名
+	private static $table_name = 'user';
+	// 管理后台
+	private static $columns_admin = 'user_id, user_name, password, real_name, mobile, email, user_desc, login_time, status, login_ip, user_group, template,shortcuts,show_quicknote';
+
+	// 代理后台
+	private static $columns_agent = 'id,user_game_id, nickName, weChat, tel, pwd, status, cardNum, addtime, Cash, istop,rose_type';
+	//状态定义
+	const ACTIVE = 1;
+	const DEACTIVE = 0;
+
+	//管理后台coolie名称
+	const COOkIE_NAME='cookie_';
+
+
+	public static function getTableName(){
+		return parent::$table_prefix.self::$table_name;
+	}
+	
+	/**
+	 * [checkPassword 账号密码检测]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:03:56+0800
+	 * @param    [type]                   $user_name [用户名]
+	 * @param    [type]                   $password  [密码]
+	 * @return   [type]                              [结果]
+	 */
+	public static function checkPassword($type,$user_name, $password) {
+		//检测传入参数
+		if(empty($type)||empty($user_name)||empty($password)) return false;
+		$md5_pwd = md5 ( $password );
+		$db=self::__instance();
+		$condition = array();
+		$table_name = "";
+		$columns_name ='';
+		//进行匹配选择
+		switch ($type) {
+			case ADMIN:
+				$condition = array("AND"=>
+						array("user_name" => $user_name,
+							"password" => $md5_pwd,
+						)
+					);
+				$table_name = self::getTableName();
+				$columns_name = self::$columns_admin;
+				break;
+			case AGENT:
+				$condition = array("AND"=>
+						array("tel" => $user_name,
+							"pwd" => $password,
+						)
+					);
+				$table_name = Agent::getTableName();
+				$columns_name = self::$columns_agent;
+				break;
+			
+			default:
+				break;
+		}
+
+		//检测是否赋值成功
+		if(empty($condition)||empty($table_name)||empty($columns_name)) return false;
+		$list = $db->select( $table_name, $columns_name , $condition );
+		if ($list) {
+			return $list[0];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * [getUserById 获取用户信息]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:04:43+0800
+	 * @param    [type]                   $type [类型标识]
+	 * @param    [type]                   $user_id [后台用户ID]
+	 * @return   [type]                            [description]
+	 */
+	public static function getUserById($type,$user_id) {
+		if (empty($type)||! $user_id || ! is_numeric ( $user_id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition = array();
+		$table_name = "";
+		$columns_name ='';
+		//进行匹配选择
+		switch ($type) {
+			case ADMIN:
+				$condition = array("AND" => 
+						array("user_id[=]" => $user_id,
+						)
+					);
+				$table_name = self::getTableName();
+				$columns_name = self::$columns_admin;
+				break;
+			case AGENT:
+				$condition = array("AND"=>
+						array("user_game_id" => $user_id,
+						)
+					);
+				$table_name = Agent::getTableName();
+				$columns_name = self::$columns_agent;
+				break;
+			
+			default:
+				break;
+		}
+		//检测是否赋值成功
+		if(empty($condition)||empty($table_name)||empty($columns_name)) return false;
+	
+		$list = $db->select ( $table_name, $columns_name, $condition );
+		if ($list) {
+			$list[0]['login_time']=Common::getDateTime($list[0]['login_time']);
+			return $list[0];
+		}
+		return array ();
+	}
+
+
+	/**
+	 * [loginDoSomething 处理登录后Session数据的保存]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:05:59+0800
+	 * @param    [type]                   $type [登录标识]
+	 * @param    [type]                   $user_id [登录Userid]
+	 * @return   [type]                            [description]
+	 */
+	public static function loginDoSomething($type,$user_id){
+		if(empty($type)||empty($user_id)) return false;
+
+		$user_info = User::getUserById($type,$user_id);
+
+		//1、管理后台后台禁止登录，跳转登录页面
+		if($type==ADMIN){
+			if($user_info['status'] != 1){
+				Common::jumpUrl("login.php");
+				return;
+			}
+			//读取该用户所属用户组将该组的权限保存在$_SESSION中
+			$user_group = UserGroup::getGroupById($user_info['user_group']);
+
+			$user_info['group_id']  = $user_group['group_id'];
+			$user_info['user_role'] = $user_group['group_role'];
+			$user_info['shortcuts_arr'] = explode(',',$user_info['shortcuts']);
+
+			$menu = MenuUrl::getMenuByUrl('/admin/setting.php');
+			if(strpos($user_group['group_role'],$menu['menu_id']) !== false) $user_info['setting']=1;
+
+			$login_time = time();
+			$login_ip = Common::getIp ();
+			$update_data = array ('login_ip' => $login_ip, 'login_time' => $login_time );
+			User::updateUser ( $user_info['user_id'], $update_data );
+
+			$user_info['login_ip']=$login_ip;
+			$user_info['login_time']=Common::getDateTime($login_time);
+			UserSession::setSessionInfo($user_info);
+		}
+		//2、代理后台禁止登录，跳转登录页面
+		if($type==AGENT){
+			if($user_info['status'] != 1){
+				Common::jumpUrl("panel/agentLogin.php");
+				return;
+			}
+			UserSession::setSessionAgentInfo($user_info);
+		}
+	}
+
+	/**
+	 * [getUserByName 根据用户名用户信息]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:11:20+0800
+	 * @param    [type]                   $user_name [用户名]
+	 * @return   [type]                              [用户信息]
+	 */
+	public static function getUserByName($user_name) {
+		$db=self::__instance();
+		$sql= "select * ,g.group_name from ".self::getTableName() ." u,".UserGroup::getTableName()." g where u.user_name='$user_name' and u.user_group=g.group_id";
+		$list = $db->query($sql)->fetch();// self::getTableName(), self::$columns, $condition );
+		if ($list) {
+			$list['login_time']=Common::getDateTime($list['login_time']);
+			return $list;
+		}
+		return array ();
+	}
+	
+	/**
+	 * [setCookieRemember 设置cookie缓存]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:07:35+0800
+	 * @param    [type]                   $encrypted [缓存内容]
+	 * @param    integer                  $day       [缓存时间]
+	 */
+	public static function setCookieRemember($type,$encrypted, $day=7){
+		setcookie(self::COOkIE_NAME.$type,$encrypted,time()+3600*24*$day);
+	}
+	
+	/**
+	 * [getCookieRemember 获取cookie缓存]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:08:18+0800
+	 * @return   [type]                   [结果]
+	 */
+	public static function getCookieRemember($type){
+		$encrypted = $_COOKIE[self::COOkIE_NAME.$type];
+		$base64=urldecode($encrypted);
+		return OSAEncrypt::decrypt($base64);
+	}
+	
+	/**
+	 * [logout 退出登录]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:09:07+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function logout(){
+		setcookie(self::COOkIE_NAME.$type,"",time()-3600);
+		unset($_SESSION[UserSession::SESSION_NAME]);
+		unset($_SESSION['osa_timezone']);
+	}
+	
+	/**
+	 * [getAllUsers 获取所有后台用户]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:19:12+0800
+	 * @param    string                   $start     [起始位置]
+	 * @param    string                   $page_size [页大小]
+	 * @return   [type]                              [结果集]
+	 */
+	public static function getAllUsers( $start ='' ,$page_size='' ) {
+		$db=self::__instance();
+		$limit ="";
+		$where ="";
+		if($page_size){
+			$limit =" limit $start,$page_size ";
+		}
+		if(UserSession::getUserGroup()!=1){
+			$where =" where user_id != 1";
+		}
+		$sql = "select * ,coalesce(g.group_name,'已删除') from ".self::getTableName()." u left join ".UserGroup::getTableName()." g on u.user_group = g.group_id $where order by u.user_id desc $limit";
+		$list=$db->query($sql)->fetchAll();
+		if(!empty($list)){
+			foreach($list as &$item){
+				$item['login_time']=Common::getDateTime($item['login_time']);
+			}
+		}
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+	
+	/**
+	 * [search 通过名称或者用户组编号]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:21:38+0800
+	 * @param    [type]                   $user_group [组编号]
+	 * @param    [type]                   $user_name  [用户名称]
+	 * @param    string                   $start      [起始位置]
+	 * @param    string                   $page_size  [页大小]
+	 * @return   [type]                               [结果集]
+	 */
+	public static function search($user_group ,$user_name, $start ='' ,$page_size='' ) {
+		$db=self::__instance();
+		$limit ="";
+		$where = "";
+		if($page_size){
+			$limit =" limit $start,$page_size ";
+		}
+		if($user_group >0  && $user_name!=""){
+			$where = " where u.user_group=$user_group and u.user_name like '%$user_name%'";
+		}else{
+			if($user_group>0){
+				$where = " where u.user_group=$user_group ";
+			}
+			if($user_name!=""){
+				$where = " where u.user_name like '%$user_name%' ";
+			}
+		}
+		$sql = "select * ,coalesce(g.group_name,'已删除') from ".self::getTableName()." u left join ".UserGroup::getTableName()." g on u.user_group = g.group_id $where order by u.user_id desc $limit";
+		$list=$db->query($sql)->fetchAll();
+		if(!empty($list)){
+			foreach($list as &$item){
+				$item['login_time']=Common::getDateTime($item['login_time']);
+			}
+		}
+		if ($list) {
+			return $list;
+		}
+		return array ();
+	}
+	
+	/**
+	 * [getUsersByGroup 通过用户组编号获取所有用户]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T16:23:59+0800
+	 * @param    [type]                   $group_id [用户组编号]
+	 * @return   [type]                             [结果集]
+	 */
+	public static function getUsersByGroup( $group_id ) {
+		$db=self::__instance();
+		$condition = array("AND" => 
+						array("user_group[=]" => $group_id,
+						)
+					);
+		$list = $db->select( self::getTableName(), self::$columns_admin, $condition );
+		if ($list) {
+			foreach($list as &$item){
+				if($item['login_time']==null){
+					;
+				}else{
+					$item['login_time']=Common::getDateTime($item['login_time']);
+				}
+			}
+			return $list;
+		}
+		return array ();
+	}
+	
+	/**
+	 * [checkLogin 检测是否登录]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T14:58:16+0800
+	 * @return   [type]                   [true]
+	 */
+	public static function checkLogin($type) {
+		if(empty($type))return;
+
+		switch ($type) {
+			case ADMIN:
+				$user_info = UserSession::getSessionInfo ();
+				if (empty ( $user_info )) {
+					Common::jumpUrl("panel/login.php");
+					return ;
+				}
+				break;
+			case AGENT:
+				$agent_info = UserSession::setSessionAgentInfo ();
+				if (empty ( $agent_info )) {
+					Common::jumpUrl("panel/agentLogin.php");
+					return ;
+				}
+				break;
+			
+			default:
+				break;
+		}
+		return;
+	}
+	
+	/**
+	 * [checkActionAccess 检查自己是否有权限访问]
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T14:57:08+0800
+	 * @return   [type]                   [true,false]
+	*/
+	public static function checkActionAccess() {
+		$action_url = Common::getActionUrl();
+		$user_info = UserSession::getSessionInfo();
+		$role_menu_url = MenuUrl::getMenuByRole ( $user_info['user_role']);
+		$search_result = in_array ( $action_url, $role_menu_url );
+		if (! $search_result) {
+			Common::exitWithMessage ('您当前没有权限访问该功能，如需访问请联系管理员开通权限','index.php' );
+			return ;
+		}
+	}
+	
+	
+	/**
+	 * [updateUser 更新用户信息] 
+	 * @Author   李爽
+	 * @DateTime 2018-07-26T14:01:55+0800
+	 * @param    [type]                   $user_id   [用户ID]
+	 * @param    [type]                   $user_data [用户数据]
+	 * @return   [type]                              [返回值]
+	 */
+	public static function updateUser($user_id,$user_data) {
+		if (! $user_data || ! is_array ( $user_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition=array("user_id"=>$user_id);
+		$id = $db->update ( self::getTableName(), $user_data, $condition );
+		return $id;
+	}
+
+	/**
+	* 批量修改用户，如批量修改用户分组
+	* user_ids 可以为无key数组，也可以为1,2,3形势的字符串
+	*/
+	public static function batchUpdateUsers($user_ids,$user_data) {
+		if (! $user_data || ! is_array ( $user_data )) {
+			return false;
+		}
+		if(!is_array($user_ids)){
+			$user_ids=explode(',',$user_ids);
+		}
+		$db=self::__instance();
+		$condition=array("user_id"=>$user_ids);
+		$id = $db->update ( self::getTableName(), $user_data, $condition );
+		return $id;
+	}
+	
+	public static function addUser($user_data) {
+		if (! $user_data || ! is_array ( $user_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$id = $db->insert ( self::getTableName(), $user_data );
+		return $id;
+	}
+	
+	public static function delUser($user_id) {
+		if (! $user_id || ! is_numeric ( $user_id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition = array("user_id"=>$user_id);
+		$result = $db->delete ( self::getTableName(), $condition );
+		return $result;
+	}
+	
+	public static function delUserByUserName($user_name) {
+		if (! $user_name ) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition = array("user_name"=>$user_name);
+		$result = $db->delete ( self::getTableName(), $condition );
+		return $result;
+	}
+	
+	public static function count($condition = '') {
+		$db=self::__instance();
+		$num = $db->count ( self::getTableName(), $condition );
+		return $num;
+	}
+	
+	public static function countSearch($user_group,$user_name) {
+		$db=self::__instance();
+		$condition = array();
+		if($user_group >0  && $user_name!=""){
+			$condition['user_group']=$user_group;
+			$condition['LIKE']=array("user_name"=>$user_name);
+		}else{
+			if($user_group>0){
+				$condition['user_group']=$user_group;
+			}
+			if($user_name!=""){
+				$condition['LIKE']=array("user_name"=>$user_name);
+			}
+		}
+		$num = $db->count( self::getTableName(), $condition);
+		return $num;
+	}
+	
+	public static function setTemplate($user_id,$template){
+		$user_data=array("template"=>$template);
+		$ret=self::updateUser($user_id,$user_data);
+		return $ret;
+	}
+	
+	
+	
+}

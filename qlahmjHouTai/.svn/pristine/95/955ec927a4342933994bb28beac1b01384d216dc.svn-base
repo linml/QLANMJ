@@ -1,0 +1,12 @@
+<?php 
+require ('../include/init.inc.php');
+
+
+
+$arrayName = array('url' =>'好好学习天天向上！' ,'userid'=>33601,'icon_url'=>'http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg' );
+
+$qrcodeName = PhpqrCode::getPhpqrCode($arrayName);
+
+Template::assign ('data', $data);
+Template::assign ( 'qrcodeName',$qrcodeName );
+Template::display ( 'agentcenter/toInvitePlayers.tpl' );

@@ -1,0 +1,17 @@
+<?php 
+require ('../include/init.inc.php');
+
+$desks_sum          = 100000;
+$consume_sum        = 100000;
+
+$userid = UserSession::getAgentUserId();
+$friendscircles_num = FriendsCircle::getFriendTitle($userid,1);
+$members_sum 		= FriendsCircle::getFriendTitle($userid,2);
+
+$friendscirclesList = FriendsCircle::getFriendList($userid);
+Template::assign ('friendscircles_num', $friendscircles_num);
+Template::assign ('members_sum', $members_sum);
+Template::assign ('desks_sum', $desks_sum);
+Template::assign ('consume_sum', $consume_sum);
+Template::assign ('friendscirclesList', $friendscirclesList);
+Template::display ( 'agentcenter/FriendsCircle.tpl' );

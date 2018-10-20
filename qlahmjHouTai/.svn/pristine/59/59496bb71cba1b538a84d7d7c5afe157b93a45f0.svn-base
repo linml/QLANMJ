@@ -1,0 +1,20 @@
+<?php 
+require ('../include/init.inc.php');
+$endDate = $page_no = '';
+extract($_REQUEST,EXTR_IF_EXISTS);
+$page_no = $page_no <1 ? 1 : $page_no;
+var_dump($endDate);
+
+$rebateRecordList = RebateRecord::getRebateRecordList(($page_no-1)*PAGE_SIZE,PAGE_SIZE,$endDate);
+$incomeExpend = RebateRecord::getIncomeAndExpend($endDate);
+
+if($endDate){
+	$endDate = substr($endDate, 0,6);
+}else{
+	$endDate = date('Y年m月',time());
+}
+
+Template::assign ('rebateRecordList', $rebateRecordList);
+Template::assign ('date', $endDate);
+Template::assign ('incomeExpend', $incomeExpend);
+Template::display ('agentcenter/toRebateRecord.tpl');
