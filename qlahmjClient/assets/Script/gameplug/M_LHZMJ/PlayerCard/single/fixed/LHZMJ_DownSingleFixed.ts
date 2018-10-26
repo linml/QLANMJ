@@ -629,7 +629,7 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
                 this.node.x=535.3;
                 this.node.y=-9;
 
-                this.bmp_cardbackAry[2].node.x=-10;
+                this.bmp_cardbackAry[2].node.x=-9.6;
                 this.bmp_cardbackAry[2].node.y=31.2;
                 this.bmp_cardbackAry[2].node.width=68;
                 this.bmp_cardbackAry[2].node.height=50;
@@ -702,49 +702,49 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
                 this.node.x=506.3;
                 this.node.y=88;
 
-                this.bmp_cardbackAry[2].node.x=-9.3;
+                this.bmp_cardbackAry[2].node.x=-9.6+1;
                 this.bmp_cardbackAry[2].node.y=28.7;
                 this.bmp_cardbackAry[2].node.width=63;
                 this.bmp_cardbackAry[2].node.height=47;
                 this.bmp_cardbackAry[2].node.setLocalZOrder(1);
                 this.bmp_cardbackAry[2].node.scaleX=-1;
 
-                this.bmp_cardbackAry[1].node.x=0;
+                this.bmp_cardbackAry[1].node.x=0+1;
                 this.bmp_cardbackAry[1].node.y=0;
                 this.bmp_cardbackAry[1].node.width=66;
                 this.bmp_cardbackAry[1].node.height=48;
                 this.bmp_cardbackAry[1].node.setLocalZOrder(2);
                 this.bmp_cardbackAry[1].node.scaleX=-1;
 
-                this.bmp_cardbackAry[0].node.x=8.3;
+                this.bmp_cardbackAry[0].node.x=8.3+1;
                 this.bmp_cardbackAry[0].node.y=-29.6;
                 this.bmp_cardbackAry[0].node.width=68;
                 this.bmp_cardbackAry[0].node.height=48;
                 this.bmp_cardbackAry[0].node.setLocalZOrder(3);
                 this.bmp_cardbackAry[0].node.scaleX=-1;
 
-                this.bmp_cardcolorAry[0].node.x=10.2;
+                this.bmp_cardcolorAry[0].node.x=10.2+1;
                 this.bmp_cardcolorAry[0].node.y=-20.8;
                 this.bmp_cardcolorAry[0].node.scaleX=0.41;
                 this.bmp_cardcolorAry[0].node.scaleY=0.5;
                 this.bmp_cardcolorAry[0].node.skewY=15;
                 this.bmp_cardcolorAry[0].node.setLocalZOrder(4);
 
-                this.bmp_cardcolorAry[2].node.x=-7.5;
+                this.bmp_cardcolorAry[2].node.x=-7.5+1;
                 this.bmp_cardcolorAry[2].node.y=37.7;
                 this.bmp_cardcolorAry[2].node.scaleX=0.4;
                 this.bmp_cardcolorAry[2].node.scaleY=0.5;
                 this.bmp_cardcolorAry[2].node.skewY=13;
                 this.bmp_cardcolorAry[2].node.setLocalZOrder(5);
 
-                this.bmp_cardbackAry[3].node.x=5.3;
+                this.bmp_cardbackAry[3].node.x=5.3+1;
                 this.bmp_cardbackAry[3].node.y=16.9;
                 this.bmp_cardbackAry[3].node.width=66;
                 this.bmp_cardbackAry[3].node.height=48;
                 this.bmp_cardbackAry[3].node.setLocalZOrder(6);
                 this.bmp_cardbackAry[3].node.scaleX=-1;    
 
-                this.bmp_cardcolorAry[1].node.x=6.2;
+                this.bmp_cardcolorAry[1].node.x=6.2+1;
                 this.bmp_cardcolorAry[1].node.y=25.4;
                 this.bmp_cardcolorAry[1].node.scaleX=0.4;
                 this.bmp_cardcolorAry[1].node.scaleY=0.5;
@@ -752,19 +752,19 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
                 this.bmp_cardcolorAry[1].node.setLocalZOrder(7);
                 
 
-                this.bmp_cardHideAry[0].node.x=10.2;
+                this.bmp_cardHideAry[0].node.x=10.2+1;
                 this.bmp_cardHideAry[0].node.y=-20.8;
                 this.bmp_cardHideAry[0].node.scaleX=0.4;
                 this.bmp_cardHideAry[0].node.scaleY=0.45;
                 this.bmp_cardHideAry[0].node.skewY=15;
 
-                this.bmp_cardHideAry[1].node.x=1.5;
+                this.bmp_cardHideAry[1].node.x=1.5+1;
                 this.bmp_cardHideAry[1].node.y=8.6;
                 this.bmp_cardHideAry[1].node.scaleX=0.4;
                 this.bmp_cardHideAry[1].node.scaleY=0.45;
                 this.bmp_cardHideAry[1].node.skewY=16;
 
-                this.bmp_cardHideAry[2].node.x=-7.4;
+                this.bmp_cardHideAry[2].node.x=-7.4+1;
                 this.bmp_cardHideAry[2].node.y=37.7;
                 this.bmp_cardHideAry[2].node.scaleX=0.4;
                 this.bmp_cardHideAry[2].node.scaleY=0.45;
@@ -776,49 +776,49 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
                 this.node.x=477.7;
                 this.node.y=178;
 
-                this.bmp_cardbackAry[2].node.x=-8.7;
+                this.bmp_cardbackAry[2].node.x=-8.7+2;
                 this.bmp_cardbackAry[2].node.y=27.5;
                 this.bmp_cardbackAry[2].node.width=60;
                 this.bmp_cardbackAry[2].node.height=45;
                 this.bmp_cardbackAry[2].node.setLocalZOrder(1);
                 this.bmp_cardbackAry[2].node.scaleX=-1;
 
-                this.bmp_cardbackAry[1].node.x=0;
+                this.bmp_cardbackAry[1].node.x=0+2;
                 this.bmp_cardbackAry[1].node.y=0;
                 this.bmp_cardbackAry[1].node.width=62;
                 this.bmp_cardbackAry[1].node.height=46;
                 this.bmp_cardbackAry[1].node.setLocalZOrder(2);
                 this.bmp_cardbackAry[1].node.scaleX=-1;
 
-                this.bmp_cardbackAry[0].node.x=8.2;
+                this.bmp_cardbackAry[0].node.x=8.2+2;
                 this.bmp_cardbackAry[0].node.y=-27.1;
                 this.bmp_cardbackAry[0].node.width=63;
                 this.bmp_cardbackAry[0].node.height=47;
                 this.bmp_cardbackAry[0].node.setLocalZOrder(3);
                 this.bmp_cardbackAry[0].node.scaleX=-1;
 
-                this.bmp_cardcolorAry[0].node.x=9.8;
+                this.bmp_cardcolorAry[0].node.x=9.8+2;
                 this.bmp_cardcolorAry[0].node.y=-18.3;
                 this.bmp_cardcolorAry[0].node.scaleX=0.37;
                 this.bmp_cardcolorAry[0].node.scaleY=0.47;
                 this.bmp_cardcolorAry[0].node.skewY=14;
                 this.bmp_cardcolorAry[0].node.setLocalZOrder(4);
 
-                this.bmp_cardcolorAry[2].node.x=-6.9;
+                this.bmp_cardcolorAry[2].node.x=-6.9+2;
                 this.bmp_cardcolorAry[2].node.y=35.9;
                 this.bmp_cardcolorAry[2].node.scaleX=0.37;
                 this.bmp_cardcolorAry[2].node.scaleY=0.47;
                 this.bmp_cardcolorAry[2].node.skewY=13;
                 this.bmp_cardcolorAry[2].node.setLocalZOrder(5);
 
-                this.bmp_cardbackAry[3].node.x=5.3;
+                this.bmp_cardbackAry[3].node.x=5.3+2;
                 this.bmp_cardbackAry[3].node.y=16.9;
                 this.bmp_cardbackAry[3].node.width=62;
                 this.bmp_cardbackAry[3].node.height=46;
                 this.bmp_cardbackAry[3].node.setLocalZOrder(6);
                 this.bmp_cardbackAry[3].node.scaleX=-1;    
 
-                this.bmp_cardcolorAry[1].node.x=6.5;
+                this.bmp_cardcolorAry[1].node.x=6.5+2;
                 this.bmp_cardcolorAry[1].node.y=25.9;
                 this.bmp_cardcolorAry[1].node.scaleX=0.37;
                 this.bmp_cardcolorAry[1].node.scaleY=0.47;
@@ -826,19 +826,19 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
                 this.bmp_cardcolorAry[1].node.setLocalZOrder(7);
                 
 
-                this.bmp_cardHideAry[0].node.x=10.1;
+                this.bmp_cardHideAry[0].node.x=10.1+2;
                 this.bmp_cardHideAry[0].node.y=-18.4;
                 this.bmp_cardHideAry[0].node.scaleX=0.36;
                 this.bmp_cardHideAry[0].node.scaleY=0.44;
                 this.bmp_cardHideAry[0].node.skewY=15;
 
-                this.bmp_cardHideAry[1].node.x=0.77;
+                this.bmp_cardHideAry[1].node.x=0.77+2;
                 this.bmp_cardHideAry[1].node.y=9.49;
                 this.bmp_cardHideAry[1].node.scaleX=0.36;
                 this.bmp_cardHideAry[1].node.scaleY=0.42;
                 this.bmp_cardHideAry[1].node.skewY=16;
 
-                this.bmp_cardHideAry[2].node.x=-7;
+                this.bmp_cardHideAry[2].node.x=-7+2;
                 this.bmp_cardHideAry[2].node.y=36.3;
                 this.bmp_cardHideAry[2].node.scaleX=0.36;
                 this.bmp_cardHideAry[2].node.scaleY=0.41;
@@ -851,6 +851,8 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
         this.bmp_cardHideAry[1].node.setLocalZOrder(9);
         this.bmp_cardHideAry[2].node.setLocalZOrder(10);
         this.bmp_arrow.node.setLocalZOrder(11);
+        this.node.rotation = 1.2;
+        this.node.y = this.node.y - 20;
 
     }
 }

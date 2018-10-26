@@ -52,7 +52,7 @@ export default class HQMJ_OppoPool extends HQMJ_PoolBase {
     //     var ry: number = this._poolCard[lastIdx].node.y + this._poolCard[lastIdx].size.height / 2;
     //     return { x: rx,y: ry };
     // }
-    protected refreshPoolCard(): {x:number,y:number} {
+    protected refreshPoolCard(_hqmjclass): {x:number,y:number} {
         
         if(this._poolCard.length < 1) {
             return {x:0,y:0};
@@ -62,11 +62,6 @@ export default class HQMJ_OppoPool extends HQMJ_PoolBase {
         let lastIdx = 0;
         let valueIdx: number = 0;
         let cardIdx: number = this._poolCard.length;
-        let _hqmjclass = null;
-        if(HQMJ.ins.iclass)
-            _hqmjclass = HQMJ.ins.iclass;
-        else
-            _hqmjclass = M_HQMJVideoClass.ins;
         if(_hqmjclass.is2D()){
             for(var i: number = 0;i < lineNum;i++) {
                 for(var j: number = 0;j < 10;j++) {
@@ -77,7 +72,7 @@ export default class HQMJ_OppoPool extends HQMJ_PoolBase {
 
                         this._poolCard[cardIdx].node.x = 189 - j * 42;
                         this._poolCard[cardIdx].node.y = 118 + i * 48;
-                        this._poolCard[cardIdx].showCard(this._cardAry[valueIdx],0);
+                        this._poolCard[cardIdx].showCard(this._cardAry[valueIdx],0,_hqmjclass);
 
                         ++valueIdx;
                         

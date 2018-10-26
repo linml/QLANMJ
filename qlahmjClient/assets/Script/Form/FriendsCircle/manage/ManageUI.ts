@@ -62,7 +62,7 @@ export default class ManageUi extends UIBase<any> {
 
     public InitShow() {
         let isAdministrator = FriendCircleDataCache.Instance.selfIsAdministrator();
-        // 非圈主不显示数据统计按钮
+        // 非管理员不显示数据统计按钮
         
         if (!isAdministrator && this.btn_statistics) {
             this.btn_statistics.node.active = false;

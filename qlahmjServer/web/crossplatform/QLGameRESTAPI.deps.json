@@ -5,17 +5,19 @@
   },
   "compilationOptions": {
     "defines": [
+      "TRACE",
       "DEBUG",
       "WEB_API",
-      "RELEASE",
+      "SD",
+      "DEBUG",
       "NETCOREAPP",
       "NETCOREAPP2_1"
     ],
     "languageVersion": "",
     "platform": "",
-    "allowUnsafe": true,
+    "allowUnsafe": false,
     "warningsAsErrors": false,
-    "optimize": true,
+    "optimize": false,
     "keyFile": "",
     "emitEntryPoint": true,
     "xmlDoc": true,

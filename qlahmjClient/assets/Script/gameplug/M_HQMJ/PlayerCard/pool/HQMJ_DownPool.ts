@@ -16,7 +16,7 @@ export default class HQMJ_DownPool extends HQMJ_PoolBase {
     /**
      * 刷新牌池牌
      * */
-    protected refreshPoolCard(): {x:number,y:number} {
+    protected refreshPoolCard(_hqmjclass): {x:number,y:number} {
         
         if(this._poolCard.length < 1) {
             return {x:0,y:0};
@@ -26,11 +26,6 @@ export default class HQMJ_DownPool extends HQMJ_PoolBase {
         let valueIdx: number = 0;
         let cardIdx: number = this._poolCard.length;
         let lastIdx: number = 0;
-        let _hqmjclass = null;
-        if(HQMJ.ins.iclass)
-            _hqmjclass = HQMJ.ins.iclass;
-        else
-            _hqmjclass = M_HQMJVideoClass.ins;
         if(_hqmjclass.is2D()){
             for(let i: number = 0;i < columnNum;i++) {
                 for(let j: number = 0;j < 10;j++) {
@@ -41,7 +36,7 @@ export default class HQMJ_DownPool extends HQMJ_PoolBase {
 
                         this._poolCard[cardIdx].node.x = 280 + i * 50.5;
                         this._poolCard[cardIdx].node.y = -122.5 + j * 31.5+4;
-                        this._poolCard[cardIdx].showCard(this._cardAry[valueIdx],0);
+                        this._poolCard[cardIdx].showCard(this._cardAry[valueIdx],0,_hqmjclass);
                         ++valueIdx;
                         
                     } else {

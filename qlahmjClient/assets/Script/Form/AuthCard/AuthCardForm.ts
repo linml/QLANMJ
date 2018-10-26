@@ -41,7 +41,7 @@ export class AuthCardForm extends UIBase<any>{
         cc.log(str);
         this.DataCache.UserInfo.userData.IsAuthentication = true;
         this.UiManager.ShowTip("实名认证成功，祝你游戏愉快！");
-        this.Close();
+        this.CloseClick();
 
         this.ShowParam.active = false;
     }

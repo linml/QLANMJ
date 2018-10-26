@@ -30,22 +30,13 @@ export default class LHZMJ_GamingUser extends cc.Component {
     @property(cc.Sprite)
     img_tableowner:cc.Sprite=null;
 
-    @property(cc.Sprite)
-    img_la:cc.Sprite=null;
-
-    @property(cc.Sprite)
-    img_pao:cc.Sprite=null;
-
     @property(cc.Label)
     lbl_account:cc.Label=null;
 
     @property(cc.Sprite)
     img_look:cc.Sprite=null;
 
-    @property(cc.Label)
-    lbl_reMain:cc.Label=null;
-    @property(cc.Sprite)
-    lbl_ting:cc.Sprite=null;
+
     private gender=0;
 
     private animation: cc.Animation;
@@ -63,11 +54,9 @@ export default class LHZMJ_GamingUser extends cc.Component {
         this.img_offline.node.active=false;
         this.img_banker.node.active=false;
         this.img_tableowner.node.active=false;
-        this.img_la.node.active=false;
-        this.img_pao.node.active=false;
         this.img_look.node.active=false;
         this.lbl_account.node.active=false;
-        this.lbl_ting.node.active=false;
+
         this.animation = this.img_look.addComponent<cc.Animation>(cc.Animation);
         console.log("玩家信息初始化");
     }
@@ -79,11 +68,10 @@ export default class LHZMJ_GamingUser extends cc.Component {
         this.img_offline.node.active=false;
         this.img_banker.node.active=false;
         this.img_tableowner.node.active=false;
-        this.img_la.node.active=false;
-        this.img_pao.node.active=false;
+
         this.img_look.node.active=false;
         this.lbl_account.node.active=false;
-        this.lbl_ting.node.active=false;
+
         this.animation.stop();
     }
 
@@ -168,36 +156,23 @@ export default class LHZMJ_GamingUser extends cc.Component {
         
     }
     public SetTing():void{
-        this.lbl_ting.node.active=true;
+
     }
     public HideBanker():void{
         this.img_banker.node.active=false;
     }
     public HideTing():void{
-        this.lbl_ting.node.active=false;
+
     }
     public ShowLaAndPao(value:boolean):void{
-        this.img_la.node.active=value;
-        this.img_pao.node.active=value;
+
     }
 
     public SetLa(score:number):void{
-        console.log("设置拉"+score);
-        let url="";
-        if(score>=0 && score<=2){
-            url=`gameres/M_LHZMJ/Texture/LaPaoZuo/hong${score}`;
-            console.log(url);
-            SetTextureRes(url,this.img_la);
-        }
-        this.img_la.node.active=true;
+
     }
 
     public SetPao(score:number):void{
-        let url="";
-        if(score>=0 && score<=2){
-            url=`gameres/M_LHZMJ/Texture/LaPaoZuo/huan${score}`;
-            SetTextureRes(url,this.img_pao);
-        }
-        this.img_pao.node.active=true;
+
     }
 }

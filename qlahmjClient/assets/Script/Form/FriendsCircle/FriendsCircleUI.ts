@@ -21,7 +21,7 @@ const { ccclass, property } = cc._decorator;
 export default class FriendsCircleUI extends UIBase<any> {
 	public IsEventHandler: boolean = true
     public IsKeyHandler: boolean = true;
-    protected isPlayPopAction: boolean = false;
+    public get isPlayPopAction(): boolean { return false; }
 
     /**
      * 玩家昵称
@@ -92,8 +92,7 @@ export default class FriendsCircleUI extends UIBase<any> {
     }
 
     public OnShow(){
-        super.OnShow();
-        this.isPlayPopAction = false;
+        super.OnShow(); 
         
         // 初始化数据
         if (this.ShowParam) {
@@ -362,7 +361,6 @@ export default class FriendsCircleUI extends UIBase<any> {
      */
     public CloseClick(){
         Global.Instance.DataCache.GroupId = 0;
-        // cc.game.removePersistRootNode(this.node);
         super.CloseClick();
     }
 }

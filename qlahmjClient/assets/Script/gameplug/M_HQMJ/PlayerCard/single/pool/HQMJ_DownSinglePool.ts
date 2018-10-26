@@ -16,16 +16,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
     /**
      * 显示牌
      * */
-    public showCard(card: number,index:number): void {
+    public showCard(card: number,index:number,_hqmj): void {
         if(card==this._cardValue){
             return;
         }
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        super.showCard(card,index);
+        super.showCard(card,index,_hqmj);
         
         if(_hqmj.is2D()){
             this.bmp_cardback.node.width=52;
@@ -46,7 +41,7 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
             this.bmp_cardback.spriteFrame=_hqmj.getMahjongPaiBeiRes("pb3_showcard_left_right_1280");
             this.bmp_cardcolor.spriteFrame=_hqmj.getMahjongPaiHuaRes(card);
         }else{
-            this.show3DCard();
+            this.show3DCard(_hqmj);
         }
         this.bmp_cardback.node.active=true;
         this.bmp_cardcolor.node.active=true;
@@ -65,12 +60,7 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
         return { width: 52,height: 45 };
     }
 
-    private show3DCard():void{
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    private show3DCard(_hqmj):void{
         switch(this._cardIndex){
             case 1:{
                 this.node.x=139;
@@ -81,11 +71,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=4.5;
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.48;
-                this.bmp_cardHide.node.scaleY=0.55;
-                this.bmp_cardHide.node.skewY=7;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=4.5;
                 this.bmp_cardback.node.width = 64;
                 this.bmp_cardback.node.height = 52;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_1");
@@ -101,11 +91,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=3.5;
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.46;
-                this.bmp_cardHide.node.scaleY=0.53;
-                this.bmp_cardHide.node.skewY=7;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=3.5;
                 this.bmp_cardback.node.width = 62;
                 this.bmp_cardback.node.height = 50;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_2");
@@ -121,11 +111,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=3.5;
-                this.bmp_cardHide.node.x=1.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
-                this.bmp_cardHide.node.skewY=7;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=3.5;
                 this.bmp_cardback.node.width = 62;
                 this.bmp_cardback.node.height = 50;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_3");
@@ -141,11 +131,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=4.5;
-                this.bmp_cardHide.node.x=0.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=4.5;
                 this.bmp_cardback.node.width = 60;
                 this.bmp_cardback.node.height = 48;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_4");
@@ -161,11 +151,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=4.5;
-                this.bmp_cardHide.node.x=0.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=4.5;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 48;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_5");
@@ -183,11 +173,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=3.5;
-                this.bmp_cardHide.node.x=1.7;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.43;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
                 this.bmp_cardHide.node.scaleY=0.5;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.skewY=3.5;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 48;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_6");
@@ -204,11 +194,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.5;
-                this.bmp_cardHide.node.y=9.2;
-                this.bmp_cardHide.node.scaleX=0.42;
-                this.bmp_cardHide.node.scaleY=0.49;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 46;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_19");
@@ -225,11 +215,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.5;
-                this.bmp_cardHide.node.y=9.2;
-                this.bmp_cardHide.node.scaleX=0.42;
-                this.bmp_cardHide.node.scaleY=0.49;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
+                this.bmp_cardHide.node.scaleX=0.;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 56;
                 this.bmp_cardback.node.height = 46;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_22");
@@ -246,11 +236,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.1;
-                this.bmp_cardHide.node.y=9.2;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=7;
                 this.bmp_cardHide.node.scaleX=0.4;
-                this.bmp_cardHide.node.scaleY=0.47;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 56;
                 this.bmp_cardback.node.height = 44;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_25");
@@ -268,11 +258,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.1;
-                this.bmp_cardHide.node.y=8.3;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=8.5;
                 this.bmp_cardHide.node.scaleX=0.4;
-                this.bmp_cardHide.node.scaleY=0.465;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 64;
                 this.bmp_cardback.node.height = 52;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_7");
@@ -289,10 +279,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
 
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.25;
-                this.bmp_cardHide.node.scaleY=0.35;
+                this.bmp_cardHide.node.x=2;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 64;
                 this.bmp_cardback.node.height = 50;
@@ -310,10 +300,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
 
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
+                this.bmp_cardHide.node.x=2;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 62;
                 this.bmp_cardback.node.height = 50;
@@ -331,10 +321,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
 
-                this.bmp_cardHide.node.x=1.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
+                this.bmp_cardHide.node.x=2;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 62;
                 this.bmp_cardback.node.height = 48;
@@ -352,11 +342,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=9;
 
-                this.bmp_cardHide.node.x=0.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=8;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=9;
                 this.bmp_cardback.node.width = 60;
                 this.bmp_cardback.node.height = 48;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_11");
@@ -373,11 +363,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=9;
 
-                this.bmp_cardHide.node.x=0.8;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.44;
-                this.bmp_cardHide.node.scaleY=0.52;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=9;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 48;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_12");
@@ -394,10 +384,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
                 this.bmp_cardHide.node.x=1.7;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.43;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
                 this.bmp_cardHide.node.scaleY=0.5;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 46;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_20");
@@ -413,11 +403,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.5;
-                this.bmp_cardHide.node.y=9.2;
-                this.bmp_cardHide.node.scaleX=0.42;
-                this.bmp_cardHide.node.scaleY=0.49;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1.7;
+                this.bmp_cardHide.node.y=9.6;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 58;
                 this.bmp_cardback.node.height = 46;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_23");
@@ -433,11 +423,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.5;
-                this.bmp_cardHide.node.y=9.2;
-                this.bmp_cardHide.node.scaleX=0.42;
-                this.bmp_cardHide.node.scaleY=0.49;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=1.3;
+                this.bmp_cardHide.node.y=9.4;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 56;
                 this.bmp_cardback.node.height = 44;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_26");
@@ -454,11 +444,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.1;
-                this.bmp_cardHide.node.y=9.2;
+                this.bmp_cardHide.node.x=0.6;
+                this.bmp_cardHide.node.y=9.4;
                 this.bmp_cardHide.node.scaleX=0.4;
-                this.bmp_cardHide.node.scaleY=0.47;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 66;
                 this.bmp_cardback.node.height = 52;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_13");
@@ -474,11 +464,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=7;
-                this.bmp_cardHide.node.x=1.1;
-                this.bmp_cardHide.node.y=8.3;
+                this.bmp_cardHide.node.x=1;
+                this.bmp_cardHide.node.y=8.5;
                 this.bmp_cardHide.node.scaleX=0.4;
-                this.bmp_cardHide.node.scaleY=0.465;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=7;
                 this.bmp_cardback.node.width = 66;
                 this.bmp_cardback.node.height = 50;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_14");
@@ -494,11 +484,11 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleX=0.4;
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=11;
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.48;
-                this.bmp_cardHide.node.scaleY=0.55;
-                this.bmp_cardHide.node.skewY=8;
+                this.bmp_cardHide.node.x=2;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
+                this.bmp_cardHide.node.skewY=11;
                 this.bmp_cardback.node.width = 64;
                 this.bmp_cardback.node.height = 50;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_15");
@@ -515,10 +505,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=11;
 
-                this.bmp_cardHide.node.x=2.1;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.46;
-                this.bmp_cardHide.node.scaleY=0.53;
+                this.bmp_cardHide.node.x=2;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=11;
                 this.bmp_cardback.node.width = 62;
                 this.bmp_cardback.node.height = 48;
@@ -540,10 +530,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=10;
 
-                this.bmp_cardHide.node.x=1.4;
-                this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.25;
-                this.bmp_cardHide.node.scaleY=0.35;
+                this.bmp_cardHide.node.x=1.6;
+                this.bmp_cardHide.node.y=10.5;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=10;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_17");
                 this.bmp_cardcolor.spriteFrame=_hqmj.getMahjongPaiHuaRes(this.cardValue);
@@ -563,10 +553,10 @@ export default class HQMJ_DownSinglePool extends HQMJ_SinglePoolBase {
                 this.bmp_cardcolor.node.scaleY=0.5;
                 this.bmp_cardcolor.node.skewY=11;
 
-                this.bmp_cardHide.node.x=0.8;
+                this.bmp_cardHide.node.x=1;
                 this.bmp_cardHide.node.y=10.3;
-                this.bmp_cardHide.node.scaleX=0.25;
-                this.bmp_cardHide.node.scaleY=0.35;
+                this.bmp_cardHide.node.scaleX=0.4;
+                this.bmp_cardHide.node.scaleY=0.5;
                 this.bmp_cardHide.node.skewY=11;
                 this.bmp_cardback.spriteFrame=_hqmj.getMahjong3DPaiBeiRes("field_right_18");
                 this.bmp_cardcolor.spriteFrame=_hqmj.getMahjongPaiHuaRes(this.cardValue);

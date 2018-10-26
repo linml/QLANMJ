@@ -44,17 +44,12 @@ export default class HQMJ_UpPool extends HQMJ_PoolBase {
     //     var ry: number = this._poolCard[lastIdx].node.y+ this._poolCard[lastIdx].size.height / 2;
     //     return { x: rx,y: ry };
     // }
-    protected refreshPoolCard(): {x:number,y:number} {
+    protected refreshPoolCard(_hqmjclass): {x:number,y:number} {
         if(this._poolCard.length < 1) {
             return {x:0,y:0};
         }
         
         let columnNum = Math.ceil((this._poolCard.length - 1) / 10) + 1;
-        let _hqmjclass = null;
-        if(HQMJ.ins.iclass)
-            _hqmjclass = HQMJ.ins.iclass;
-        else
-            _hqmjclass = M_HQMJVideoClass.ins;
         if(_hqmjclass.is2D()){
             for(var i: number = 0;i < columnNum;i++) {
                 for(var j: number = 0;j < 10;j++) {
@@ -63,7 +58,7 @@ export default class HQMJ_UpPool extends HQMJ_PoolBase {
 
                         this._poolCard[i * 10 + j].node.x = -280 - i * 50.5;
                         this._poolCard[i * 10 + j].node.y = 182.5-15.75- j * 31.5-4;
-                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],0);
+                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],0,_hqmjclass);
 
                     } else {
                         break;

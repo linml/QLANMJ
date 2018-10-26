@@ -62,13 +62,10 @@ export default class LHZMJ_GameInfo extends cc.Component {
      * */
     public holdCardOver():void{
         this.GroupLeftCard.active=true;
-        this.leftCardNum = LHZMJMahjongDef.gCardCount_Package - (LHZMJMahjongDef.gCardCount_Active - 1) * LHZMJMahjongDef.gPlayerNum-1;
-
-            
-        
-
-        
-
+        this.leftCardNum = LHZMJMahjongDef.gCardCount_Package - (LHZMJMahjongDef.gCardCount_Active - 1) * LHZMJMahjongDef.gPlayerNum;
+    }
+    public get cardCount():number{
+        return this._leftCardNum;
     }
     /**
      * 玩家抓了一张牌

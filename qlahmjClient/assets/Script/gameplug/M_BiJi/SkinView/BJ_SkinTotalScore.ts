@@ -1,7 +1,7 @@
 
 import SkinTotalScoreEle from "./BJ_SkinTotalScoreEle";
 import { BiJi } from "../GameHelp/BJ_IBiJiClass";
-import { TotalScoreData } from "../GameHelp/BJ_GameHelp";
+
 
 const { ccclass, property } = cc._decorator;
 

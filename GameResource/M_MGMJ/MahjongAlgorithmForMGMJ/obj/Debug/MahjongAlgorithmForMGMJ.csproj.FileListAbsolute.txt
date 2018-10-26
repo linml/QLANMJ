@@ -1,10 +1,11 @@
 F:\project\QLAHMJ\GameResource\dll\LQMJ\MahjongAlgorithmForHQMJ.dll
 F:\project\QLAHMJ\GameResource\dll\LQMJ\MahjongAlgorithmForHQMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForMGMJ.csproj.CoreCompileInputs.cache
-F:\project\QLAHMJ\GameResource\dll\MGMJ\MahjongAlgorithmForMGMJ.dll
-F:\project\QLAHMJ\GameResource\dll\MGMJ\MahjongAlgorithmForMGMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForMGMJ.dll
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForLQMJ\obj\Debug\MahjongAlgorithmForMGMJ.pdb
+F:\project\QLAHMJ\GameResource\dll\MGMJ\MahjongAlgorithmForMGMJ.dll
+F:\project\QLAHMJ\GameResource\dll\MGMJ\MahjongAlgorithmForMGMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.csproj.CoreCompileInputs.cache
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.dll
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.pdb
+F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.csprojAssemblyReference.cache

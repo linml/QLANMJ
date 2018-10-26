@@ -47,7 +47,6 @@ namespace M_MGMJ
         public List<byte> m_cPackage = new List<byte>(MGMJConstants.gCardCount_Package);
 
 
-
         //private List<byte> m_cPackage1 = new List<byte>(WWMJConstants.gCardCount_Package1);
         //private List<byte> m_cPackage2 = new List<byte>(WWMJConstants.gCardCount_Package2);
 
@@ -235,6 +234,11 @@ namespace M_MGMJ
                 return 0;
             }
             return m_cPackage.FindAll(delegate(byte checkCard) { return checkCard == card; }).Count();
+        }
+
+        public byte  getRandomPeiZi() {
+            Random rand = MahjongGeneralAlgorithm.GetRandomObject();
+            return m_ConstAllCard[rand.Next(0, MGMJConstants.gCardCount_Package)];
         }
     }
 }

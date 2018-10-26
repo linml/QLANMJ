@@ -52,7 +52,6 @@ export default class SuperClass extends cc.Component implements IEventHandler, I
                 }
             }
         }
-        
         this.EventManager.RegisterEventHadnle(this);
     }
 

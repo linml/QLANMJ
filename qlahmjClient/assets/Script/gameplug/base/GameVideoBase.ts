@@ -97,7 +97,7 @@ export class GameVideoBase extends UIBase<any>{
 
     onDestroy() {
         super.onDestroy();
-        Global.Instance.AudioManager.StopMusic();
+        // Global.Instance.AudioManager.StopMusic();
         try {
             this.DestryGameClass();
         } catch (e) {
@@ -112,7 +112,6 @@ export class GameVideoBase extends UIBase<any>{
 
     protected InitShow() {
         const obj = this.ShowParam;
-        this.isPlayPopAction = false;
         if (!obj) return;
         this.OnResetGameClass();
         //恢复场地数据
@@ -236,7 +235,7 @@ export class GameVideoBase extends UIBase<any>{
                 message = this.TryPacketMessage(this._videoMsg[this._msgIdx].chair, this._videoMsg[this._msgIdx].data);
 
                 if (message) {
-                    this.OnGameMessage(this._videoMsg[i].chair, message);
+                    this.OnGameMessage(this._videoMsg[this._msgIdx].chair, message);
                 }
 
                 this._msgIdx ++;

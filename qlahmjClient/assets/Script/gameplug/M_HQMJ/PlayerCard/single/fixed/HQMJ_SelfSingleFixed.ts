@@ -17,34 +17,24 @@ export default class HQMJ_SelfSingleFixed extends HQMJ_SingleFixedBase {
     /**
      * 显示定牌
      * */
-    public showCard(card: number,fixedType: enFixedCardType,index:number,chiType:number,pos:number): void {
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    public showCard(card: number,fixedType: enFixedCardType,index:number,chiType:number,pos:number,_hqmj=HQMJ.ins.iclass): void {
         super.showCard(card,fixedType,index,chiType,pos,_hqmj);
-        this.arrangeCard();
+        this.arrangeCard(_hqmj);
     }
     /**
      * 碰转杠
      * */
-    public changePeng2Gang(card: number): boolean {
-        if(super.changePeng2Gang(card)) {
-            this.arrangeCard();
+    public changePeng2Gang(card: number,_hqmj): boolean {
+        if(super.changePeng2Gang(card,_hqmj)) {
+            this.arrangeCard(_hqmj);
             return true;
         }
 
         return false;
     }
     
-    protected arrangeCard(){
+    protected arrangeCard(_hqmj){
         let url="";
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         if(_hqmj.is2D()){
             this.node.scaleX=0.9;
             this.node.scaleY=0.9;

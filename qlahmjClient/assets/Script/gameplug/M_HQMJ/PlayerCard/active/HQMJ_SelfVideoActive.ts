@@ -85,12 +85,12 @@ export default class HQMJ_SelfVideoActive extends HQMJ_VideoActiveBase {
                 this._cardData[i].node.width = 87;
                 this._cardData[i].node.height = 124;
 
-                this._cardData[i].showCard(this._handCard[i],this.isLie,0);
+                this._cardData[i].showCard(this._handCard[i],this.isLie,0,M_HQMJVideoClass.ins);
 
                 if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                     this._cardData[i].node.x += 15;
                     
-                    if(!this.isLie && !HQMJ.ins.iclass.isVideo())
+                    if(!this.isLie && !M_HQMJVideoClass.ins.isVideo())
                     {(<HQMJ_SelfSingleActive>this._cardData[i]).setUp();}
                 }
                 if(!this.isHoldAfter && this._cardData.length%3==2 && (i == (this._cardData.length - 1))){//自己碰过之后会右移第一张牌
@@ -111,7 +111,7 @@ export default class HQMJ_SelfVideoActive extends HQMJ_VideoActiveBase {
                 if(!this.isHoldAfter && this._cardData.length%3==2 && (i == (this._cardData.length - 1))){//自己碰过之后会右移第一张牌
                     this._cardData[i].node.x += 20;
                 }
-                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1);
+                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1,M_HQMJVideoClass.ins);
                 if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                     this._cardData[i].node.x += 20;
                      
@@ -142,50 +142,50 @@ export default class HQMJ_SelfVideoActive extends HQMJ_VideoActiveBase {
     /**
      * 抓到一张牌
      * */
-    public holdACard(card: number): void {
-        super.holdACard(card);
+    public holdACard(card: number,_hqmj): void {
+        super.holdACard(card,_hqmj);
     }
 
     /**
      * 打出一张牌
      * */
-    public outACard(card: number): void {
-        super.outACard(card);
+    public outACard(card: number,_hqmj): void {
+        super.outACard(card,_hqmj);
     }
 
      /**
      * 吃了一张牌
      * */
-    public chiACard(card: number,type:number): void {
-        super.chiACard(card,type);
+    public chiACard(card: number,type:number,_hqmj): void {
+        super.chiACard(card,type,_hqmj);
     }
     
     /**
      * 碰了一张牌
      * */
-    public pengACard(card: number): void {
-        super.pengACard(card);
+    public pengACard(card: number,_hqmj): void {
+        super.pengACard(card,_hqmj);
     }
 
     /**
      * 明杠了一张牌
      * */
-    public MGangACard(card: number): void {
-        super.MGangACard(card);
+    public MGangACard(card: number,_hqmj): void {
+        super.MGangACard(card,_hqmj);
     }
 
     /**
      * 暗杠了一张牌
      * */
-    public AGangACard(card: number): void {
-        super.AGangACard(card);
+    public AGangACard(card: number,_hqmj): void {
+        super.AGangACard(card,_hqmj);
     }
 
     /**
      * 补杠了一张牌
      * */
-    public BGangACard(card: number): void {
-        super.BGangACard(card);
+    public BGangACard(card: number,_hqmj): void {
+        super.BGangACard(card),_hqmj;
     }
 
 }

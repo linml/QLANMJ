@@ -57,9 +57,9 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
     public get IsCleared(): boolean { return this._isCleared; }
 
-    //局数显示
-    @property(cc.Node)
-    group_gameNum: cc.Node = null;
+    // //局数显示
+    // @property(cc.Node)
+    // group_gameNum: cc.Node = null;
 
     //中间层
     @property(cc.Node)
@@ -590,7 +590,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         // let qianggnode=cc.instantiate(this.LHZMJ_QiangGang_View);
         // this._qiangGang=qianggnode.getComponent<LHZMJ_QiangGangView>(LHZMJ_QiangGangView);
         // qianggnode.setLocalZOrder(11);
-        // // this.node.addChild(qianggnode);
+        // this.node.addChild(qianggnode);
 
         let tingtipnode = cc.instantiate(this.LHZMJ_TingTip_View);
         this._tingTip = tingtipnode.getComponent<LHZMJ_TingTip>(LHZMJ_TingTip);
@@ -1086,14 +1086,14 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
             // // this._timerView.clearAction();
             // this._timerView.node.active = false;
         }
-
+        
         this._cardView.node.active = true;
 
     }
 
     public StartSendCard(): void {
         this.StartAniPlay();
-
+        this._cardView.PaiQiangInfo.showPaiWall(this,()=>{
         this.GameInfo.holdCardOver();
         for (let i = 0; i < LHZMJMahjongDef.gPlayerNum; i++) {
             this.CardView.holdTricksCard(i, 13);
@@ -1102,6 +1102,8 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
             this._cardView.selfActive.refreshHandCardData(LHZMJ.ins.iclass.getSelfHandCardData());
             this._cardView.selfActive.arrangeHandCard();
             },1.25);
+        });
+
     }
 
     public TableCreatorInfo(chair: number): void {
@@ -1248,6 +1250,9 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
                     this._aniPanel.PlayAnimation("AniZimo", logicChair);
                     break;
                 }
+                // case enLHZMJAniType.aniType_start:{
+                //     this._aniPanel.PlayAnimation("AniStart",logicChair);
+                // }
             }
         } else {
             cc.loader.loadRes("gameres/M_LHZMJ/Prefabs/skinView/LHZMJ_Ani", function (err, prefab) {
@@ -1540,26 +1545,26 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
     public StartAniPlay():void{
 
-        // if(cc.isValid(this._startAni)){
-        //     this._startAni.play();
-        // }else{
-        //     cc.loader.loadRes("gameres/M_LHZMJ/Prefabs/skinView/LHZMJ_StartAni", function (err, prefab) {
-        //         if (err) {
-        //             cc.error(err);
-        //             return;
-        //         }
-        //         if (!cc.isValid(this._startAni)) {
-        //             let saninode: cc.Node = cc.instantiate(prefab);
-        //             this._startAni = saninode.getComponent<LHZMJ_StartAni>(LHZMJ_StartAni);
-        //             saninode.setLocalZOrder(21);
-        //             this.node.addChild(saninode);
-        //             this._startAni.init();
-        //             this._startAni.play();
-        //         }else{
-        //             this._startAni.play();
-        //         }
-        //     }.bind(this));
-        // }
+        if(cc.isValid(this._startAni)){
+            this._startAni.play();
+        }else{
+            cc.loader.loadRes("gameres/M_LHZMJ/Prefabs/skinView/LHZMJ_StartAni", function (err, prefab) {
+                if (err) {
+                    cc.error(err);
+                    return;
+                }
+                if (!cc.isValid(this._startAni)) {
+                    let saninode: cc.Node = cc.instantiate(prefab);
+                    this._startAni = saninode.getComponent<LHZMJ_StartAni>(LHZMJ_StartAni);
+                    saninode.setLocalZOrder(21);
+                    this.node.addChild(saninode);
+                    this._startAni.init();
+                    this._startAni.play();
+                }else{
+                    this._startAni.play();
+                }
+            }.bind(this));
+        }
     }
 
     public SZPlay(sz1:number,sz2:number,msgcode:number):void{   

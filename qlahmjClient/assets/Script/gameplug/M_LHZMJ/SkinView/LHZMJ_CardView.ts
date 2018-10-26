@@ -8,6 +8,7 @@ import LHZMJ_FlowerBase from "../PlayerCard/flower/LHZMJ_FlowerBase";
 import LHZMJ_HunPi from "../PlayerCard/single/hunpi/LHZMJ_HunPi";
 import LHZMJ_SinglePoolBase from "../PlayerCard/single/LHZMJ_SinglePoolBase";
 import M_LHZMJView from "../M_LHZMJView";
+import LHZMJ_PaiQiang from "./LHZMJ_PaiQiang";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -27,15 +28,30 @@ export default class LHZMJ_CardView extends cc.Component {
 
     @property([LHZMJ_HunPi])
     private hunpiCard:LHZMJ_HunPi[]=[];
+    @property(cc.Node)
+    paiQiang:cc.Node=null;
 
     @property(cc.Node)
     bg_poolCardArrow:cc.Node=null;
     @property(cc.Animation)
     img_poolCardArrow:cc.Animation=null;
+
+    @property(cc.Prefab)
+    cardWall: cc.Prefab=null;
+    private _cardWall: LHZMJ_PaiQiang;//me
+    /**
+     * 准备状态玩家信息
+     * */
+    public get PaiQiangInfo(): LHZMJ_PaiQiang {
+        return this._cardWall;
+    }
     
     onLoad() {
         // init logic
         //this.init();
+        let wallcnode=cc.instantiate(this.cardWall);
+        this._cardWall=wallcnode.getComponent<LHZMJ_PaiQiang>(LHZMJ_PaiQiang);
+        this.paiQiang.addChild(wallcnode);
     }
 
     public static _freeActiveNode: Array<cc.NodePool> = [new cc.NodePool(),new cc.NodePool(),new cc.NodePool(),new cc.NodePool()];
@@ -64,6 +80,7 @@ export default class LHZMJ_CardView extends cc.Component {
     
     public init() {
         this.clear();
+        this.PaiQiangInfo.init();
         this.node.active=true;
         
         //this._activeCard = new Array<LHZMJ_ActiveBase>();

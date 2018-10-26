@@ -23,17 +23,12 @@ export default class HQMJ_OppoSingleActive extends HQMJ_SingleActiveBase {
     /**
      * 显示牌
      * */
-    public showCard(card: number,isLie: boolean,index:number): void {
+    public showCard(card: number,isLie: boolean,index:number,_hqmj=HQMJ.ins.iclass): void {
         if(card==this._cardValue&&isLie==this._isLie)
         {
             if(!isLie)
                 return;
         }
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         super.showCard(card,isLie,index,_hqmj);
         this.bmp_cardcolor.node.active = false;
         this.bmp_cardback.node.active = false;
@@ -97,11 +92,11 @@ export default class HQMJ_OppoSingleActive extends HQMJ_SingleActiveBase {
             this.bmp_cardcolor.node.skewX=0.2;
 
             if(isLie) {
-                this.showDaoPai();
+                this.showDaoPai(_hqmj);
                 this.bmp_liecardback.node.active=true;
                 this.bmp_cardcolor.node.active = HQMJMahjongDef.gBackMahjongValue != card;
             } else {
-                this.showShuPai();
+                this.showShuPai(_hqmj);
                 this.bmp_cardback.node.active=true;
             }
         }
@@ -125,12 +120,7 @@ export default class HQMJ_OppoSingleActive extends HQMJ_SingleActiveBase {
             this._isUp = true;
         }
     }
-    private showDaoPai():void{
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    private showDaoPai(_hqmj):void{
         switch(this._cardIndex){
             case 1:{
                 this.node.x=212-1;
@@ -329,12 +319,7 @@ export default class HQMJ_OppoSingleActive extends HQMJ_SingleActiveBase {
         }
     }
 
-    private showShuPai():void{
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    private showShuPai(_hqmj):void{
         switch(this._cardIndex){
             case 1:{
                 this.node.x=204+36;

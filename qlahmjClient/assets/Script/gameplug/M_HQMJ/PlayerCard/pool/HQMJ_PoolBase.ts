@@ -1,6 +1,6 @@
 import HQMJ_CardBase from "../single/HQMJ_CardBase";
 import HQMJ_SinglePoolBase from "../single/HQMJ_SinglePoolBase";
-import M_HQMJClass from "../../M_HQMJClass";
+import M_HQMJClass from '../../M_HQMJClass';
 import { HQMJ } from "../../ConstDef/HQMJMahjongDef";
 import M_HQMJVideoClass from "../../M_HQMJVideoClass";
 
@@ -35,12 +35,7 @@ export default class HQMJ_PoolBase extends HQMJ_CardBase {
     /**
      * 添加一个牌池牌
      * */
-    public addPoolCard(card:number):{x:number,y:number}{
-        let _hqmj = HQMJ.ins.iclass;
-        if(!HQMJ.ins.iclass)
-            // _hqmj = HQMJ.ins.iclass;
-        // else
-            _hqmj = M_HQMJVideoClass.ins;
+    public addPoolCard(card:number,_hqmj = HQMJ.ins.iclass):{x:number,y:number}{
         let newnode = _hqmj.getFreePool(this._logicChair).get();
         if (!cc.isValid(newnode)) {
             newnode = cc.instantiate(this.PoolType);
@@ -62,36 +57,26 @@ export default class HQMJ_PoolBase extends HQMJ_CardBase {
     /**
      * 删除最后一个牌池牌
      * */
-    public delLastPoolCard(card:number,leftnum:number):{x:number,y:number}{
+    public delLastPoolCard(card:number,leftnum:number,_hqmj = HQMJ.ins.iclass):{x:number,y:number}{
         if(leftnum!=this._cardAry.length-1)
         {return;}
 
         if(card!= this._cardAry[leftnum])
         {return;}
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         this._cardAry.pop();
         // this._poolCard.pop().node.destroy();
         _hqmj.getFreePool(this._logicChair).put(this._poolCard.pop().node);
-        return this.refreshPoolCard();
+        return this.refreshPoolCard(_hqmj);
     }
     /**
      * 恢复牌池
      * */
     public recoveryPoolCard(cardAry:Array<number>):void{
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         if((null != cardAry) && (cardAry.length > 0)){
             for(var i:number=0; i<cardAry.length; i++){
                 
                 this._cardAry.push(cardAry[i]);
-                _hqmj.RecordCard.outACard(cardAry[i]);
+                M_HQMJClass.ins.RecordCard.outACard(cardAry[i]);
                 let newnode = HQMJ.ins.iclass.getFreePool(this._logicChair).get();
                 if (!cc.isValid(newnode)) {
                     newnode = cc.instantiate(this.PoolType);
@@ -103,14 +88,14 @@ export default class HQMJ_PoolBase extends HQMJ_CardBase {
                 this._poolCard.push(pool);
             }
             
-            this.refreshPoolCard();
+            this.refreshPoolCard(HQMJ.ins.iclass);
         }
     }
     
     /**
      * 刷新牌池牌
      * */
-    protected refreshPoolCard(): {x:number,y:number} {
+    protected refreshPoolCard(_hqmj): {x:number,y:number} {
         return {x:0,y:0};
     }
     /**

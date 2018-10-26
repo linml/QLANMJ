@@ -106,7 +106,7 @@ export default class LHZMJ_OppoActive extends LHZMJ_OtherActive {
                 for(let i: number = 0;i < this._cardData.length;i++) {
                     this._cardData[i].node.setLocalZOrder(i+1);
                     this._cardData[i].node.x = startPos - i * 40;
-                    this._cardData[i].node.y = 285;
+                    this._cardData[i].node.y = 320;
                     this._cardData[i].showCard(this._handCard[i],this.isLie,i+temp+1);
 
                     if(this.isHoldAfter && (i == (this._cardData.length - 1))) {

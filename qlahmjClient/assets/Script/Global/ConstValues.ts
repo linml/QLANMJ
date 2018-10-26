@@ -17,7 +17,7 @@ export namespace ConstValues{
     /**
      * 公钥
      */
-    export const RSA_PublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCkgt9BBa7166B5X9LLAflq1/YAT91yYJ3mJCAYqWvtUaBjhi3st4ag2/sZ+DXpE4H4KvJrekOtGv4WkNBJF/boOfkf1bsAn5yXz7E4YjwlJ+f3npMzFUqOJBfoOckrMNw41ympbvBPoxYzzxnnK9g69wUYLHu+uGHb9lRzRCsPUwIDAQAB";
+    export const RSA_PublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvWa91/mkXSNO8ZqIuIrfo2oQUy9okItwt2qEFboJObC+Amnw6lJe7xFJLj+C2S3TFm07fQCSxzsYNWjgpF42yGSZsXTsUKunkxOEKaSPBHHXY4SMllPCw/dhY3gsV49vKq1AGWhEbclUWQJ8Q9fw8w9cn6PFJS2b1W54uo9ve3QIDAQAB";
 
     /**
      * 密钥长度

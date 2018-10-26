@@ -188,7 +188,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
                 //this._cardData[i].node.setLocalZOrder(i+1);
                 this.resetZ();
                 this._cardData[i].node.x = startPos + i * 87;
-                this._cardData[i].node.y = -284;
+                this._cardData[i].node.y = -300;
 
                 if(!this.isHoldAfter && this._cardData.length%3==2 && (i == (this._cardData.length - 1))){//自己碰过之后会右移第一张牌
                     this._cardData[i].node.x += 20;
@@ -214,7 +214,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
             for(var i: number = 0;i < this._cardData.length;i++) {
             //this._cardData[i].node.setLocalZOrder(i+1);
             this._cardData[i].node.x = startPos + i * 83-600;
-            this._cardData[i].node.y = -284;
+            this._cardData[i].node.y = -300;
 
             this._cardData[i].showCard(this._handCard[i],this.isLie,0);
 
@@ -233,7 +233,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
                 this.resetZ();
                 //this._cardData[i].node.setLocalZOrder(i+1);
                 this._cardData[i].node.x = startPos + i * 87;
-                this._cardData[i].node.y = -284;
+                this._cardData[i].node.y = -290;
 
                
 

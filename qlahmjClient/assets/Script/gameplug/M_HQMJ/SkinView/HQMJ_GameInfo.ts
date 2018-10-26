@@ -80,7 +80,7 @@ export default class HQMJ_GameInfo extends cc.Component {
      * 抓牌结束
      * */
     public holdCardOver():void{
-        this.leftCardNum = HQMJMahjongDef.gCardCount_Package - (HQMJMahjongDef.gCardCount_Active - 1) * HQMJMahjongDef.gPlayerNum;
+        this.leftCardNum = HQMJMahjongDef.gCardCount_Package - (HQMJMahjongDef.gCardCount_Active - 1) * HQMJMahjongDef.gPlayerNum-1;
         
     // if(HQMJ.ins.iclass.isVideo()){
             
@@ -89,7 +89,7 @@ export default class HQMJ_GameInfo extends cc.Component {
         // }
     // }else{
         // if(M_HQMJClass.ins.TableConfig.IsBuKao){
-        this.leftCardNum = 136 - (HQMJMahjongDef.gCardCount_Active - 1) * HQMJMahjongDef.gPlayerNum;
+        this.leftCardNum = 136 - (HQMJMahjongDef.gCardCount_Active - 1) * HQMJMahjongDef.gPlayerNum-1;
         // }
         // }
 

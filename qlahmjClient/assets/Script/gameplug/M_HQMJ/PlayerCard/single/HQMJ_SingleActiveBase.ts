@@ -1,4 +1,5 @@
 import HQMJ_SingleCardBase from "../HQMJ_SingleCardBase";
+import { HQMJ } from "../../ConstDef/HQMJMahjongDef";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,7 +35,7 @@ export default class HQMJ_SingleActiveBase extends HQMJ_SingleCardBase {
     /**
      * 显示牌
      * */
-    public showCard(card:number,isLie:boolean,index:number):void{
+    public showCard(card:number,isLie:boolean,index:number,_hqmj=HQMJ.ins.iclass):void{
         this._cardValue = card;
         this._isLie=isLie;
         this._cardIndex=index;

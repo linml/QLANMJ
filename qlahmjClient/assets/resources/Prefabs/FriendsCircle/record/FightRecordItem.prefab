@@ -75,7 +75,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "nickName",
+    "_name": "lab_nickName",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -164,7 +164,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "inning",
+    "_name": "lab_roundNum",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -253,7 +253,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Sprite",
+    "_name": "sp_headImg",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -344,7 +344,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Sprite",
+    "_name": "sp_rankIcon",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1

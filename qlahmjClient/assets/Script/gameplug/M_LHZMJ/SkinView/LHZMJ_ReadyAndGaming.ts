@@ -65,7 +65,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         }
         cc.log("UserInfo玩家信息初始化2222222");
         for (let i = 0; i < LHZMJMahjongDef.gPlayerNum - 1; i++) {
-            this.group_kickusers[i].node.active=true;
+           // this.group_kickusers[i].node.active=true;
             this.group_kickusers[i].node.on(cc.Node.EventType.TOUCH_END,() => {
                     let chair: number = i+1;
                     this.onKickUser(chair);
@@ -77,15 +77,15 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         for (let i = 0; i < this.gameUserAry.length; i++) {
             this.gameUserAry[i].init();
         }
-        this.group_kickuser.active=false;
-        this.btn_kick.node.active=false;
-        this.btn_kick.node.on(cc.Node.EventType.TOUCH_END,() => {
-                if(this.group_kickuser.active==false){
-                    this.group_kickuser.active=true;
-                }else{
-                    this.group_kickuser.active=false;
-                }
-        },this);
+       // this.group_kickuser.active=false;
+        // this.btn_kick.node.active=false;
+        // this.btn_kick.node.on(cc.Node.EventType.TOUCH_END,() => {
+        //         if(this.group_kickuser.active==false){
+        //             this.group_kickuser.active=true;
+        //         }else{
+        //             this.group_kickuser.active=false;
+        //         }
+        // },this);
     }
 
 
@@ -231,9 +231,9 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
      * */
     onEnable(): void {
 
-        this.group_kickuser.active=false;
+        //this.group_kickuser.active=false;
         this.group_userReady.active=false;
-        this.btn_kick.node.active = M_LHZMJClass.ins.SelfIsTableOwener && M_LHZMJClass.ins.TableConfig.alreadyGameNum==0;
+        this.group_kickuser.active = M_LHZMJClass.ins.SelfIsTableOwener && M_LHZMJClass.ins.TableConfig.alreadyGameNum==0;
         
 
         if (!LHZMJ.ins.iclass.getTableConfig().IsLaPaoZuo) {
@@ -286,9 +286,9 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
             //     }
         //    }else{
                 this.group_userReady.active=false;
-                this.group_ready.active=false;
-                this.group_kickuser.active=false;
-                this.btn_kick.node.active=false;
+                this.group_ready.active=this.readyORgaming;
+               // this.group_kickuser.active=false;
+              //  this.btn_kick.node.active=false;
                 for (var i = 0; i < this.gameUserAry.length; i++) {
                     if(cc.isValid(this.gameUserAry[i])){
                         this.gameUserAry[i].node.x=LHZMJ_ReadyAndGaming.GamingPlayerPos[i].x;
@@ -372,8 +372,9 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         if(cc.isValid(this.gameUserAry[logicChair])){
             this.gameUserAry[logicChair].Clear();
         }
-
-        
+        if(logicChair!=0&&M_LHZMJClass.ins.SelfIsTableOwener){
+        this.group_kickusers[logicChair-1].node.active = false;
+        }
         //准备字样消失
         if(cc.isValid(this.group_imgready[logicChair])){
             this.group_imgready[logicChair].node.active=false;
@@ -387,6 +388,10 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
      * */
     private showChairPlayer(chairID: number,player: QL_Common.TablePlayer){
         var logicChair: number =LHZMJ.ins.iclass.physical2logicChair(chairID);
+        if(logicChair!=0&&M_LHZMJClass.ins.SelfIsTableOwener){
+        this.group_kickusers[logicChair-1].node.active = true;
+        }
+
         if(cc.isValid(this.gameUserAry[logicChair])){
             this.gameUserAry[logicChair].SetPlayer(player,this.readyORgaming);
             //显示余额
@@ -442,9 +447,10 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         else {
             if(LHZMJ.ins.iclass.getTableStauts()!=QL_Common.TableStatus.gameing)
             {
+               // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
                 M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
                     //打开充值
-                    LHZMJ.ins.iclass.exit();
+                   M_LHZMJClass.ins.showPay();
                 }, this,"",null,null,() => {
                     //打开充值
                     LHZMJ.ins.iclass.exit();
@@ -457,7 +463,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
      * 踢人
      * */
     private onKickUser(chair:number):void{
-        if(!M_LHZMJClass.ins.isCreateRoom()||!this.btn_kick.node.active){
+        if(!M_LHZMJClass.ins.isCreateRoom()){
             return;
         }
         let phychair: number = LHZMJ.ins.iclass.logic2physicalChair(chair);
@@ -468,15 +474,15 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         
         var selfChair : number = LHZMJ.ins.iclass.getSelfChair();
 
-        if(LHZMJ.ins.iclass.getTablePlayerAry()[phychair].VIPLV > LHZMJ.ins.iclass.getTablePlayerAry()[selfChair].VIPLV){
-            M_LHZMJView.ins.ShowMsgBox("不可踢出VIP等级高于自己的玩家");
-            return;
-        }
+        // if(LHZMJ.ins.iclass.getTablePlayerAry()[phychair].VIPLV > LHZMJ.ins.iclass.getTablePlayerAry()[selfChair].VIPLV){
+        //     M_LHZMJView.ins.ShowMsgBox("不可踢出VIP等级高于自己的玩家");
+        //     return;
+        // }
         
-        M_LHZMJView.ins.ShowMsgBox(`是否踢出玩家${LHZMJ.ins.iclass.getTablePlayerAry()[phychair].NickName}?`,"确定",()=>{
+        //M_LHZMJView.ins.ShowMsgBox(`是否踢出玩家${LHZMJ.ins.iclass.getTablePlayerAry()[phychair].NickName}?`,"确定",()=>{
             M_LHZMJClass.ins.PleaseLeavePlayer(LHZMJ.ins.iclass.getTablePlayerAry()[phychair].PlayerID);
-            this.group_kickuser.active=false;
-        },this,"取消");
+        //     this.group_kickuser.active=false;
+        // },this,"取消");
     }
 
 
@@ -519,7 +525,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
             }
         }
         if(!LHZMJ.ins.iclass.isVideo()){
-            this.btn_kick.node.active = M_LHZMJClass.ins.SelfIsTableOwener && M_LHZMJClass.ins.TableConfig.alreadyGameNum==0;
+            this.group_kickuser.active = M_LHZMJClass.ins.SelfIsTableOwener && M_LHZMJClass.ins.TableConfig.alreadyGameNum==0;
         }
         
     }

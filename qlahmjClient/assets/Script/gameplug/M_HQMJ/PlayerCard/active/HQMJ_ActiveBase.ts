@@ -177,21 +177,16 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
     /**
      * 抓到一张牌
      * */
-    public holdACard(card: number): void {
+    public holdACard(card: number,_hqmj = HQMJ.ins.iclass): void {
         this._holdCard = card;
         this._handCard.push(card);
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
 
     /**
      * 打出一张牌
      * */
-    public outACard(card: number): void {
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    public outACard(card: number,_hqmj = HQMJ.ins.iclass): void {
         //自动出牌优化
         if(card==this._holdCard){
             this._handCard.pop();
@@ -215,7 +210,7 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
     /**
      * 吃了一张牌
      * */
-    public chiACard(card:number,type:number):void{
+    public chiACard(card:number,type:number,_hqmj = HQMJ.ins.iclass):void{
         if(type == 0){
             this.delCard([card-1,card-2]);
         }
@@ -227,57 +222,57 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
         }
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
 
     /**
      * 吃了一张牌
      * */
-    public chiACardOther(card:number):void{
+    public chiACardOther(card:number,_hqmj = HQMJ.ins.iclass):void{
         this.delCard([card,card]);
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
 
     /**
      * 碰了一张牌
      * */
-    public pengACard(card:number):void{
+    public pengACard(card:number,_hqmj = HQMJ.ins.iclass):void{
         this.delCard([card,card]);
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
     
     /**
      * 明杠了一张牌
      * */
-    public MGangACard(card: number): void {
+    public MGangACard(card: number,_hqmj = HQMJ.ins.iclass): void {
         this.delCard([card,card,card]);
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
     
     /**
      * 暗杠了一张牌
      * */
-    public AGangACard(card: number): void {
+    public AGangACard(card: number,_hqmj = HQMJ.ins.iclass): void {
         this.delCard([card,card,card,card]);
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
     
     /**
      * 补杠了一张牌
      * */
-    public BGangACard(card: number): void {
+    public BGangACard(card: number,_hqmj = HQMJ.ins.iclass): void {
         this.delCard([card]);
         this._holdCard = HQMJMahjongDef.gInvalidMahjongValue;
 
-        this.handCardChange();
+        this.handCardChange(_hqmj);
     }
     
     /**
@@ -346,13 +341,8 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
     /**
      * 牌阵变化
      * */
-    protected handCardChange(): void {
+    protected handCardChange(_hqmj = HQMJ.ins.iclass): void {
         ////cc.log("开始创建牌元"+this._handCard.length+" "+this._cardData.length);
-        let _hqmj = HQMJ.ins.iclass;
-        if(!HQMJ.ins.iclass)
-        //     _hqmj = HQMJ.ins.iclass;
-        // else
-            _hqmj = M_HQMJVideoClass.ins;
         if(this._handCard.length > this._cardData.length) {//需要增加活动牌
 
             let newNum = this._handCard.length - this._cardData.length;
@@ -389,18 +379,13 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
      * 清理
      * */
     public clear(): void {
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         super.clear();
         if(this._cardData)
             this._cardData.length=0;
         while(this.node.children.length > 0) {
             // let active: HQMJ_SingleActiveBase = this._cardData.pop();
             // active.node.destroy();
-            _hqmj.getFreeActive(this._logicChair).put(this.node.children[0]);
+            HQMJ.ins.iclass.getFreeActive(this._logicChair).put(this.node.children[0]);
         }
         if(this._handCard)
             this._handCard.splice(0,this._handCard.length);
@@ -411,11 +396,6 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
 
     public DelNullData():void{
         ////cc.log("开始清空");
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         let temp:Array<HQMJ_SingleActiveBase>= new Array<HQMJ_SingleActiveBase>();
         while(this._cardData.length > 0) {
             //cc.log(this._cardData.length);
@@ -427,7 +407,7 @@ export default class HQMJ_ActiveBase extends HQMJ_CardBase {
             else{
                 ////cc.log("清空"+this._cardData.length);
                 // active.node.destroy();
-                _hqmj.getFreeActive(this._logicChair).put(active.node);
+                HQMJ.ins.iclass.getFreeActive(this._logicChair).put(active.node);
                 // active.destroy();
             }
         }

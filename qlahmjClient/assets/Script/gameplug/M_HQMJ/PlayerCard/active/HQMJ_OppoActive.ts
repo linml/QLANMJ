@@ -40,12 +40,7 @@ export default class HQMJ_OppoActive extends HQMJ_OtherActive {
          * 刷新手牌
          * */
         protected refreshHandCard(): void {
-            let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        if(_hqmj.is2D()){
+        if(HQMJ.ins.iclass.is2D()){
             if(this.isLie) {
                 //起始位置
                 var startPos: number = HQMJ_OppoActive.ArrangeStartPos_lie[this.fixedCardNum];
@@ -113,10 +108,10 @@ export default class HQMJ_OppoActive extends HQMJ_OtherActive {
                    // this._cardData[i].node.setLocalZOrder(15-i);
                     this._cardData[i].node.x = startPos - i * 36-20;
                     this._cardData[i].node.y = 315;
-                    if(_hqmj == HQMJ.ins.iclass)
+                    // if(_hqmj == HQMJ.ins.iclass)
                         this._cardData[i].showCard(this._handCard[i],this.isLie,i+temp+1);
-                    else
-                        this._cardData[i].showCard(this._handCard[i],true,i+temp+1);
+                    // else
+                        // this._cardData[i].showCard(this._handCard[i],true,i+temp+1);
 
                     if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                         this._cardData[i].node.x -= 15;

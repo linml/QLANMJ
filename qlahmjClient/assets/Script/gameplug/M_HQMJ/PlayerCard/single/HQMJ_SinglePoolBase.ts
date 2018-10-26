@@ -28,7 +28,7 @@ export default class HQMJ_SinglePoolBase extends HQMJ_SingleCardBase {
     /**
      * 显示牌
      * */
-    public showCard(card:number,index:number):void{
+    public showCard(card:number,index:number,_hqmj):void{
         this._cardValue = card;
         this._cardIndex=index;
     }

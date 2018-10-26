@@ -469,6 +469,11 @@
             心跳包检测失败重试延迟，心跳包检测失败重试五次
             </summary>
         </member>
+        <member name="F:QL.Server.SystemCommonConfig.ErrorSendRobot">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:QL.Server.WebConfig">
             <summary>
             网站接口协调相关的配置
@@ -492,6 +497,11 @@
         <member name="F:QL.Server.WebConfig.OSSUploadUrl">
             <summary>
             七牛云上传文件接口地址
+            </summary>
+        </member>
+        <member name="F:QL.Server.WebConfig.OSSBaseUrlRoot">
+            <summary>
+            七牛云上传文件回传下载文件地址Url前缀
             </summary>
         </member>
         <member name="F:QL.Server.WebConfig.OSSBaseUrl">
@@ -755,7 +765,7 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:QL.Server.Tools.SendMail.Send(System.String,System.String,System.IO.Stream,System.String,System.String[])">
+        <member name="M:QL.Server.Tools.SendMail.Send(System.String,System.String,System.String,System.IO.Stream,System.String,System.String[])">
             <summary>  
             发送邮件  
             </summary>  
@@ -783,6 +793,16 @@
         <member name="F:QL.Server.Tools.SendMail.MailMessage.AttachName">
             <summary>
             添加附件的名称
+            </summary>
+        </member>
+        <member name="F:QL.Server.Tools.SendMail.MailMessage.SendEmils">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Server.Tools.SendMail.MailMessage.ErrHash">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:QL.Server.Tools.QLConcurrentDictionary`2">
@@ -1219,6 +1239,14 @@
             </summary>
         </member>
         <member name="M:QL.Server.UploadSDKHelper.UPYunHelper.UpGameRecordFile(System.Byte[],System.String,QL.QLAction{System.String})">
+            <summary>
+            上传游戏录像
+            </summary> 
+            <param name="context"></param>
+            <param name="path"></param> 
+            <param name="call"></param>
+        </member>
+        <member name="M:QL.Server.UploadSDKHelper.UPYunHelper.UpGameErrorLogFile(System.Byte[],System.String,QL.QLAction{System.String})">
             <summary>
             上传游戏录像
             </summary> 

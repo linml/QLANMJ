@@ -543,4 +543,87 @@ export default class FriendCircleWebHandle {
         WebRequest.FriendCircle.modifyFriendCircleInfo(action,data);
     
     }
+
+    /********************************************************** 亲友圈战绩 ***************************************************/
+
+    /**
+     * 获取亲友圈统计数据数据
+     */
+    public static getGroupStat(groupId: number, act?: Action) {
+        let action_ = act;
+        let _groupId = groupId;
+        let _name = name;
+
+        let getGroupStatCb = (args)=>{
+            cc.info("--- getGroupStatCb callback: ",args);
+            
+            if (!args || !args.status) {
+                return;
+            }
+         
+            if ("success" != args.status) {
+                return;
+            }
+            
+            // 回调
+            if (action_) {
+                action_.Run([args]);
+            }
+        }
+        
+        if (!_groupId) {
+            cc.info('-- error param in setadmin')
+            return;
+        }
+
+        // 发送请求
+        let data: IDictionary<string,any> = WebRequest.DefaultData(true);
+        data.Add("friendId",_groupId);// ID
+        data.Add("api_version",'1');  // 接口的版本号
+        const action = new ActionNet(this,getGroupStatCb,getGroupStatCb);
+        WebRequest.FriendCircle.getGroupStat(action,data);
+    }
+
+    /**
+     * 获取局数排行数据
+     */
+    public static getRoundRankList(name: string,noticContent: string, groupId: number, act?: Action) {
+        let action_ = act;
+        let _noticContent = noticContent;
+        let _groupId = groupId;
+        let _name = name;
+
+        let modifyFriendCircleInfoCb = (args)=>{
+            cc.info("--- modifyFriendCircleInfoCb callback: ",args);
+            
+            if (!args || !args.status) {
+                return;
+            }
+         
+            if ("success" != args.status) {
+                return;
+            }
+
+            if (FriendCircleWebHandle._modifyFriendCirleInfoHandle) {
+                FriendCircleWebHandle._modifyFriendCirleInfoHandle.Run([{nickName: _name,notice: _noticContent}]);
+            }
+            // 回调
+            if (action_) {
+                action_.Run([args]);
+            }
+        }
+        
+        if (!_noticContent || !_groupId) {
+            cc.info('-- error param in setadmin')
+            return;
+        }
+
+        // 发送请求
+        let data: IDictionary<string,any> = WebRequest.DefaultData(true);
+        data.Add("title",_name);         // 标题
+        data.Add("friendId",_groupId);   // ID
+        data.Add("notice",_noticContent); // 内容
+        const action = new ActionNet(this,modifyFriendCircleInfoCb,modifyFriendCircleInfoCb);
+        WebRequest.FriendCircle.modifyFriendCircleInfo(action,data);
+    }
 }

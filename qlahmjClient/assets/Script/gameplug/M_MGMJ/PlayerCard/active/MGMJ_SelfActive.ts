@@ -183,7 +183,9 @@ export default class MGMJ_SelfActive extends MGMJ_ActiveBase {
                 if(!this.isHoldAfter && this._cardData.length%3==2 && (i == (this._cardData.length - 1))){//自己碰过之后会右移第一张牌
                     this._cardData[i].node.x += 20;
                 }
-                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1);
+                //处理宝牌
+                let hunpai = MGMJ.ins.iclass.getTableConfig().SetPeiZi;
+                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1,hunpai);
                 if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                     this._cardData[i].node.x += 20;
                      

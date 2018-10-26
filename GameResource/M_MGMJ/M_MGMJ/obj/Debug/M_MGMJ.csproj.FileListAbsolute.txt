@@ -3,12 +3,12 @@ F:\project\QLAHMJ\GameResource\dll\LQMJ\M_HQMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_LQMJ\obj\Debug\M_MGMJ.csprojAssemblyReference.cache
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_LQMJ\obj\Debug\M_MGMJ.csproj.CoreCompileInputs.cache
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_LQMJ\obj\Debug\M_MGMJ.csproj.CopyComplete
-F:\project\QLAHMJ\GameResource\dll\MGMJ\M_MGMJ.dll
-F:\project\QLAHMJ\GameResource\dll\MGMJ\M_MGMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_LQMJ\obj\Debug\M_MGMJ.dll
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_LQMJ\obj\Debug\M_MGMJ.pdb
+F:\project\QLAHMJ\GameResource\dll\MGMJ\M_MGMJ.dll
+F:\project\QLAHMJ\GameResource\dll\MGMJ\M_MGMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.csprojAssemblyReference.cache
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.csproj.CoreCompileInputs.cache
+F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.csproj.CopyComplete
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.dll
 F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.pdb
-F:\project\QLAHMJ\GameResource\M_MGMJ\M_MGMJ\obj\Debug\M_MGMJ.csproj.CopyComplete

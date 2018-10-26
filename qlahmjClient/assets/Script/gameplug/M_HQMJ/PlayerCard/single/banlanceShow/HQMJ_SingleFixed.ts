@@ -18,7 +18,7 @@ export default class HQMJ_SingleFixed extends HQMJ_SingleFixedBase {
     public 
     
     showCard(card: number,fixedType: enFixedCardType,chiType:number,pos:number,_hqmj): void {
-        super.showCard(card,fixedType,null,chiType,null,_hqmj);
+        super.showCard(card,fixedType,null,chiType,null);
         
         this.arrangeCard();
     }

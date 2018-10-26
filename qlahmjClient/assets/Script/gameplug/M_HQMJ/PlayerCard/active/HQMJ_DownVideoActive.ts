@@ -36,7 +36,7 @@ export default class HQMJ_DownVideoActive extends HQMJ_VideoActiveBase {
                 this._cardData[i-1].node.setLocalZOrder(i);
                 this._cardData[i - 1].node.x = 490;
                 this._cardData[i - 1].node.y = 360-(startPos - idx * 32)-45;
-                this._cardData[i - 1].showCard(this._handCard[idx],true,0);
+                this._cardData[i - 1].showCard(this._handCard[idx],true,0,M_HQMJVideoClass.ins);
 
                 if(this.isHoldAfter && (i == 1)) {
                     this._cardData[i - 1].node.y += 15;
@@ -58,7 +58,7 @@ export default class HQMJ_DownVideoActive extends HQMJ_VideoActiveBase {
                 this._cardData[i-1].node.setLocalZOrder(this._cardData.length-i+1);
                 // this._cardData[i - 1].node.x = 480;
                 // this._cardData[i - 1].node.y = startPos + idx * 36.5 -55;
-                this._cardData[i - 1].showCard(this._handCard[i-1],true,++temp);
+                this._cardData[i - 1].showCard(this._handCard[i-1],true,++temp,M_HQMJVideoClass.ins);
 
                 // if(this.isHoldAfter && (i == 1)) {
                 //     this._cardData[i - 1].node.y += 5;
@@ -99,15 +99,15 @@ export default class HQMJ_DownVideoActive extends HQMJ_VideoActiveBase {
     /**
      * 抓到一张牌
      * */
-    public holdACard(card: number): void {
-        super.holdACard(card);
+    public holdACard(card: number,_hqmj): void {
+        super.holdACard(card,_hqmj);
     }
 
     /**
      * 打出一张牌
      * */
-    public outACard(card: number): void {
-        super.outACard(card);
+    public outACard(card: number,_hqmj): void {
+        super.outACard(card,_hqmj);
     }
 
      /**
@@ -120,29 +120,29 @@ export default class HQMJ_DownVideoActive extends HQMJ_VideoActiveBase {
     /**
      * 碰了一张牌
      * */
-    public pengACard(card: number): void {
-        super.pengACard(card);
+    public pengACard(card: number,_hqmj): void {
+        super.pengACard(card,_hqmj);
     }
 
     /**
      * 明杠了一张牌
      * */
-    public MGangACard(card: number): void {
-        super.MGangACard(card);
+    public MGangACard(card: number,_hqmj): void {
+        super.MGangACard(card,_hqmj);
     }
 
     /**
      * 暗杠了一张牌
      * */
-    public AGangACard(card: number): void {
-        super.AGangACard(card);
+    public AGangACard(card: number,_hqmj): void {
+        super.AGangACard(card,_hqmj);
     }
 
     /**
      * 补杠了一张牌
      * */
-    public BGangACard(card: number): void {
-        super.BGangACard(card);
+    public BGangACard(card: number,_hqmj): void {
+        super.BGangACard(card,_hqmj);
     }
         
 }

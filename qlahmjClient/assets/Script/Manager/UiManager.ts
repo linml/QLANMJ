@@ -26,7 +26,7 @@ export default class UiManager implements IUiManager {
     private _uiList: Dictionary<string, UIBase<any>>;
     private _tipsList: Array<Tips>;
     private _msgBoxList: Array<MessageBox>;
-    private _onlyOneInstance:any ={};
+    private _onlyOneInstance: any = {};
     // private _noticeList: QL_Common.HallRoolNotice[];
 
     private _loading: LoadingForm;
@@ -123,9 +123,9 @@ export default class UiManager implements IUiManager {
 
             PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
             //检查是否是单根实例
-            if(u.isOneInstance){
+            if (u.isOneInstance) {
                 let _oneInstance = t._onlyOneInstance[uiname];
-                if(cc.isValid(_oneInstance)){
+                if (cc.isValid(_oneInstance)) {
                     return;
                 }
                 t._onlyOneInstance[uiname] = u;
@@ -136,7 +136,7 @@ export default class UiManager implements IUiManager {
         });
     }
 
-    public GetUINode(UIName: string): cc.Node{
+    public GetUINode(UIName: string): cc.Node {
         let ui = this._uiList.GetValue(UIName);
 
         if (ui) {
@@ -147,13 +147,18 @@ export default class UiManager implements IUiManager {
     CloseUi(uiname: string, param?: any): void {
         let ui = this._uiList.GetValue(uiname);
         if (cc.isValid(ui)) {
-            ui.Close(null, param);
+
+            if (ui.canReUse) {
+                ui.Close(null, param);
+            } else {
+                this.DestroyUi(uiname);
+            }
         } else {
             cc.warn("未找到组件" + uiname);
         }
     }
 
-    DestroyUi(uiname: string):void{
+    DestroyUi(uiname: string): void {
         let ui = this._uiList.GetValue(uiname);
         if (cc.isValid(ui)) {
             ui.node.destroy();

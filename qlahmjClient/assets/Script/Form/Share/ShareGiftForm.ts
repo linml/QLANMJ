@@ -100,7 +100,7 @@ export class ShareGiftForm extends UIBase<any>{
 
     private success(obj) {
         this.UserInfo.IsShare = 0;
-        this.Close();
+        this.CloseClick();
 
         try {
             if(obj.diamond > 0){

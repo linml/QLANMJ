@@ -1,3 +1,4 @@
+import { BuglyUserData } from "./BuglyUserData";
 
 
 export class LocalStorage {
@@ -37,6 +38,9 @@ export class LocalStorage {
        return version;
     }
     public static set LocalHotVersion(version:any){
+        let userdata:BuglyUserData = new BuglyUserData();
+        userdata.Key = "LocalHotVersion";
+        userdata.Value = version;
         LocalStorage.SetItem("LocalHotVersion",version+'');
     }
 

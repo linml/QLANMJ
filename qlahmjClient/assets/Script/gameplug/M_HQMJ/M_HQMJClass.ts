@@ -366,9 +366,12 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             
             return false;
         }
-          public showHideCard(outCard:number):void{
-      //  this.gameView.CardView.refreshHideCard(outCard);
-    }
+        /**
+         * 点击self牌是 显示已经出现的牌 包括pool牌 fixed牌
+         */
+        public showHideCard(outCard:number):void{
+            // this.gameView.CardView.refreshHideCard(outCard);
+        }
 
         /**
          * 最后一张有效的牌
@@ -603,7 +606,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     //     this.HQMJ_GameInfoView = this.GameInfoView.getComponent<HQMJ_GameInfo>(HQMJ_GameInfo);
     //     this.HQMJ_GameInfoView.tableCode="123456";
     // }
-
 
     public GetGameID(): number{
         return HQMJMahjongDef.gameID;
@@ -1160,6 +1162,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             this.gameView.ReadyStatusUserInfo.kickBtn2.node.active = false;
             this.gameView.ReadyStatusUserInfo.kickBtn3.node.active = false;
         }
+       
     }
 
     /**
@@ -1359,15 +1362,12 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             //继续游戏
             case HQMJEvent.msg_goongame: {
                 this.clear();
-                //if(this._timer.isRuning() && this._timer.TimerID==HQMJTimerDef.timer_id_ready){
                 M_HQMJView.ins.TimerView.node.active = true;
-                //}
                 e.stopPropagation();
                 this.stopTimer();
                 //隐藏邀请好友按钮
                 M_HQMJView.ins.ReadyStatusUserInfo.btn_invite.node.active = false;
-
-                // M_HQMJView.ins.TimerView.node.active = false;
+                M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.active = false;
                 //玩家点击继续游戏 清除所有的牌蹲
                 M_HQMJView.ins.CardView.PaiWallView.hidePaiWall();
                 //继续游戏时 隐藏踢人按钮
@@ -1590,6 +1590,9 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             M_HQMJView.ins.ReadyStatusUserInfo.hideUserMoney();
         }
         this.showFangxiang(this.getSelfChair());
+        //进入房间 显示玩法
+        if(this.getTableStauts()!=QL_Common.TableStatus.gameing)
+            this.showWanfa();
 
         // SetTextureRes(url,M_HQMJView.ins.fangXiangView);
 
@@ -2748,6 +2751,14 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             this.gameView.ReadyStatusUserInfo.kickBtn1.node.active = true;
             this.gameView.ReadyStatusUserInfo.kickBtn2.node.active = true;
             this.gameView.ReadyStatusUserInfo.kickBtn3.node.active = true;
+        }
+        //每局之间断线重连 踢人按钮、准备按钮、邀请按钮需要隐藏
+        if(this.getTableConfig().alreadyGameNum > 0){
+            this.gameView.ReadyStatusUserInfo.kickBtn1.node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn2.node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn3.node.active = false;
+            this.gameView.ReadyStatusUserInfo.btn_ready.node.active = false;
+            this.gameView.ReadyStatusUserInfo.btn_invite.node.active = false;
         }
         
     }

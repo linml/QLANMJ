@@ -14,10 +14,15 @@ export default class MGMJ_SingleTingCardTip extends cc.Component {
     //牌花
     @property(cc.Sprite)
     img_cardColor: cc.Sprite=null;
+    //会牌
+    @property(cc.Sprite)
+    img_huipai: cc.Sprite=null;
 
     //剩余牌张数
     @property(cc.Label)
     lbl_leftCardNum: cc.Label=null;
+
+
 
     //番数
     // @property(cc.Label)
@@ -51,6 +56,7 @@ export default class MGMJ_SingleTingCardTip extends cc.Component {
         //  let url = MGMJ.ins.iclass.getMahjongResName(this._data.tingCard);
         //  SetTextureRes(url,this.img_cardColor);
         this.img_cardColor.spriteFrame=MGMJ.ins.iclass.getMahjongPaiHuaRes(this._data.tingCard);
+        this.img_huipai.node.active = this._data.isHunPai;
 
         // load the sprite frame of (project/assets/resources/imgs/cocos.png) from resources folder
 		// cc.loader.loadRes(url, cc.SpriteFrame, function (err, spriteFrame) {

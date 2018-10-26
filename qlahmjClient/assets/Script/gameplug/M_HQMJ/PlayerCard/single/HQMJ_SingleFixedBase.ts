@@ -1,5 +1,6 @@
 import HQMJ_SingleCardBase from "../HQMJ_SingleCardBase";
-import { enFixedCardType } from "../../ConstDef/HQMJMahjongDef";
+import { enFixedCardType, HQMJ } from "../../ConstDef/HQMJMahjongDef";
+import { IBiJiClass } from '../../../M_BiJi/GameHelp/BJ_IBiJiClass';
 
 const { ccclass, property } = cc._decorator;
 
@@ -56,7 +57,7 @@ export default class HQMJ_SingleFixedBase extends HQMJ_SingleCardBase {
     /**
      * 显示定牌,pos为指向，具体方向要看自己的位置是什么（自己为0）
      * */
-    public showCard(card: number,fixedType: enFixedCardType,index:number,type:number,pos?:number): void {
+    public showCard(card: number,fixedType: enFixedCardType,index:number,type:number,pos?:number,_hqmj = HQMJ.ins.iclass): void {
         this._cardValue = card;
         this._fixdType = fixedType;
         this._cardIndex=index;
@@ -87,7 +88,7 @@ export default class HQMJ_SingleFixedBase extends HQMJ_SingleCardBase {
     /**
      * 碰转杠
      * */
-    public changePeng2Gang(card: number): boolean {
+    public changePeng2Gang(card: number,_hqmj): boolean {
         if((enFixedCardType.FixedCardType_Peng == this._fixdType) && (card == this._cardValue)) {
             // while(this._bmp_cardbackAry.length > 0){
             //     this._bmp_cardbackAry.pop();
@@ -96,7 +97,7 @@ export default class HQMJ_SingleFixedBase extends HQMJ_SingleCardBase {
             // while(this._bmp_cardcolorAry.length > 0){
             //     this._bmp_cardcolorAry.pop();
             // }
-            this.showCard(card,enFixedCardType.FixedCardType_BGang,this._cardIndex,this._pos,null);
+            this.showCard(card,enFixedCardType.FixedCardType_BGang,this._cardIndex,this._pos,null,_hqmj);
 
             return true;
         }

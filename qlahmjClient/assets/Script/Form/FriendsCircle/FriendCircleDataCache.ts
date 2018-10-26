@@ -315,6 +315,26 @@ export default class FriendCircleDataCache {
 		cc.info('-- messagelist ',this.MessageList);
 	}
 
+/************************************************** 战绩数据 ***********************************************/
+
+	/**
+	 * 排行列表
+	 */
+	private _rankList: Dictionary<string, Array<any>>;
+
+	public get RankListList(): Dictionary<string, Array<any>>{
+		if (!this._rankList) {
+			this._rankList = new Dictionary<string, Array<any>>();
+		}
+
+		return this._rankList;
+	}
+
+	public set RankListList(data: Dictionary<string, Array<any>>){
+		this._rankList = data;
+	}
+
+
 /*****************************************************************************************************/
 	/**
 	 * 是否是圈主

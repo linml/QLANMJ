@@ -3,6 +3,7 @@ import { CallUMengParam } from "../CustomType/CallUMengParam";
 import { UploadInfo, Voice, Header } from "../CustomType/UploadInfo";
 import ConfigData from "../Global/ConfigData";
 import { Action } from "../CustomType/Action";
+import { BuglyUserData } from "../CustomType/BuglyUserData";
 export class NativeCtrl {
 
     public static HideSplash() {
@@ -46,7 +47,7 @@ export class NativeCtrl {
     /**
      * 错误信息上报
      */
-    public static ReportError(error:any){
+    public static ReportError(error: any) {
 
     }
     /**
@@ -76,7 +77,7 @@ export class NativeCtrl {
     }
     public static GetNativeConfig(): string {
         return NativeCtrl.CallNative("GetNativeConfig");
-    } 
+    }
     public static InitRecorder(openid: string): string {
         return NativeCtrl.CallNative("InitRecorder", openid);
     }
@@ -84,8 +85,8 @@ export class NativeCtrl {
         if (!data) return;
         return NativeCtrl.CallNative("CallUMeng", JSON.stringify(data));
     }
-    public static GetOpenUri(type:string): string {
-        return NativeCtrl.CallNative("GetOpenUri",type);
+    public static GetOpenUri(type: string): string {
+        return NativeCtrl.CallNative("GetOpenUri", type);
     }
     public static GetGpsJson(): string {
         return NativeCtrl.CallNative("getGpsJson");
@@ -95,8 +96,8 @@ export class NativeCtrl {
     }
     public static PostUploadFile(value: UploadInfo): string {
         let result = NativeCtrl.CallNative("PostUploadFile", JSON.stringify(value));
-        if(result != "success"){
-           Global.Instance.ActionManager.RunCallback(value.callBack,"fail"); 
+        if (result != "success") {
+            Global.Instance.ActionManager.RunCallback(value.callBack, "fail");
         }
 
         return result;
@@ -106,14 +107,29 @@ export class NativeCtrl {
      * @param 剪切内容 
      */
     public static CopyToClipboard(content: string): string {
-        let msg =  NativeCtrl.CallNative("CopyToClipboard", content);
-        if(msg == "success"){ 
+        let msg = NativeCtrl.CallNative("CopyToClipboard", content);
+        if (msg == "success") {
             Global.Instance.UiManager.ShowTip(`已复制到系统剪贴板`);
         }
         return msg;
     }
-
-
+    /**
+     * 检查指定的应用是否已经安装
+     * @param value 
+     */
+    public static CheckHasApp(value: string): boolean {
+        let msg = NativeCtrl.CallNative("CheckHasApp", value);
+        return msg == "success";
+    }
+    /**
+     * 检查指定的应用是否已经安装
+     * @param value 
+     */
+    public static SetBuglyUserData(value: BuglyUserData): boolean {
+        if(!cc.isValid(value))return;
+        let msg = NativeCtrl.CallNative("SetBuglyUserData", JSON.stringify(value));
+        return msg == "success";
+    }
     /**
      * 通过js来调用native的静态方法
      * @param method

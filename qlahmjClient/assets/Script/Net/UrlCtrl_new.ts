@@ -1,8 +1,9 @@
-import { ActionNet } from "../CustomType/Action";
+import { ActionNet, Action } from "../CustomType/Action";
 import { IDictionary } from "../Interface/IDictionary";
 import { DESEncryptHelper } from "../Tools/DESEncryptHelper";
-import { ConstValues } from "../Global/ConstValues"; 
+import { ConstValues } from "../Global/ConstValues";
 import { WebRequest } from "./Open8hb";
+import { Debug } from "../Tools/Function";
 
 
 
@@ -89,7 +90,7 @@ export class UrlCtrl_new {
 
     // public static LoadSafeJson(url: string, action: ActionNet, desKey?: string, data?: IDictionary<string, any>, method: string = "GET") {
     //     const a = new ActionNet(this, (res) => {
-        
+
     //         try {
     //             let result: string = res;
     //             //操作成功
@@ -135,17 +136,43 @@ export class UrlCtrl_new {
     //     UrlCtrl_new.LoadSafeRequestJson(url, a, data, method);
     // }
 
-        /**
-    * 
-    * @param url 
-    * @param data 
-    * @param method 
-    */
-    public static async LoadSafeRequestJson(url: string, action: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
+    /**
+* 
+* @param url 
+* @param data 
+* @param method 
+*/
+    public static LoadSafeRequestJson(url: string, action: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
+        UrlCtrl_new.TryLoadSafeRequestJson(3, url, action, data, method);
+    }
+    public static TryLoadSafeRequestJson(trycount: number, url: string, action: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
         let desKey = DESEncryptHelper.getRandomStr(ConstValues.DES_SecretLength);
         let rq_data = WebRequest.DefaultData(false, desKey);
+        if (Debug()) {
+            rq_data.AddOrUpdate("desKey", desKey);
+        }
+        let secret_pwd = rq_data.GetValue("secret_pwd");
+        let reTryAction = (() => {
+            setTimeout(() => {
+                UrlCtrl_new.TryLoadSafeRequestJson(trycount, url, action, data, method);
+            }, 10);
+        }).bind(this);
+        if (cc.isValid(secret_pwd) || secret_pwd.length > 0) {
+            let dindex = secret_pwd.indexOf('=');
+            if (dindex != -1 && dindex < secret_pwd.length - 1) {
+                reTryAction();
+                return;
+
+                // rq_data.AddOrUpdate("errlog", "参数异常");
+            }
+        }
+
         let desEncrypt = new DESEncryptHelper();
-        rq_data.Add("safe_data", desEncrypt.encMe(data.ToUrl(), desKey));
+        let paramData = "";
+        if (cc.isValid(data)) {
+            paramData = data.ToUrl();
+        }
+        rq_data.Add("safe_data", desEncrypt.encMe(paramData, desKey));
         method = "POST";
 
         const a = new ActionNet(this, (res) => {
@@ -170,29 +197,30 @@ export class UrlCtrl_new {
                     if (t < start_pos) start_pos = t;
                     if (start_pos < 0) start_pos = 0;
 
-                    result = result.substr(0, last_pos + 1);
+                    result = result.substr(start_pos, last_pos + 1);
                 }
                 let jsonobj = JSON.parse(result);
-                action.Run(jsonobj);
+                trycount = 0;
+                if (action)
+                    action.Run(jsonobj);
             }
             catch (e) {
-                try {
-                    let jsonobj = JSON.parse(res);
-                    action.Run(jsonobj);
+                if (--trycount > 0) {
+                    UrlCtrl_new.TryLoadSafeRequestJson(trycount, url, action, data, method);
+                    return;
                 }
-                catch (e2) {
-                    cc.log(e2);
-                    action.RunError([e2]);
-                }
+                if (action)
+                    action.RunError([e]);
             }
         }, (error) => {
+            if (--trycount > 0) {
+                UrlCtrl_new.TryLoadSafeRequestJson(trycount, url, action, data, method);
+                return;
+            }
             if (action)
                 action.RunError([error]);
         });
-
-        
         UrlCtrl_new.LoadText(url, a, rq_data, method);
-        
     }
 
 }

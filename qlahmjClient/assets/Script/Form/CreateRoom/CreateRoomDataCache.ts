@@ -89,7 +89,7 @@ export default class CreateRoomDataCache {
 
 	public get gameRuleJsonArray(): Dictionary<string,Array<any>>{
 		if (!this._gameRuleJsonArray) {
-			this._gameRuleJsonArray = new Dictionary<string,Array<any>>;
+			this._gameRuleJsonArray = new Dictionary<string,Array<any>>();
 			this.initCityList();
 		}
 

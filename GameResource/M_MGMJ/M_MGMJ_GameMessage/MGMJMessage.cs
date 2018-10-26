@@ -1049,7 +1049,37 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(25)]
         public byte daiDaPai;
-
+        /// <summary>
+        /// 玩家数
+        /// </summary>
+        [PacketMember(26)]
+        public int PlayerNum;
+        /// <summary>
+        /// 等待时间
+        /// </summary>
+        [PacketMember(27)]
+        public int WaitTimeNum;
+        /// <summary>
+        /// 配子
+        /// </summary>
+        [PacketMember(28)]
+        public int SetPeiZi;
+        /// <summary>
+        /// 点炮
+        /// </summary>
+        [PacketMember(29)]
+        public byte DianPao;
+        /// <summary>
+        /// 抢杠胡
+        /// </summary>
+        [PacketMember(30)]
+        public byte QiangGangHu;
+        /// <summary>
+        /// 
+        /// </summary>
+        [PacketMember(31)]
+        public int tableWhere;
+        
     };
 
     /// <summary>
@@ -1963,6 +1993,26 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(20)]
         public byte WaitTimeNum;
+
+        /// <summary>
+        /// 等待时间
+        /// </summary>
+        [PacketMember(21)]
+        public byte SetPeiZi;
+
+        /// <summary>
+        /// 等待时间
+        /// </summary>
+        [PacketMember(22)]
+        public byte DianPao;
+
+        /// <summary>
+        /// 等待时间
+        /// </summary>
+        [PacketMember(23)]
+        public byte QiangGangHu;
+
+
     };
     /// <summary>
     /// 操作频繁

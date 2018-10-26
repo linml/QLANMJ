@@ -185,6 +185,13 @@
             <param name="tableId"></param>
             <returns></returns>
         </member>
+        <member name="M:QLGameRESTAPI.Controllers.platform.PyGroupController.getGroupStat(System.Int32)">
+            <summary>
+            获取亲友圈数据统计信息
+            </summary>
+            <param name="friendId">获取信息的亲友圈Id</param>
+            <returns></returns>
+        </member>
         <member name="T:QLGameRESTAPI.Controllers.platform.PyGroupController.pygrouplistItem">
             <summary>
             亲友圈列表数据
@@ -377,6 +384,7 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <!-- 对于成员“M:QLGameRESTAPI.Controllers.web.ManageController.PushUserMoneyMag(System.UInt32,System.String)”忽略有格式错误的 XML 注释 -->
         <member name="T:QLGameRESTAPI.Controllers.web.SystemController">
             <summary>
             
@@ -569,6 +577,41 @@
         <member name="T:QLGameRESTAPI.Core.CustomType.CacheTypes.HallRankList">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.today_roomamt">
+            <summary>
+            今日耗钻
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.today_roomcnt">
+            <summary>
+            今日局数
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.yesterday_roomamt">
+            <summary>
+            昨日耗钻
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.yesterday_roomcnt">
+            <summary>
+            昨日局数
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.day7_roomamt">
+            <summary>
+            近七日耗钻
+            </summary>
+        </member>
+        <member name="F:QLGameRESTAPI.Core.CustomType.CacheTypes.GroupStatData.day7_roomcnt">
+            <summary>
+            近七日局数
             </summary>
         </member>
         <member name="T:QLGameRESTAPI.Core.CustomType.CacheTypes.HotUpdateConf">
@@ -856,6 +899,11 @@
         <member name="M:QLGameRESTAPI.Core.DBTools.Data.DataProcedureHelper.WEB_GetRankList(System.Int32,System.Int32,System.Int32,System.Data.DataSet@)">
             <summary>
             执行存储过程 WEB_GetRankList 并返回执行结果
+            </summary>
+        </member>
+        <member name="M:QLGameRESTAPI.Core.DBTools.Data.DataProcedureHelper.WEB_GetGroupStat(System.Int32,System.Int32,System.Data.DataSet@)">
+            <summary>
+            执行存储过程 WEB_GetGroupStat 并返回执行结果
             </summary>
         </member>
         <member name="M:QLGameRESTAPI.Core.DBTools.Data.DataProcedureHelper.WEB_GetUserReplayList(System.Int32,System.Int32,System.Int32,System.Data.DataSet@)">

@@ -123,10 +123,13 @@ export default class HBMJ_TimerView extends cc.Component {
         this.node.active = chair != HQMJMahjongDef.gInvalidChar;
 
         let action= cc.repeatForever(cc.sequence(cc.fadeTo(0.5, 0), cc.fadeTo(0.5, 255)));
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
+        let _hqmj = HQMJ.ins.iclass;
+        /**
+         * 这里有问题 但是显示正常 先不改吧
+         */
+        if(HQMJ.ins.iclass && !HQMJ.ins.iclass.isVideo)
             _hqmj = HQMJ.ins.iclass;
-        else
+        if(M_HQMJVideoClass.ins && M_HQMJVideoClass.ins.isVideo)
             _hqmj = M_HQMJVideoClass.ins;
         for(var i:number=0; i<HQMJMahjongDef.gPlayerNum; i++){
             this.img_arrow[i].active = (i == _hqmj.physical2logicChair(chair));

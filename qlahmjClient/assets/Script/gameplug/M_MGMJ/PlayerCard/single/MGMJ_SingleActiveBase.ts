@@ -11,6 +11,9 @@ export default class MGMJ_SingleActiveBase extends MGMJ_SingleCardBase {
     @property(cc.Sprite)
     bmp_cardcolor: cc.Sprite=null;
 
+    @property(cc.Sprite)
+    bmp_huipai:cc.Sprite=null;
+
 
     onLoad() {
         // init logic
@@ -34,7 +37,7 @@ export default class MGMJ_SingleActiveBase extends MGMJ_SingleCardBase {
     /**
      * 显示牌
      * */
-    public showCard(card:number,isLie:boolean,index:number):void{
+    public showCard(card:number,isLie:boolean,index:number,hunpai:number):void{
         this._cardValue = card;
         this._isLie=isLie;
         this._cardIndex=index;

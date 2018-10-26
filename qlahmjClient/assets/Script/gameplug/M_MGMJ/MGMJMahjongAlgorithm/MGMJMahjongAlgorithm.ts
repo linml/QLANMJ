@@ -85,21 +85,35 @@ const { ccclass, property } = cc._decorator;
             if((null == cardAry) || (cardAry.length < 2)){
                 return;
             }
+
+            cc.info("排序前：" + cardAry);
             
             var tempCard : number=0;
-            
+            var hunpai :number = M_MGMJView.ins.gameClass.TableConfig.SetPeiZi;
+            var tempCardArray = [];
+            while(cardAry.indexOf(hunpai)!=-1){
+                 tempCardArray.push(hunpai);
+                 cardAry.splice(cardAry.indexOf(hunpai),1);
+            }
+            cc.info("宝牌：" + tempCardArray);
+            //排序
             for(var i:number=0; i<cardAry.length - 1; i++){
                 for(var j:number = i+1; j<cardAry.length; j++){
                     if(cardAry[i] > cardAry[j]){
-                        
                         tempCard = cardAry[i];
                         cardAry[i] = cardAry[j];
                         cardAry[j] = tempCard;
-                        
                     }
                 }
             }
-            
+            cc.info("无宝牌：" + cardAry);
+
+            for(var i:number =0;i<tempCardArray.length;i++){
+                cardAry.unshift(tempCardArray[i]);
+            }
+            // cardAry = tempCardArray.concat(cardAry);
+            cc.info("排序后：" + cardAry);
+
         }
         
         /**

@@ -850,6 +850,7 @@ export default class LHZMJ_OppoSingleFixed extends LHZMJ_SingleFixedBase {
         this.bmp_cardHideAry[1].node.setLocalZOrder(9);
         this.bmp_cardHideAry[2].node.setLocalZOrder(10);
         this.bmp_arrow.node.setLocalZOrder(11);
+        this.node.y = this.node.y+25;
         
     }
 }

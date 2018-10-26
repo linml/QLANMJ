@@ -1128,22 +1128,22 @@
             游戏服务器桌子玩家信息，提供给GMTools客户端使用
             </summary>
         </member>
-        <member name="F:QL.Common.GSTablePlayer.TableID">
+        <member name="P:QL.Common.GSTablePlayer.TableID">
             <summary>
             玩家所在的桌子ID
             </summary>
         </member>
-        <member name="F:QL.Common.GSTablePlayer.RoomID">
+        <member name="P:QL.Common.GSTablePlayer.RoomID">
             <summary>
             玩家所在的场地ID
             </summary>
         </member>
-        <member name="F:QL.Common.GSTablePlayer.PlayerInfo">
+        <member name="P:QL.Common.GSTablePlayer.PlayerInfo">
             <summary>
             玩家基本信息
             </summary>
         </member>
-        <member name="F:QL.Common.GSTablePlayer.ChairID">
+        <member name="P:QL.Common.GSTablePlayer.ChairID">
             <summary>
             玩家椅子号
             </summary>
@@ -4843,6 +4843,11 @@
         <member name="F:GameIF.FrozenUserAccountParam.RoomId">
             <summary>
             当前结算的桌子所属的场地Id。不用赋值，平台会自动赋值
+            </summary>
+        </member>
+        <member name="F:GameIF.FrozenUserAccountParam.GameId">
+            <summary>
+            当前结算的桌子所属的游戏Id。不用赋值，平台会自动赋值
             </summary>
         </member>
         <member name="F:GameIF.FrozenUserAccountObjectType.Unknown">

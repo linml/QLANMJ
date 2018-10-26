@@ -11,6 +11,9 @@ import { IDictionary } from "../Interface/IDictionary";
 import FriendCircleWebHandle from "../Form/FriendsCircle/FriendCircleWebHandle";
 import FriendCircleDataCache from "../Form/FriendsCircle/FriendCircleDataCache";
 import { UIName } from "../Global/UIName";
+import { CurrentPackageType, Debug } from "../Tools/Function";
+import { PackageType } from "../CustomType/PackageType";
+
 /**
  * 
  * 游戏控制器
@@ -100,21 +103,27 @@ export class GameHost implements IGameHost {
              return;
          }
 
+        if (Debug()) {
+            cc.info('--- debug mode ');
+            Global.Instance.GameHost.TryEnterRoom(roomId, type);
+            return;
+        }
+        
         // 判断是否加入的是亲友圈房间
         // 先请求亲友圈列表
         FriendCircleWebHandle.requestFriendCircleList(new Action(this,(res)=>{
-                let getTableInfoCb = (args)=>{
-                    cc.info('-- requestFriendCircRuleCb ',args);
+            let getTableInfoCb = (args)=>{
+                cc.info('-- requestFriendCircRuleCb ',args);
         
-                    if (!args || 'fail' == args.status || "success" != args.status) {
-                        Global.Instance.UiManager.CloseUi(UIName.AutoJoinRoom);
-                        return;
-                    }
-                     
-                    // 检测该玩家是否已经加入了亲友圈
-                    let groupId = args.data.groupId;
+                if (!args || 'fail' == args.status || "success" != args.status) {
+                    Global.Instance.UiManager.CloseUi(UIName.AutoJoinRoom);
+                    return;
+                }
+                 
+                // 检测该玩家是否已经加入了亲友圈
+                let groupId = args.data.groupId;
 
-                    if (groupId > 0) {
+                if (groupId > 0) {
                         if (!FriendCircleDataCache.Instance.isFriendCircleMember(groupId + '')) {
                             this.UiManager.ShowMsgBox('您不在该亲友圈，是否申请加入?',this,()=>{
                                 FriendCircleWebHandle.joinFriendCircle(groupId + '',new Action(this,(res)=>{
@@ -124,17 +133,17 @@ export class GameHost implements IGameHost {
                         }else{
                             Global.Instance.GameHost.TryEnterRoom(roomId, type);
                         }
-                    }else{
-                        Global.Instance.GameHost.TryEnterRoom(roomId, type);
-                    }
-                    
+                }else{
+                    Global.Instance.GameHost.TryEnterRoom(roomId, type);
                 }
+                
+            }
             
-                // 发送请求
-                let data: IDictionary<string,any> = WebRequest.DefaultData(true);
-                data.Add("tableId",roomId);
-                const action = new ActionNet(this,getTableInfoCb,getTableInfoCb);
-                WebRequest.FriendCircle.getTableInfo(action,data);
+            // 发送请求
+            let data: IDictionary<string,any> = WebRequest.DefaultData(true);
+            data.Add("tableId",roomId);
+            const action = new ActionNet(this,getTableInfoCb,getTableInfoCb);
+            WebRequest.FriendCircle.getTableInfo(action,data);
         }));
      }
     /**
@@ -360,7 +369,7 @@ export class GameHost implements IGameHost {
         this._initGameParam.TableID = chair.tableID;
         this._initGameParam.GameStatus = 0;
         this._initGameParam.GameRule = this._enterParam.rule;
-        this._initGameParam.GroupId = this._enterParam.group_id;
+        // this._initGameParam.GroupId = this._enterParam.group_id;
         //配桌成功后初始化场景
         this.EventManager.PostMessage(EventCode.InitGameScene, this._initGameParam);
         //初始化完成后通知服务端我坐下了

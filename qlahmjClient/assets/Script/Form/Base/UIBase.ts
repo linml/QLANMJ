@@ -8,16 +8,25 @@ import { PlayEffect, ReflushNodeWidgetAlignment } from "../../Tools/Function";
 const { ccclass, property } = cc._decorator;
 
 export default abstract class UIBase<T> extends cc.Component implements IEventHandler {
-    /** 
-     * 是否播放弹出动作
-     */
-    protected isPlayPopAction: boolean = true;
+
     protected isShowUI: boolean = false;
     //表示当前的页面是否已经激活进场动画
     protected hasEnterAnimation: boolean = false;
     //表示当前的页面是否已经激活进场动画
     protected hasExitAnimation: boolean = false;
     public get isOneInstance(): boolean { return true; }
+    public get isPersistRootFrom(): boolean { return false; }
+    public get isPlayPopAction(): boolean { return true; }
+    public get canReUse(): boolean { return true }
+
+    protected get needPlayPopAction(): boolean { return this.isPlayPopAction; }
+
+
+    protected _isFree = true;
+    public get IsFree() {
+        return this._isFree;
+    }
+
 
 
     onLoad(): void {
@@ -117,9 +126,10 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
      * @param param 
      * @param action 
      */
-    public Show(root: cc.Node, param?: T, action?: Action) {
+    public Show(root?: cc.Node, param?: T, action?: Action) {
         if (this.isShowUI && this.isOneInstance) return;
         this.isShowUI = true;
+        this._isFree = false;
         if (!(cc.isValid(root) && this.isValid)) {
             //root = cc.director.getScene();
             root = cc.Canvas.instance.node;
@@ -128,14 +138,24 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
             Global.Instance.EventManager.RegisterEventHadnle(this);
         }
         this.ShowParam = param;
-        this.node.removeFromParent(true);
-        root.addChild(this.node);
-        this.InitShow();
-        this.OnShow();
-        this.PlayEnterAnimation();
-        if (action) {
-            action.RunArgs();
+        if (this.isPersistRootFrom) {
+            root.addChild(this.node);
+            if (!cc.game.isPersistRootNode(this.node)) {
+                // this.node.removeFromParent(true);
+                cc.game.addPersistRootNode(this.node);
+            }
         }
+        else {
+            root.addChild(this.node);
+        }
+        this.InitShow();
+        this.PlayEnterAnimation(() => {
+            this.OnShow();
+            if (action) {
+                action.RunArgs();
+            }
+
+        });
     }
 
     /**
@@ -145,14 +165,13 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
     public Close(action?: Action, param?: any) {
         this.scheduleOnce(() => {
             if (!this.isShowUI || this.hasEnterAnimation) return;
-            this.isShowUI = false;
             this.hasEnterAnimation = false;
             this.PlayExitAnimation(() => {
                 this.CloseUI();
             })
         });
     }
-    private CloseUI(action?: Action, param?: any) {
+    protected CloseUI(action?: Action, param?: any) {
         PlayEffect(cc.url.raw("resources/Sound/close_panel.mp3"));
         if (this.IsEventHandler) {
             Global.Instance.EventManager.UnRegisterEventHadnle(this);
@@ -160,6 +179,8 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
         //cc.log(this.node.parent);
         this.node.removeFromParent(true);
         this.OnClose();
+        this._isFree = true;
+        this.isShowUI = false;
         if (action) {
             action.RunArgs();
         }
@@ -170,47 +191,33 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
      * 刷新
      */
     protected InitShow() {
-
     }
 
     protected OnShow() {
-        this.isShowUI = true;
-        this.PlayEnterAnimation();
     }
 
     protected OnClose() {
-
+        // this.InitShow();
     }
 
 
     /****************************** 界面的进场动画和退场动画部分 ************************************* */
 
-    protected PlayEnterAnimation() {
-        if (this.isPlayPopAction) {
+    protected PlayEnterAnimation(callBack?: Function) {
+        if (this.needPlayPopAction) {
             if (this.hasEnterAnimation) return;
             this.hasEnterAnimation = true;
-            ReflushNodeWidgetAlignment(this, this.EnterAnimation.bind(this));
+            ReflushNodeWidgetAlignment(this, (() => {
+                this.EnterAnimation(callBack)
+            }).bind(this));
+            return;
+        }
+        if (!!callBack) {
+            callBack();
         }
     }
-    protected EnterAnimation() {
-        // 弹出效果、从小到大，然后再从大到小
-        // if (this.isPlayPopAction) {
-        let oldScale = this.node.scale;
-        cc.log(oldScale);
-        this.node.setScale(0.5);
-        this.node.opacity = 255;
-        let scaleadd = 0.05
-        this.node.runAction(cc.spawn(
-            cc.fadeTo(0.3, 255),
-            cc.sequence(cc.scaleTo(0.15, oldScale + scaleadd, oldScale + scaleadd),
-                cc.scaleTo(0.15, oldScale, oldScale)
-                , cc.callFunc(() => {
-                    this.hasEnterAnimation = false;
-                }))
-        ));
-    }
     protected PlayExitAnimation(callBack?: Function) {
-        if (this.isPlayPopAction) {
+        if (this.needPlayPopAction) {
             if (this.hasExitAnimation) return;
             this.hasExitAnimation = true;
             this.ExitAnimation(callBack);
@@ -220,6 +227,36 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
             callBack();
         }
     }
+    protected EnterAnimation(callBack?: Function) {
+        // 弹出效果、从小到大，然后再从大到小
+        // if (this.isPlayPopAction) {
+        // 弹出效果、从小到大，然后再从大到小
+        if (!callBack) {
+            callBack = () => { };
+        }
+
+
+        let oldScale = this.node.scale;
+
+        this.node.setScale(0.5);
+        this.node.opacity = 255;
+        let scaleadd = 0.05
+        this.node.runAction(
+            cc.sequence(cc.scaleTo(0.15, oldScale + scaleadd, oldScale + scaleadd),
+                cc.scaleTo(0.15, oldScale, oldScale),
+                cc.callFunc(() => {
+                    try {
+                        callBack();
+                    }
+                    catch (e) {
+                        cc.error(e);
+                    }
+                    finally {
+                        this.hasEnterAnimation = false;
+                    }
+                })
+            ));
+    }
     protected ExitAnimation(callBack?: Function) {
         // 弹出效果、从小到大，然后再从大到小
         if (!callBack) {
@@ -228,7 +265,7 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
 
         let oldScale = this.node.scale;
         let closeScale = 0.3;
-        cc.log(oldScale);
+
         // this.node.setScale(0.5);
         // this.node.opacity = 128;
         let scaleadd = 0.05
@@ -237,9 +274,17 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
             cc.sequence(cc.scaleTo(0.15, oldScale + scaleadd, oldScale + scaleadd),
                 cc.scaleTo(0.15, closeScale, closeScale)
                 , cc.callFunc(() => {
-                    this.hasExitAnimation = false;
-                    callBack();
-                    this.node.setScale(oldScale);
+                    try {
+                        callBack();
+                    }
+                    catch (e) {
+                        cc.error(e);
+                    }
+                    finally {
+                        this.hasExitAnimation = false;
+                        this.node.setScale(oldScale);
+                    }
+
                 }))
         ));
     }
@@ -248,7 +293,7 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
 
 
     public BackClick() {
-        this.Close();
+        this.CloseClick();
     }
     public OnKeyClick(value: cc.KEY): boolean {
         return false;

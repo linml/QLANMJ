@@ -22,18 +22,13 @@ export default class HQMJ_DownSingleActive extends HQMJ_SingleActiveBase {
      * 显示牌
      * */
     // pub
-    public showCard(card: number,isLie: boolean,index:number): void {
+    public showCard(card: number,isLie: boolean,index:number,_hqmj=HQMJ.ins.iclass): void {
         if(card==this._cardValue&&isLie==this._isLie&&index==this._cardIndex)
         {
             if(!isLie)
                 return;
         }
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        super.showCard(card,isLie,index);
+        super.showCard(card,isLie,index,_hqmj);
         this.bmp_cardcolor.node.active = false;
         this.bmp_cardback.node.active = false;
         this.bmp_liecardback.node.active=false;
@@ -92,11 +87,11 @@ export default class HQMJ_DownSingleActive extends HQMJ_SingleActiveBase {
             this.bmp_cardcolor.node.scaleX=0.5;
             this.bmp_cardcolor.node.scaleY=0.5;
             if(isLie) {
-                this.showDaoPai();
+                this.showDaoPai(_hqmj);
                 this.bmp_liecardback.node.active=true;
                 this.bmp_cardcolor.node.active = HQMJMahjongDef.gBackMahjongValue != card;
             } else {
-                this.showShuPai();
+                this.showShuPai(_hqmj);
                 this.bmp_cardback.node.active=true;
             }
         }
@@ -122,14 +117,10 @@ export default class HQMJ_DownSingleActive extends HQMJ_SingleActiveBase {
         }
     }
 
-    showDaoPai():void{
+    showDaoPai(_hqmj):void{
         // cc.log(this._cardIndex + "------" +this._cardValue);
         let _index = 0;
-        let _hqmj = null;
-        if(HQMJ.ins.iclass){
-            _hqmj = HQMJ.ins.iclass;
-        }else{
-            _hqmj = M_HQMJVideoClass.ins;
+        if(HQMJ.ins.iclass != _hqmj){
             _index = -50;
         }
         switch(this._cardIndex){
@@ -346,13 +337,9 @@ export default class HQMJ_DownSingleActive extends HQMJ_SingleActiveBase {
         }
     }
 
-    private showShuPai():void{
+    private showShuPai(_hqmj):void{
         let a = 6;
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+        
         switch(this._cardIndex){
             case 1:{
                 this.node.x=393-a;

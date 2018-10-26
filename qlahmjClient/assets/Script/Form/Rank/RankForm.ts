@@ -16,6 +16,7 @@ const { ccclass, property } = cc._decorator;
 export default class RankForm extends UIBase<any> {
     public IsEventHandler: boolean = true;
     public IsKeyHandler: boolean = true;
+    public get isPlayPopAction(): boolean { return false; }
 
     /**
      * 滑动列表
@@ -87,8 +88,7 @@ export default class RankForm extends UIBase<any> {
     private total_data = new Array<RankListItemInfo>();
 
     public InitShow() {
-        super.InitShow();
-        this.isPlayPopAction = false;
+        super.InitShow(); 
         this.total_selected.active = false;
         this.today_selected.active = true;
         this.RankListInfosShow("todayRank", this.today_num);
@@ -164,10 +164,7 @@ export default class RankForm extends UIBase<any> {
         }
 
         cc.info('-- rank list data:  ', infoArray);
-        rankListItemScrollView.resetList();
         rankListItemScrollView.data_type = type;
-        rankListItemScrollView.resetList();
-        rankListItemScrollView.scrollToTop();
 
         rankListItemScrollView.refreshData(infoArray);
     }
@@ -187,6 +184,7 @@ export default class RankForm extends UIBase<any> {
         if (data) {//上榜
             switch (data.rank) {
                 case 1:
+                    this.refreshData(data, count);
                     this.MyItem_rankImg_a.node.active = true;
                     this.MyItem_rankImg_b.node.active = false;
                     this.MyItem_rankImg_c.node.active = false;
@@ -194,6 +192,7 @@ export default class RankForm extends UIBase<any> {
                     this.MyItem_noRank.node.active = false;
                     break;
                 case 2:
+                    this.refreshData(data, count);
                     this.MyItem_rankImg_b.node.active = true;
                     this.MyItem_rankImg_a.node.active = false;
                     this.MyItem_rankImg_c.node.active = false;
@@ -201,6 +200,7 @@ export default class RankForm extends UIBase<any> {
                     this.MyItem_noRank.node.active = false;
                     break;
                 case 3:
+                    this.refreshData(data, count);
                     this.MyItem_rankImg_c.node.active = true;
                     this.MyItem_rankImg_b.node.active = false;
                     this.MyItem_rankImg_a.node.active = false;
@@ -266,6 +266,9 @@ export default class RankForm extends UIBase<any> {
      * @param type 
      */
     private changeClick(e, type: string) {
+        let rankListItemScrollView: RankListItemScrollView = this.view.getComponent("RankListItemScrollView");
+        rankListItemScrollView.resetList();
+
         if (type === "today") {
             this.total_selected.active = false;
             this.today_selected.active = true;
@@ -313,6 +316,24 @@ export default class RankForm extends UIBase<any> {
 
 
         // Global.Instance.WxManager.CaptureScreenshot(this.RankFormNode,0,false,"Screenshot.jpg");
+    }
+
+    /**
+     * 刷新数据
+     */
+    private refreshData(data: any, count: number) {
+        if (data == null || count == null) {
+            return;
+        }
+
+        switch (count) {
+            case this.today_num:
+                this.GiftInit(data, 188, 128, 88, 68, 0, 0);
+                break;
+            case this.total_num:
+                this.GiftInit(data, 1, 2888, 1888, 3000, 2000, 1000);
+                break;
+        }
     }
 
     /**
@@ -399,7 +420,7 @@ export default class RankForm extends UIBase<any> {
         }
     }
 
-    public ClearInfo(){
+    public ClearInfo() {
         this.MyPrizeNum.string = "";
         this.MyItem_noRank.string = "未上榜";
         this.prize_TV.node.active = false;

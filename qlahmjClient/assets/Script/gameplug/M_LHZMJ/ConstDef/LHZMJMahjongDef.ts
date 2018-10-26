@@ -122,6 +122,8 @@ const { ccclass, property } = cc._decorator;
         /// 数值掩码
         /// </summary>
         public static gCardMask_value: number = 0x0f;
+
+        public static gCardWalls_number:number = 28;
         /// <summary>
         /// 无效的麻将牌数值
         /// </summary>
@@ -492,7 +494,9 @@ const { ccclass, property } = cc._decorator;
 	    /**
 	     * 自摸
 	     * */
-	    aniType_ziMo=5
+	    aniType_ziMo=5,
+
+      
 	}
 	
     /// <summary>

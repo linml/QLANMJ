@@ -605,7 +605,7 @@ namespace M_MGMJ
         /// </summary>
         /// <param name="cbOutCard"></param>
         /// <returns></returns>
-        public bool CheckIfCanVote(byte cbOutCard, enHuCardType huType, ushort outcardchair, bool canChi, bool isBaoTing)
+        public bool CheckIfCanVote(byte cbOutCard, enHuCardType huType, ushort outcardchair, bool canChi, bool isBaoTing,bool isDianPao)
         {
             ClearVote();
             if (MahjongDef.gInvalidMahjongValue == cbOutCard)
@@ -647,18 +647,15 @@ namespace M_MGMJ
                 _voteRight |= MahjongDef.gVoteRightMask_Gang;
                 _gameServer.PrintLog("有杠权限");
             }
-            /*
-            //胡
-            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0))
+            
+            //点炮胡
+            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0)&& isDianPao)
             {
-
                 bIfCanVote = true;
                 _voteRight |= MahjongDef.gVoteRightMask_Hu;
                 _gameServer.PrintLog("有胡权限");
                 _gameServer.CanHuNum++;
-
-
-            }*/
+            }
 
             return bIfCanVote;
         }
@@ -1651,20 +1648,20 @@ namespace M_MGMJ
             if (CheckIfCanHuACard(card))
             {
                 //检查过门不胡
-                if (_giveupHuMultiple > 0)
-                {
-                    //List<byte> handCard = CopyActiveCard();
+                //if (_giveupHuMultiple > 0)
+                //{
+                //    //List<byte> handCard = CopyActiveCard();
 
-                    //clsFixedCard fixedCard = new clsFixedCard();
-                    //_playerCard.CopyACounterpartForFixedCard(ref fixedCard);
+                //    //clsFixedCard fixedCard = new clsFixedCard();
+                //    //_playerCard.CopyACounterpartForFixedCard(ref fixedCard);
 
-                    //if (AnalysisHuCardListMultiple(card, huType, handCard, ref fixedCard) > this._giveupHuMultiple)
-                    //{
-                    //    return true;
-                    //}
+                //    //if (AnalysisHuCardListMultiple(card, huType, handCard, ref fixedCard) > this._giveupHuMultiple)
+                //    //{
+                //    //    return true;
+                //    //}
 
-                    return false;
-                }
+                //    return false;
+                //}
 
                 return true;
             }
@@ -1726,7 +1723,7 @@ namespace M_MGMJ
 
             List<byte> activeCard = CopyActiveCard();
             List<byte> hunCard = new List<byte>();
-            hunCard.Add(0x37);
+            hunCard.Add((byte)_gameServer._tableConfig.SetPeiZi);
 
             if (1 != activeCard.Count % 3)
             {
@@ -2127,6 +2124,24 @@ namespace M_MGMJ
 
             return _playerCard.tingCard.Contains(cbCard);
         }
+        /// <summary>
+        /// 检查独一
+        /// </summary>
+        /// <param name="cbCard"></param>
+        /// <returns></returns>
+        public bool CheckHuIsSingleOne(byte cbCard) {
+            if (MahjongDef.gInvalidMahjongValue == cbCard)
+            {
+                return false;
+            }
+
+            if (_playerCard.tingCard.Count() < 1)
+            {
+                return false;
+            }
+
+            return _playerCard.tingCard.Count == 1&& _playerCard.tingCard.Contains(cbCard);
+        }
 
         /// <summary>
         /// 是否可以吃某张牌
@@ -2221,14 +2236,14 @@ namespace M_MGMJ
                 handCard.Sort();
 
                 JieSuan.Clear();
-                if(enHuCardType.HuCardType_PingHu == huType)
-                    _gameServer._playerAry[chair].VecType += "平牌+1 ";
+                //if (enHuCardType.HuCardType_PingHu == huType)
+                //    _gameServer._playerAry[chair].VecType += "平牌+1 ";
                 if (enHuCardType.HuCardType_ZiMo == huType)
-                    _gameServer._playerAry[chair].VecType += "自摸x2 ";
-                if (enHuCardType.HuCardType_GangShangHua == huType)
-                    _gameServer._playerAry[chair].VecType += "杠后乘四倍 ";
-                if (_gameServer._playerAry[chair]._isBaoTing)
-                    _gameServer._playerAry[chair].VecType += "豹子胡x2 ";
+                    _gameServer._playerAry[chair].VecType += "自摸+1 ";
+                //if (enHuCardType.HuCardType_GangShangHua == huType)
+                //    _gameServer._playerAry[chair].VecType += "杠后乘二倍 ";
+                //if (_gameServer._playerAry[chair]._isBaoTing)
+                //    _gameServer._playerAry[chair].VecType += "豹子胡x2 ";
 
                 //解析牌阵
 
@@ -2283,7 +2298,7 @@ namespace M_MGMJ
                             duiduihu = false;
                         }
                     }
-                }              
+                }             
                 
                 List<byte> listCopy = new List<byte>();
                 List<byte> listChongTian = new List<byte>();
@@ -2346,138 +2361,138 @@ namespace M_MGMJ
                 listChongTian.Add(cbHuCard);
                 listCopy.Sort();
                 listChongTian.Sort();
-                //如果连续四张牌相同 形成四归一
-                int siguiyi = 0;
-                for (int i = 0; i <= listCopy.Count - 4; i++)
-                {
-                    if (listCopy[i] == listCopy[i + 1] && listCopy[i + 1] == listCopy[i + 2] && listCopy[i + 2] == listCopy[i + 3])
-                    {
-                        siguiyi++; ;
-                    }
-                }
-                if (_gameServer._tableConfig.daiDaPai == 1 && siguiyi>0)
-                {
-                    score += siguiyi;
-                    _gameServer._playerAry[chair].VecType += "四归一+ "+siguiyi;
-                }
+                ////如果连续四张牌相同 形成四归一
+                //int siguiyi = 0;
+                // for (int i = 0; i <= listCopy.Count - 4; i++)
+                // {
+                //     if (listCopy[i] == listCopy[i + 1] && listCopy[i + 1] == listCopy[i + 2] && listCopy[i + 2] == listCopy[i + 3])
+                //     {
+                //         siguiyi++; ;
+                //     }
+                // }
+                // if (_gameServer._tableConfig.daiDaPai == 1 && siguiyi>0)
+                // {
+                //     score += siguiyi;
+                //     _gameServer._playerAry[chair].VecType += "四归一+ "+siguiyi;
+                // }
 
-                bool chongtian = false;
-                bool chongtianWan = true;
-                bool chongtianTiao = true;
-                bool chongtianTong = true;
-                for (int i = 1; i < 10; i++)
-                {//万
-                    if (!listChongTian.Contains((byte)i))
-                    {
-                        chongtianWan = false;
-                        break;
-                    }
-                }
-                for (int i = 17; i < 26; i++)
-                {//筒
-                    if (!listChongTian.Contains((byte)i))
-                    {
-                        chongtianTong = false;
-                        break;
-                    }
-                }
-                for (int i = 33; i < 42; i++)
-                {//条
-                    if (!listChongTian.Contains((byte)i))
-                    {
-                        chongtianTiao = false;
-                        break;
-                    }
-                }
-                byte first = 0;
-                byte last = 0;
-                if (chongtianWan)
-                {
-                    first = 1;
-                    last = 9;
-                }
-                if (chongtianTong)
-                {
-                    first = 17;
-                    last = 25;
-                }
-                if (chongtianTiao)
-                {
-                    first = 33;
-                    last = 41;
-                }
-                if (chongtianWan || chongtianTiao || chongtianTong)
-                {
-                    if (pengGang > 1)
-                    {
-                        chongtian = false;
-                    }
-                    for(byte j = first; j <= last; j++)
-                    {
-                        for(byte i = 0; i < listChongTian.Count; i++)
-                        {
-                            if (listChongTian[i] == j)
-                            {
-                                listChongTian.RemoveAt(i);
-                                break;
-                            }                                                 
-                        }
-                    }
-                    if(pengGang == 0)
-                    {//listChongTian还有5个值
-                        if (listChongTian.Count != 5)
-                        {
-                            _gameServer.PrintLog("冲天算分出错！");
-                        }
-                        else
-                        {
-                            listChongTian.Sort();
-                            if (listChongTian[0] == listChongTian[1] && listChongTian[2] == listChongTian[3] && listChongTian[3] == listChongTian[4])
-                            {
-                                chongtian = true;
-                            }
-                            if (listChongTian[0] == listChongTian[1] && listChongTian[0] == listChongTian[2] && listChongTian[3] == listChongTian[4])
-                            {
-                                chongtian = true;
-                            }
-                            if (listChongTian[0] == listChongTian[1] && listChongTian[2] + 1 == listChongTian[3] && listChongTian[3] + 1 == listChongTian[4])
-                            {
-                                chongtian = true;
-                            }
-                            if (listChongTian[0] + 1 == listChongTian[1] && listChongTian[1] + 1 == listChongTian[2] && listChongTian[3] == listChongTian[4])
-                            {
-                                chongtian = true;
-                            }
-                        }
-                    }
-                    if(pengGang == 1)
-                    {
-                        if(listChongTian.Count != 2)
-                        {
-                            _gameServer.PrintLog("冲天算分报错！");
-                        }
-                        else
-                        { 
-                            if(listChongTian[0] == listChongTian[1])
-                            {
-                                chongtian = true;
-                            }
-                        }
-                    }
-                }
+                // bool chongtian = false;
+                // bool chongtianWan = true;
+                // bool chongtianTiao = true;
+                // bool chongtianTong = true;
+                // for (int i = 1; i < 10; i++)
+                // {//万
+                //     if (!listChongTian.Contains((byte)i))
+                //     {
+                //         chongtianWan = false;
+                //         break;
+                //     }
+                // }
+                // for (int i = 17; i < 26; i++)
+                // {//筒
+                //     if (!listChongTian.Contains((byte)i))
+                //     {
+                //         chongtianTong = false;
+                //         break;
+                //     }
+                // }
+                // for (int i = 33; i < 42; i++)
+                // {//条
+                //     if (!listChongTian.Contains((byte)i))
+                //     {
+                //         chongtianTiao = false;
+                //         break;
+                //     }
+                // }
+                // byte first = 0;
+                // byte last = 0;
+                // if (chongtianWan)
+                // {
+                //     first = 1;
+                //     last = 9;
+                // }
+                // if (chongtianTong)
+                // {
+                //     first = 17;
+                //     last = 25;
+                // }
+                // if (chongtianTiao)
+                // {
+                //     first = 33;
+                //     last = 41;
+                // }
+                // if (chongtianWan || chongtianTiao || chongtianTong)
+                // {
+                //     if (pengGang > 1)
+                //     {
+                //         chongtian = false;
+                //     }
+                //     for(byte j = first; j <= last; j++)
+                //     {
+                //         for(byte i = 0; i < listChongTian.Count; i++)
+                //         {
+                //             if (listChongTian[i] == j)
+                //             {
+                //                 listChongTian.RemoveAt(i);
+                //                 break;
+                //             }                                                 
+                //         }
+                //     }
+                //     if(pengGang == 0)
+                //     {//listChongTian还有5个值
+                //         if (listChongTian.Count != 5)
+                //         {
+                //             _gameServer.PrintLog("冲天算分出错！");
+                //         }
+                //         else
+                //         {
+                //             listChongTian.Sort();
+                //             if (listChongTian[0] == listChongTian[1] && listChongTian[2] == listChongTian[3] && listChongTian[3] == listChongTian[4])
+                //             {
+                //                 chongtian = true;
+                //             }
+                //             if (listChongTian[0] == listChongTian[1] && listChongTian[0] == listChongTian[2] && listChongTian[3] == listChongTian[4])
+                //             {
+                //                 chongtian = true;
+                //             }
+                //             if (listChongTian[0] == listChongTian[1] && listChongTian[2] + 1 == listChongTian[3] && listChongTian[3] + 1 == listChongTian[4])
+                //             {
+                //                 chongtian = true;
+                //             }
+                //             if (listChongTian[0] + 1 == listChongTian[1] && listChongTian[1] + 1 == listChongTian[2] && listChongTian[3] == listChongTian[4])
+                //             {
+                //                 chongtian = true;
+                //             }
+                //         }
+                //     }
+                //     if(pengGang == 1)
+                //     {
+                //         if(listChongTian.Count != 2)
+                //         {
+                //             _gameServer.PrintLog("冲天算分报错！");
+                //         }
+                //         else
+                //         { 
+                //             if(listChongTian[0] == listChongTian[1])
+                //             {
+                //                 chongtian = true;
+                //             }
+                //         }
+                //     }
+                // }
 
-                if (_gameServer._tableConfig.daiDaPai == 1 && chongtian)
-                {
-                    score += 2;
-                    _gameServer._playerAry[chair].VecType += "冲天+2 ";
-                }
+                // if (_gameServer._tableConfig.daiDaPai == 1 && chongtian)
+                // {
+                //     score += 2;
+                //     _gameServer._playerAry[chair].VecType += "冲天+2 ";
+                // }
 
                 //清一色 混一色
                 int countWan = 0;
                 int countTiao = 0;
                 int countTong = 0;
                 int countZhi = 0;
-                bool yaoJiu = true;
+                bool yaoJiu = false;
 
                 for (int i = 0; i < listCopy.Count; i++)
                 {
@@ -2512,63 +2527,63 @@ namespace M_MGMJ
                     _gameServer._playerAry[chair].VecType += "对对胡+4 ";
                 }
 
-                if (_gameServer._tableConfig.daiDaPai == 1 && (countWan == listCopy.Count || countTong == listCopy.Count || countTiao == listCopy.Count))
+                if ( (countWan == listCopy.Count || countTong == listCopy.Count || countTiao == listCopy.Count))
                 {//清一色
-                    score += 5;
-                    _gameServer._playerAry[chair].VecType += "清一色+5 ";
+                    score += 4;
+                    _gameServer._playerAry[chair].VecType += "清一色+4 ";
 
-                    //判断fixedcard是否满足清一色 全幺九
-                    if (fixedCard.fixedCard.Count >= 3)
-                    {
-                        if (MahjongGeneralAlgorithm.GetMahjongColor(fixedCard.fixedCard[0].card) == MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard))
-                        {
-                            //清一色包分
-                            qingyise_baofen = true;
-                            if(enHuCardType.HuCardType_ZiMo != huType){
-                                _gameServer._playerAry[chair].VecType += "清一色包分 ";
-                            }
-                        }
-                    }
+                    ////判断fixedcard是否满足清一色 全幺九
+                    //if (fixedCard.fixedCard.Count >= 3)
+                    //{
+                    //    if (MahjongGeneralAlgorithm.GetMahjongColor(fixedCard.fixedCard[0].card) == MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard))
+                    //    {
+                    //        //清一色包分
+                    //        qingyise_baofen = true;
+                    //        if(enHuCardType.HuCardType_ZiMo != huType){
+                    //            _gameServer._playerAry[chair].VecType += "清一色包分 ";
+                    //        }
+                    //    }
+                    //}
                 }
                 if (countZhi != 0 && !yaoJiu)
                 {
-                    if (_gameServer._tableConfig.daiDaPai == 1 && countZhi != 0 && (countWan + countTong == 0 || countWan + countTiao == 0 || countTong + countTiao
+                    if ( countZhi != 0 && (countWan + countTong == 0 || countWan + countTiao == 0 || countTong + countTiao
                          == 0))
                     {//混一色
                         score += 3;
                         _gameServer._playerAry[chair].VecType += "混一色+3 ";
                     }
                 }
-                if (_gameServer._tableConfig.daiDaPai == 1 && yaoJiu)
-                {//全幺九
-                    score += 15;
-                    _gameServer._playerAry[chair].VecType += "全幺九+15 ";
-                    if (fixedCard.fixedCard.Count >= 3)
-                    {//全幺九包分
-                        if(MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) == MahjongDef.gMahjongColor_Zhi
-                            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) %10 == 1
-                            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) % 10 == 9)
-                        {
-                            qyj_baofen = true;
-                            //_gameServer._playerAry[chair].VecType += "全幺九包分 ";
-                        }
-                    }
-                }         
+                //if (_gameServer._tableConfig.daiDaPai == 1 && yaoJiu)
+                //{//全幺九
+                //    score += 15;
+                //    _gameServer._playerAry[chair].VecType += "全幺九+15 ";
+                //    if (fixedCard.fixedCard.Count >= 3)
+                //    {//全幺九包分
+                //        if(MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) == MahjongDef.gMahjongColor_Zhi
+                //            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) %10 == 1
+                //            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) % 10 == 9)
+                //        {
+                //            qyj_baofen = true;
+                //            //_gameServer._playerAry[chair].VecType += "全幺九包分 ";
+                //        }
+                //    }
+                //}         
 
                 //天胡   
                 if (chair == _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
                 {
-                    score += 10;
-                    _gameServer._playerAry[chair]._vecType += "天胡+10 ";
+                    score += 5;
+                    _gameServer._playerAry[chair]._vecType += "天胡+5 ";
                 }
 
-                //地胡
-                if (chair != _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
-                {
-                    score += 10;
-                    _gameServer._playerAry[chair].VecType += "地胡+10 ";
+                ////地胡
+                //if (chair != _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
+                //{
+                //    score += 10;
+                //    _gameServer._playerAry[chair].VecType += "地胡+10 ";
 
-                }
+                //}
 
                 if (MahjongPatternAlgorithm.ParseCards(handCard))
                 {
@@ -2587,7 +2602,9 @@ namespace M_MGMJ
                     //检查杠上花
                     if (enHuCardType.HuCardType_GangShangHua == huType)
                     {
-                       parseFan.GangHouKaiHua = true;
+                        score += 2;
+                        _gameServer._playerAry[chair].VecType += "杠后开花+2 ";
+                        parseFan.GangHouKaiHua = true;
                     }
 
                     foreach (var triply in fixedCard.fixedCard)

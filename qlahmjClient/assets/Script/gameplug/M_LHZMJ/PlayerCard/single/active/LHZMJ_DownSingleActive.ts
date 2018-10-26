@@ -439,7 +439,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 4:{
-                this.node.x=472.5;
+                this.node.x=473;
                 this.node.y=199.5;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_04");
                 this.bmp_liecardback.node.width=62;
@@ -460,7 +460,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 5:{
-                this.node.x=481.3;
+                this.node.x=482.3;
                 this.node.y=172;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_05");
                 this.bmp_liecardback.node.width=63;
@@ -481,7 +481,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 6:{
-                this.node.x=489;
+                this.node.x=490.5;
                 this.node.y=144;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_06");
                 this.bmp_liecardback.node.width=63;
@@ -502,7 +502,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 7:{
-                this.node.x=498.3;
+                this.node.x=500.3;
                 this.node.y=115.3;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_07");
                 this.bmp_liecardback.node.width=66;
@@ -523,7 +523,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 8:{
-                this.node.x=506.3;
+                this.node.x=508.8;
                 this.node.y=85.6;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_08");
                 this.bmp_liecardback.node.width=67;
@@ -544,7 +544,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 9:{
-                this.node.x=515.2;
+                this.node.x=518.2;
                 this.node.y=55.3;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_09");
                 this.bmp_liecardback.node.width=68;
@@ -565,7 +565,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 10:{
-                this.node.x=525.6;
+                this.node.x=529.1;
                 this.node.y=24;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_10");
                 this.bmp_liecardback.node.width=70;
@@ -586,7 +586,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 11:{
-                this.node.x=535;
+                this.node.x=539;
                 this.node.y=-8;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_11");
                 this.bmp_liecardback.node.width=71;
@@ -607,7 +607,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 12:{
-                this.node.x=545.2;
+                this.node.x=549.7;
                 this.node.y=-40;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_12");
                 this.bmp_liecardback.node.width=72;
@@ -628,7 +628,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 13:{
-                this.node.x=555.4;
+                this.node.x=560.4;
                 this.node.y=-73;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_13");
                 this.bmp_liecardback.node.width=74;
@@ -649,7 +649,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
             case 14:{
-                this.node.x=566.5;
+                this.node.x=572;
                 this.node.y=-106.7;
                 this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_left_mj_bg_14");
                 this.bmp_liecardback.node.width=75;

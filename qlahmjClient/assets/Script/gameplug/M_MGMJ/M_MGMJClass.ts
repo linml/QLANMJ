@@ -389,7 +389,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
             
             var checkAry:Array<number> = new Array<number>();
             var hunzi:Array<number> = new Array<number>();
-            hunzi[0]=0x37; 
+            hunzi[0]= this._tableConfig.SetPeiZi; 
             for(var i:number=0; i<this._handCard.length; i++){
                 if(MGMJMahjongDef.gInvalidMahjongValue != this._handCard[i]){
                     checkAry.push(this._handCard[i]);
@@ -408,7 +408,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
                 for(var j:number=0; j<tingAry.length; j++){
                     checkAry.push(tingAry[j]);
                     console.log("听牌"+tingAry[j]);
-                    tingTip.push(new TingCardTip(tingAry[j],0,this.RecordCard.getCardLeftNum(tingAry[j],this._handCard)));
+                    tingTip.push(new TingCardTip(tingAry[j],0,this.RecordCard.getCardLeftNum(tingAry[j],this._handCard),hunzi[0]));
 
                     MGMJMahjongAlgorithm.delCard(checkAry,[tingAry[j]]);
                 }
@@ -1530,6 +1530,9 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         this._tableConfig.init(
             tableConfig.PlayerNum,
             tableConfig.WaitTimeNum,
+            tableConfig.SetPeiZi,
+            tableConfig.DianPao>0,
+            tableConfig.QiangGangHu>0,
             tableConfig.daiDaPai,
             tableConfig.LaPaoZuo>0,
             tableConfig.qiduijia>0,         
@@ -1562,7 +1565,6 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
             tableConfig.whoLose>0,
 
             tableConfig.tableWhere
-
         );
         M_MGMJView.ins.ReadyStatusGameInfo.refresh();
         M_MGMJView.ins.ReadyStatusUserInfo.refreshSelfScore();
@@ -2492,8 +2494,11 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         var createTable : M_MGMJ_GameMessage.CMD_C_CreateTable = new M_MGMJ_GameMessage.CMD_C_CreateTable();
         
         // createTable.CellScore = data.CellScore;
-        createTable.PlayerNum = data.setPlayerNum;
-        createTable.WaitTimeNum = data.waitTimeNum;
+        createTable.PlayerNum = data.SetPlayerNum;
+        createTable.WaitTimeNum = data.WaitTimeNum;
+        createTable.SetPeiZi = data.SetPeiZi;
+        createTable.DianPao = data.dianPao;
+        createTable.QiangGangHu = data.qiangGangHu;
         createTable.isYiPaoDuoXiang = data.isYiPaoDuoXiang?1:0;
         createTable.QiDuiJia = data.isQiDui?1:0;
         createTable.BuKaoJia = data.isBuKao?1:0;
@@ -2507,7 +2512,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         createTable.TableCost = gameRuleData.TableCost;
         createTable.isOutTimeOp= data.isOutTimeOp;
         createTable.isTableCreatorPay=data.tableCreatorPay;
-        createTable.IfCanSameIp=data.IfCanSameIp;
+        createTable.IfCanSameIp=data.ifcansameip;
         createTable.canChi = data.canChi;
         createTable.daiDaPai = data.daiDaPai;
         createTable.gangFen = data.gangFen;

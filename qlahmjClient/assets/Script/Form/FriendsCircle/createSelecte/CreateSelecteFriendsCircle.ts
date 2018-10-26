@@ -23,7 +23,7 @@ const { ccclass, property } = cc._decorator;
 export default class CreateSelecteFriendsCircle extends UIBase<any> {
     public IsEventHandler: boolean = true
     public IsKeyHandler: boolean = true;
-    protected isPlayPopAction:boolean =false;
+    public get isPlayPopAction(): boolean { return false; }
     /**
      * 加入群组或者创建群组操作面板
      */
@@ -65,9 +65,7 @@ export default class CreateSelecteFriendsCircle extends UIBase<any> {
 
     protected OnShow() {
         super.OnShow();
-
-        this.isPlayPopAction = false;
-
+        
         // 显示玩家头像、ID
         let userInfo = this.DataCache.UserInfo.userData;
 

@@ -1548,7 +1548,6 @@ namespace MahjongAlgorithmForMGMJ
         /// 吃牌类型
         /// </summary>
         public byte chiSel { get; set; }
-
         /// <summary>
         /// 清除
         /// </summary>
@@ -1602,7 +1601,7 @@ namespace MahjongAlgorithmForMGMJ
         /// <param name="cCard"></param>
         /// <param name="pos"></param>
         /// <param name="type"></param>
-        public void Add(byte cbCard, byte outchair, enFixedCardType type, bool giveUpGang2Peng = false,byte chiSel = 3)
+        public void Add(byte cbCard, byte outchair, enFixedCardType type,  bool giveUpGang2Peng = false,byte chiSel = 3)
         {
             _fixedCardList.Add(new clsSingleFixedCard()
             {

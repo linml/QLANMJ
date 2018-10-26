@@ -142,12 +142,7 @@ export default class HQMJ_SelfActive extends HQMJ_ActiveBase {
     protected refreshHandCard(): void {
         //this.node.active=false;
 
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        if(_hqmj.is2D()){
+        if(HQMJ.ins.iclass.is2D()){
             //起始位置
             let startPos: number = HQMJ_SelfActive.ArrangeStartPos[this.fixedCardNum];
             //开始排版
@@ -198,12 +193,7 @@ export default class HQMJ_SelfActive extends HQMJ_ActiveBase {
     }
     public reflashHandCardForHide():void{
 
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        if(_hqmj.is2D()){
+        if(HQMJ.ins.iclass.is2D()){
             let startPos: number = HQMJ_SelfActive.ArrangeStartPos[this.fixedCardNum];
             //开始排版
             for(var i: number = 0;i < this._cardData.length;i++) {

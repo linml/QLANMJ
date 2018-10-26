@@ -36,12 +36,7 @@ export default class HQMJ_UpActive extends HQMJ_OtherActive {
      * */
     protected refreshHandCard(): void {
         
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        if(_hqmj.is2D()){
+        if(HQMJ.ins.iclass.is2D()){
             if(this.isLie) {
             //起始位置
             var startPos: number = HQMJ_UpActive.ArrangeStartPos_lie[this.fixedCardNum];
@@ -92,10 +87,10 @@ export default class HQMJ_UpActive extends HQMJ_OtherActive {
                     this._cardData[i].node.setLocalZOrder(i+1);
                     // this._cardData[i - 1].node.x = 480;
                     // this._cardData[i - 1].node.y = startPos + idx * 32 -60;
-                    if(_hqmj == HQMJ.ins.iclass)
+                    // if(_hqmj == HQMJ.ins.iclass)
                         this._cardData[i].showCard(this._handCard[i],this.isLie,i+1+this.fixedCardNum*3);
-                    else
-                        this._cardData[i].showCard(this._handCard[i],true,i+1+this.fixedCardNum*3);
+                    // else
+                        // this._cardData[i].showCard(this._handCard[i],true,i+1+this.fixedCardNum*3);
 
                     // if(this.isHoldAfter && (i == 1)) {
                     //     this._cardData[i - 1].node.y += 10;

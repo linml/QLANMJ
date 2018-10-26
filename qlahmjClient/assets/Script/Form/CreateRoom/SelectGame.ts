@@ -16,6 +16,8 @@ const { ccclass, property } = cc._decorator;
 export class SelectGame extends TopFormBase {
 	public IsEventHandler: boolean = true;
     public IsKeyHandler: boolean = true;
+    
+    public get isPlayPopAction(): boolean { return false; }
 
 	/** 
 		城市列表
@@ -46,7 +48,6 @@ export class SelectGame extends TopFormBase {
     private _curAddGameItem: GameItem = null;
 
     public InitShow(){
-        this.isPlayPopAction = false;
         super.InitShow();
         this.initCityListUI();
     }

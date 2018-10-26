@@ -26,7 +26,7 @@ export default class ClientSocket extends UyiObject {
     //锁
     private _isReceive: boolean;
 
-    private _tickID: number;
+    private _tickID: NodeJS.Timeout;
 
     public constructor(callback: ISocketHandler) {
         super();
@@ -175,9 +175,8 @@ export default class ClientSocket extends UyiObject {
         let message: GameIF.CustomMessage;
         try {
             message = PacketCodecHandler.AppSerializer(buffer);
-        }
-
-        catch (error) {
+        } 
+        catch (error) { 
             cc.warn("序列化器异常")
             ReportError("序列化器异常！");
             cc.log(error);

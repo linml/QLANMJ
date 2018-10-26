@@ -51,12 +51,7 @@ export default class HQMJ_FixedBase extends HQMJ_CardBase{
     /**
      * 添加一个定牌
      * */
-    public addFixed(card:number,fixedType:enFixedCardType,pos:number,type:number):void{
-        let _hqmj = HQMJ.ins.iclass;
-        if(!HQMJ.ins.iclass)
-        //     _hqmj = HQMJ.ins.iclass;
-        // else
-            _hqmj = M_HQMJVideoClass.ins;
+    public addFixed(card:number,fixedType:enFixedCardType,pos:number,type:number,_hqmj = HQMJ.ins.iclass):void{
         let newnode = _hqmj.getFreeFixed(this._logicChair).get();
         if (!cc.isValid(newnode)) {
             newnode = cc.instantiate(this.FixedType);
@@ -66,10 +61,10 @@ export default class HQMJ_FixedBase extends HQMJ_CardBase{
         fixed.init();
         this.node.addChild(newnode);
         this._fixedData.push(fixed);
-        fixed.showCard(card,fixedType,this._fixedData.length,type,pos);
+        fixed.showCard(card,fixedType,this._fixedData.length,type,pos,_hqmj);
         this._fixedWrapper.Add(card,fixedType);
         
-        this.refreshFixedCard();
+        this.refreshFixedCard(_hqmj);
     }
     
     /**
@@ -113,10 +108,10 @@ export default class HQMJ_FixedBase extends HQMJ_CardBase{
     /**
      * 碰转杠
      * */
-    public peng2gang(card:number):void{
+    public peng2gang(card:number,_hqmj):void{
         this._fixedWrapper.changePeng2Gang(card);
         for(var i:number=0; i<this._fixedData.length; i++){
-            if(this._fixedData[i].changePeng2Gang(card)){
+            if(this._fixedData[i].changePeng2Gang(card,_hqmj)){
                 return;
             }
         }
@@ -125,7 +120,7 @@ export default class HQMJ_FixedBase extends HQMJ_CardBase{
     /**
      * 刷新定牌
      * */
-    protected refreshFixedCard():void{
+    protected refreshFixedCard(_hqmj = HQMJ.ins.iclass):void{
         
     }
     /**

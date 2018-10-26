@@ -26,7 +26,7 @@ export default class LHZMJ_OppoFixed extends LHZMJ_FixedBase {
             if(LHZMJ.ins.iclass.is2D()){
                 for(let i: number = 0;i < this._fixedData.length;i++) {
                 this._fixedData[i].node.x = 284 - i*130-40;//830
-                this._fixedData[i].node.y = 284;
+                this._fixedData[i].node.y = 340;
             }
             }else{
                 // for(let i:number=0; i<this._fixedData.length; i++){

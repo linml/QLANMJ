@@ -230,7 +230,7 @@ export default class HQMJ_CardView extends cc.Component {
         if(HQMJ.ins.iclass == this.HQMJClass)
             var arrowPos : {x:number,y:number} = this.getPool(chair).addPoolCard(card);
         else
-            var arrowPos : {x:number,y:number} = this.getPool(chair).addPoolCard(card);
+            var arrowPos : {x:number,y:number} = this.getPool(chair).addPoolCard(card,this.HQMJClass);
         
         this.img_poolCardArrow.node.x=arrowPos.x;
         this.img_poolCardArrow.node.y=arrowPos.y;
@@ -270,7 +270,7 @@ export default class HQMJ_CardView extends cc.Component {
         if(HQMJ.ins.iclass == this.HQMJClass)
             this.getPool(chair).delLastPoolCard(card,leftnum);
         else
-            this.getPool(chair).delLastPoolCard(card,leftnum);
+            this.getPool(chair).delLastPoolCard(card,leftnum,this.HQMJClass);
     }
     /**
      * 恢复玩家活动牌
@@ -315,7 +315,7 @@ export default class HQMJ_CardView extends cc.Component {
         if(this.HQMJClass == HQMJ.ins.iclass)
             this.activeCard[logicChair].holdACard(card);
         else
-            this.activeVideoCard[logicChair].holdACard(card);
+            this.activeVideoCard[logicChair].holdACard(card,this.HQMJClass);
     }
     
     /**
@@ -326,7 +326,7 @@ export default class HQMJ_CardView extends cc.Component {
         if(this.HQMJClass == HQMJ.ins.iclass)
             this.activeCard[logicChair].outACard(card);
         else
-            this.activeVideoCard[logicChair].outACard(card);
+            this.activeVideoCard[logicChair].outACard(card,this.HQMJClass);
     }
     public refreshHideCard(card:number):void{
         for(var j:number=0; j<this.fixedCard.length; j++){
@@ -349,7 +349,7 @@ export default class HQMJ_CardView extends cc.Component {
         let pos = 2 - chiType;
 
         //处理定牌
-        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_Chi,pos,chiType);
+        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_Chi,pos,chiType,this.HQMJClass);
         
         if(this.HQMJClass == HQMJ.ins.iclass){
             //更新活动牌阵中定牌数量
@@ -385,7 +385,7 @@ export default class HQMJ_CardView extends cc.Component {
             pos = 0;//上家
 
         //处理定牌
-        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_Peng,pos,null);
+        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_Peng,pos,null,this.HQMJClass);
         
         if(this.HQMJClass == HQMJ.ins.iclass){
             //更新活动牌阵中定牌数量
@@ -394,7 +394,7 @@ export default class HQMJ_CardView extends cc.Component {
             this.activeCard[logicChair].pengACard(card);
         }else{
             this.activeVideoCard[logicChair].fixedCardNum = this.fixedCard[logicChair].fixedCardNum;
-            this.activeVideoCard[logicChair].pengACard(card);
+            this.activeVideoCard[logicChair].pengACard(card,this.HQMJClass);
         }
     }
     
@@ -405,7 +405,7 @@ export default class HQMJ_CardView extends cc.Component {
         var logicChair: number = this.HQMJClass.physical2logicChair(chair);
 
         //处理定牌
-        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_AGang,0,null);
+        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_AGang,0,null,this.HQMJClass);
 
         if(this.HQMJClass == HQMJ.ins.iclass){
             //更新活动牌阵中定牌数量
@@ -414,7 +414,7 @@ export default class HQMJ_CardView extends cc.Component {
             this.activeCard[logicChair].AGangACard(card);
         }else{
             this.activeVideoCard[logicChair].fixedCardNum = this.fixedCard[logicChair].fixedCardNum;
-            this.activeVideoCard[logicChair].AGangACard(card);
+            this.activeVideoCard[logicChair].AGangACard(card,this.HQMJClass);
         }
     }
     
@@ -434,7 +434,7 @@ export default class HQMJ_CardView extends cc.Component {
             pos = 0;//上家
 
         //处理定牌
-        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_MGang,pos,null);
+        this.fixedCard[logicChair].addFixed(card,enFixedCardType.FixedCardType_MGang,pos,null,this.HQMJClass);
 
         if(this.HQMJClass == HQMJ.ins.iclass){
             //更新活动牌阵中定牌数量
@@ -443,7 +443,7 @@ export default class HQMJ_CardView extends cc.Component {
             this.activeCard[logicChair].MGangACard(card);
         }else{
             this.activeVideoCard[logicChair].fixedCardNum = this.fixedCard[logicChair].fixedCardNum;
-            this.activeVideoCard[logicChair].MGangACard(card);
+            this.activeVideoCard[logicChair].MGangACard(card,this.HQMJClass);
         }
     }
     
@@ -454,13 +454,13 @@ export default class HQMJ_CardView extends cc.Component {
         var logicChair: number = this.HQMJClass.physical2logicChair(chair);
 
         //处理定牌
-        this.fixedCard[logicChair].peng2gang(card);
+        this.fixedCard[logicChair].peng2gang(card,this.HQMJClass);
 
         //更新活动牌
         if(this.HQMJClass == HQMJ.ins.iclass)
             this.activeCard[logicChair].BGangACard(card);
         else
-            this.activeVideoCard[logicChair].BGangACard(card);
+            this.activeVideoCard[logicChair].BGangACard(card,this.HQMJClass);
     }
     
     /**

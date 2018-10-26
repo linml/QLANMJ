@@ -131,3 +131,33 @@ export class FriendCircleMember {
        */      
       public header: string;
 }
+
+/**
+ * 亲友圈战绩排行数据结构
+ */
+export class FriendCircleRecordRank {
+      /**
+       * 编号
+       */
+      public id: number;
+
+      /**
+       * user id
+       */
+      public userId: string;
+
+      /**
+       * 昵称
+       */      
+      public name: string;
+
+      /**
+       * 头像
+       */      
+      public header: string;
+
+      /**
+       * 总局数
+       */
+      public allRound: number;
+}

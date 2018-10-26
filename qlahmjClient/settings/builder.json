@@ -7,7 +7,6 @@
     "02ad6352-8b34-4100-8af9-a0c3c81e385a",
     "73ac7fb7-1e80-4b68-ab3b-0e40f25363ad"
   ],
-  "fb-instant-games": {},
   "includeAnySDK": false,
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
@@ -25,10 +24,6 @@
   },
   "packageName": "com.qileah.games.ahmj",
   "privateKey": "",
-  "qqplay": {
-    "REMOTE_SERVER_ROOT": "",
-    "orientation": "portrait"
-  },
   "renderMode": "0",
   "startScene": "4fda0f41-d5ed-452b-8072-3d15ad0cd80b",
   "title": "qlahmjClient",

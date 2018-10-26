@@ -360,13 +360,9 @@ export abstract class GameBaseClass extends ReConnectBase {
     /**
      * 显示个人信息框
      */
-    public showPlayerInfoForm(tableInfo: QL_Common.TablePlayer, pos: any, chair: number) {
+    public showPlayerInfoForm(tableInfo: QL_Common.TablePlayer, pos: any) {
         let tableInfo_ = tableInfo;
         let pos_ = pos;
-
-        if(chair == null){
-            chair = 0;
-        }
 
         cc.loader.loadRes("gameres/PlayerInfoForm", (err, prefab: cc.Prefab) => {
 
@@ -379,7 +375,7 @@ export abstract class GameBaseClass extends ReConnectBase {
             let playerInfo: MJ_UserData = newNode.getComponent('MJ_UserData');
 
             if (playerInfo) {
-                playerInfo.InitShow(tableInfo_, pos_, chair);
+                playerInfo.InitShow(tableInfo_, pos_, this._chairID);
             }
 
             cc.Canvas.instance.node.addChild(newNode);

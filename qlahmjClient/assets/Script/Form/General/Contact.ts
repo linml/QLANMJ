@@ -12,11 +12,6 @@ export class Contact extends UIBase<any>{
     public IsEventHandler: boolean = true;
     public IsKeyHandler: boolean = true;
 
-    private _isFree = true;
-    public get IsFree() {
-        return this._isFree;
-    }
-
     @property(cc.Label)
     text: cc.Label=null;
     @property(cc.Button)
@@ -43,19 +38,9 @@ export class Contact extends UIBase<any>{
     public SureClick() {
         if (this.kfurl)
             cc.sys.openURL(this.kfurl);
-        this.Close();
+        this.CloseClick();
     }
-
-    public CloseClick() {
-        this.Close();
-    }
-
-    public Close() {
-        super.Close();
-        this._isFree = true;
-    }
-
-
+    
     private RunAction(fun: Function, obj?: any, argArray?: any) {
         if (typeof fun !== "function") {
             cc.warn("待执行的fun不是一个function")

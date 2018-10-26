@@ -103,10 +103,10 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
 
     private onTouchBegin(e:cc.Event.EventTouch):void{
         //console.log("1111111");
-        if(M_LHZMJClass.ins._canVote){
-            this.down();
-            return;
-        }
+        // if(M_LHZMJClass.ins._canVote){
+        //     this.down();
+        //     return;
+        // }
         //  if(!M_LHZMJClass.ins.ifCanOutCardFlower(this.cardValue)){
         //     this.down();
         //    // this.node.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_reflashHandCard));
@@ -138,10 +138,10 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
     }
     private onTouchEnd(e:cc.Event.EventTouch):void{
         //console.log("2222222");
-          if(M_LHZMJClass.ins._canVote){
-            this.down();
-            return;
-        }
+        //   if(M_LHZMJClass.ins._canVote){
+        //     this.down();
+        //     return;
+        // }
         if(this._isTouch){
             this.node.parent.off(cc.Node.EventType.TOUCH_MOVE,this.onTouchMove,this);
             
@@ -212,10 +212,10 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
     
     private onClick():void{
         //console.log("55555");
-           if(M_LHZMJClass.ins._canVote){
-            this.down();
-            return;
-        }
+        //    if(M_LHZMJClass.ins._canVote){
+        //     this.down();
+        //     return;
+        // }
         if(this._clickEnable)
         {
             this._clickEnable=false;
@@ -273,7 +273,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
     public down():void{
 
         this.node.stopAllActions();
-        this.node.y=-284;
+        this.node.y=-300;
         this._isUp = false;
     }
     /**
@@ -283,7 +283,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
          
         if(!this._isUp){ 
             this.node.stopAllActions();
-            this.node.y=-284;
+            this.node.y=-300;
             let tempY=this.node.y+20;
             //this.y-=20;
             //egret.Tween.get(this).to({y:tempY},200).call(()=>{},this);

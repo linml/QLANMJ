@@ -1784,6 +1784,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         
         M_LHZMJView.ins.GameInfo.holdACard();
+        M_LHZMJView.ins.CardView.PaiQiangInfo.holdACard();
         
         //玩家抓牌
         M_LHZMJView.ins.CardView.playerHoldCard(playerHoldCard.chair,playerHoldCard.card);
@@ -2139,7 +2140,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         this._gamePhase = enGamePhase.GamePhase_QiangGang;
         this._ifCanQiangGang=true;
         
-        M_LHZMJView.ins.QiangGangView.showQiangGang(startQiangGang.card);
+        M_LHZMJView.ins.QiangGangViewShowQiangGang(startQiangGang.card);
+
         
         //注册计时器
         this.regTimer(LHZMJTimerDef.timer_id_qianggang,LHZMJTimerDef.timer_len_qianggang,this.SelfChair);

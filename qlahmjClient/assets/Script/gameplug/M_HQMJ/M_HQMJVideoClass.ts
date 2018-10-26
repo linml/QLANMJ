@@ -1824,7 +1824,7 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
         //延迟加载 因为要等待牌墙删除动作结束
       //  setTimeout(function(){
         // this.scheduleOnce(function () {
-            // M_HQMJVideoView.ins.StartSendCard();
+            M_HQMJVideoView.ins.StartSendCard();
             // console.log("--------延时发牌-------")
             // }.bind(this), 0.8)
       //  }.bind(this),800);
@@ -2302,7 +2302,7 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
         }
     
         if((this._gangCard.length > 0) || (op.ifCanZiMo > 0)){
-            M_HQMJVideoView.ins.OperatorView.showOP(0,false,this._gangCard.length,op.ifCanZiMo > 0,true);
+            // M_HQMJVideoView.ins.OperatorView.showOP(0,false,this._gangCard.length,op.ifCanZiMo > 0,true);
             // if(this._gangCard.length > 1){
             //     M_HQMJVideoView.ins.SelGangView.showGang(this._gangCard);
             // }else if(this._gangCard.length == 1){

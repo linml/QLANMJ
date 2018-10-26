@@ -450,7 +450,7 @@ export default class M_HQMJVideoView extends cc.Component {
             for(let i=0;i<HQMJMahjongDef.gPlayerNum;i++){
                 this.CardView.holdTricksCard(i,13);
             }
-        this._szAni.playSZ(M_HQMJVideoClass.ins.SZ1,M_HQMJVideoClass.ins.SZ2,HQMJEvent.msg_holdCardSZComplete);
+        // this._szAni.playSZ(M_HQMJVideoClass.ins.SZ1,M_HQMJVideoClass.ins.SZ2,HQMJEvent.msg_holdCardSZComplete);
     }
 
     public TableCreatorInfo(chair:number):void{
@@ -478,7 +478,7 @@ export default class M_HQMJVideoView extends cc.Component {
                 // for(var i:number=0; i<HQMJMahjongDef.gPlayerNum; i++){
                 //     this._cardView.getActive(i).arrangeHandCard();
                 // }
-                this._cardView.selfActive.refreshHandCardData(HQMJ.ins.iclass.getSelfHandCardData());
+                this._cardView.selfActive.refreshHandCardData(M_HQMJVideoClass.ins.getSelfHandCardData());
                 this._szAni.node.active = false;
                 this._gameInfo.holdCardOver();
                 // this._videoCtl.start();

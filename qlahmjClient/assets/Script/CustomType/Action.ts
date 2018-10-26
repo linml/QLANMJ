@@ -16,7 +16,7 @@ function Filter(obj) {
         return false;
     }
     if (obj.status === "restart") {
-        Global.Instance.UiManager.ShowMsgBox(obj.msg,this,()=>{
+        Global.Instance.UiManager.ShowMsgBox(obj.msg, this, () => {
             cc.game.restart();
         });
         return false;
@@ -30,6 +30,35 @@ function Filter(obj) {
 }
 
 export class Action {
+    public static ResultFilter(obj:any,): boolean {
+        if (!cc.isValid(obj)) {
+            return false;
+        }
+        if (obj.status === "success") {
+            return true;
+        }
+        // if (obj.status === "showtip") {
+        //     //Global.Instance.UiManager.ShowTip(obj.msg);
+        //     return false;
+        // }
+        // if (obj.status === "showbox") {
+        //     //Global.Instance.UiManager.ShowMsgBox(obj.msg);
+        //     return false;
+        // }
+        // if (obj.status === "restart") {
+        //     // Global.Instance.UiManager.ShowMsgBox(obj.msg, this, () => {
+        //     //     cc.game.restart();
+        //     // });
+        //     return false;
+        // }
+        // if (obj.status === "fail") {
+        //     Global.Instance.UiManager.ShowTip(obj.msg);
+        //     return false;
+        // }
+        return false;
+
+    }
+
     public Fun: Function;
     public Obj: any;
     public Args: any[];
@@ -84,12 +113,14 @@ export class ActionNet {
      */
     public argArray: any;
 
-    public Run(argArray: any = null) {
+    public Run(argArray: any = null): boolean {
 
         if (Filter(argArray)) {
             this.RunOK([argArray]);
+            return true;
         } else {
             this.RunError([new Error(argArray.msg)]);
+            return false;
         }
     }
 

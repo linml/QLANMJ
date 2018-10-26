@@ -21,17 +21,12 @@ export default class HQMJ_UpSingleActive extends HQMJ_SingleActiveBase {
         this.node.active=false;
     }
 
-    public showCard(card: number,isLie: boolean,index:number): void {
+    public showCard(card: number,isLie: boolean,index:number,_hqmj=HQMJ.ins.iclass): void {
         if(card==this._cardValue&&isLie==this._isLie&&index==this._cardIndex)
         {
             if(!isLie)
                 return;
         }
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         super.showCard(card,isLie,index,_hqmj);
         this.bmp_cardcolor.node.active = false;
         this.bmp_cardback.node.active = false;
@@ -87,11 +82,11 @@ export default class HQMJ_UpSingleActive extends HQMJ_SingleActiveBase {
             }
         }else{
             if(isLie) {
-                this.showDaoPai();
+                this.showDaoPai(_hqmj);
                 this.bmp_liecardback.node.active=true;
                 this.bmp_cardcolor.node.active = HQMJMahjongDef.gBackMahjongValue != card;
             }else {
-                this.showShuPai();
+                this.showShuPai(_hqmj);
                 this.bmp_cardback.node.active=true;
             }
         }
@@ -116,12 +111,7 @@ export default class HQMJ_UpSingleActive extends HQMJ_SingleActiveBase {
         }
     }
 
-    private showDaoPai():void{
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
+    private showDaoPai(_hqmj):void{
         switch(this._cardIndex){
             case 1:{
                 this.node.x=-371;
@@ -336,13 +326,8 @@ export default class HQMJ_UpSingleActive extends HQMJ_SingleActiveBase {
         }
     }
 
-    private showShuPai():void{
+    private showShuPai(_hqmj):void{
         // cc.log(this._cardIndex + "------" +this._cardValue);
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         switch(this._cardIndex){
             case 1:{
                 this.node.x=-389;

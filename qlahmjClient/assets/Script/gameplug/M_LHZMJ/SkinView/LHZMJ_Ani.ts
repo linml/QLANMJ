@@ -9,19 +9,40 @@ export default class LHZMJ_Ani extends cc.Component {
     img_ani: cc.Sprite=null;
 
     @property(cc.Animation)
-    img_animation: cc.Animation=null;
+    peng_animation: cc.Animation=null;
 
     @property(cc.Animation)
-    eff_animation: cc.Animation=null;
+    gang_animation: cc.Animation=null;
+
+    @property(cc.Animation)
+    hu_animation: cc.Animation=null;
+
+    @property(cc.Animation)
+    zimo_animation: cc.Animation=null;
+
+
 
     onLoad() {
         // init logic
         
     }
+    start(){
+
+         this.peng_animation.on("finished",this.AniEmojiFinish,this);
+         this.gang_animation.on("finished",this.AniEmojiFinish,this);
+         this.hu_animation.on("finished",this.AniEmojiFinish,this);
+         this.zimo_animation.on("finished",this.AniEmojiFinish,this);
+
+
+    }
 
     public init():void{
-        this.img_animation.stop();
-        this.eff_animation.stop();
+        this.peng_animation.stop();
+        this.gang_animation.stop();
+        this.hu_animation.stop();
+        this.zimo_animation.stop();
+
+
         this.node.active=false;
     }
 
@@ -51,26 +72,55 @@ export default class LHZMJ_Ani extends cc.Component {
 
     public PlayAnimation(AniName:string,chair:number):void{
 
-        this.img_animation.stop();
-        this.eff_animation.stop();
+        this.HideTeXiao();
+
         this.unscheduleAllCallbacks();
         this.node.active=false;
-        this.img_animation.node.x=this.loc[chair].x;
-        this.img_animation.node.y=this.loc[chair].y;
-        this.eff_animation.node.x=this.loc[chair].x;
-        this.eff_animation.node.y=this.loc[chair].y+280;
+        this.SetPos(chair); 
+
         
-        if(AniName=="AniHu" || AniName=="AniZimo"){
-            this.eff_animation.play("EffHuangShanDian");
+        if(AniName=="AniHu"){
+              this.hu_animation.play().speed = 2;
+            this.hu_animation.node.active = true;
+        }else if(AniName=="AniZimo"){
+            this.zimo_animation.play().speed = 2;
+            this.zimo_animation.node.active = true;
+        }else if(AniName=="AniPeng"){
+            this.peng_animation.play().speed = 2;
+            this.peng_animation.node.active = true;
+        }else if(AniName=="AniGang"){
+            this.gang_animation.play().speed = 2;
+            this.gang_animation.node.active = true;
         }
-        this.img_animation.play(AniName);
+        
         this.node.active=true;
-        this.scheduleOnce(this.AniEmojiFinish, 1);
+       // this.scheduleOnce(this.AniEmojiFinish, 1);
+    }
+    private SetPos(chair:number){
+        this.peng_animation.node.x=this.loc[chair].x;
+        this.peng_animation.node.y=this.loc[chair].y;
+        this.gang_animation.node.x=this.loc[chair].x;
+        this.gang_animation.node.y=this.loc[chair].y;
+        this.hu_animation.node.x=this.loc[chair].x;
+        this.hu_animation.node.y=this.loc[chair].y;
+        this.zimo_animation.node.x=this.loc[chair].x;
+        this.zimo_animation.node.y=this.loc[chair].y;
+
+    }
+
+    private HideTeXiao(){
+        this.peng_animation.stop();
+        this.peng_animation.node.active = false;
+        this.gang_animation.stop();
+        this.gang_animation.node.active = false;
+        this.hu_animation.stop();
+        this.hu_animation.node.active = false;
+        this.zimo_animation.stop();
+        this.zimo_animation.node.active = false;
+
     }
 
     private AniEmojiFinish() {
-        this.img_animation.stop();
-        this.eff_animation.stop();
-        this.node.active = false;
+        this.init();
     }
 }

@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LSZMJ_QiangGangView",
+    "_name": "LHZMJ_QiangGangView",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -165,7 +165,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "f7f3bsms2tJ249LWGy+N2fU",
     "sync": false
@@ -256,7 +256,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "c3c1d0c2g5FtquaJeVlXSfJ",
     "sync": false
@@ -347,7 +347,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "617e0SbTJZIxZvhsnNRmokg",
     "sync": false
@@ -436,7 +436,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "1a9f7UyeOZH4rxCJ5Z8mXuT",
     "sync": false
@@ -584,7 +584,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "742a0BngX9Ag7le2McLu17o",
     "sync": false
@@ -598,7 +598,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "ec4d2bcf-445b-4dd1-a600-a8bfeeca3267"
+      "__uuid__": "0697524f-40dd-4342-a43d-58d7b7c7a6dc"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -640,12 +640,6 @@
     },
     "duration": 0.3,
     "zoomScale": 1.5,
-    "pressedSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
     "clickEvents": [
       {
         "__id__": 20
@@ -670,6 +664,18 @@
     "_N$normalSprite": {
       "__uuid__": "ec4d2bcf-445b-4dd1-a600-a8bfeeca3267"
     },
+    "_N$pressedSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "pressedSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "_N$hoverSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "hoverSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
     "_N$disabledSprite": {
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
@@ -682,7 +688,7 @@
     "target": {
       "__id__": 1
     },
-    "component": "LSZMJ_QiangGangView",
+    "component": "LHZMJ_QiangGangView",
     "handler": "opHu",
     "customEventData": ""
   },
@@ -692,7 +698,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "70619GPBYhGBZTGHm0hWW/v",
     "sync": false
@@ -840,7 +846,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "743a8v+6VJNUpKm+Q2sxDBp",
     "sync": false
@@ -854,7 +860,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "7babb192-2904-4bf2-a969-881decde14e9"
+      "__uuid__": "d1c1f81a-f1f3-467a-9a0e-e287dfe914b0"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -896,12 +902,6 @@
     },
     "duration": 0.3,
     "zoomScale": 1.5,
-    "pressedSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
     "clickEvents": [
       {
         "__id__": 28
@@ -926,6 +926,18 @@
     "_N$normalSprite": {
       "__uuid__": "7babb192-2904-4bf2-a969-881decde14e9"
     },
+    "_N$pressedSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "pressedSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "_N$hoverSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
+    "hoverSprite": {
+      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+    },
     "_N$disabledSprite": {
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
@@ -938,7 +950,7 @@
     "target": {
       "__id__": 1
     },
-    "component": "LSZMJ_QiangGangView",
+    "component": "LHZMJ_QiangGangView",
     "handler": "giveUpOp",
     "customEventData": ""
   },
@@ -948,7 +960,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "65964yRsktM3aPYCB4TSV2K",
     "sync": false
@@ -977,7 +989,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "39c83f37-0256-40ad-8795-08841137213c"
     },
     "fileId": "2e141CRBqxH4L5IPD7l7sxq",
     "sync": false

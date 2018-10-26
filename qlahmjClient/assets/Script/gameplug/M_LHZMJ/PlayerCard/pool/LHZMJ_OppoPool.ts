@@ -57,7 +57,7 @@ export default class LHZMJ_OppoPool extends LHZMJ_PoolBase {
             return {x:0,y:0};
         }
         
-        let lineNum = Math.ceil((this._poolCard.length - 1) / 10) + 1;
+        let lineNum = Math.ceil((this._poolCard.length - 1) / 8) + 1;
         let lastIdx = 0;
         let valueIdx: number = 0;
         let cardIdx: number = this._poolCard.length;
@@ -84,9 +84,9 @@ export default class LHZMJ_OppoPool extends LHZMJ_PoolBase {
         }else{
             this.resetZ();
             for(let i: number = 0;i < lineNum;i++) {
-                for(let j: number = 0;j < 10;j++) {
-                    if((i * 10 + j) < this._poolCard.length) {
-                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],i * 10 + j+1);
+                for(let j: number = 0;j < 8;j++) {
+                    if((i * 8 + j) < this._poolCard.length) {
+                        this._poolCard[i * 8 + j].showCard(this._cardAry[i * 8 + j],i * 10 + j+1);
 
                     } else {
                         break;
@@ -106,7 +106,7 @@ export default class LHZMJ_OppoPool extends LHZMJ_PoolBase {
             for (let i: number = 0; i < this._poolCard.length; i++) {
                 this._poolCard[i].node.setLocalZOrder(i);
             }
-        } else if (this._poolCard.length <= 10) {
+        } else if (this._poolCard.length <= 8) {
             for (let i: number = 0; i < 5; i++) {
                 this._poolCard[i].node.setLocalZOrder(i);
             }
@@ -114,15 +114,15 @@ export default class LHZMJ_OppoPool extends LHZMJ_PoolBase {
                 this._poolCard[i].node.setLocalZOrder(this._poolCard.length - i + 5);
             }
         } else if (this._poolCard.length <= 15) {
-            let x = this._poolCard.length - 10;
-            for (let i: number = 10; i < this._poolCard.length; i++) {
-                this._poolCard[i].node.setLocalZOrder(i - 10);
+            let x = this._poolCard.length - 8;
+            for (let i: number = 8; i < this._poolCard.length; i++) {
+                this._poolCard[i].node.setLocalZOrder(i - 8);
             }
             for (let i: number = 0; i < 5; i++) {
                 this._poolCard[i].node.setLocalZOrder(i + x);
             }
-            for (let i: number = 5; i < 10; i++) {
-                this._poolCard[i].node.setLocalZOrder(10 - i + x);
+            for (let i: number = 5; i <  8; i++) {
+                this._poolCard[i].node.setLocalZOrder(8 - i + x);
             }
 
         } else if(this._poolCard.length <= 20){

@@ -25,14 +25,9 @@ export default class HQMJ_SelfFixed extends HQMJ_FixedBase {
     //         }
     //     }
     // }
-    protected refreshFixedCard(): void {
-        let _hqmjclass = null;
-        if(HQMJ.ins.iclass)
-            _hqmjclass = HQMJ.ins.iclass;
-        else
-            _hqmjclass = M_HQMJVideoClass.ins;
+    protected refreshFixedCard(_hqmj = HQMJ.ins.iclass): void {
         if(this._fixedData.length > 0){
-            if(_hqmjclass.is2D()){
+            if(_hqmj.is2D()){
                 for(var i:number=0; i<this._fixedData.length; i++){
                     this._fixedData[i].node.x = -510 + i*230;
                     this._fixedData[i].node.y = -290;

@@ -60,7 +60,8 @@ export default class LHZMJ_OppoSinglePool extends LHZMJ_SinglePoolBase {
     }
 
     private show3DCard():void{
-        switch(this._cardIndex){
+
+         switch(this._cardIndex){
             case 1:{
                 this.node.x=197.2;
                 this.node.y=139;
@@ -977,5 +978,7 @@ export default class LHZMJ_OppoSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
         }
+        this.node.x = this.node.x - 90;
+        this.node.y = this.node.y+10;
     }
 }

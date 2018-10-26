@@ -35,9 +35,7 @@ export class JoinRoom extends EnterNumForm {
         if (this.ShowParam && "Hall" == this.ShowParam) {
             //从大厅进来的
 
-            // 判断是否加入的是亲友圈房间
-            // 先请求亲友圈列表
-            Global.Instance.GameHost.TryEnterRoom(this._numStack.Num, QL_Common.EnterRoomMethod.TableID);
+            Global.Instance.GameHost.joinRoom(this._numStack.Num, QL_Common.EnterRoomMethod.TableID);
 
         }else{
             // 亲友圈进来的

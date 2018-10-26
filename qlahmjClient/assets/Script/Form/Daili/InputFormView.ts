@@ -28,7 +28,7 @@ export default class InputFormView extends UIBase<InputFormViewParam> {
     InitShow() {
         let p = this.ShowParam;
         if (!p) {
-            this.Close();
+            this.CloseClick();
         }
 
         this.inputText.string = "";
@@ -42,7 +42,7 @@ export default class InputFormView extends UIBase<InputFormViewParam> {
     OKButtonCall() {
         let p = this.ShowParam;
         if (!p) {
-            this.Close();
+            this.CloseClick();
         }
         let s = this.inputText.string;
         if (p.Verification) {

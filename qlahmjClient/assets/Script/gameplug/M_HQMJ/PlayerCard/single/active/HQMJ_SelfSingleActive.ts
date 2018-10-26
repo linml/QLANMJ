@@ -324,7 +324,7 @@ export default class HQMJ_SelfSingleActive extends HQMJ_SingleActiveBase {
         this._clickEnable=false;
     }
     
-    public showCard(card: number,isLie: boolean,index:number): void {
+    public showCard(card: number,isLie: boolean,index:number,_hqmj=HQMJ.ins.iclass): void {
         //cc.log("开始刷新牌元"+card);
         if(this.node.parent!=null)
         {
@@ -335,12 +335,7 @@ export default class HQMJ_SelfSingleActive extends HQMJ_SingleActiveBase {
             if(!isLie)
                 return;
         }
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
-        super.showCard(card,isLie,index);
+        super.showCard(card,isLie,index,_hqmj);
         
         this.node.opacity=255;
         this._isUp=false;
@@ -423,7 +418,7 @@ export default class HQMJ_SelfSingleActive extends HQMJ_SingleActiveBase {
                 this.bmp_enable.node.active=false;
                 if(HQMJMahjongDef.gBackMahjongValue != card){
                     
-                    this.showSelfDaoPai();                                 
+                    this.showSelfDaoPai(_hqmj);                                 
 
                     this.bmp_cardcolor.node.active = true;
                     this.bmp_cardback.node.active = true;
@@ -433,7 +428,7 @@ export default class HQMJ_SelfSingleActive extends HQMJ_SingleActiveBase {
                     //SetTextureRes(url,this.bmp_cardback);
                     //this._bmp_cardback.texture = <egret.Texture>RES.getRes(switchResName("xzmj_backcard_self_png"));
                     this.bmp_enable.node.active=false;
-                    this.showSelfDaoPai();
+                    this.showSelfDaoPai(_hqmj);
                     this.bmp_cardback.node.active = true;
                     this.bmp_cardcolor.node.active=false;
                 }               
@@ -454,13 +449,8 @@ export default class HQMJ_SelfSingleActive extends HQMJ_SingleActiveBase {
         this.node.active=true;
     }
 
-    private showSelfDaoPai():void{
+    private showSelfDaoPai(_hqmj):void{
         cc.log(this._cardIndex + "------" +this._cardValue);
-        let _hqmj = null;
-        if(HQMJ.ins.iclass)
-            _hqmj = HQMJ.ins.iclass;
-        else
-            _hqmj = M_HQMJVideoClass.ins;
         var paiY = -304;
         switch(this._cardIndex){
             case 1:{

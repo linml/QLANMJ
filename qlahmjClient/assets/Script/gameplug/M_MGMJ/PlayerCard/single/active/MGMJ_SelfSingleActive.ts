@@ -43,6 +43,7 @@ export default class MGMJ_SelfSingleActive extends MGMJ_SingleActiveBase {
         this.bmp_cardcolor.node.active=false;
         this.bmp_enable.node.active=false;
         this.bmp_tingToken.node.active=false;
+        this.bmp_huipai.node.active=false;
         //this.node.on(cc.Event.,this.onAdd2Stage,this);
         //this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.onRemoveFromStage,this);
         //this.onAdd2Stage();
@@ -325,7 +326,7 @@ export default class MGMJ_SelfSingleActive extends MGMJ_SingleActiveBase {
         this._clickEnable=false;
     }
     
-    public showCard(card: number,isLie: boolean,index:number): void {
+    public showCard(card: number,isLie: boolean,index:number,hunpai:number): void {
         //cc.log("开始刷新牌元"+card);
         if(this.node.parent!=null)
         {
@@ -336,7 +337,7 @@ export default class MGMJ_SelfSingleActive extends MGMJ_SingleActiveBase {
             if(!isLie)
                 return;
         }
-        super.showCard(card,isLie,index);
+        super.showCard(card,isLie,index,hunpai);
         
         this.node.opacity=255;
         this._isUp=false;
@@ -436,6 +437,7 @@ export default class MGMJ_SelfSingleActive extends MGMJ_SingleActiveBase {
             }else{
                 this.bmp_cardback.spriteFrame=MGMJ.ins.iclass.getMahjong3DPaiBeiRes("hand_self_1");
                 this.bmp_cardcolor.spriteFrame=MGMJ.ins.iclass.getMahjongPaiHuaRes(card);
+                this.bmp_huipai.node.active = hunpai==card;
             
                 // this.bmp_cardcolor.node.y=-11.5;//15;
 

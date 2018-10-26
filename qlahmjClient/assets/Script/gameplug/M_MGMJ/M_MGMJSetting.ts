@@ -8,6 +8,10 @@ export class M_MGMJ_GameData{
         public title:string;
         public setPlayerNum:number;
         public waitTimeNum:number;
+        public setPeiZi:number;
+        public zhanZhuang:boolean;
+        public dianPao:boolean;
+        public qiangGangHu:boolean;
         public SetGameNum:number=1;//= this._juarr[this._payka];
         public TableCost:number=1;// this.tableCost;
         public isOutTimeOp:number=0;// this._cbx_outTime.isSel ? 1 : 0;

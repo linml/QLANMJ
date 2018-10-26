@@ -40,13 +40,22 @@ export default class MJ_Cheating extends cc.Component {
         var logicChair: number =_HQMJ.physical2logicChair(chair);
 
         this.mj_pai.node.x = this.UserDataPos[logicChair].x;
+
+
         this.mj_pai.node.y = this.UserDataPos[logicChair].y;
 
         this.node.active = true;
+        
+        if(this.node){
+            setTimeout(function(){
+                this.node.active=false;
+            }.bind(this),800);
+        }
+        // this.scheduleOnce(function(){
+        //     this.node.active=false;
+        // }.bind(this),0.8);
 
-        setTimeout(function(){
-            this.node.active=false;
-        }.bind(this),800);
+
     }
 
 }

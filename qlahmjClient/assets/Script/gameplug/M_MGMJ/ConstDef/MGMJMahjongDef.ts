@@ -815,6 +815,9 @@ const { ccclass, property } = cc._decorator;
         private _playerNum:number;
         //等待时间
         private _waitTimeNum:number;
+        private _setPeiZi:number;
+        private _dianPao:boolean;
+        private _qiangGangHu:boolean;
         //桌子号
         private _tableCode:string;
         //设置局数
@@ -883,6 +886,9 @@ const { ccclass, property } = cc._decorator;
         public init(
             palyerNum:number,
             waitTimeNum:number,
+            setPeiZi:number,
+            dianPao:boolean,
+            qiangGangHu:boolean,
             cellScore:number,
             isLaPaoZuo: boolean,
             isQiDui: boolean,
@@ -917,6 +923,9 @@ const { ccclass, property } = cc._decorator;
         ):void{      
             this._playerNum=palyerNum;
             this._waitTimeNum=waitTimeNum;
+            this._setPeiZi = setPeiZi;
+            this._dianPao = dianPao;
+            this._qiangGangHu = qiangGangHu;
             this._cellScore=cellScore;
             this._isLaPaoZuo=isLaPaoZuo;
             this._isQiDui=isQiDui;
@@ -968,6 +977,13 @@ const { ccclass, property } = cc._decorator;
          */
         public get TableCode():string{
             return this._tableCode;
+        }
+
+        /**
+         * peizi
+         */
+        public get SetPeiZi():number{
+            return this._setPeiZi;
         }
         /**
          * 房主买单
@@ -1529,10 +1545,12 @@ const { ccclass, property } = cc._decorator;
         private _tingCard:number;
         private _maxFanNum:number;
         private _leftCardNum:number;
-        public constructor(tingCard:number,fanNum:number,leftNum:number){
+        private _ishunpai:boolean;
+        public constructor(tingCard:number,fanNum:number,leftNum:number,hunpai:number){
             this._tingCard = tingCard;
             this._maxFanNum = fanNum;
             this._leftCardNum = leftNum;
+            this._ishunpai = tingCard==hunpai;
         }
         
         /**
@@ -1552,6 +1570,12 @@ const { ccclass, property } = cc._decorator;
          * */
         public get maxFanNum():number{
             return this._maxFanNum;
+        }
+        /**
+         * 是否是会牌
+         */
+        public get isHunPai():boolean{
+            return this._ishunpai;
         }
     }
 

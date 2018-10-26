@@ -1,7 +1,7 @@
 import UIBase from "../Base/UIBase";
 import { UIName } from "../../Global/UIName";
 import { SignInData, SignInArr, SignInItem } from "./SignInItem";
-import { Open8hb } from "../../Net/Open8hb";
+import { WebRequest } from "../../Net/Open8hb";
 import { ActionNet } from "../../CustomType/Action";
 
 const { ccclass, property } = cc._decorator;
@@ -27,13 +27,13 @@ export class SignInForm extends UIBase<any> {
         super.onLoad();
         this.btn_signin.enabled=false;
         const action = new ActionNet(this, this.OnSuccess, this.OnError);
-        const data = Open8hb.DefaultData();
-        Open8hb.signin.get_signin_list(action, data);
+        const data = WebRequest.DefaultData();
+        // WebRequest.signin.get_signin_list(action, data);
     }
     private onSignInClick(){
         const action = new ActionNet(this, this.OnSignInSuccess, this.OnError);
-        const data = Open8hb.DefaultData();
-        Open8hb.signin.get_user_signin(action, data);
+        const data = WebRequest.DefaultData();
+        // Open8hb.signin.get_user_signin(action, data);
     }
     private OnSignInSuccess(obj:any){
         const idx=this.UserInfo.userData.ContinuityDays>=this.signInItems.length?this.signInItems.length:this.UserInfo.userData.ContinuityDays;
@@ -41,7 +41,7 @@ export class SignInForm extends UIBase<any> {
         this.UserInfo.userData.ContinuityDays=parseInt(obj.ContinuityDays);
         this.UserInfo.userData.TodayIsSign=true;
         setTimeout(this.Close.bind(this), 1000);
-        // this.Close();
+        // this.CloseClick();
     }
     /**
      * 刷新
@@ -90,7 +90,7 @@ export class SignInForm extends UIBase<any> {
     }
     private OnError(err) {
         console.log(err);
-        this.Close();
+        this.CloseClick();
         // this.UiManager.ShowTip("获取邮件失败，请检查网络连接或重新登录");
     }
 

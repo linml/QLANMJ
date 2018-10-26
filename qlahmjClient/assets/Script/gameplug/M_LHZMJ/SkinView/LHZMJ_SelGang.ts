@@ -27,9 +27,11 @@ export default class LHZMJ_SelGang extends cc.Component {
     @property(cc.Node)
     img_2: cc.Node=null;
 
+    @property([cc.Button])
+    btn_gang:cc.Button[] = [];
+
     //背景
-    @property(cc.Sprite)
-    gang_bg: cc.Sprite=null;
+
 
     private _gangCard: Array<number>;
 
@@ -95,7 +97,9 @@ export default class LHZMJ_SelGang extends cc.Component {
 
             //this.img_gangcard_2.active = (3 == this._gangCard.length);
             this.img_2.active = (3 == this._gangCard.length);
-            this.gang_bg.node.width = 480;
+            this.btn_gang[0].node.active = true;
+            this.btn_gang[1].node.active = true;
+            this.btn_gang[2].node.active = false;
 
             let url = "";
 
@@ -106,9 +110,11 @@ export default class LHZMJ_SelGang extends cc.Component {
                     this.img_gangcard_2[i].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this._gangCard[2]);
                 }
                 //this.img_2.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this._gangCard[2]);
-                this.gang_bg.node.width = 720;
+            this.btn_gang[0].node.active = true;
+            this.btn_gang[1].node.active = true;
+            this.btn_gang[2].node.active = true;
             }
-            this.node.x=0-this.gang_bg.node.width/2;
+          //  this.node.x=0-this.gang_bg.node.width/2;
 
             // url=LHZMJ.ins.iclass.getMahjongResName(this._gangCard[0]);
             // SetTextureRes(url,this.img_0);

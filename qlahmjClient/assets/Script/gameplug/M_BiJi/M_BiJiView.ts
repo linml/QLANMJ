@@ -1277,7 +1277,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         var havedropcard = "";
         var havexifen = "";
         var havesanshunzi = "";
-        var shareText = `玩法:打${gameCount}局,${tableCostType},底分:${difen}倍,`;
+        var shareText = `玩法:打${gameCount}局,${tableCostType},倍数:${difen}倍,`;
          if(this.tableInfo.havedropcard){
                 havedropcard = "带弃牌,";
             }else{
@@ -1307,7 +1307,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
            var gameCount = this.GetGameCount();
            var tableCostType = this.GetTableCostType();
            var difen = this.skinLabelView.GetCellScore();          
-            var shareText = `玩法:${gameCount}局,${tableCostType},底分:${difen}倍,`;
+            var shareText = `玩法:${gameCount}局,${tableCostType},倍数:${difen}倍,`;
             var havedropcard = "";
             var havexifen = "";
             var havesanshunzi = "";
@@ -1897,7 +1897,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
             case TableCostType.TableCreatorPay:
                 return "房主付费";
             case TableCostType.GroupOwnerPay:
-                return "群主付费";
+                return "圈主付费";
         }
         return "";
     }

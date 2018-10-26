@@ -1780,7 +1780,7 @@ namespace M_MGMJ
                 {
                     continue;
                 }
-                if (_playerAry[i].CheckIfCanVote(_outCardInfo.card, enHuCardType.HuCardType_PingHu, _outCardInfo.chair, _tableConfig.canChi == 0, _baoTing[i]))
+                if (_playerAry[i].CheckIfCanVote(_outCardInfo.card, enHuCardType.HuCardType_PingHu, _outCardInfo.chair, _tableConfig.canChi == 0, _baoTing[i],_tableConfig.DianPao==1))
                 {
                     _playerAry[i].IfCanOp = true;
                     ++_completeCount;
@@ -2029,10 +2029,11 @@ namespace M_MGMJ
                 {
                     _waitQiangGangPlayer.Add(player.PlayerChair);
                     PrintLog(player.PlayerChair + "号玩家可以抢杠");
+                    break;
                 }
             }
 
-            if (_waitQiangGangPlayer.Count > 0)//有抢杠玩家,进入抢杠阶段
+            if (_waitQiangGangPlayer.Count > 0 && _tableConfig.QiangGangHu == 1)//有抢杠玩家,进入抢杠阶段
             {
                 _gamePhase = enGamePhase.GamePhase_QiangGang;
                 _completeCount = 0;
@@ -2169,6 +2170,7 @@ namespace M_MGMJ
 
             int anGangs = 0;
             int mingGangs = 0;
+            int buGangs = 0;
             if (_tableConfig.gangFen == 1)
             {
                 if (_playerAry[chair].PlayerCard.fixedCard.fixedCard.Count > 0)
@@ -2178,22 +2180,29 @@ namespace M_MGMJ
                         if (_playerAry[chair].PlayerCard.fixedCard.fixedCard[j].fixedType == enFixedCardType.FixedCardType_AGang)
                             anGangs++;
                         if (_playerAry[chair].PlayerCard.fixedCard.fixedCard[j].fixedType == enFixedCardType.FixedCardType_BGang)
+                            buGangs++;
+                        if (_playerAry[chair].PlayerCard.fixedCard.fixedCard[j].fixedType == enFixedCardType.FixedCardType_MGang) {
                             mingGangs++;
-                        if (_playerAry[chair].PlayerCard.fixedCard.fixedCard[j].fixedType == enFixedCardType.FixedCardType_MGang)
-                            mingGangs++;
+                            
+                        }
                     }
                 }
 
                 //计算杠分
                 if (anGangs != 0)
                 {
-                    multiple[0] += anGangs * 1;
-                    _playerAry[chair].VecType += " 暗杠+" + anGangs * 1;
+                    multiple[0] += anGangs * 2;
+                    _playerAry[chair].VecType += " 暗杠+" + anGangs * 2;
+                }
+                if (buGangs != 0)
+                {
+                   multiple[0] += buGangs;
+                    _playerAry[chair].VecType += " 补杠+" + buGangs; 
                 }
                 if (mingGangs != 0)
                 {
-                   multiple[0] += mingGangs*3;
-                    _playerAry[chair].VecType += " 明杠+" + mingGangs*3; 
+                    //multiple[0] += mingGangs * 3;
+                    _playerAry[chair].VecType += " 明杠+" + mingGangs * 3;
                 }
             }
 
@@ -2204,6 +2213,12 @@ namespace M_MGMJ
                 _playerAry[chair].VecType += " 庄+1" ;
                 _lastBanker = _bankerChar;
             }
+
+            //检测独一
+            if (_playerAry[chair].CheckHuIsSingleOne(_playerAry[chair].HoldCard)) {
+                multiple[0] += 2;
+                _playerAry[chair].VecType += " 独一+1";
+            }
            
             //if (_tableConfig.zhanZhuang == 1)
             //{
@@ -2213,9 +2228,17 @@ namespace M_MGMJ
             for (int i = 0; i < MGMJConstants.GAME_PLAYER; i++)
             {
                 if ((i != chair) && !_playerAry[i].IsAlreadyHu)
-                {                  
-                    _playerAry[i].PlayerScore.huScore -= multiple[0] * _tableConfig.CellScore ;
-                    _playerAry[chair].PlayerScore.huScore += multiple[0]* _tableConfig.CellScore;
+                {
+                    int tempCount = 0;
+                    if (mingGangs>0) {
+                        for (int j = 0; j < _playerAry[chair].PlayerCard.fixedCard.fixedCard.Count; j++) {
+                            if (_playerAry[chair].PlayerCard.fixedCard.fixedCard[j].fixedType == enFixedCardType.FixedCardType_MGang &&
+                                _playerAry[chair].PlayerCard.fixedCard.fixedCard[j].outChair == i)
+                                tempCount += 3;
+                        }
+                    }
+                    _playerAry[i].PlayerScore.huScore -= multiple[0] * _tableConfig.CellScore + tempCount;
+                    _playerAry[chair].PlayerScore.huScore += multiple[0]* _tableConfig.CellScore + tempCount;
                 }
             }        
 
@@ -2233,7 +2256,8 @@ namespace M_MGMJ
             });
             //设置轮庄
             //_bankerChar = (byte)chair;
-            _bankerChar = (byte)((_bankerChar + 1) % MGMJConstants.GAME_PLAYER);
+            if (_tableConfig.zhanZhuang==0)
+                 _bankerChar = (byte)((_bankerChar + 1) % MGMJConstants.GAME_PLAYER);
             //SendPlayerCard2Client(chair, MahjongDef.gInvalidChar);
 
             this._gamePhase = enGamePhase.GamePhase_Unknown;
@@ -3755,6 +3779,9 @@ namespace M_MGMJ
                 //_tableConfig.GoldRoomBaseIdx = tableRule.GoldRoomBaseIdx;
                 this._tableConfig.PlayerNum = tableRule.PlayerNum;
                 this._tableConfig.WaitTimeNum = tableRule.WaitTimeNum;
+                _tableConfig.SetPeiZi = tableRule.SetPeiZi==1 ? 0x37 : _cardPackage.getRandomPeiZi() ;
+                _tableConfig.DianPao = tableRule.DianPao;
+                _tableConfig.QiangGangHu = tableRule.QiangGangHu;
                 _tableConfig.canChi = tableRule.canChi;
                 _tableConfig.daiDaPai = tableRule.daiDaPai;
                 _tableConfig.gangFen = 1;
@@ -4164,7 +4191,7 @@ namespace M_MGMJ
             //设置游戏阶段及AI思考间隔
             ConfirmGamePhase();
 
-            //通知当前操作的玩家
+            //通知当前操作的玩家 查找暗杠，补杠，自摸
             InformCustomOpPlayer(_opPlayerChar);
 
             //如果玩家豹听 且抓的牌不能自摸 则系统自动出牌
@@ -4375,40 +4402,40 @@ namespace M_MGMJ
 
                 //#region 测试牌阵
 
-                //if (i == 0)//_playerAry[i].IsAIPlayer)
-                //{
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x12);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x12);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x15);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x15);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x17);
-                //}
-                //else if(i==1)
-                //{
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x012);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x012);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x012);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x06);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x06);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //}
+                if (i == 0)//_playerAry[i].IsAIPlayer)
+                {
+                    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                }
+                else
+                {
+                    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x06);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x06);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
+                }
 
                 //#endregion
 
@@ -5077,6 +5104,7 @@ namespace M_MGMJ
                 TableCode = this._tableConfig.TableCode,
                 SetGameNum = this._tableConfig.SetGameNum,
                 GameNum = this._tableConfig.GameNum,
+
                 // GameNum = _dissTable.isValid ? 0 : _tableConfig.GameNum,
                 RealGameNum = 0,
                 isOutTimeOp = (byte)(_tableConfig.CreatedOutTimeOP ? 1 : 0),
@@ -5090,8 +5118,12 @@ namespace M_MGMJ
                 gangFen = _tableConfig.gangFen,
                 canChi = _tableConfig.canChi,
                 daiDaPai = _tableConfig.daiDaPai,
-                whoLose = _tableConfig.whoLose
-
+                whoLose = _tableConfig.whoLose,
+                PlayerNum = _tableConfig.PlayerNum,
+                WaitTimeNum = _tableConfig.WaitTimeNum,
+                SetPeiZi = _tableConfig.SetPeiZi,
+                DianPao = _tableConfig.DianPao,
+                QiangGangHu = _tableConfig.QiangGangHu
             });
         }
 

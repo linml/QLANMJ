@@ -65,9 +65,10 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
     }
 
     private show3DCard():void{
+
         switch(this._cardIndex){
             case 1:{
-                this.node.x=325.7;
+                this.node.x=225.7;
                 this.node.y=-106.5;
 
                 this.bmp_cardback.node.width=75;
@@ -97,7 +98,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 2:{
-                this.node.x=320.7;
+                this.node.x=220.7;
                 this.node.y=-72;
 
                 this.bmp_cardback.node.width=73;
@@ -128,7 +129,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 3:{
-                this.node.x=315.4;
+                this.node.x=215.4;
                 this.node.y=-39.5;
 
                 this.bmp_cardback.node.width=71;
@@ -158,7 +159,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 4:{
-                this.node.x=311.1;
+                this.node.x=211.4;
                 this.node.y=-8.9;
 
                 this.bmp_cardback.node.width=69;
@@ -188,7 +189,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 5:{
-                this.node.x=307.2;
+                this.node.x=207.2;
                 this.node.y=22.7;
 
                 this.bmp_cardback.node.width=69;
@@ -219,7 +220,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
             }
 
             case 6:{
-                this.node.x=303.1;
+                this.node.x=203.1;
                 this.node.y=54.1;
 
                 this.bmp_cardback.node.width=66;
@@ -249,7 +250,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 7:{
-                this.node.x=298.3;
+                this.node.x=198.3;
                 this.node.y=85;
 
                 this.bmp_cardback.node.width=66;
@@ -281,7 +282,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 8:{
-                this.node.x=294.3;
+                this.node.x=194.3;
                 this.node.y=114.2;
 
                 this.bmp_cardback.node.width=64;
@@ -311,7 +312,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 9:{
-                this.node.x=290.2;
+                this.node.x=190.2;
                 this.node.y=142.3;
 
                 this.bmp_cardback.node.width=62;
@@ -341,7 +342,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 10:{
-                this.node.x=286.1;
+                this.node.x=186.1;
                 this.node.y=171.5;
 
                 this.bmp_cardback.node.width=61;
@@ -375,7 +376,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
 
 
             case 11:{
-                this.node.x=388.5;
+                this.node.x=284.5;
                 this.node.y=-106.5;
 
                 this.bmp_cardback.node.width=75;
@@ -405,7 +406,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 12:{
-                this.node.x=382;
+                this.node.x=278;
                 this.node.y=-72;
 
                 this.bmp_cardback.node.width=73;
@@ -435,7 +436,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 13:{
-                this.node.x=376.3;
+                this.node.x=272.3;
                 this.node.y=-39.8;
 
                 this.bmp_cardback.node.width=71;
@@ -464,7 +465,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 14:{
-                this.node.x=371;
+                this.node.x=267;
                 this.node.y=-8.6;
 
                 this.bmp_cardback.node.width=70;
@@ -494,7 +495,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 15:{
-                this.node.x=364.4;
+                this.node.x=260.4;
                 this.node.y=22.7;
 
                 this.bmp_cardback.node.width=69;
@@ -525,7 +526,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
             }
 
             case 16:{
-                this.node.x=358.9;
+                this.node.x=254.9;
                 this.node.y=54.1;
 
                 this.bmp_cardback.node.width=67;
@@ -555,7 +556,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 17:{
-                this.node.x=353.6;
+                this.node.x=249.6;
                 this.node.y=85;
 
                 this.bmp_cardback.node.width=66;
@@ -585,7 +586,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 18:{
-                this.node.x=348.1;
+                this.node.x=244.1;
                 this.node.y=114.2;
 
                 this.bmp_cardback.node.width=65;
@@ -615,7 +616,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 19:{
-                this.node.x=343.3;
+                this.node.x=239.3;
                 this.node.y=142.3;
 
                 this.bmp_cardback.node.width=63;
@@ -645,7 +646,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 20:{
-                this.node.x=338.5;
+                this.node.x=238.5;
                 this.node.y=171.5;
 
                 this.bmp_cardback.node.width=62;
@@ -677,7 +678,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
 
 
             case 21:{
-                this.node.x=450.7;
+                this.node.x=350.7;
                 this.node.y=-106.5;
 
                 this.bmp_cardback.node.width=75;
@@ -706,7 +707,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 22:{
-                this.node.x=442.7;
+                this.node.x=342.7;
                 this.node.y=-72;
 
                 this.bmp_cardback.node.width=74;
@@ -736,7 +737,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 23:{
-                this.node.x=435.7;
+                this.node.x=335.7;
                 this.node.y=-39.8;
 
                 this.bmp_cardback.node.width=71;
@@ -765,7 +766,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 24:{
-                this.node.x=429.4;
+                this.node.x=329.4;
                 this.node.y=-8.6;
 
                 this.bmp_cardback.node.width=70;
@@ -794,7 +795,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 25:{
-                this.node.x=422.2;
+                this.node.x=322.2;
                 this.node.y=22.7;
 
                 this.bmp_cardback.node.width=69;
@@ -824,7 +825,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
             }
 
             case 26:{
-                this.node.x=415.1;
+                this.node.x=315.1;
                 this.node.y=54.1;
 
                 this.bmp_cardback.node.width=68;
@@ -853,7 +854,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 27:{
-                this.node.x=408.3;
+                this.node.x=308.3;
                 this.node.y=85;
 
                 this.bmp_cardback.node.width=66;
@@ -882,7 +883,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 28:{
-                this.node.x=402.3;
+                this.node.x=302.3;
                 this.node.y=114.2;
 
                 this.bmp_cardback.node.width=65;
@@ -911,7 +912,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 29:{
-                this.node.x=396.2;
+                this.node.x=296.2;
                 this.node.y=142.3;
 
                 this.bmp_cardback.node.width=64;
@@ -941,7 +942,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 30:{
-                this.node.x=390.1;
+                this.node.x=290.1;
                 this.node.y=171.5;
 
                 this.bmp_cardback.node.width=62;
@@ -972,5 +973,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
             }
 
         }
+        this.node.x = this.node.x -40 + (this._cardIndex-1)*0.4;
+        this.node.y = this.node.y +80;
     }
 }

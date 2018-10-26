@@ -16,7 +16,7 @@ export default class HQMJ_SelfPool extends HQMJ_PoolBase {
     // 		super();
 	// 	}
 		
-    protected refreshPoolCard():{x:number,y:number} {
+    protected refreshPoolCard(_hqmjclass):{x:number,y:number} {
         
         if(this._poolCard.length < 1){
             return {x:0,y:0};
@@ -24,17 +24,12 @@ export default class HQMJ_SelfPool extends HQMJ_PoolBase {
 
         let lastIdx:number=0;
         let lineNum = Math.ceil((this._poolCard.length - 1) / 10) + 1;
-        let _hqmjclass = null;
-        if(HQMJ.ins.iclass)
-            _hqmjclass = HQMJ.ins.iclass;
-        else
-            _hqmjclass = M_HQMJVideoClass.ins;
         if(_hqmjclass.is2D()){
             for(var i: number = 0;i < lineNum;i++) {
                 for(var j: number = 0;j < 10;j++) {
                     if((i * 10 + j) < this._poolCard.length) {
 
-                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],0);
+                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],0,_hqmjclass);
                         // this._poolCard[i * 10 + j].node.x = 449 + j * 38;
                         // this._poolCard[i * 10 + j].node.y = 394 + i * 46;
                         this._poolCard[i * 10 + j].node.x =-189 + j * 42 ;

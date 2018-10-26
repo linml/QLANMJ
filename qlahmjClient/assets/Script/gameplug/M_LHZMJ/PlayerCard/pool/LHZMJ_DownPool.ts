@@ -26,7 +26,7 @@ export default class LHZMJ_DownPool extends LHZMJ_PoolBase {
         
         
 
-        let columnNum = Math.ceil((this._poolCard.length - 1) / 10) + 1;
+        let columnNum = Math.ceil((this._poolCard.length - 1) / 8) + 1;
         let valueIdx: number = 0;
         let cardIdx: number = this._poolCard.length;
         let lastIdx: number = 0;
@@ -53,9 +53,9 @@ export default class LHZMJ_DownPool extends LHZMJ_PoolBase {
         }else{
             this.resetZ();
             for(let i: number = 0;i < columnNum;i++) {
-                for(let j: number = 0;j < 10;j++) {
-                    if((i * 10 + j) < this._poolCard.length) {
-                        this._poolCard[i * 10 + j].showCard(this._cardAry[i * 10 + j],i * 10 + j+1);
+                for(let j: number = 0;j < 8;j++) {
+                    if((i * 8 + j) < this._poolCard.length) {
+                        this._poolCard[i * 8 + j].showCard(this._cardAry[i * 8 + j],i * 10 + j+1);
 
                     } else {
                         break;
@@ -75,5 +75,28 @@ export default class LHZMJ_DownPool extends LHZMJ_PoolBase {
         for(let i: number = 0;i < this._poolCard.length;i++){
             this._poolCard[i].node.setLocalZOrder(this._poolCard.length-i);
         }
+
+        // if(this._poolCard.length <= 8){
+        //     for (let i: number = 0; i < this._poolCard.length; i++) {
+        //         this._poolCard[i].node.setLocalZOrder(i + 21);
+        //     }
+        // }else if (this._poolCard.length > 8 && this._poolCard.length <= 20) {
+        //     for (let j: number = 0; j < 8; j++) {
+        //         this._poolCard[j].node.setLocalZOrder(j + 21);
+        //     }
+        //     for (let i: number = 8; i < this._poolCard.length; i++) {
+        //         this._poolCard[i].node.setLocalZOrder(i + 1);
+        //     }
+        // }else{
+        //     for (let j: number = 0; j < 10; j++) {
+        //         this._poolCard[j].node.setLocalZOrder(j + 21);
+        //     }
+        //     for (let k: number = 10; k < 20; k++) {
+        //         this._poolCard[k].node.setLocalZOrder(k + 1);
+        //     }
+        //     for (let i: number = 20; i < this._poolCard.length; i++) {
+        //         this._poolCard[i].node.setLocalZOrder(1 - 19);
+        //     }
+        // }
     }
 }

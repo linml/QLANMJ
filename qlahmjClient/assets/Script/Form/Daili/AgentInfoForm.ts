@@ -42,7 +42,7 @@ export class AgentInfoForm extends UIBase<any> {
         this.UiManager.ShowTip("绑定成功,请到信件中查收奖励！");
         this.UiManager.CloseUi(UIName.Daili);
         this.UserInfo.userData.AgentId = parseInt(this.ShowParam.id);
-        this.Close();
+        this.CloseClick();
     }
     private Error(e) {
         this._lock = false;

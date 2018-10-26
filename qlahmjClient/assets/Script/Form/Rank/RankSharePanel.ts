@@ -11,7 +11,7 @@ const { ccclass, property } = cc._decorator;
 export default class RankSharePanel extends UIBase<any> {
     public IsEventHandler: boolean = true;
     public IsKeyHandler: boolean = true;
-    protected isPlayPopAction:boolean =false;
+    public get isPlayPopAction(): boolean { return false; }
 
     @property(cc.Node)
     private share_bg: cc.Node = null;

@@ -605,6 +605,9 @@ export default class HallCtrl extends ReConnectBase {
         // 延迟0.1秒执行
         this.scheduleOnce(()=>{
             const data = Global.Instance.DataCache.ShareParam;
+            if(!cc.isValid(data)){
+                return;
+            }
             const tableid = parseInt(data.tableid);
 
             if (isNaN(tableid)) {

@@ -281,6 +281,19 @@ namespace M_MGMJ
         /// 等待时间
         /// </summary>
         public int WaitTimeNum { get; set; }
+        
+        /// <summary>
+        /// 配子选择
+        /// </summary>
+        public int SetPeiZi { get; set; }
+        /// <summary>
+        /// 点炮
+        /// </summary>
+        public byte DianPao { get; set; }
+        /// <summary>
+        /// 抢杠胡
+        /// </summary>
+        public byte QiangGangHu { get; set; }
         /// <summary>
         /// 是否允许ip相同
         /// </summary>
