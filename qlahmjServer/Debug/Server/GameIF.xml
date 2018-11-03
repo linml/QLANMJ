@@ -109,6 +109,11 @@
             服务器之间中转服务器消息
             </summary>
         </member>
+        <member name="F:QL.Common.SUB_LS2LS_CommonID.SystemHornMsg">
+            <summary>
+            系统跑马灯消息
+            </summary>
+        </member>
         <member name="T:QL.Common.SUB_GS2LS_CommonID">
             <summary>
             服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
@@ -402,6 +407,11 @@
         <member name="F:QL.Common.SUB_CommandSC.LS2C.MSG_S_GroupTableList">
             <summary>
             获取到的群内玩家创建的房间列表
+            </summary>
+        </member>
+        <member name="F:QL.Common.SUB_CommandSC.LS2C.MSG_S_SystemHornMsg">
+            <summary>
+            系统跑马灯消息
             </summary>
         </member>
         <member name="T:QL.Common.SUB_CommandSC.GS2C">
@@ -1692,19 +1702,74 @@
             查询指定桌子Id的桌子信息
             </summary>
         </member>
-        <member name="T:QL.Common.NoticeType">
+        <member name="T:QL.Common.SystemHornType">
             <summary>
             游戏服务端发送跑马灯公告
             </summary>
         </member>
-        <member name="F:QL.Common.NoticeType.CurrentServer">
+        <member name="F:QL.Common.SystemHornType.Unkonown">
             <summary>
-            指定为当前服务器
+            未知
             </summary>
         </member>
-        <member name="F:QL.Common.NoticeType.AllServer">
+        <member name="F:QL.Common.SystemHornType.System">
             <summary>
-            指定为全服
+            指定系统跑马灯类型
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornType.Server">
+            <summary>
+            服务器跑马灯
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornType.Game">
+            <summary>
+            游戏内跑马灯
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornType.Hall">
+            <summary>
+            大厅（游戏外）跑马灯
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornType.All">
+            <summary>
+            所有
+            </summary>
+        </member>
+        <member name="T:QL.Common.SystemHornEntity">
+            <summary>
+            系统跑马灯消息实体
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornEntity.LoopCount">
+            <summary>
+            跑马灯循环次数
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornEntity.Context">
+            <summary>
+            跑马灯内容
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornEntity.HornType">
+            <summary>
+            跑马灯类别
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornEntity.AttachData">
+            <summary>
+            附加参数
+            </summary>
+        </member>
+        <member name="F:QL.Common.SystemHornEntity.LoopInterval">
+            <summary>
+            循环间隔（单位秒）
+            </summary>
+        </member>
+        <member name="T:QL.Common.SystemHornServerEntity">
+            <summary>
+            服务器数据交换时使用的跑马灯实体信息
             </summary>
         </member>
         <member name="T:QL.Common.UserCreateTableNoticeStatus">
@@ -2685,6 +2750,16 @@
         <member name="F:QL.Common.MSG_S_GroupTableList.LastId">
             <summary>
             下次请求分页数据时携带的起始Id,客户端透传
+            </summary>
+        </member>
+        <member name="T:QL.Common.MSG_S_SystemHornMsg">
+            <summary>
+            系统跑马灯消息
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_SystemHornMsg.HornMsgList">
+            <summary>
+            跑马灯消息列表
             </summary>
         </member>
         <member name="T:QL.Common.MSG_S_PlayerChairInfo">
@@ -4430,7 +4505,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GameIF.IRaceHostService.SendHallNotice(System.String,System.Byte,System.UInt16,QL.Common.KeyValueData[],QL.Common.NoticeType)">
+        <member name="M:GameIF.IRaceHostService.SendHallNotice(System.String,System.Byte,System.UInt16,QL.Common.KeyValueData[],QL.Common.SystemHornType)">
             <summary>
             向客户端发送群发一条跑马灯公告
             </summary> 

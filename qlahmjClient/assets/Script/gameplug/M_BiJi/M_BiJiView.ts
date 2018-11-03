@@ -29,6 +29,7 @@ import SkinCommunionView from "./SkinView/BJ_SkinCommunionView";
 import SelectCards from "./SkinView/BJ_SelectCards";
 import SkinTeXiao from "./SkinView/BJ_SkinTeXiao";
 import Global from "../../Global/Global";
+import HuDong_Animation from "../MJCommon/HuDong_Animation";
 
 @ccclass
 export default class M_BiJiView extends cc.Component implements IBiJiView {
@@ -64,6 +65,10 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
     prefab_selectcards: cc.Prefab = null;
     @property(cc.Prefab)
     prefab_texiao: cc.Prefab = null;
+    @property(cc.Prefab)
+    prefab_hudong:cc.Prefab = null;
+
+
 
     private skinQueryScore: SkinQueryScore;
     private skinTotalScore: SkinTotalScore;
@@ -73,6 +78,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
     private skinPlayerInfo: SkinPlayerInfo;
     private selectcards: SelectCards;
     private skinTeXiao:SkinTeXiao;
+    private huDongDaoJu:HuDong_Animation;
     //变量
     private scoreView: ScoreView;
     public tableInfo: TableInfo;
@@ -103,7 +109,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
 
         this.skinDissolveTable = this.AddPrefab(this.prefab_dissolveTable, "BJ_SkinDissolveTable", orderIndex++);
         this.skinTeXiao = this.AddPrefab(this.prefab_texiao,"BJ_SkinTeXiao",orderIndex++);
-        
+        this.huDongDaoJu = this.AddPrefab(this.prefab_hudong,"HuDong_Animation",orderIndex++);
         
         //SkinTiren:11
         //SkinPlayerInfo:12
@@ -112,6 +118,9 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         //SkinTotalScore:15
         //SkinQueryScore:16
         //SkinDissolveTable:17
+
+        
+
     }
     /**
      * 添加预设体到this节点下
@@ -242,6 +251,25 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
     public ShowChatEmoji(chair: number, value: cc.AnimationClip) {
         this.skinPlayerControl.ShowChatEmoji(chair, value);
     }
+    /**
+     * 显示互动道具
+     * @param spschair 发起者
+     * @param rechair 接收者
+     * @param index 道具索引
+     */
+    public ShowChatItem(spschair:number,rechair:number,index:string){
+        var idx = parseInt(index);
+        if(idx==4){
+            this.skinPlayerControl.ShowGuZhang(spschair);
+        }else{
+            var point = this.skinPlayerControl.GetPlayerInfoPoint(spschair);
+            var point2 = this.skinPlayerControl.GetPlayerInfoPoint(rechair);
+            this.huDongDaoJu.showChatItem(idx,point,point2);
+        }
+     
+
+    }
+
     /**
      * 显示语言聊天
      */
@@ -1554,7 +1582,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         let playerinfo = this.skingameClass.TablePlayer[this.skingameClass.GetServerChair(chair)];
         if (playerinfo != null) {
             let point = this.skinPlayerControl.GetPlayerInfoPoint(chair);
-            M_BiJiClass.Instance.showPlayerInfoForm(playerinfo,point);
+            M_BiJiClass.Instance.showPlayerInfoForm(playerinfo,point,this.skingameClass.GetServerChair(chair));
             // ShowNodeView("PlayerInfo", this.skinPlayerInfo, (prefab) => {
             //     this.skinPlayerInfo = this.AddPrefab(prefab, "BJ_SkinPlayerInfo", 12);
             // }, () => {
@@ -2036,6 +2064,8 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         }
         return parseInt(this.skinLabelView.GetCellScore()) * (j - 1) * (k - 1);
     }
+
+
 
     //==================================== 计时器 开始 =======================================
     public TimePause() {

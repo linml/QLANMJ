@@ -9,7 +9,7 @@
   "wrapMode": "2",
   "curveData": {
     "paths": {
-      "aini": {
+      "animation": {
         "comps": {
           "cc.Sprite": {
             "spriteFrame": [

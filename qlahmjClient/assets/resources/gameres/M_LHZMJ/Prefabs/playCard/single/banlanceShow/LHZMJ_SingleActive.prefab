@@ -28,11 +28,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 17
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 15
     },
     "_id": "",
     "_opacity": 255,
@@ -262,20 +262,17 @@
     "_children": [
       {
         "__id__": 9
-      },
-      {
-        "__id__": 12
       }
     ],
     "_tag": -1,
     "_active": false,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 13
     },
     "_id": "",
     "_opacity": 255,
@@ -405,97 +402,6 @@
     "sync": false
   },
   {
-    "__type__": "cc.Node",
-    "_name": "New Sprite",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 8
-    },
-    "_children": [],
-    "_tag": -1,
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 13
-      }
-    ],
-    "_prefab": {
-      "__id__": 14
-    },
-    "_id": "",
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 36,
-      "height": 39
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": -23.1,
-      "y": 40
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_opacityModifyRGB": false,
-    "groupIndex": 0
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 12
-    },
-    "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "2547e64e-562d-44da-b3b3-e48d80688a67"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_atlas": null
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "a573653f-2e81-40cc-b957-7b73f12c63d2"
-    },
-    "fileId": "105f9XIslJEZ7t1K+/4bLmJ",
-    "sync": false
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -545,7 +451,7 @@
       "__id__": 6
     },
     "bmp_greenZZ": {
-      "__id__": 15
+      "__id__": 12
     }
   },
   {

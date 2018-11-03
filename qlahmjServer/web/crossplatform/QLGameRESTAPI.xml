@@ -43,6 +43,51 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.Data.orderId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.Data.itemName">
+            <summary>
+            支付测试名称
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.Data.reqFee">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.Data.payInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.Data.signValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.ShenPayInfo.status">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.ShenPayInfo.retCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.ShenPayInfo.message">
+            <summary>
+            操作成功
+            </summary>
+        </member>
+        <member name="P:QLGameRESTAPI.Controllers.pay.PayController.ShenPayInfo.data">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:QLGameRESTAPI.Controllers.platform.HallController">
             <summary>
             包含排行榜相关的接口

@@ -4,7 +4,7 @@ import { TSRH } from "../Serializer/TypeSerializerRegisterHandle";
 export module QL_Platfrom2Web_Session {
     /**
      *
-     * 创建时间：2018年09月21日 21:41:28
+     * 创建时间：2018年10月24日 13:40:54
      * 创建人员：SHENRUI\admin
      * 备注：
      *
@@ -23,7 +23,7 @@ export module QL_Platfrom2Web_Session {
 
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
+     * @创建时间：2018年10月24日 13:40:54
      * @创建人员：SHENRUI\admin
      * @备注信息：玩家登陆服务器平台用 AccessToken 数据对象
             <para>签名方式分两种：</para>

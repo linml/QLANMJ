@@ -23,9 +23,7 @@ import FriendCircleWebHandle from "../Form/FriendsCircle/FriendCircleWebHandle";
 import { ReConnectBase } from "./ReConnectBase";
 import { DateTime } from '../Serializer/DateTime';
 import RankList from "../Form/Rank/RankList";
-
-
-
+import HornPanel from "../Form/Horn/HornPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -86,8 +84,13 @@ export default class HallCtrl extends ReConnectBase {
     @property(cc.Node)
     email : cc.Node = null;
 
+
+    
     @property(cc.Prefab)
     rankPrefab:cc.Prefab = null;
+
+    @property(cc.Prefab)
+    HornNode : cc.Prefab = null;
 
     /**
      * 当前添加的游戏信息
@@ -108,6 +111,11 @@ export default class HallCtrl extends ReConnectBase {
          */
         this.LoadActivity();
         this.DoShareParamHandle();
+
+        if(HornPanel.HornHallList.length > 0){
+            this.UiManager.ShowHallHorn(HornPanel.HornHallList[HornPanel.HornHallList.length - 1], 1, "");
+        }
+        // this.UiManager.ShowHallHorn("1", 1, "");
     }
 
     start() {
@@ -596,8 +604,8 @@ export default class HallCtrl extends ReConnectBase {
     }
 
     private onReplayBack() {
-        var path = cc.url.raw("resources/Sound/new_hall_bg.mp3");
-        Global.Instance.AudioManager.Play(path, AudioType.Music, true);
+        // var path = cc.url.raw("resources/Sound/bg_hall.mp3");
+        // Global.Instance.AudioManager.Play(path, AudioType.Music, true);
     }
 
 

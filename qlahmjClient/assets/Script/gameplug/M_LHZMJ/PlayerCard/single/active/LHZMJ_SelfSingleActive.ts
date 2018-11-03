@@ -356,6 +356,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
         this.bmp_enable.node.active = false;
         this.bmp_cardcolor.node.active=false;
         this.bmp_cardback.node.active=true;
+        this.ShowGreenZZ=false;
     //     let url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_backcard_self_1280`;
     //   //  SetTextureRes(url,this.bmp_cardback);
     //   this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_backcard_self_1280");

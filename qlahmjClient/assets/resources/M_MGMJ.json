@@ -223,7 +223,11 @@
         }
     ],
     "defaultAttr":[
-
+        {
+            "attrName": "isYiPaoDuoXiang",
+            "value": true,
+            "desc":"是否一炮多响"
+        },
         {
             "attrName": "isGangJiuYou",
             "value": true,

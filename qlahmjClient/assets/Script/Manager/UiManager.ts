@@ -17,6 +17,7 @@ import { NoticeForm } from "../Form/General/NoticeForm";
 import { IsIOS, PlayEffect } from "../Tools/Function";
 import { InputFormViewParam } from "../Form/Daili/InputFormView";
 import { AudioType } from "../CustomType/Enum";
+import HornPanel from "../Form/Horn/HornPanel";
 
 
 
@@ -41,6 +42,14 @@ export default class UiManager implements IUiManager {
     private _loadingInfo: string;
     private _loadingShow: boolean;
     private _noticeLock: boolean;
+
+    /**
+     * 跑马灯控制字段
+     */
+    private horn_type = 0;
+    private spriteFrame : cc.SpriteFrame = null;
+    private play_type = "";
+
     ShowLoading(str?: string) {
         this._loadingInfo = str;
         this._loadingShow = true;
@@ -246,6 +255,44 @@ export default class UiManager implements IUiManager {
         });
     }
 
+    /**
+     * 播放大厅跑马灯
+     * @param content 
+     * @param parent 
+     */
+    ShowHallHorn(content : string, horn_type : number, spriteFrame : cc.SpriteFrame){
+        if(content == null || spriteFrame == null){
+            return;
+        }
+
+        this.play_type = "Hall";
+ 
+        let scene = cc.director.getScene();
+        if(scene && scene.name == "" || scene.name == "Login" || scene.name == "hotupdate"){
+            HornPanel.HornHallList[HornPanel.HornHallList.length] = content;
+            return;
+        }
+
+        if(horn_type != null){
+            this.horn_type = horn_type;
+        }
+
+        HornPanel.HornHallList = [];
+
+        HornPanel.HornHallList[HornPanel.HornHallList.length] = content;
+
+        this.spriteFrame = spriteFrame;
+        this.ShowUi(UIName.HornPanel, this);
+    }
+
+    /**
+     * 播放游戏跑马灯
+     * @param content 
+     * @param parent 
+     */
+    ShowGameHorn(content : string, parent : cc.Node){
+
+    }
 
     private onLoadingLoaded(err, prefab: cc.Prefab) {
         if (err) {

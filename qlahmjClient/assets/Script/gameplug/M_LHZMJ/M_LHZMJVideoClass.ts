@@ -500,7 +500,7 @@ export default class M_LHZMJVideoClass extends GameVideoBase implements ILHZMJCl
 
             tableConfig.ifCanHu7Dui,
             tableConfig.ifCanTianHu,
-            tableConfig.isGangJiuYou,
+            tableConfig.GangLeJiuYou,
             tableConfig.GuoHuBuHu,
             tableConfig.RulePeng,
             tableConfig.MaShu,

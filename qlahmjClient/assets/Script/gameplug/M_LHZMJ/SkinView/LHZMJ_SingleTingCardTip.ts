@@ -59,7 +59,7 @@ export default class LHZMJ_SingleTingCardTip extends cc.Component {
 		//     this.img_cardColor.spriteFrame = spriteFrame;
 		// });
 
-        this.lbl_leftCardNum.string =  `${this._data.leftCardNum}张`;
+        this.lbl_leftCardNum.string =  `${this._data.leftCardNum}`;
 
         // this.lbl_leftCardNum.textFlow = <Array<cc.Label.ITextElement>>[
         //     { text: this._data.leftCardNum.toString(), style: { "textColor": 0xffcc31 } },

@@ -180,6 +180,18 @@ export default class LHZMJ_FenXiang extends cc.Component {
         console.log("游戏记录数据到来，分享")
         this.loadRecordData();
     }
+/**
+ * 
+ * @param Data 统计胡刚次数
+ */
+    public HuGangCount(data:M_LHZMJ_GameMessage.CMD_S_GameRecordResult):void{
+        for(var i= 0;i<LHZMJMahjongDef.gPlayerNum;i++){
+                this.lal_ziMoCnt[i].string="x"+data.ZiMoCnt[i];
+                this.lal_dianPaoHuCnt[i].string="x"+data.ZhongMaCnt[i];
+                this.lal_mingGangCnt[i].string="x"+data.MingGangCnt[i];
+                this.lal_anGangCnt[i].string="x"+data.AnGangCnt[i];
+        }          
+    }
 
     /**
      * 开始显示
@@ -222,21 +234,22 @@ export default class LHZMJ_FenXiang extends cc.Component {
             rule0 += "房主支付 ";
         if(rule.GameData.tableCreatorPay == 3)
             rule0 += "圈主支付 ";
-        if(rule.GameData.whoLose == 0)
-            rule0 += "赢倒三家有 ";
-        if(rule.GameData.whoLose == 1)
-            rule0 += "谁打谁出分 ";
-
-        if(rule.GameData.zhanZhuang)
-            rule1 += "占庄 ";
-        if(rule.GameData.daiDaPai)
-            rule1 += "带大牌 ";
-        if(!rule.GameData.daiDaPai)
-            rule1 += "不带大牌 ";
-        if(rule.GameData.gangFen)
-            rule1 += "明杠暗杠 ";
-        if(rule.GameData.canChi)
-            rule1 += "不准吃牌 ";
+        if(rule.GameData.MaShu == 0)
+            rule0 += "2码 ";
+        else if(rule.GameData.MaShu == 1)
+            rule0 += "4码 ";
+        else if(rule.GameData.MaShu == 2)
+            rule0 += "6码 ";    
+        if(rule.GameData.RulePeng == 0)
+            rule1 += "可碰牌 ";
+        else if(rule.GameData.RulePeng == 1)
+            rule1 += "碰一次 ";
+        else if(rule.GameData.RulePeng == 2)
+            rule1 += "不可碰 ";
+        if(rule.GameData.IfCanHu7Dui)
+            rule1 += "可胡七对 ";
+        if(rule.GameData.GangLeJiuYou)
+            rule1 += "杠了就有 ";
             
         //显示玩法
         this.rule0.string = rule0;
@@ -266,6 +279,18 @@ export default class LHZMJ_FenXiang extends cc.Component {
 //        }
         this.lal_time.string=time.getFullYear() + "-" + this.FomatNumber(time.getMonth() + 1) + "-" + this.FomatNumber(time.getDate()) + " " + this.FomatNumber(time.getHours()) + ":" + this.FomatNumber(time.getMinutes());
         this.lal_jushu.string=LHZMJ.ins.iclass.getTableConfig().alreadyGameNum.toString();
+
+
+                //胡牌 杠牌次数统计
+        //     for(var i=0;i<4;i++){
+        //        // this.lal_ziMoCnt[i].string="x"+this._gameRecordAry[0]
+        //         // this.lal_dianPaoHuCnt[i].string="x"+this._gameRecordAry[0].huGangCount[i][1].toString();
+        //         // this.lal_mingGangCnt[i].string="x"+this._gameRecordAry[0].huGangCount[i][2].toString();
+        //         // this.lal_anGangCnt[i].string="x"+this._gameRecordAry[0].huGangCount[i][3].toString();
+        //     }
+        // }
+
+
         var totalScore: Array<number> = new Array<number>();
         totalScore.push(0);
         totalScore.push(0);

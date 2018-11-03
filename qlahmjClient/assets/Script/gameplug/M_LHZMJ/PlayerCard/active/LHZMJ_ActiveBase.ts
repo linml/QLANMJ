@@ -141,7 +141,12 @@ export default class LHZMJ_ActiveBase extends LHZMJ_CardBase {
     public arrangeHandCard():void{
         
     }
-    
+    /**
+     * 显示遮罩
+     */
+    public ShowZZ():void{
+
+    }
     /**
      * 抓牌墩牌
      * */

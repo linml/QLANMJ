@@ -359,19 +359,29 @@ export default class LHZMJ_JieShuan extends cc.Component {
           this.btn_goon.node.active=true;       
 
         console.log("jiesuan");
+        if(balanceData.MaPai.length==0){
+            this.bmp_cardbackAry[0].node.active = false;
+            this.bmp_cardbackAry[1].node.active = false;
+        }else{
+             this.bmp_cardbackAry[0].node.active = true;
+            this.bmp_cardbackAry[1].node.active = true;
+        }
         if(M_LHZMJClass.ins.TableConfig._MaShu>4){
             for(var i = 0;i<this.bmp_cardbackAry.length;i++){
                 this.bmp_cardbackAry[i].node.active = true;
             }           
         }else if(M_LHZMJClass.ins.TableConfig._MaShu>2){
-            this.bmp_cardbackAry[0].node.active = true;
-            this.bmp_cardbackAry[1].node.active = true;
+            this.bmp_cardbackAry[2].node.active = true;
+            this.bmp_cardbackAry[3].node.active = true;
         }
         for(var i = 0;i<balanceData.MaPai.length;i++){
             this.bmp_cardcolorAry[i].spriteFrame = LHZMJ.ins.iclass.getMahjongPaiHuaRes(balanceData.MaPai[i]);
             this.bmp_cardcolorAry[i].node.active = true;
+            this.bmp_cardbackAry[i].node.active = true;
             if(this.ZhongMa(balanceData.MaPai[i])){
                 this.img_zhongma[i].node.active = true;
+            }else{
+                this.img_zhongma[i].node.active = false;
             }
         }
     }
@@ -384,13 +394,42 @@ export default class LHZMJ_JieShuan extends cc.Component {
 
     private GetHuTypeString(balanceData: M_LHZMJ_GameMessage.PlayerBalance): string {
         var lbl = "";
+
         if (balanceData.JieSuan[8] > 0) {
-            lbl += "天胡+8 ";
+        if(balanceData.JieSuan[0]>0){
+            lbl += "天胡+5 ";
+        }else{
+            lbl+= "地胡+5 ";
+        }
+            
+    }
+        if(balanceData.JieSuan[1]>0){
+            lbl+="捧手+2 ";
         }
         if(balanceData.JieSuan[7]>0){
             lbl+="杠后开花+2 "
         }
-
+        if(balanceData.JieSuan[9]>0){
+            lbl+="七对+2 "
+        }
+        if(balanceData.JieSuan[10]>0){
+            lbl+="抢杠+5 "
+        }    
+        if(balanceData.JieSuan[11]>0){
+            lbl+="打中+5 "
+        }
+        if(balanceData.JieSuan[12]>0){
+            lbl+="跑中+2 "
+        }
+        if(balanceData.JieSuan[13]>0){
+            lbl+="四中+10 "
+        }
+        if(balanceData.JieSuan[14]>0){
+            lbl+="素牌+2 "
+        }
+        if(balanceData.JieSuan[15]>0){
+            lbl+="中码+"+balanceData.JieSuan[15]+" ";
+        }
         if(balanceData.JieSuan[4]>0){
             lbl+="放杠-"+balanceData.JieSuan[4]*3+" ";
         }

@@ -9,6 +9,7 @@ import { InitKeyListener, EndWiths } from "../Tools/Function";
 import { IEventHandler } from "../Interface/IEventHandler";
 import UiManager from "../Manager/UiManager";
 import { LocalStorage } from "../CustomType/LocalStorage";
+import { SafeWebRequest } from "../Net/SafeWebRequest";
 
 const { ccclass, property } = cc._decorator;
 
@@ -77,7 +78,7 @@ export default class HotUpdateCtrl extends cc.Component {
 
 
     private loginfo(msg: string) {
-        console.log(msg);
+        cc.log(msg);
 
     }
     public onLoad() {
@@ -122,11 +123,11 @@ export default class HotUpdateCtrl extends cc.Component {
         data.AddOrUpdate("device_type", device_type);
         data.AddOrUpdate("_t", new Date().valueOf().toString());
 
-        WebRequest.system.getUpdateInfo(action, data);
+        SafeWebRequest.GameHall.getUpdateInfo(action, data);
+        
 
     }
     private onloadUpdateSuccess(json) {
-        this.loginfo(JSON.stringify(json));
         this.appinfo = json;
         if (this.appinfo.status != "success") {
 
@@ -137,8 +138,6 @@ export default class HotUpdateCtrl extends cc.Component {
             }, this._showBoxCancleCall, this._showBoxCancleCall);
             return;
         }
-
-
         if (this.appinfo.debug_model != 0) {
             //设置日志输出模式
             cc._initDebugSetting(cc.DebugMode.INFO);
@@ -146,6 +145,9 @@ export default class HotUpdateCtrl extends cc.Component {
         else {
             cc._initDebugSetting(cc.DebugMode.WARN);
         }
+
+
+        this.loginfo(JSON.stringify(json));
 
 
         if (this.appinfo.pkg_version > ConfigData.AppVersion) {
@@ -562,8 +564,7 @@ export default class HotUpdateCtrl extends cc.Component {
             cc.game.restart();
         }, this._showBoxCancleCall, this._showBoxCancleCall);
     }
-
-
+    
     private buildSearchPath(checkStoragePath: string) {
         if (!EndWiths(checkStoragePath, "/")) {
             checkStoragePath = checkStoragePath + "/";

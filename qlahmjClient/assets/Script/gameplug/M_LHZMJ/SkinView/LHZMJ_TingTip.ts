@@ -23,11 +23,13 @@ export default class LHZMJ_TingTip extends cc.Component {
     @property(cc.Node)
     showNode:cc.Node=null;
 
-    @property(cc.Sprite)
-    img_hu: cc.Sprite=null;
+    @property(cc.Node)
+    img_hu: cc.Node=null;
 
     @property(cc.Sprite)
     img_zhezhao: cc.Sprite=null;
+    @property(cc.Label)
+    countHU:cc.Label = null;
 
 
     //结算
@@ -80,7 +82,7 @@ export default class LHZMJ_TingTip extends cc.Component {
         //设置背景宽度
        // this.img_bg.node.width = 90 + tingTip.length * 120 - 40;
 
-         let maxwidth=120 + tingTip.length * 120 - 40;
+         let maxwidth=120 + tingTip.length * 90 - 40;
         this.showNode.width=maxwidth;
         if(maxwidth>1280){
             //this.maskRect.width=1280;
@@ -99,7 +101,7 @@ export default class LHZMJ_TingTip extends cc.Component {
                 //this.maskRect.width = 880;
                 this.scroll.node.x  = 719 - 80;
                 this.scroll.horizontal = true;
-                this.img_hu.node.x = 209;
+                this.img_hu.x = 209;
                 this.img_zhezhao.node.x = 200;
             }else{
                 this.scroll.node.width = maxwidth-100;
@@ -114,7 +116,7 @@ export default class LHZMJ_TingTip extends cc.Component {
             this.scroll.node.x =719;
             this.scroll.node.width=1280;
             this.scroll.horizontal = true;
-            this.img_hu.node.x = 9;
+            this.img_hu.x = 9;
             this.img_zhezhao.node.active = false;
         }
 
@@ -136,10 +138,10 @@ export default class LHZMJ_TingTip extends cc.Component {
             this._singleTingCard=singleTip.getComponent<LHZMJ_SingleTingCardTip>(LHZMJ_SingleTingCardTip);
             this._singleTingCard.setData(tingTip[i]);
             if(tips&&maxwidth>1280){
-            this._singleTingCard.node.x = 214 + i * 120;
+            this._singleTingCard.node.x = 214 + i * 90;
             this._singleTingCard.node.y = 0;
             }else{
-            this._singleTingCard.node.x = 30 + i * 120;
+            this._singleTingCard.node.x = 30 + i * 90;
             this._singleTingCard.node.y = 0;
             }
             
@@ -148,6 +150,11 @@ export default class LHZMJ_TingTip extends cc.Component {
 
             this._tingCardAry.push(this._singleTingCard);
         }
+        let countHu:number = 0;
+        for(let i:number = 0;i<tingTip.length;i++){
+            countHu += tingTip[i].leftCardNum;
+        }
+        this.countHU.string = countHu.toString();
         cc.log("显示全部听牌！！！");
         this.node.active = true;
     }

@@ -552,7 +552,6 @@ export default class FriendCircleWebHandle {
     public static getGroupStat(groupId: number, act?: Action) {
         let action_ = act;
         let _groupId = groupId;
-        let _name = name;
 
         let getGroupStatCb = (args)=>{
             cc.info("--- getGroupStatCb callback: ",args);
@@ -573,6 +572,7 @@ export default class FriendCircleWebHandle {
         
         if (!_groupId) {
             cc.info('-- error param in setadmin')
+            Global.Instance.UiManager.CloseLoading();
             return;
         }
 

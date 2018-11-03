@@ -19,7 +19,6 @@ import MJ_RecordVideo from "../MJCommon/MJ_RecordVideo";
 import LHZMJ_SelGang from "./SkinView/LHZMJ_SelGang";
 import LHZMJ_QiangGangView from "./SkinView/LHZMJ_QiangGangView";
 import LHZMJ_TingTip from "./SkinView/LHZMJ_TingTip";
-import LHZMJ_HelpView from "./SkinView/LHZMJ_HelpView";
 import LHZMJ_TipMsg from "./SkinView/LHZMJ_TipMsg";
 import LHZMJ_DissTable from "./SkinView/LHZMJ_DissTable";
 import LHZMJ_MsgBox from "./SkinView/LHZMJ_MsgBox";
@@ -34,6 +33,7 @@ import LHZMJ_StartAni from "./SkinView/LHZMJ_StartAni";
 import LHZMJ_OutCardView from "./SkinView/LHZMJ_OutCardView";
 import Global from "../../Global/Global";
 import LHZMJ_ReadyAndGaming from "./SkinView/LHZMJ_ReadyAndGaming";
+import HuDong_Animation from "../MJCommon/HuDong_Animation";
 @ccclass
 export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
@@ -61,9 +61,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     // @property(cc.Node)
     // group_gameNum: cc.Node = null;
 
-    //中间层
-    @property(cc.Node)
-    group_mid: cc.Node = null;
+
 
     @property(cc.Prefab)
     GameInfoView: cc.Prefab=null;
@@ -95,6 +93,9 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         //     }.bind(this));
         // }
     }
+        //中间层
+    @property(cc.Node)
+    group_mid: cc.Node = null;
 
     // @property(cc.Prefab)
     // ReadyStatusGameInfoView: cc.Prefab = null;
@@ -311,6 +312,12 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
      * */
     public get TingTip(): LHZMJ_TingTip {
         return this._tingTip;
+    }
+    @property(cc.Prefab)
+    prefab_hudong:cc.Prefab = null;
+    private huDongDaoJu:HuDong_Animation;
+    public get HuDong_Ani():HuDong_Animation{
+        return this.huDongDaoJu;
     }
 
     @property(cc.Prefab)
@@ -627,6 +634,10 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         // this._help = helpnode.getComponent<LHZMJ_HelpView>(LHZMJ_HelpView);
         // helpnode.setLocalZOrder(18);
         // this.node.addChild(helpnode);
+        let hudongnode = cc.instantiate(this.prefab_hudong);
+        this.huDongDaoJu = hudongnode.getComponent<HuDong_Animation>(HuDong_Animation);
+        hudongnode.setLocalZOrder(18);
+        this.node.addChild(hudongnode);
 
         // let tipnode = cc.instantiate(this.LHZMJ_TipMsg_View);
         // this._tipMsg = tipnode.getComponent<LHZMJ_TipMsg>(LHZMJ_TipMsg);
@@ -893,7 +904,52 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
      * 分享按钮事件
      */
     public OnButtonShare() {
-        this.gameClass.ShowShare(0, this.gameClass.TableID, "【红中麻将】房号：" + LHZMJ.ins.iclass.getTableConfig().TableCode, LHZMJ.ins.iclass.getTableConfig().shareContext);
+
+          var curPlayer = M_LHZMJClass.ins.getTablePlayerAry();
+        let curPlayerCount:number=0;//查看当前桌上玩家数
+        for(let i:number=0;i<curPlayer.length;i++){
+            if(null != curPlayer[i])
+                curPlayerCount++;
+        }
+        var selfChair = M_LHZMJClass.ins.SelfChair;
+        var playerName = curPlayer[selfChair].NickName;//发送邀请玩家的name
+
+        let title : string;
+        let context : string;
+        let tableID : number = M_LHZMJClass.ins.TableID;
+        title = "红中麻将 房间号:" + tableID + " "+curPlayerCount+"缺"+(4-curPlayerCount);
+
+        let wanfa:string=  "";
+
+        if(M_LHZMJClass.ins.TableConfig.IsTableCreatorPay == 1)
+            wanfa = "AA支付,";
+        if(M_LHZMJClass.ins.TableConfig.IsTableCreatorPay == 2)
+            wanfa = "房主支付,";
+        if(M_LHZMJClass.ins.TableConfig.IsTableCreatorPay == 3)
+            wanfa = "圈主支付,";
+          if(M_LHZMJClass.ins.TableConfig._MaShu == 0)
+            wanfa += "2码 ";
+        else if(M_LHZMJClass.ins.TableConfig._MaShu == 1)
+            wanfa += "4码 ";
+        else if(M_LHZMJClass.ins.TableConfig._MaShu == 2)
+            wanfa += "6码 ";    
+        if(M_LHZMJClass.ins.TableConfig._RulePeng == 0)
+            wanfa += "可碰牌 ";
+        else if(M_LHZMJClass.ins.TableConfig._RulePeng == 1)
+            wanfa += "碰一次 ";
+        else if(M_LHZMJClass.ins.TableConfig._RulePeng == 2)
+            wanfa += "不可碰 ";
+        if(M_LHZMJClass.ins.TableConfig.IfCanHu7Dui)
+            wanfa += "可胡七对 ";
+        if(M_LHZMJClass.ins.TableConfig._isGangLeJiuYou)
+            wanfa += "杠了就有 ";
+            
+        context = "玩法:"+ wanfa + playerName + "邀请你";
+        M_LHZMJClass.ins.ShowShare(null,tableID,title,context);
+        this.gameClass.ShowShare(0, this.gameClass.TableID,title, context);
+    }
+    public GetMashu():number{
+        return (M_LHZMJClass.ins.TableConfig._MaShu+1)*2;
     }
 
     public TingBtn(enable: boolean): void {
@@ -1042,6 +1098,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
         this._isCleared = true;
 
+        this.CardView.PaiQiangInfo.init();
     }
 
     public playerComeing(): void {
@@ -1088,6 +1145,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         }
         
         this._cardView.node.active = true;
+        this._cardView.paiQiang.active = true;
 
     }
 
@@ -1100,7 +1158,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         }
         this.scheduleOnce(()=>{
             this._cardView.selfActive.refreshHandCardData(LHZMJ.ins.iclass.getSelfHandCardData());
-            this._cardView.selfActive.arrangeHandCard();
+            this._cardView.selfActive.arrangeHandCard();      
             },1.25);
         });
 
@@ -1280,7 +1338,38 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     public ShowSetVolume(): void {
         this.gameClass.ShowSettingForm();
     }
-
+        /**
+     * 显示互动道具
+     * @param spschair 发起者
+     * @param rechair 接收者
+     * @param index 道具索引
+     */
+    public ShowChatItem(spschair:number,rechair:number,index:string){
+        cc.log("索引"+index);
+        var idx = parseInt(index);
+        if(idx!=4){
+            var point = this._rg_userInfo.GetPlayerPoint(spschair);
+            var point2 = this._rg_userInfo.GetPlayerPoint(rechair);
+            if(point==null||point == undefined){
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            if (point2 == null || point2 == undefined) {
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            this.huDongDaoJu.showChatItem(idx,point,point2);
+        }else{
+            this._rg_userInfo.ShowGuZhang(spschair);
+        }
+        // if(idx==4){
+        //     this.skinPlayerControl.ShowGuZhang(spschair);
+        // }else{
+        //     var point = this.skinPlayerControl.GetPlayerInfoPoint(spschair);
+        //     var point2 = this.skinPlayerControl.GetPlayerInfoPoint(rechair);
+        //     this._aniPanel.showChatItem(idx,point,point2);
+        // }     
+    }
 
     /**
      * 物理按钮事件

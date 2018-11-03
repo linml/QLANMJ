@@ -21,9 +21,9 @@
       "rawWidth": 54,
       "rawHeight": 54,
       "borderTop": 22,
-      "borderBottom": 24,
-      "borderLeft": 23,
-      "borderRight": 20,
+      "borderBottom": 11,
+      "borderLeft": 11,
+      "borderRight": 12,
       "subMetas": {}
     }
   }

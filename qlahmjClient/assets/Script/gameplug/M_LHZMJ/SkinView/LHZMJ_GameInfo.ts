@@ -51,7 +51,7 @@ export default class LHZMJ_GameInfo extends cc.Component {
     public set tableCode(value:string){
         if(value.length > 0){
             this.GroupRoomInfo.active=true;
-            this.lbl_RoomInfo.string = value;
+            this.lbl_RoomInfo.string = "房号:"+value;
         }
     }
     public SetGameNum(now:number,all:number):void{

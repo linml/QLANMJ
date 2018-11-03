@@ -4,7 +4,7 @@ import { TSRH } from "../Serializer/TypeSerializerRegisterHandle";
 export module GameIF {
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
+     * @创建时间：2018年10月24日 13:40:54
      * @创建人员：SHENRUI\admin
      * @备注信息：消息基类,所有需要传输的消息均需要继承该类
      *
@@ -36,7 +36,7 @@ export module GameIF {
 
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
+     * @创建时间：2018年10月24日 13:40:54
      * @创建人员：SHENRUI\admin
      * @备注信息：游戏通用消息;
             主命令码：
@@ -59,7 +59,7 @@ export module GameIF {
 
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
+     * @创建时间：2018年10月24日 13:40:54
      * @创建人员：SHENRUI\admin
      * @备注信息：H5客户端连接成功的回调通知消息
      *
@@ -77,5 +77,32 @@ export module GameIF {
     }
     SerializerCreator.Register("GameIF.H5Connected", function () {return new H5Connected()})
     TSRH.RSerializer("257", "", "GameIF.H5Connected");
+
+
+    /**
+     *
+     * 创建时间：2018年10月24日 13:40:54
+     * 创建人员：SHENRUI\admin
+     * 备注：
+     *
+     */
+    export enum FrozenUserAccountObjectType{
+        /**
+        * 
+        */
+        Unknown = 0,
+        /**
+        * 
+        */
+        PlayerId = 1,
+        /**
+        * 
+        */
+        GroupId = 2,
+        /**
+        * 
+        */
+        AgentId = 3,    
+    }
 
 }

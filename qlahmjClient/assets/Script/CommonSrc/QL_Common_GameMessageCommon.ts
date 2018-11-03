@@ -5,8 +5,8 @@ import {GameIF} from "./GameIF";
 export module QL_Common_GameMessageCommon {
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年10月26日 09:25:59
+     * @创建人员：pc-PC\pc
      * @备注信息：消息主副命令码定义
      *
      */
@@ -25,8 +25,8 @@ export module QL_Common_GameMessageCommon {
 
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年10月26日 09:25:59
+     * @创建人员：pc-PC\pc
      * @备注信息：大厅和游戏插件直接的交互公共消息基础基类
      *
      */
@@ -60,8 +60,8 @@ export module QL_Common_GameMessageCommon {
 
     /**
      *
-     * @创建时间：2018年09月21日 21:41:28
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年10月26日 09:25:59
+     * @创建人员：pc-PC\pc
      * @备注信息：
      *
      */

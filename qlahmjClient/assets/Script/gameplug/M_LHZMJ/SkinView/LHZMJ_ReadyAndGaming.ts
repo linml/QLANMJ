@@ -178,9 +178,40 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
            // {
            //     M_LHZMJView.ins.UserData.showUserData(LHZMJ.ins.iclass.getTableConfig().isValid,LHZMJ.ins.iclass.getTablePlayerAry()[chair],LHZMJ_ReadyAndGaming.UserDataReadyPos[logicChair].x,LHZMJ_ReadyAndGaming.UserDataReadyPos[logicChair].y);
          //   }else{
-                M_LHZMJView.ins.UserData.showUserData(LHZMJ.ins.iclass.getTableConfig().isValid, LHZMJ.ins.iclass.getTablePlayerAry()[chair], LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].x, LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].y);
+             //   M_LHZMJView.ins.UserData.showUserData(LHZMJ.ins.iclass.getTableConfig().isValid, LHZMJ.ins.iclass.getTablePlayerAry()[chair], LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].x, LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].y);
+                let point = new cc.Vec2(LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].x, LHZMJ_ReadyAndGaming.UserDataGamingPos[logicChair].y);
+                M_LHZMJClass.ins.showPlayerInfoForm(LHZMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
           //  }
         }
+    }
+    /**
+     * 获取用户头像坐标
+     * @param chair 椅子号
+     */
+    public GetPlayerPoint(chair:number){
+        let point = new cc.Vec2(LHZMJ_ReadyAndGaming.UserDataGamingPos[chair].x, LHZMJ_ReadyAndGaming.UserDataGamingPos[chair].y);   
+        switch(chair){
+            case 0:point.x-=240;
+                    point.y+=30;
+                    break;
+            case 1:point.x+=220;
+                    point.y+=50;
+                    break;
+            case 2:point.x+=205;
+                    point.y+=100;
+                    break;
+            case 3:point.x-=230;
+                    point.y+=60;
+                    break;
+        }
+        return point;
+     }
+             /**
+     * 显示鼓掌动画
+     */
+    public ShowGuZhang(chair: number) {
+        if (this.gameUserAry[chair].node.active)
+            this.gameUserAry[chair].ShowGuZhang();
     }
     /**
      * 玩家表情
@@ -333,7 +364,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     }
 
     public OnPlayerStatusChange(chairID: number,newStatus: QL_Common.GState): void {
-        
+       
         var logicChair: number = LHZMJ.ins.iclass.physical2logicChair(chairID);
         // this.group_imgready[logicChair].node.active = (QL_Common.GState.PlayerReady == newStatus);//|| Uyi.Common.GState.OfflineInGame == newStatus);
         if(cc.isValid(this.group_imgready[logicChair]) && !this.group_imgready[logicChair].node.active){

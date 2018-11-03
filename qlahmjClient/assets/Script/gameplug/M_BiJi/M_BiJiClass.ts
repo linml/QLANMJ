@@ -343,6 +343,15 @@ export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
         cc.log("显示聊天表情，椅子号为"+chair);
         this.skingameView.ShowChatEmoji(chair, clip);
     }
+        /**
+     * 玩家道具
+     * */
+    protected OnPlayerChatItem(self_chairID : number ,chairID: number, player: QL_Common.TablePlayer, index:string): void {
+        var rechair = this.PhysicChair2LogicChair(self_chairID);
+        var rechair1 = this.PhysicChair2LogicChair(chairID);
+        cc.log("收到玩家道具消息,发起者"+rechair1+"接收者"+rechair,"玩家实体昵称"+player.NickName+"动画文件索引"+index);
+        this.skingameView.ShowChatItem(rechair1,rechair,index);
+    }
 
     /**
      * 玩家余额发生改变

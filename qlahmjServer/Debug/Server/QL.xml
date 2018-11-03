@@ -4009,6 +4009,18 @@
             
             </summary>
         </member>
+        <member name="M:QL.Tools.MessageEventArgs`1.op_Implicit(QL.Tools.MessageEventArgs{`0})~`0">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.Tools.MessageEventArgs`1.op_Implicit(`0)~QL.Tools.MessageEventArgs{`0}">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
         <member name="T:QL.Tools.LongProcessMessage`1">
             <summary>
             

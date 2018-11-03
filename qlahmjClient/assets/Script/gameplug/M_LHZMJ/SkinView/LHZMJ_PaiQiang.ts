@@ -35,10 +35,7 @@ export default class LHZMJ_PaiQiang extends cc.Component {
     private bankchair:number;
 
     onLoad() {
-
-    }
-    start() {
-        this.paiWall_1 = new Array(LHZMJMahjongDef.gCardWalls_number);
+                this.paiWall_1 = new Array(LHZMJMahjongDef.gCardWalls_number);
         this.paiWall_2 = new Array(LHZMJMahjongDef.gCardWalls_number);
         this.paiWall_3 = new Array(LHZMJMahjongDef.gCardWalls_number);
         this.paiWall_0 = new Array(LHZMJMahjongDef.gCardWalls_number);
@@ -53,6 +50,9 @@ export default class LHZMJ_PaiQiang extends cc.Component {
         this.holdidx = 52;
         this.bankchair = -1;
         cc.log("牌墙实例化完成");
+
+    }
+    start() {
 
     }
     init(){

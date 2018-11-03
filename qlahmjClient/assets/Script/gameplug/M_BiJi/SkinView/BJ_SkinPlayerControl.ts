@@ -307,6 +307,13 @@ export default class SkinPlayerControl extends cc.Component {
         if (this.skinPlayer[chair].node.active)
             this.skinPlayer[chair].ShowChatEmoji(value);
     }
+        /**
+     * 显示鼓掌动画
+     */
+    public ShowGuZhang(chair: number) {
+        if (this.skinPlayer[chair].node.active)
+            this.skinPlayer[chair].ShowGuZhang();
+    }
     /**
      * 设置玩家牌
      */

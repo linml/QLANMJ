@@ -65,7 +65,7 @@ export default class HBMJ_SinglePlayerFX extends cc.Component {
         var url = this._total > 0 ? "gameres/gameCommonRes/Texture/Mahjong/other/MJ_fx_huangtiao" : "gameres/gameCommonRes/Texture/Mahjong/other/MJ_fx_lantiao";
         SetTextureRes(url, this.img_bg);
 
-        this.lbl_other.string = "对局数:" + this._all + this._player;
+        this.lbl_other.string = "" +this._player;
         //this.lbl_play.string = "游客1234224";
 
         

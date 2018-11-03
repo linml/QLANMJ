@@ -1042,7 +1042,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HNMJ_SinglePlayerBalance0",
+    "_name": "LHZMJ_SinglePlayerBalance0",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -1608,7 +1608,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -120,
+      "x": -80,
       "y": -15
     },
     "_skewX": 0,
@@ -1823,7 +1823,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HNMJ_SinglePlayerBalance1",
+    "_name": "LHZMJ_SinglePlayerBalance1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -2389,7 +2389,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -120,
+      "x": -80,
       "y": -9
     },
     "_skewX": 0,
@@ -2604,7 +2604,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HNMJ_SinglePlayerBalance2",
+    "_name": "LHZMJ_SinglePlayerBalance2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -3170,7 +3170,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -120,
+      "x": -80,
       "y": -15
     },
     "_skewX": 0,
@@ -3385,7 +3385,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HNMJ_SinglePlayerBalance3",
+    "_name": "LHZMJ_SinglePlayerBalance3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -3951,7 +3951,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -120,
+      "x": -80,
       "y": -15
     },
     "_skewX": 0,
@@ -4755,7 +4755,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 160,
-      "y": 499
+      "y": 520
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -5024,7 +5024,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 160,
-      "y": 367
+      "y": 404
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -5111,7 +5111,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 160,
-      "y": 261
+      "y": 281
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -5198,7 +5198,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 160,
-      "y": 136
+      "y": 156
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -8251,6 +8251,12 @@
       }
     ],
     "bmp_cardbackAry": [
+      {
+        "__id__": 213
+      },
+      {
+        "__id__": 222
+      },
       {
         "__id__": 231
       },

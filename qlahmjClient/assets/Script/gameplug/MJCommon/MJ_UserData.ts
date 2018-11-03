@@ -81,7 +81,7 @@ export default class MJ_UserData extends cc.Component {
 
     private play_item_inteval : number = 5; //施放道具间隔(/s)
 
-    private self_chairid : number = -1;
+    private target_chairid : number = -1;
 
     onLoad() {
         // init logic
@@ -141,7 +141,7 @@ export default class MJ_UserData extends cc.Component {
         }
 
         if(chair != null){
-            this.self_chairid = chair;
+            this.target_chairid = chair;
         }
 
         this.init();
@@ -157,34 +157,14 @@ export default class MJ_UserData extends cc.Component {
             return;
         }
 
-        switch (i) {
-            case 0:
-                this.playItemAnimation(targetPlayer, "eggs");
-                break;
-            case 1:
-                this.playItemAnimation(targetPlayer, "zuichuen");
-                break;
-            case 2:
-                this.playItemAnimation(targetPlayer, "banzhuan");
-                break;
-            case 3:
-                this.playItemAnimation(targetPlayer, "zhadan");
-                break;
-            case 4:
-                this.playItemAnimation(targetPlayer, "guzhang");
-                break
-            default:
-                Global.Instance.UiManager.ShowTip("道具发送失败!");
-                cc.log("参数传递错误! 请检查点击表情时触发事件");
-                break;
-        }
+        this.playItemAnimation(targetPlayer, i);
     }
 
     /**
      * 播放道具动画
      */
-    public playItemAnimation(targetPlayer: QL_Common.TablePlayer, type: string) {
-        if (targetPlayer == null || type == null) {
+    public playItemAnimation(targetPlayer: QL_Common.TablePlayer, index : number) {
+        if (targetPlayer == null || index == null) {
             cc.log("参数获取失败, 请检查玩家使用道具代码");
             return;
         }
@@ -196,17 +176,18 @@ export default class MJ_UserData extends cc.Component {
             before_play_time = parseInt(before_play_time)
             if(current_time - before_play_time < this.play_item_inteval){
                 LocalStorage.SetItem(targetPlayer.PlayerID+"_play_time", current_time.toString());
-                Global.Instance.UiManager.ShowTip("频率太频繁啦. 对其它人发发吧~");
+                Global.Instance.UiManager.ShowTip("太频繁啦 换个人试试吧!");
                 return;
             }
         }
         
-        if(this.self_chairid <= -1){
-            SendMessage.Instance.ChartMsg(ChatType.Item, type); 
+        if(this.target_chairid != -1){
+            Global.Instance.UiManager.ShowTip("道具发送失败");
+            cc.log("被点击人id未获取到!");
         }else{
-            SendMessage.Instance.ChartMsg(ChatType.Item, type + "_" + this.self_chairid);
+            SendMessage.Instance.ChartMsg(ChatType.Item, index + "_" + this.target_chairid);
         }
-  
+
         LocalStorage.SetItem(targetPlayer.PlayerID+"_play_time", current_time.toString());
         this.btnCloseClick();
     }

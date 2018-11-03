@@ -14,9 +14,6 @@ export namespace WebRequest {
         UrlCtrl_new.LoadJson(url, action, data, method);
     }
 
-    function doSafeActionJson(url: string, action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
-        UrlCtrl_new.LoadSafeRequestJson(url, action, data, method);
-    }
     /**
      * 获取一个上传用的结构体
      * @param key 是否自动添加sessionkey
@@ -277,6 +274,13 @@ export namespace WebRequest {
         public static getTableInfo(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
             doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/PyGroup.getTableInfo`, action, data, method);
         }
+
+        /**
+         * 获取亲友圈战绩统计数据
+         */
+        public static getGroupStat(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/PyGroup.getGroupStat`, action, data, method);
+        }
     }
 
     /**
@@ -416,13 +420,5 @@ export namespace WebRequest {
         public static GiftList(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
             doActionJson(`${ConfigData.webserverinterfaceUrl}/`, action, data, method);
         }
-    }
-
-    export class Test{
-        
-        public static test(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
-            doSafeActionJson(`${ConfigData.webserverinterfaceUrl}/safeapi/Test.test`, action, data, method);
-        }
- 
     }
 }

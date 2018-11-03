@@ -231,7 +231,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             
             //自建房
             if(this.isSelfCreateRoom) {
-                if(!this.TableConfig.IsTableCreatorPay && this.TableConfig.alreadyGameNum < 1)
+                if(this.TableConfig.IsTableCreatorPay>1 && this.TableConfig.alreadyGameNum < 1)
                 {
                     checkMoney=this.TableConfig.tableCost;
                 }
@@ -342,9 +342,6 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
 
             return false;
         }
-
-
-
 
 
 
@@ -667,7 +664,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         M_LHZMJClass._ins = this;
         LHZMJ.ins.iclass = this;
 
-        this._shareContext ="我正在电玩城玩《宿州麻将》，已经建好游戏房间，就等你来战！";
+        this._shareContext ="我正在电玩城玩《红中麻将》，已经建好游戏房间，就等你来战！";
 
         this._haveGameScene=false;
         //
@@ -1270,7 +1267,18 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
        // M_LHZMJView.ins.ReadyStatusUserInfo.playerLook(chairID,clip);
        // M_LHZMJView.ins.GameStatusUserInfo.playerLook(chairID,clip);
     M_LHZMJView.ins.ReadyAndGameUserInfo.playerLook(chairID,clip);
+}
+
+    /**
+ * 玩家道具
+ * */
+    protected OnPlayerChatItem(self_chairID: number, chairID: number, player: QL_Common.TablePlayer, index:string): void {
+        var rechair = this.PhysicChair2LogicChair(self_chairID);
+        var rechair1 = this.PhysicChair2LogicChair(chairID);       
+        cc.log("收到玩家道具消息,发起者"+rechair1+"接收者"+rechair,"玩家实体昵称"+player.NickName+"动画文件索引"+index);
+        M_LHZMJView.ins.ShowChatItem(rechair1,rechair,index);
     }
+
     /**
      * 聊天框里的语句
      */
@@ -2195,17 +2203,36 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             recordData.push(balance.playerBalance[i].TotalScore);
         }
         //M_LHZMJView.ins.GameJiFenBan.gameRecord(recordData);
-        M_LHZMJView.ins.PlayFenXiang.gameRecord(recordData);     
-        M_LHZMJView.ins.JieShuanView.showJieShuan(balance);
-        if(this.TableConfig.isPlayEnoughGameNum){
-            if(cc.isValid(M_LHZMJView.ins.DissTable)){
-              M_LHZMJView.ins.DissTable.node.active=false;
-              M_LHZMJView.ins.DissTable.node.destroy();
+        M_LHZMJView.ins.PlayFenXiang.gameRecord(recordData); 
+        if(balance.MaPai.length>0){
+        M_LHZMJView.ins.CardView.showFanMa(balance.MaPai);   
+         this.scheduleOnce(() => {
+            M_LHZMJView.ins.JieShuanView.showJieShuan(balance);
+            if (this.TableConfig.isPlayEnoughGameNum) {
+                if (cc.isValid(M_LHZMJView.ins.DissTable)) {
+                    M_LHZMJView.ins.DissTable.node.active = false;
+                    M_LHZMJView.ins.DissTable.node.destroy();
+                }
+
             }
-            
-        }
-      
-        M_LHZMJView.ins.UserData.node.active=false;
+
+            M_LHZMJView.ins.UserData.node.active = false;
+        }, 3); 
+        } 
+        
+
+            M_LHZMJView.ins.JieShuanView.showJieShuan(balance);
+            if (this.TableConfig.isPlayEnoughGameNum) {
+                if (cc.isValid(M_LHZMJView.ins.DissTable)) {
+                    M_LHZMJView.ins.DissTable.node.active = false;
+                    M_LHZMJView.ins.DissTable.node.destroy();
+                }
+
+            }
+
+            M_LHZMJView.ins.UserData.node.active = false;
+
+
     }
 
     /**
@@ -2222,6 +2249,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     private Handle_CMD_S_GameRecordResult(msg: GameIF.CustomMessage): void {
         var data : M_LHZMJ_GameMessage.CMD_S_GameRecordResult = <M_LHZMJ_GameMessage.CMD_S_GameRecordResult>msg;
         //M_LHZMJView.ins.GameJiFenBan.gameRecordDataCome(data.record);
+        M_LHZMJView.ins.PlayFenXiang.HuGangCount(data);
         M_LHZMJView.ins.PlayFenXiang.gameRecordDataCome(data.record);
     }
     /**
@@ -2781,7 +2809,14 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     public getMahjong3DPaiBeiRes(cardtype: string): cc.SpriteFrame {
         return this.paibei3d.getSpriteFrame(cardtype);
     }
-
+    /**
+     * 获取随机牌花资源
+     * @param cardvalue 随机花色
+     * @param cardvalue2 随机数值
+     */
+        public getRanDomMahjongPaiHuaRes(cardvalue: number,cardvalue2: number): cc.SpriteFrame {
+        return this.paihua.getSpriteFrame(`mahjong_${cardvalue}_${cardvalue2}`);    
+    }
 
     /**
      * 逻辑椅子号转物理椅子号

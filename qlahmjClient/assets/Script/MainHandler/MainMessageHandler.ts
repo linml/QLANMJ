@@ -1,7 +1,7 @@
 
 import { ISocketHandler } from "../Interface/ISocketHandler";
 import { GameIF } from "../CommonSrc/GameIF";
-import Global from "../Global/Global";
+import Global from '../Global/Global';
 import { QL_Common } from "../CommonSrc/QL_Common";
 import SendMessage from "../Global/SendMessage";
 import { EventCode } from "../Global/EventCode";
@@ -121,6 +121,9 @@ export default class MainMessageHandler implements ISocketHandler {
             case QL_Common.Main_CommonID.LS2C << 8 | QL_Common.LS2C.MSG_S_SystmPushMsg:
                 this.MSG_S_SystmPushMsg(cm);
                 return true;
+            case QL_Common.Main_CommonID.LS2C << 8 | QL_Common.LS2C.MSG_S_SystemHornMsg:
+                this.MSG_S_SystemHornMsg(cm);
+                return true;
             default: {
                 const s = Global.Instance.NowScene;
                 if (cc.isValid(s)) {
@@ -143,6 +146,13 @@ export default class MainMessageHandler implements ISocketHandler {
         Global.Instance.SystmPushMsgHandler.OnSystmPushMsg(arg);
 
     }
+
+    private MSG_S_SystemHornMsg(cm: GameIF.CustomMessage){
+        const e = <QL_Common.MSG_S_SystemHornMsg>cm;
+        if (!e) return;
+        Global.Instance.UiManager.ShowHallHorn(e.HornMsgList[e.HornMsgList.length - 1].Context, 1, "");
+    }
+
 
     //登录成功的处理
     private ls2c_loginSuccess(cm: GameIF.CustomMessage) {

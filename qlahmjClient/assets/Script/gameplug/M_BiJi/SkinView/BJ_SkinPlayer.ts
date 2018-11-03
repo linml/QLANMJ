@@ -68,6 +68,8 @@ export default class SkinPlayer extends cc.Component {
     public img_peipaizhong:cc.Sprite = null;
     @property(cc.Sprite)
     public img_dropcard:cc.Sprite = null;
+    @property(cc.Animation)
+    public img_guzhang:cc.Animation = null;
     //变量
     private _chair: number = 0;
     //玩家状态
@@ -472,6 +474,15 @@ export default class SkinPlayer extends cc.Component {
         this.animation.addClip(value);
         this.animation.play("Emoji");
         this.scheduleOnce(this.AniEmojiFinish, 3 * BiJi.ins.iclass.GetSpeed());
+    }
+    public ShowGuZhang(){
+        this.img_guzhang.node.active = true;
+        this.img_guzhang.play();
+        this.scheduleOnce(this.AniGuZhangFinish, 3 * BiJi.ins.iclass.GetSpeed());
+    }
+    private AniGuZhangFinish() {
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active = false;
     }
     private AniEmojiFinish() {
         this.animation.stop();

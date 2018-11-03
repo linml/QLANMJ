@@ -1013,12 +1013,12 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
                     
                     this.group_gameNum.active =false;
                     //如果余额够,自动发送准备
-                    if(M_HQMJClass.ins.checkMoneyCanGame){
+                    if(M_HQMJClass.ins.checkMoneyCanGame()){
                         console.log(`isSelfCreateRoom=${this.gameClass.isSelfCreateRoom}`);
                         console.log(`alreadyGameNum=${M_HQMJClass.ins.TableConfig.alreadyGameNum}`);
-                        console.log(`isPlayEnoughGameNum=${M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum}`);
+                        console.log(`isPlayEnoughGameNum=${M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum(M_HQMJClass.ins._addNum)}`);
                         
-                        if(this.gameClass.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum){
+                        if(this.gameClass.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum(M_HQMJClass.ins._addNum)){
                             this.ReadyStatusUserInfo.OnPlayerStatusChange(M_HQMJClass.ins.SelfChair,QL_Common.GState.PlayerReady);
                             
                             this.gameClass.SendGameData(new M_HQMJ_GameMessage.CMD_C_NextGame());                       

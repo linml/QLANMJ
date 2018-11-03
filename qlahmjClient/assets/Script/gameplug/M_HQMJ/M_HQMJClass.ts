@@ -3,16 +3,16 @@ import { GameBaseClass } from "../base/GameBaseClass";
 import { HQMJMahjongDef, IHQMJClass, HQMJ, HQMJTableConfig, HQMJTimer, enGamePhase, HQMJOutCardPlayer, HQMJRecordCard, HQMJTimerDef, TingCardTip, HQMJSoundDef, enHuCardType, enHQMJAniType } from "./ConstDef/HQMJMahjongDef";
 import { GameIF } from "../../CommonSrc/GameIF";
 import { ShareParam } from "../../CustomType/ShareParam";
-// import { String, set, Label, update, property } from '../../../../creator';
+// import { String, set, Label, update, property, pointEqualToPoint } from '../../../../creator';
 import SendMessage from '../../Global/SendMessage';
 import PrefabClass from './PrefabClass';
 
-import Global from "../../Global/Global";
+import Global from '../../Global/Global';
 import M_HQMJView from './M_HQMJView';
 import HQMJ_GameInfo from"./SkinView/HQMJ_GameInfo"
 import { HQMJMahjongAlgorithm } from "./HQMJMahjongAlgorithm/HQMJMahjongAlgorithm";
 import { AudioType, VoiceType } from "../../CustomType/Enum";
-import { M_HQMJ_GameMessage } from "../../CommonSrc/M_HQMJ_GameMessage";
+import { M_HQMJ_GameMessage} from '../../CommonSrc/M_HQMJ_GameMessage';
 import { GameRuleData, M_HQMJ_GameData } from './M_HQMJSetting';
 import HQMJEvent from './HQMJEvent';
 import M_HQMJVoice from "./M_HQMJVoice";
@@ -31,6 +31,8 @@ import HQMJ_SelChi from './SkinView/HQMJ_SelChi';
 import HQMJ_BaoTing from './SkinView/HQMJ_Bao';
 import HQMJ_PaiWalls from './SkinView/HQMJ_PaiWalls';
 import { QL_Common } from "../../CommonSrc/QL_Common";
+import { Action } from '../../CustomType/Action';
+import { UIName } from "../../Global/UIName";
 const { ccclass, property } = cc._decorator;
 
 
@@ -80,6 +82,8 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     public is2D():boolean{
         return false;
     }      
+        //续局次数(1表示0次)
+        public _addNum:number = 1;
 
         //当前桌子人数
         public _currentPlayer:number = 0;
@@ -218,10 +222,34 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         /**
          * 检查余额是否可以继续游戏
          * */
-        public get checkMoneyCanGame():boolean{
-            //如果不够,开始求助
-            if(this.SelfRoomMoney < this.gameMoneyNum) {//this.gameMoneyNum
-                return false;
+        public checkMoneyCanGame():boolean{//圈主支付可能有问题 先不管
+            if(this.TableConfig.IsTableCreatorPay == 2){//房主支付
+                if(this.SelfIsTableOwener){//如果是房主
+                    if(this.SelfRoomMoney < this.gameMoneyNum) {
+                        return false;
+                    }
+                }
+            }else if(this.TableConfig.IsTableCreatorPay == 1){//AA支付
+                if(this.SelfRoomMoney < this.gameMoneyNum) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /**
+         * 检查余额是否可以续局
+         */
+        public checkAddGame(addNum:number):boolean{
+            if(this.TableConfig.IsTableCreatorPay == 2){//房主支付
+                if(this.SelfIsTableOwener && this.SelfRoomMoney < this.gameMoneyNum*addNum){
+                    return false;
+                }
+            }
+            if(this.TableConfig.IsTableCreatorPay == 1){//AA支付
+                if(this.SelfRoomMoney < this.gameMoneyNum*addNum){
+                    return false;
+                }
             }
             return true;
         }
@@ -902,6 +930,10 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                 case M_HQMJ_GameMessage.HQMJMsgID_s2c.CMD_S_QuitCreator:{
                     this.Hanle_CMD_S_QuitCreator();
                 }
+                //续局提示框
+                case M_HQMJ_GameMessage.HQMJMsgID_s2c.CMD_S_AddGameNum:{
+                    this.Hanle_CMD_S_AddGameNum(cm);
+                }
 
                 default:{
                     console.log(`未处理的指令:${cm.wMainCmdID} -- ${cm.wSubCmdID}`);
@@ -914,6 +946,56 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     private Hanle_CMD_S_QuitCreator():void{
         M_HQMJView.ins._setting.onExit();
         M_HQMJView.ins.MsgBox.showMsgBox("圈主钻石不足,创建房间失败！");
+    }
+
+    private Hanle_CMD_S_AddGameNum(msg:GameIF.CustomMessage):void{
+        var addGameNum : M_HQMJ_GameMessage.CMD_S_AddGameNum = <M_HQMJ_GameMessage.CMD_S_AddGameNum>msg;
+        if(addGameNum.gameNum == 2){//服务端自动发起续局投票
+            this.showResumeGameForm(new Action(this,this.RefusedAddGameNum),new Action(this,this.AgreeAddGameNum));
+        }
+        if(addGameNum.gameNum == 0){//玩家同意续局
+            cc.log("同意续局=======");
+        }
+        if(addGameNum.gameNum == 1){//玩家拒绝续局
+            cc.log("拒绝续局=======");
+            Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
+        }
+        if(addGameNum.gameNum == 100){//所有玩家同意续局
+            cc.log("-----续局成功-----");
+            this._addNum += 1;
+            cc.log("-----续局次数："+(this._addNum-1));
+            M_HQMJView.ins.JieShuanView.goonbtn();
+            Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
+        }
+        if(addGameNum.gameNum == 101){//有玩家钻石不足
+            Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
+            M_HQMJView.ins.MsgBox.showMsgBox("有玩家钻石不足，续局失败。");
+        }
+        //客户端处理
+        // var addGameNum:M_HQMJ_GameMessage.CMD_S_AddGameNum=<M_HQMJ_GameMessage.CMD_S_AddGameNum>msg;
+        // let gameNum:number = addGameNum.gameNum;
+
+        // var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
+        // c_addGameNum.point = 8;
+        // this.SendGameData(c_addGameNum);
+    }
+
+    //玩家拒绝续局 
+    private RefusedAddGameNum():void{
+        var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
+        c_addGameNum.point = 1;
+        this.SendGameData(c_addGameNum);
+    }
+    //玩家同意续局 0同意 1拒绝 2钻石不足
+    private AgreeAddGameNum():void{
+        var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
+        if(this.checkAddGame(this._addNum)){
+            c_addGameNum.point = 0;
+        }else{
+            //钻石不足 无法续局 游戏结束
+            c_addGameNum.point = 2;
+        }
+        this.SendGameData(c_addGameNum);
     }
     /**
      * 把混皮牌发送到客户端
@@ -1374,8 +1456,13 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                 this.gameView.ReadyStatusUserInfo.kickBtn1.node.active = false;
                 this.gameView.ReadyStatusUserInfo.kickBtn2.node.active = false;
                 this.gameView.ReadyStatusUserInfo.kickBtn3.node.active = false;
+                let gameCount:number = 0;
+                if(this._tableConfig.setGameNum == 0)
+                    gameCount = 8;
+                if(this._tableConfig.setGameNum == 1)
+                    gameCount = 16;
                 break;
-            }
+            } 
             //发送准备
             case HQMJEvent.msg_ready:{
                 this.SendUserReady();
@@ -1462,9 +1549,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                     M_HQMJView.ins.SelChiView.showChi(chiStyle,leftChi,midChi,rightChi,this._outCardPlayer.Card);
                     this._eventMsg = e;
                     this.chiFun(this._eventMsg);           
-                    
                 }
-
             }
             case HQMJEvent.msg_baoting:{
                 // M_HQMJView.ins.OperatorView.node.active=false;
@@ -1581,7 +1666,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             gameCount = 8;
         if(this._tableConfig.setGameNum == 1)
             gameCount = 16;    
-        M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount);
+        M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount*this._addNum);
         M_HQMJView.ins.GameInfo.tableCode = tableConfig.TableCode;
         M_HQMJView.ins.ReadyStatusUserInfo.SelfReady();
         
@@ -2374,7 +2459,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         M_HQMJView.ins.GameJiFenBan.gameRecord(recordData);
         M_HQMJView.ins.PlayFenXiang.gameRecord(recordData);
         M_HQMJView.ins.JieShuanView.showJieShuan(balance);
-               if(this.TableConfig.isPlayEnoughGameNum){
+        if(this.TableConfig.isPlayEnoughGameNum(this._addNum)){
               M_HQMJView.ins.DissTable.node.active=false;
         }
         M_HQMJView.ins.UserData.node.active=false;
@@ -2587,7 +2672,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         //通知玩家进入
         this.gameView.playerComeing();//dispatchEvent(new HQMJEvent(HQMJEvent.msg_playerComeing));
         //局数恢复
-        M_HQMJView.ins.showGameNum(this._tableConfig.setGameNum,this._tableConfig.alreadyGameNum,this._tableConfig.realGameNum);
+        M_HQMJView.ins.showGameNum(this._tableConfig.setGameNum*this._addNum,this._tableConfig.alreadyGameNum,this._tableConfig.realGameNum);
         var gameInfo : M_HQMJ_GameMessage.CMD_S_ORC_GameInfo = <M_HQMJ_GameMessage.CMD_S_ORC_GameInfo>msg;
         this._bankerChair = gameInfo.bankerChair;
         this._lianBanker=gameInfo.lianBanker+1;
@@ -2678,7 +2763,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             gameCount = 8;
         if(this._tableConfig.setGameNum == 1)
             gameCount = 16; 
-        M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount);
+        M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount*this._addNum);
         M_HQMJView.ins.GameInfo.tableCode=this._tableConfig.TableCode;
         //设置计分板玩家名称
         // for(var m: number = 0;m < HQMJMahjongDef.gPlayerNum;m++) {
@@ -2738,7 +2823,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                 gameCount = 8;
             if(this._tableConfig.setGameNum == 1)
                 gameCount = 16; 
-            M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount);
+            M_HQMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount*this._addNum);
         }
         
         if(this._tableConfig.needHideUserMoney){

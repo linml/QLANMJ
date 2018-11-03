@@ -3600,7 +3600,7 @@ namespace MahjongAlgorithmForMGMJ
                     vectorTingCard.Add(tingCards[i]);
                 }
             }
-
+             
             return tingCards.Count > 0;
         }
 
@@ -3637,8 +3637,7 @@ namespace MahjongAlgorithmForMGMJ
                     srcAry.Add(vSrc[i]);
                 }
             }
-
-
+            
             if (CheckIfCanHuCardArray(srcAry))//没有赖子普通的胡牌，如果有赖子(即laiziNum!=0),且此处判断能够胡，那么赖子数必为3的整数倍
             {
                 return true;
@@ -4393,6 +4392,32 @@ namespace MahjongAlgorithmForMGMJ
 
 
             return needs[temp] <= laiziNum;
+        }
+
+        /// <summary>
+        /// 四喜检测
+        /// </summary>
+        /// <param name="handHolds"></param>
+        /// <returns></returns>
+        public static bool isHuSiXiPairStruc(List<byte> handHolds, byte  holdeCard ,List<byte> hunAry) {
+
+            List<byte> srcAry = new List<byte>();
+            for (int i = 0; i < handHolds.Count; i++)
+            {
+                srcAry.Add(handHolds[i]);
+            }
+            srcAry.Add(holdeCard);
+
+            int laiziNum = 0;
+            for (int i = 0; i < srcAry.Count; i++)
+            {
+                if (hunAry.Contains(srcAry[i]))
+                {
+                    laiziNum++;
+                    continue;
+                }
+            }
+            return laiziNum==4;
         }
 
     }

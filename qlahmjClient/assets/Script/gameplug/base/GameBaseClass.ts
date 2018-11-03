@@ -22,6 +22,8 @@ import { ReConnectBase } from "../../SceneCtrl/ReConnectBase";
 import { NativeCtrl } from "../../Native/NativeCtrl";
 import MJ_UserData from "../MJCommon/MJ_UserData";
 import { ConstValues } from "../../Global/ConstValues";
+import { Action } from "../../CustomType/Action";
+import { LastCardIndex } from '../M_BiJi/GameHelp/BJ_GameHelp';
 
 export abstract class GameBaseClass extends ReConnectBase {
 
@@ -358,9 +360,17 @@ export abstract class GameBaseClass extends ReConnectBase {
     }
 
     /**
+     * 显示申请续局弹框
+     * downTime: 倒计时
+     */
+    public showResumeGameForm(gameEndEventHandle: Action, agreeEventHandle: Action) {
+        this.ShowUi(UIName.ResumeGame, { downTime: 0, gameEndEventHandle: gameEndEventHandle, agreeEventHandle: agreeEventHandle });
+    }
+
+    /**
      * 显示个人信息框
      */
-    public showPlayerInfoForm(tableInfo: QL_Common.TablePlayer, pos: any) {
+    public showPlayerInfoForm(tableInfo: QL_Common.TablePlayer, pos: any, chairID : number) {
         let tableInfo_ = tableInfo;
         let pos_ = pos;
 
@@ -375,7 +385,7 @@ export abstract class GameBaseClass extends ReConnectBase {
             let playerInfo: MJ_UserData = newNode.getComponent('MJ_UserData');
 
             if (playerInfo) {
-                playerInfo.InitShow(tableInfo_, pos_, this._chairID);
+                playerInfo.InitShow(tableInfo_, pos_, chairID);
             }
 
             cc.Canvas.instance.node.addChild(newNode);
@@ -612,50 +622,49 @@ export abstract class GameBaseClass extends ReConnectBase {
                 Global.Instance.AudioManager.PlayRecord(chart.chartContext, chart.chairID);
                 return;
             case ChatType.Item:
-                let self_chairid;//发起玩家的椅子号
-                let filename = "";//可变路径
-                let play_flag = true;//用于表示某些动画只有飞行动画
-                let fx_clip : cc.AnimationClip = null; //用于存放飞行动画clip
+                let target_chairid;//发起玩家的椅子号
 
                 let exist = chart.chartContext.indexOf("_"); //如果下划线存在
                 if(exist > - 1){
                     let str_array = chart.chartContext.split("_");
                     chart.chartContext = str_array[0];
-                    self_chairid = parseInt(str_array[1]);
+                    target_chairid = parseInt(str_array[1]);
                 }
 
-                if(chart.chartContext == "guzhang"){
-                    filename = "Animation/Item/gfx_meili_" + chart.chartContext + "_stand_animation";
-                    play_flag = false;
-                }else{
-                    filename = "Animation/Item/gfx_meili_" + chart.chartContext + "_feixing_animation"
-                }
+                this.OnPlayerChatItem(target_chairid, chart.chairID, this.TablePlayer[chart.chairID], chart.chartContext);
+
+                // if(chart.chartContext == "guzhang"){
+                //     filename = "Animation/Item/gfx_meili_" + chart.chartContext + "_stand_animation";
+                //     play_flag = false;
+                // }else{
+                //     filename = "Animation/Item/gfx_meili_" + chart.chartContext + "_feixing_animation"
+                // }
             
-                if(!play_flag){
-                    cc.log("鼓掌没有命中动画");
-                    return;
-                }
+                // if(!play_flag){
+                //     cc.log("鼓掌没有命中动画");
+                //     return;
+                // }
 
-                cc.loader.loadRes(filename, cc.AnimationClip, function (err, fxclip) {
-                    if (err) {
-                        cc.error(err);
-                        return;
-                    }
-                    fx_clip = fxclip;
-                }.bind(this))
+                // cc.loader.loadRes(filename, cc.AnimationClip, function (err, fxclip) {
+                //     if (err) {
+                //         cc.error(err);
+                //         return;
+                //     }
+                //     fx_clip = fxclip;
+                // }.bind(this))
 
-                cc.loader.loadRes("Animation/Item/gfx_meili_" + chart.chartContext + "_mingzhong_animation", cc.AnimationClip, function (err, mzclip) {
-                    if (err) {
-                        cc.error(err);
-                        return;
-                    }
+                // cc.loader.loadRes("Animation/Item/gfx_meili_" + chart.chartContext + "_mingzhong_animation", cc.AnimationClip, function (err, mzclip) {
+                //     if (err) {
+                //         cc.error(err);
+                //         return;
+                //     }
 
-                    if(fx_clip != null){
-                        this.OnPlayerChatItem(self_chairid, chart.chairID, this.TablePlayer[chart.chairID], fx_clip, mzclip);
-                    }else{
-                        cc.log("获取道具飞行动画初始化失败");
-                    }
-                }.bind(this))
+                //     if(fx_clip != null){
+                //         this.OnPlayerChatItem(target_chairid, chart.chairID, this.TablePlayer[chart.chairID], fx_clip, mzclip);
+                //     }else{
+                //         cc.log("获取道具飞行动画初始化失败");
+                //     }
+                // }.bind(this))
 
                 return;
             default:
@@ -861,7 +870,7 @@ export abstract class GameBaseClass extends ReConnectBase {
     /**
      * 玩家道具
      * */
-    protected OnPlayerChatItem(self_chairID : number ,chairID: number, player: QL_Common.TablePlayer, clip: cc.AnimationClip): void {
+    protected OnPlayerChatItem(self_chairID : number ,chairID: number, player: QL_Common.TablePlayer, index : string): void {
 
     }
 
@@ -1029,7 +1038,7 @@ export abstract class GameBaseClass extends ReConnectBase {
                 break;
             default: {
                 return super.OnSceneEvent(eventCode, value);
-            }
+            }it
         }
         return true;
     }

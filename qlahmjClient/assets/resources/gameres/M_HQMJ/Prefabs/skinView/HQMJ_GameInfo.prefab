@@ -607,7 +607,8 @@
     },
     "lbl_GameNum": {
       "__id__": 16
-    }
+    },
+    "btn_AddGameNum": null
   },
   {
     "__type__": "cc.PrefabInfo",

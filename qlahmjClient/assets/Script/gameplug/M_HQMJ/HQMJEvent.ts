@@ -132,6 +132,8 @@ export default class HQMJEvent extends cc.Event.EventCustom {
 
         public static msg_baoting:number=43;
 
+        public static msg_addGameNum:number=44;
+
         //
         //=====属性定义 
         //

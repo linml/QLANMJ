@@ -36,10 +36,10 @@ export default class HQMJ_SinglePlayerRecordX extends cc.Component {
         
         this._idx = this._idx % 2;
         if(this._idx==0){
-            SetTextureRes(`gameres/gameCommonRes/Texture/Mahjong/MJ_JiFenBan/mj_tiao2`,this.img_bg);
+            // SetTextureRes(`gameres/gameCommonRes/Texture/Mahjong/MJ_JiFenBan/mj_tiao2`,this.img_bg);
         }
         else{
-            SetTextureRes(`gameres/gameCommonRes/Texture/Mahjong/MJ_JiFenBan/mj_tiao1`,this.img_bg);
+            // SetTextureRes(`gameres/gameCommonRes/Texture/Mahjong/MJ_JiFenBan/mj_tiao1`,this.img_bg);
         }
         
         

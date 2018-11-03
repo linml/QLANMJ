@@ -1,4 +1,5 @@
 import { BuglyUserData } from "./BuglyUserData";
+import { NativeCtrl } from "../Native/NativeCtrl";
 
 
 export class LocalStorage {
@@ -38,10 +39,11 @@ export class LocalStorage {
        return version;
     }
     public static set LocalHotVersion(version:any){
+        LocalStorage.SetItem("LocalHotVersion",version+'');
         let userdata:BuglyUserData = new BuglyUserData();
         userdata.Key = "LocalHotVersion";
         userdata.Value = version;
-        LocalStorage.SetItem("LocalHotVersion",version+'');
+        NativeCtrl.SetBuglyUserData(userdata);
     }
 
 

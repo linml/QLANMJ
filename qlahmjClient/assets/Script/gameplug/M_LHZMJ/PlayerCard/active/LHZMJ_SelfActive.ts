@@ -130,7 +130,10 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
             console.log("牌证整理完毕完毕完毕完毕完毕完毕")
         }
 
-
+        for(var i: number = 0;i < this._cardData.length;i++) {
+            (<LHZMJ_SelfSingleActive>this._cardData[i]).HuiCardShowGreenZZ(this._handCard[i]);
+            
+        }
         this.refreshHandCard();
         this.node.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_arrangeHandCardComplete)); 
     }

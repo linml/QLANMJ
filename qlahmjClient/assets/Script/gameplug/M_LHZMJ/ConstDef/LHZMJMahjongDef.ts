@@ -987,8 +987,8 @@ const { ccclass, property } = cc._decorator;
         /**
          * 房主买单
          */
-        public get IsTableCreatorPay():boolean{
-            return this._tableCreatorPay == 2;
+        public get IsTableCreatorPay():number{
+            return this._tableCreatorPay;
         }
         /**
          * 房费
@@ -1149,27 +1149,27 @@ const { ccclass, property } = cc._decorator;
             //开胡
             //context+=`底番${this._baseScore==1?"1234":"2468"},`;
             //局数
-          if(this._ifCanSameIP) {
-              context+=`同IP允许同桌,`;
-          }else{
-              context+=`同IP不许同桌,`;
-          }
-            context+=`打${this._setGameNum}局，`;
-            //AA制
-            if(!this._tableCreatorPay)
-            {
-              context+=`桌费每人${this._tableCost}张房卡，`;
-              context+=`AA制,`;
-            }else{
-                context+=`房主付费,`;
-            }
+        //   if(this._ifCanSameIP) {
+        //       context+=`同IP允许同桌,`;
+        //   }else{
+        //       context+=`同IP不许同桌,`;
+        //   }
+            // context+=`打${this._setGameNum}局，`;
+            // //AA制
+            // if(!this._tableCreatorPay)
+            // {
+            //   context+=`桌费每人${this._tableCost}张房卡，`;
+            //   context+=`AA制,`;
+            // }else{
+            //     context+=`房主付费,`;
+            // }
             //
 
-             context+=`${this._ifCanBaoTing?"报听，":""}`;
+            //  context+=`${this._ifCanBaoTing?"报听，":""}`;
 
-             context+=`${this._isChuHunJiaFan?"出会加番，":""}`;
-             context+=`${this._ifCanHu7Dui?"七对，":""}`;
-             context+=`${this._ifCanTianHu?"天胡。":""}`;
+            //  context+=`${this._isChuHunJiaFan?"出会加番，":""}`;
+            //  context+=`${this._ifCanHu7Dui?"七对，":""}`;
+            //  context+=`${this._ifCanTianHu?"天胡。":""}`;
 
             
             return context;

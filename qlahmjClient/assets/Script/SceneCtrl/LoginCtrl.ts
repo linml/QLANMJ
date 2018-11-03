@@ -37,8 +37,8 @@ export default class LoginCtrl extends ReConnectBase {
     @property(cc.Node)
     btn_onekey: cc.Node = null;
 
-    // @property(cc.Prefab)
-    // flowerPrefab: cc.Prefab = null;
+    @property([cc.Node])
+    btn_testArray: cc.Node[] = [];
 
     @property(GetConfigForm)
     getConfigForm: GetConfigForm = null;
@@ -95,11 +95,13 @@ export default class LoginCtrl extends ReConnectBase {
             case PackageType.Preview:
                 cc.log("审核服,隐藏账号按钮");
                 this.btn_account.active = false;
+                this.hideTestButton();
                 return;
             default:
                 cc.log("正式服,隐藏游客、账号按钮");
                 this.btn_account.active = false;
                 this.btn_onekey.active = false;
+                this.hideTestButton();
                 // //尝试执行自动登录
                 if (ConfigData.AutoLogin) {
                     if (!this.str_password || this.str_password.length === 0) {
@@ -421,7 +423,7 @@ export default class LoginCtrl extends ReConnectBase {
             if (!obj.status || obj.status === "success") {
                 const data = WebRequest.DefaultData(false);
 
-                
+
                 let region = ConfigData.RegionName;
                 let device_type = 2;
                 if (cc.sys.platform == cc.sys.ANDROID) {
@@ -495,6 +497,18 @@ export default class LoginCtrl extends ReConnectBase {
         cc.log("清除花瓣倒计时，切换场景到" + scenes);
         Global.ChangeScene(scenes, fun);
 
+    }
+    private hideTestButton() {
+        if (!this.btn_testArray || this.btn_testArray.length <= 0) return;
+
+        for (let node of this.btn_testArray) {
+            if (!cc.isValid(node)) continue;
+            node.active = false;
+        }
+    }
+
+    OnShowUrl() {
+        this.ShowUi(UIName.WebForm,"https://cli.im/DAtewT?iframe=1");
     }
 }
 

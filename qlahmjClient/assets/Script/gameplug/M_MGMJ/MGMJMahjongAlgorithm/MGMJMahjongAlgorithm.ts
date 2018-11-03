@@ -86,7 +86,7 @@ const { ccclass, property } = cc._decorator;
                 return;
             }
 
-            cc.info("排序前：" + cardAry);
+            // cc.info("排序前：" + cardAry);
             
             var tempCard : number=0;
             var hunpai :number = M_MGMJView.ins.gameClass.TableConfig.SetPeiZi;
@@ -95,7 +95,7 @@ const { ccclass, property } = cc._decorator;
                  tempCardArray.push(hunpai);
                  cardAry.splice(cardAry.indexOf(hunpai),1);
             }
-            cc.info("宝牌：" + tempCardArray);
+            // cc.info("宝牌：" + tempCardArray);
             //排序
             for(var i:number=0; i<cardAry.length - 1; i++){
                 for(var j:number = i+1; j<cardAry.length; j++){
@@ -106,13 +106,13 @@ const { ccclass, property } = cc._decorator;
                     }
                 }
             }
-            cc.info("无宝牌：" + cardAry);
+            // cc.info("无宝牌：" + cardAry);
 
             for(var i:number =0;i<tempCardArray.length;i++){
                 cardAry.unshift(tempCardArray[i]);
             }
             // cardAry = tempCardArray.concat(cardAry);
-            cc.info("排序后：" + cardAry);
+            // cc.info("排序后：" + cardAry);
 
         }
         

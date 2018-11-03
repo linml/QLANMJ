@@ -9,6 +9,7 @@ import LHZMJ_HunPi from "../PlayerCard/single/hunpi/LHZMJ_HunPi";
 import LHZMJ_SinglePoolBase from "../PlayerCard/single/LHZMJ_SinglePoolBase";
 import M_LHZMJView from "../M_LHZMJView";
 import LHZMJ_PaiQiang from "./LHZMJ_PaiQiang";
+import M_LHZMJClass from "../M_LHZMJClass";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -45,6 +46,16 @@ export default class LHZMJ_CardView extends cc.Component {
     public get PaiQiangInfo(): LHZMJ_PaiQiang {
         return this._cardWall;
     }
+    @property(cc.Node)
+    fama_view:cc.Node = null;
+    //6张翻码的牌背
+    @property([cc.Sprite])
+    fanma_cardback:cc.Sprite[] = [];
+    //6张翻码的牌花
+    @property([cc.Sprite])
+    fanma_cardcolor:cc.Sprite[] = [];
+    //重复计时器记次数
+    private timeidx:number;
     
     onLoad() {
         // init logic
@@ -82,7 +93,7 @@ export default class LHZMJ_CardView extends cc.Component {
         this.clear();
         this.PaiQiangInfo.init();
         this.node.active=true;
-        
+        this.timeidx = 0;
         //this._activeCard = new Array<LHZMJ_ActiveBase>();
         // this._fixedCard = new Array<LHZMJ_FixedBase>();
         // this._poolCard = new Array<LHZMJ_PoolBase>();
@@ -458,5 +469,37 @@ export default class LHZMJ_CardView extends cc.Component {
         }
         // this.img_poolCardArrow.node.active=false;
         this.bg_poolCardArrow.active=false;
+        this.timeidx = 0;
+        this.PaiQiangInfo.init();
     }
+
+    public showFanMa(mapai:number[]): void {
+
+        for (var i = 0; i < mapai.length; i++) {
+            this.fanma_cardback[i].node.active = true;
+        }
+        this.fama_view.active = true;
+        this.schedule(() => {
+            for (var k = 0; k < mapai.length; k++) {
+                if (this.fanma_cardback[k].node.active) {
+                    var cardvalue = Math.floor(Math.random() * 100) % 3;
+                    var cardvalue2 = Math.floor(Math.random() * 100) % 10;
+                    this.fanma_cardcolor[k].spriteFrame = M_LHZMJClass.ins.getRanDomMahjongPaiHuaRes(cardvalue, cardvalue2);
+                }
+            }      
+            this.timeidx++;
+            if (this.timeidx >= 10) {
+                for (var q = 0; q < mapai.length; q++) {
+                    this.fanma_cardcolor[q].spriteFrame = M_LHZMJClass.ins.getMahjongPaiHuaRes(mapai[q])
+                }
+            } 
+        }, 0.1, 10);
+       
+        
+    }
+
+
+
+
+
 }

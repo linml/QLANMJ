@@ -1946,7 +1946,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 96,
       "height": 24
     },
     "_rotationX": 0,
@@ -1981,7 +1981,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "点炮胡次数",
+    "_N$string": "中码次数",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -3619,7 +3619,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 96,
       "height": 24
     },
     "_rotationX": 0,
@@ -3654,7 +3654,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "点炮胡次数",
+    "_N$string": "中码次数",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -5292,7 +5292,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 96,
       "height": 24
     },
     "_rotationX": 0,
@@ -5327,7 +5327,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "点炮胡次数",
+    "_N$string": "中码次数",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -6965,7 +6965,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 96,
       "height": 24
     },
     "_rotationX": 0,
@@ -7000,7 +7000,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "点炮胡次数",
+    "_N$string": "中码次数",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",

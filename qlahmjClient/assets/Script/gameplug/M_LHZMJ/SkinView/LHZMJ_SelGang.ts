@@ -96,10 +96,11 @@ export default class LHZMJ_SelGang extends cc.Component {
         if (this._gangCard.length > 1) {
 
             //this.img_gangcard_2.active = (3 == this._gangCard.length);
-            this.img_2.active = (3 == this._gangCard.length);
+           // this.img_2.active = (3 == this._gangCard.length);
             this.btn_gang[0].node.active = true;
             this.btn_gang[1].node.active = true;
             this.btn_gang[2].node.active = false;
+            this.img_2.active = false;
 
             let url = "";
 
@@ -113,6 +114,7 @@ export default class LHZMJ_SelGang extends cc.Component {
             this.btn_gang[0].node.active = true;
             this.btn_gang[1].node.active = true;
             this.btn_gang[2].node.active = true;
+            this.img_2.active = true;
             }
           //  this.node.x=0-this.gang_bg.node.width/2;
 

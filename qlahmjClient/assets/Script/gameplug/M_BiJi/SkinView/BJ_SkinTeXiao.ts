@@ -5,26 +5,28 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SkinTeXiao extends cc.Component {
- @property(cc.Animation)
- private compare:cc.Animation = null;
- onLoad(){
-     this.compare.on("finished",this.comparefinish,this)
- }
- public Init(){
-     this.compare.node.active = false;
-     this.compare.stop();
- }
+    @property(cc.Animation)
+    private compare: cc.Animation = null;
 
- public ShowCompare(){
-     this.compare.node.active = true;
-     this.compare.play();
- }
-private comparefinish(){
+
+
+    onLoad() {
+        this.compare.on("finished", this.comparefinish, this);       
+    }
+    public Init() {
+        this.compare.node.active = false;
+        this.compare.stop();
+    }
+
+    public ShowCompare() {
+        this.compare.node.active = true;
+        this.compare.play();
+    }
+    private comparefinish() {
         console.log("比牌动画播放完成");
         this.compare.stop();
-       
-       
-}
+    }
+
 }
 
 

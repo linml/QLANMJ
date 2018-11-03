@@ -1,11 +1,13 @@
 export namespace UIName {
+
+  export const WebForm ="WebPage/WebForm";
+
   export const Loading = "Loading/LoadingForm";
   export const GetConfig = "Loading/GetConfigForm";
   /**
    * 用户协议
    */
   export const Protocol = "Protocol/ProtocolForm";
-
   export const JoinRoom = "JoinRoom/JoinRoomForm";
 
   /**
@@ -30,6 +32,7 @@ export namespace UIName {
   export const ShareGift = "Share/ShareGiftForm";
   export const GameShareForm = "Share/GameShare";
   export const Auth = "Auth/AuthCardForm";
+  export const ResumeGame = "ResumeGame/ResumeGame";
 
   /**
    * 战绩回放
@@ -53,15 +56,17 @@ export namespace UIName {
   export const Contact="General/Contact";
   export const Congratulation="General/Congratulation";
   export const Task="Task/TaskForm";//任务
-  export const EmailContentPanel = "Email/EmailContent"
-  export const ShopGiftPanel = "General/congratulation"
-  export const GiveGiftPanel = "GiftPanel/frist_gift_panel"
+  export const EmailContentPanel = "Email/EmailContent";
+  export const ShopGiftPanel = "General/congratulation";
+  export const GiveGiftPanel = "GiftPanel/frist_gift_panel";
+  export const HornPanel = "Horn/HornPanel";
+
 
 
   export const LuckDraw="LuckDraw/LuckDrawForm";
 
   /**
-   * 选择亲友圈界面
+   * 选择亲友圈界面 
    */
   export const SelectFriendCircle="FriendsCircle/createSelect/CreateSelecteFriendsCircle";
   /**

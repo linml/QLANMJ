@@ -1,6 +1,7 @@
 import { HQMJMahjongDef, HQMJ } from "../ConstDef/HQMJMahjongDef";
 import M_HQMJVideoClass from "../M_HQMJVideoClass";
 import M_HQMJClass from '../M_HQMJClass';
+import HQMJEvent from "../HQMJEvent";
 
 const {ccclass, property} = cc._decorator;
 
@@ -118,4 +119,12 @@ export default class HQMJ_GameInfo extends cc.Component {
         this._leftCardNum = cardNum;
         this.lbl_leftCardNum.string=this._leftCardNum.toString();
     }
+
+    /**
+     * 续局按钮事件
+     */
+    private AddGameNum(num = 8){
+        this.node.dispatchEvent(new HQMJEvent(HQMJEvent.msg_addGameNum,8));        
+    }
+
 }

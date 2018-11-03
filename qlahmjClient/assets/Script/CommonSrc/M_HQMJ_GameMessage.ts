@@ -6,7 +6,7 @@ import {QL_Common} from "./QL_Common";
 export module M_HQMJ_GameMessage {
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -100,13 +100,17 @@ export module M_HQMJ_GameMessage {
     * 
     */
    public static readonly CMD_C_GiveUpBaoTing = 33;
+    /**
+    * 
+    */
+   public static readonly CMD_C_AddGameNum = 34;
 
     }
 
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -372,13 +376,17 @@ export module M_HQMJ_GameMessage {
     * 
     */
    public static readonly CMD_S_QuitCreator = 165;
+    /**
+    * 
+    */
+   public static readonly CMD_S_AddGameNum = 166;
 
     }
 
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -413,7 +421,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -440,7 +448,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -475,7 +483,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -502,7 +510,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -541,7 +549,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -572,7 +580,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -603,7 +611,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -638,7 +646,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -673,7 +681,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -712,7 +720,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -747,7 +755,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -778,7 +786,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -816,7 +824,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -846,7 +854,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -868,7 +876,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -894,7 +902,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -920,7 +928,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -958,7 +966,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -984,7 +992,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1010,7 +1018,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1036,7 +1044,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1066,7 +1074,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1108,7 +1116,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1134,7 +1142,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1164,7 +1172,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1194,7 +1202,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1228,7 +1236,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1258,7 +1266,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1296,7 +1304,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1330,7 +1338,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1356,7 +1364,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1398,7 +1406,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1428,7 +1436,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1458,7 +1466,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1492,7 +1500,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1530,7 +1538,33 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
+     * @创建人员：PC-20171211AIIH\Administrator
+     * @备注信息：
+     *
+     */
+    export class CMD_S_AddGameNum extends GameIF.GameMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 100;
+            this.wSubCmdID = 166;
+            this.$T="M_HQMJ_GameMessage.CMD_S_AddGameNum"; 
+        }
+       /**
+        *
+        */
+       public gameNum: number = 0;
+   
+    }
+    SerializerCreator.Register("M_HQMJ_GameMessage.CMD_S_AddGameNum", function () {return new CMD_S_AddGameNum()})
+    TSRH.RSerializer("25766", "1|gameNum", "M_HQMJ_GameMessage.CMD_S_AddGameNum");
+
+
+    /**
+     *
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1556,7 +1590,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1682,7 +1716,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1708,7 +1742,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1734,7 +1768,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1756,7 +1790,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1778,7 +1812,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1816,7 +1850,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1846,7 +1880,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1876,7 +1910,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1906,7 +1940,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1944,7 +1978,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -1974,7 +2008,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2008,7 +2042,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2034,7 +2068,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2056,7 +2090,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2078,7 +2112,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2104,7 +2138,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2146,7 +2180,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2172,7 +2206,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2202,7 +2236,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2228,7 +2262,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2253,7 +2287,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2275,7 +2309,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2309,7 +2343,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2335,7 +2369,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2357,7 +2391,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2383,7 +2417,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2409,7 +2443,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2435,7 +2469,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2461,7 +2495,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2503,7 +2537,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2537,7 +2571,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2567,7 +2601,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2593,7 +2627,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2627,7 +2661,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2653,7 +2687,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2679,7 +2713,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2701,7 +2735,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2723,7 +2757,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2748,7 +2782,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2778,7 +2812,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2804,7 +2838,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2830,7 +2864,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2856,7 +2890,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2882,7 +2916,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -2976,7 +3010,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3002,7 +3036,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3040,7 +3074,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3070,7 +3104,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3108,7 +3142,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3134,7 +3168,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3156,7 +3190,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3182,7 +3216,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3204,7 +3238,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3226,7 +3260,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3248,7 +3282,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3274,7 +3308,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3300,7 +3334,33 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
+     * @创建人员：PC-20171211AIIH\Administrator
+     * @备注信息：
+     *
+     */
+    export class CMD_C_AddGameNum extends GameIF.GameMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 100;
+            this.wSubCmdID = 34;
+            this.$T="M_HQMJ_GameMessage.CMD_C_AddGameNum"; 
+        }
+       /**
+        *
+        */
+       public point: number = 0;
+   
+    }
+    SerializerCreator.Register("M_HQMJ_GameMessage.CMD_C_AddGameNum", function () {return new CMD_C_AddGameNum()})
+    TSRH.RSerializer("25634", "1|point", "M_HQMJ_GameMessage.CMD_C_AddGameNum");
+
+
+    /**
+     *
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3326,7 +3386,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3352,7 +3412,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *
@@ -3378,7 +3438,7 @@ export module M_HQMJ_GameMessage {
 
     /**
      *
-     * @创建时间：2018年10月23日 16:48:05
+     * @创建时间：2018年10月25日 14:29:09
      * @创建人员：PC-20171211AIIH\Administrator
      * @备注信息：
      *

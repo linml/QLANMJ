@@ -408,8 +408,8 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
     private onReady():void{
         
         //如果不够,开始求助
-        if(M_HQMJClass.ins.checkMoneyCanGame){
-            if(M_HQMJClass.ins.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum) {
+        if(M_HQMJClass.ins.checkMoneyCanGame()){
+            if(M_HQMJClass.ins.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum(M_HQMJClass.ins._addNum)) {
                 //继续游戏
                 //this.dispatchEvent(new HQMJEvent(HQMJEvent.msg_goongame));
             }else{

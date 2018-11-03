@@ -55,6 +55,8 @@ export default class LHZMJ_Player extends cc.Component {
 
     @property(cc.Sprite)
     lbl_ting:cc.Sprite=null;
+    @property(cc.Animation)
+    img_guzhang:cc.Animation=null;
 
     private gender=0;
 
@@ -96,6 +98,8 @@ export default class LHZMJ_Player extends cc.Component {
         this.lbl_allaccount.node.active=false;
         this.group_money.active=false;
         this.animation.stop();
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active =false;
     }
 
     onDisable():void{
@@ -130,6 +134,15 @@ export default class LHZMJ_Player extends cc.Component {
             this.lbl_ting.node.active=false;
         }
         
+    }
+        public ShowGuZhang(){
+        this.img_guzhang.node.active = true;
+        this.img_guzhang.play();
+        this.scheduleOnce(this.AniGuZhangFinish, 2);
+    }
+        private AniGuZhangFinish() {
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active = false;
     }
     /**
      * 

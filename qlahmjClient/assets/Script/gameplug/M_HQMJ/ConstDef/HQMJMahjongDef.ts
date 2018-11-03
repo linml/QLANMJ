@@ -1011,13 +1011,13 @@ const { ccclass, property } = cc._decorator;
         /**
          * 是否打满了设置的局数
          * */
-        public get isPlayEnoughGameNum():boolean{
+        public isPlayEnoughGameNum(addNum:number):boolean{
             let jushu:number=0;
             if(this._setGameNum == 0)
                 jushu = 8;
             if(this._setGameNum == 1)
                 jushu = 16;
-            return this._alreadyGameNum >= jushu;
+            return this._alreadyGameNum >= jushu*addNum;
         }
 
         

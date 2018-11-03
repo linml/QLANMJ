@@ -67,7 +67,7 @@ export default class ConfigData {
     }
 
     public static get IPPort(): Array<string> {
-        let ipArray = ["ws://106.14.166.171:9003/"];
+        let ipArray = ["ws://ceshi.ls-qlgame.qileah.cn/"];
 
         switch (CurrentPackageType()) {
             case PackageType.Debug:

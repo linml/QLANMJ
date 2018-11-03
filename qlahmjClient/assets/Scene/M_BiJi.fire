@@ -738,6 +738,9 @@
     },
     "prefab_texiao": {
       "__uuid__": "d302a2a1-5b94-44bf-8f85-97aa622569a5"
+    },
+    "prefab_hudong": {
+      "__uuid__": "2fa41acb-9fe3-43bb-a870-f70dd2ad8e1e"
     }
   },
   {

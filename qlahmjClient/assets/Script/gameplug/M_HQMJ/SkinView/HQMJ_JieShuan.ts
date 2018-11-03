@@ -150,7 +150,7 @@ export default class HQMJ_JieShuan extends cc.Component {
         M_HQMJClass.ins.ScreenCapture(true);
     }   
    
-    private goonbtn():void{
+    public goonbtn():void{
         this.scheduleOnce(()=>{         
                 this.node.dispatchEvent(new HQMJEvent(HQMJEvent.msg_goongame));        
         },0.2);      

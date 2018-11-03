@@ -8,4 +8,3 @@ F:\project\QLAHMJ\GameResource\dll\MGMJ\MahjongAlgorithmForMGMJ.pdb
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.csproj.CoreCompileInputs.cache
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.dll
 F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.pdb
-F:\project\QLAHMJ\GameResource\M_MGMJ\MahjongAlgorithmForMGMJ\obj\Debug\MahjongAlgorithmForMGMJ.csprojAssemblyReference.cache

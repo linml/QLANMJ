@@ -9,7 +9,7 @@
   "wrapMode": "2",
   "curveData": {
     "paths": {
-      "yun": {
+      "Sprite_1": {
         "comps": {
           "cc.Sprite": {
             "spriteFrame": [

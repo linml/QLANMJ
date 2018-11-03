@@ -13,58 +13,58 @@ export default class ShopFormItems extends cc.Component {
     public IsKeyHandler: boolean = true;
 
     @property(cc.Node)
-    id : cc.Node = null;
+    id: cc.Node = null;
 
     @property(cc.Label)
-    LabItemNum : cc.Label = null;
+    LabItemNum: cc.Label = null;
 
     @property(cc.Label)
-    Price : cc.Label = null;
+    Price: cc.Label = null;
 
     @property(cc.Sprite)
-    ShopImg : cc.Sprite = null;
+    ShopImg: cc.Sprite = null;
 
     @property(cc.Label)
-    private GiveNum : cc.Label = null;
+    private GiveNum: cc.Label = null;
 
     @property(cc.Node)
-    private ImgGiveNum : cc.Node = null;
+    private ImgGiveNum: cc.Node = null;
 
     @property(cc.Node)
-    private RightTitle : cc.Node  = null;
+    private RightTitle: cc.Node = null;
 
-    public ProType : string = "钻石";
-    public ProNum : string = "x0";
-    public ImgId : number = 0;
+    public ProType: string = "钻石";
+    public ProNum: string = "x0";
+    public ImgId: number = 0;
 
     /**
      * 初始化赋值
      * @param data 
      */
-    public InitData(data){
+    public InitData(data) {
         this.id.name = data.id.toString(); //设置商品Id
 
         this.Price.string = "￥" + data.rmb.toString(); //设置人民币
 
         // 设置图片
         let img_id = data.img_id;
-        if(img_id <= 6){
+        if (img_id <= 6) {
             img_id = img_id - 1;
-        }else{
+        } else {
             img_id = 0;
         }
-        
+
         this.ImgId = img_id;
 
         //是否显示充值返还
         let agent_id = Global.Instance.DataCache.UserInfo.userData.AgentId
-        if(agent_id > 0 && data.givenum > 0){ //说明下面有代理
+        if (agent_id > 0 && data.givenum > 0) { //说明下面有代理
             this.GiveNum.string = data.givenum.toString()
             this.ImgGiveNum.active = true;
         }
 
         //是否为热销商品
-        if(data.isHot == 1){
+        if (data.isHot == 1) {
             this.RightTitle.active = true;
         }
 
@@ -74,11 +74,11 @@ export default class ShopFormItems extends cc.Component {
         this.ProNum = data.moneynum
         this.LabItemNum.string = this.ProNum.toString();
     }
-    
+
     /**
      * 发送支付请求
      */
-    private SendPayReq(){
+    private SendPayReq() {
         ShopForm.ShopFormItems = this;
         // Global.Instance.UiManager.ShowUi(UIName.ShopGiftPanel, this); //弹出奖励面板
         let action = new ActionNet(this, this.onWxAppPaySuccess, this.error);
@@ -87,10 +87,8 @@ export default class ShopFormItems extends cc.Component {
 
     onWxAppPaySuccess(json: any) {
         Global.Instance.UiManager.CloseLoading();
-        //     //拉起支付操作
-            cc.sys.openURL(json.payUrl);
-        //     //显示拉起地址用于调试
-            cc.log(json.payUrl);
+        cc.sys.openURL(json.payUrl);
+        cc.log(json.payUrl);
     }
 
     /**
@@ -113,7 +111,7 @@ export default class ShopFormItems extends cc.Component {
      * 获取商品类型
      * @param type 商品类型
      */
-    private getGiveType(type){
+    private getGiveType(type) {
         switch (type) {
             case "1":
                 return "金币";
@@ -122,7 +120,7 @@ export default class ShopFormItems extends cc.Component {
         }
     }
 
-    private error(){
+    private error() {
         Global.Instance.UiManager.CloseLoading();
     }
 }

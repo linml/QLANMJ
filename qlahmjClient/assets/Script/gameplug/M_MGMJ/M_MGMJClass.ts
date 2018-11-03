@@ -1728,7 +1728,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
     private Handle_CMD_S_SZInfo(msg: GameIF.CustomMessage):void{
         var sz: M_MGMJ_GameMessage.CMD_S_SZInfo = <M_MGMJ_GameMessage.CMD_S_SZInfo>msg;
         this._bankerChair = sz.bankerChair;
-        this._lianBanker=sz.lianBanker+1;
+        this._lianBanker=sz.lianBanker;
         this._sz1 = sz.sz1;
         this._sz2 = sz.sz2;
         
