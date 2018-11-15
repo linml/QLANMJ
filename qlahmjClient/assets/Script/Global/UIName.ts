@@ -60,6 +60,7 @@ export namespace UIName {
   export const ShopGiftPanel = "General/congratulation";
   export const GiveGiftPanel = "GiftPanel/frist_gift_panel";
   export const HornPanel = "Horn/HornPanel";
+  export const HornGamePanel = "Horn/HornGamePanel";
 
 
 

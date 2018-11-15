@@ -234,6 +234,7 @@ export default class SettingItem extends cc.Component {
         if (prefab) {
             let node = cc.instantiate(prefab);
             let componet: RuleItemToggleBase = node.getComponent(typeName);
+            componet.Type = data.nodeType;
             componet.ClickCallBack = this.action;
             componet.showData = data;
             componet.initShow();

@@ -6,7 +6,7 @@ import { GameIF } from "../../CommonSrc/GameIF";
 import M_HQMJClass from './M_HQMJClass';
 import HQMJ_ReadyStatusGameInfo from "./SkinView/HQMJ_ReadyStatusGameInfo";
 import HQMJ_GameInfo from "./SkinView/HQMJ_GameInfo";
-import HQMJ_ReadyStatusUserInfo from "./SkinView/HQMJ_ReadyStatusUserInfo";
+import HQMJ_ReadyStatusUserInfo from './SkinView/HQMJ_ReadyStatusUserInfo';
 import { M_HQMJ_GameMessage } from "../../CommonSrc/M_HQMJ_GameMessage";
 import HQMJ_TimerView from "./SkinView/HQMJ_Timer";
 import HQMJ_SZAni from "./SkinView/HQMJ_SZAni";
@@ -38,8 +38,9 @@ import HQMJ_Ani from "./SkinView/HQMJ_Ani";
 import HQMJ_StartAni from "./SkinView/HQMJ_StartAni";
 import HQMJ_JiFenBanX from "./SkinView/HQMJ_JiFenBanX";
 import HQMJ_OutCardView from "./SkinView/HQMJ_OutCardView";
-import M_HQMJVoice from "./M_HQMJVoice";
+import M_HQMJVoice from './M_HQMJVoice';
 import M_HQMJVideoClass from './M_HQMJVideoClass';
+import HuDong_Animation from "../MJCommon/HuDong_Animation";
 
 @ccclass
 export default class M_HQMJView extends cc.Component implements IHQMJView {
@@ -114,7 +115,12 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
         public get TimerView(): HQMJ_TimerView {
             return this._timerView;
         }
-
+        @property(cc.Prefab)
+        prefab_hudong:cc.Prefab = null;
+        private huDongDaoJu:HuDong_Animation;
+        public get HuDong_Ani():HuDong_Animation{
+            return this.huDongDaoJu;
+        }
 
         @property(cc.Prefab)
         SZAni_View: cc.Prefab=null;
@@ -504,6 +510,10 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             let mjoutNode=cc.instantiate(this.MJ_Out);
             this._mjOut=mjoutNode.getComponent<MJ_Out>(MJ_Out);
             this.node.addChild(mjoutNode);
+
+            let hudongnode = cc.instantiate(this.prefab_hudong);
+            this.huDongDaoJu = hudongnode.getComponent<HuDong_Animation>(HuDong_Animation);
+            this.node.addChild(hudongnode);
 
             let jsnode=cc.instantiate(this.HQMJ_JieShuan_View);
             this._jieShuan=jsnode.getComponent<HQMJ_JieShuan>(HQMJ_JieShuan);
@@ -937,6 +947,50 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             this._readyStatus_userInfo.tableOwener = chair;
             this._gameStatus_userInfo.tableOwener = chair;
         }
+
+    /**
+     * 显示互动道具
+     * @param spschair 发起者
+     * @param rechair 接收者
+     * @param index 道具索引
+     */
+    public ShowChatItem(spschair:number,rechair:number,index:string){
+        cc.log("索引"+index);
+        var idx = parseInt(index);
+        if(idx!=4){
+            var point = this.ReadyStatusUserInfo.GetPlayerPoint(spschair);
+            var point2 = this.ReadyStatusUserInfo.GetPlayerPoint(rechair);
+            if(point==null||point == undefined){
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            if (point2 == null || point2 == undefined) {
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            this.huDongDaoJu.showChatItem(idx,point,point2);
+            // if(idx == 0)
+            //     M_HQMJVoice.playDaoJu("eggs.mp3");
+            // if(idx == 1)
+            //     M_HQMJVoice.playDaoJu("zuichun.mp3");
+            // if(idx == 2)
+            //     M_HQMJVoice.playDaoJu("banzhuan.mp3");
+            // if(idx == 3)
+            //     M_HQMJVoice.playDaoJu("zhadan.mp3");
+        }else{
+            this.ReadyStatusUserInfo.ShowGuZhang(spschair);
+            this.GameStatusUserInfo.ShowGuZhang(spschair);
+            // M_HQMJVoice.playDaoJu("guzhang.mp3");
+        }
+        // if(idx==4){
+        //     this.skinPlayerControl.ShowGuZhang(spschair);
+        // }else{
+        //     var point = this.skinPlayerControl.GetPlayerInfoPoint(spschair);
+        //     var point2 = this.skinPlayerControl.GetPlayerInfoPoint(rechair);
+        //     this._aniPanel.showChatItem(idx,point,point2);
+        // }     
+    }
+
         /**
          * 事件监听
          * */

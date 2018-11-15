@@ -4870,12 +4870,12 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 256,
+      "width": 274,
       "height": 40
     },
     "_rotationX": 0,
@@ -4884,7 +4884,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -196,
+      "x": -330,
       "y": 133
     },
     "_skewX": 0,
@@ -4903,8 +4903,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 14,
-    "_fontSize": 14,
+    "_actualFontSize": 15,
+    "_fontSize": 15,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {

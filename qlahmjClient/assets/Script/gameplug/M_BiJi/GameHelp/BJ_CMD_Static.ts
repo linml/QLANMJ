@@ -97,6 +97,10 @@ export enum CMD_Static {
      */
     SUB_S_DropCards = 40,
     /**
+     * 请求续局
+     */
+    SUB_S_NextGamePlease = 41,
+    /**
      * 提示消息
      */
     SUB_S_ShowMsg = 50,

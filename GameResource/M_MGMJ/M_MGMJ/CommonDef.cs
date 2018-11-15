@@ -298,6 +298,11 @@ namespace M_MGMJ
         /// 是否允许ip相同
         /// </summary>
         public bool IfCanSameIp { get; set; }
+
+        /// <summary>
+        /// GPS
+        /// </summary>
+        public bool CheckGps { get; set; }
         /// <summary>
         /// 是否拉跑坐
         /// </summary>

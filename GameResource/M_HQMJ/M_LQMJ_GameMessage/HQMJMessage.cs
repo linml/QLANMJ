@@ -428,6 +428,15 @@ namespace M_HQMJ_GameMessage
     };
 
     /// <summary>
+    /// 续局投票超时
+    /// </summary>
+    [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_AddGameOutTime)]
+    public class CMD_S_AddGameOutTime : GameIF.GameMessage
+    {
+        
+    };
+
+    /// <summary>
     /// 玩家断线重连进来
     /// </summary>
     [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_PlayerOfflineCome)]
@@ -906,6 +915,19 @@ namespace M_HQMJ_GameMessage
     };
 
     /// <summary>
+    /// 续局
+    /// </summary>
+    [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_AddGameNum)]
+    public class CMD_S_AddGameNum : GameIF.GameMessage
+    {
+        [PacketMember(1)]
+        public byte gameNum;
+        [PacketMember(2)]
+        public byte chair;
+        [PacketMember(3)]
+        public byte addNum;
+    }
+    /// <summary>
     /// 游戏流水账
     /// </summary>
     [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_GameFlow)]
@@ -1050,6 +1072,18 @@ namespace M_HQMJ_GameMessage
         [PacketMember(25)]
         public byte daiDaPai;
 
+        /// <summary>
+        /// 是否亲友圈
+        /// </summary>
+        [PacketMember(26)]
+        public int tableWhere;
+
+        /// <summary>
+        /// 是否GPS检测
+        /// </summary>
+        [PacketMember(27)]
+        public byte checkGps;
+
     };
 
     /// <summary>
@@ -1167,6 +1201,8 @@ namespace M_HQMJ_GameMessage
         /// </summary>
         [PacketMember(1)]
         public string msg;
+        [PacketMember(2)]
+        public int cost;
     };
 
     /// <summary>
@@ -1688,6 +1724,24 @@ namespace M_HQMJ_GameMessage
         public byte leftTime;
 
     };
+    ///<summary>
+    ///断线重连续局投票
+    ///</summary> 
+    [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_ORC_AddGameNum)]
+    public class CMD_S_ORC_AddGameNum : GameIF.GameMessage
+    {
+        /// <summary>
+        /// 用于玩家断线重连恢复连庄数
+        /// </summary>
+        [PacketMember(1)]
+        public byte chair;
+        [PacketMember(2)]
+        public byte[] playerVote;
+        [PacketMember(3)]
+        public byte leftTime;
+        [PacketMember(4)]
+        public int[] tempScore;
+    };
 
     /// <summary>
     /// 断线重连局数未打完准备阶段
@@ -1951,6 +2005,11 @@ namespace M_HQMJ_GameMessage
         /// </summary>
         [PacketMember(18)]
         public byte canChi;
+        /// <summary>
+        /// 是否GPS定位
+        /// </summary>
+        [PacketMember(19)]
+        public byte IfCheckGps;
     };
     /// <summary>
     /// 操作频繁
@@ -2128,6 +2187,19 @@ namespace M_HQMJ_GameMessage
     /// </summary>
     [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_c2s.CMD_C_La)]
     public class CMD_C_La : GameIF.GameMessage
+    {
+        /// <summary>
+        /// 拉结果
+        /// </summary>
+        [PacketMember(1)]
+        public byte point;
+    };
+
+    /// <summary>
+    /// 续局
+    /// </summary>
+    [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_c2s.CMD_C_AddGameNum)]
+    public class CMD_C_AddGameNum : GameIF.GameMessage
     {
         /// <summary>
         /// 拉结果

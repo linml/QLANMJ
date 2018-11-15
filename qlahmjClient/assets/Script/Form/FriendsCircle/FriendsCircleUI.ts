@@ -330,6 +330,11 @@ export default class FriendsCircleUI extends UIBase<any> {
             ruleObj[key] = eval(ruleObj[key]);
         }
 
+        if (ruleObj["TableCost"]) {
+            ruleData.TableCost = ruleObj["TableCost"];
+            delete ruleObj["TableCost"];
+        }
+        
         ruleData.GameData = ruleObj;
         rule.RoomData = ruleData;
         

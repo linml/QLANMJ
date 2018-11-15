@@ -122,7 +122,7 @@ export default class LHZMJ_FenXiang extends cc.Component {
     public share(){
         cc.log("分享计分");
         this.btn_share.scheduleOnce(p=>{
-            M_LHZMJClass.ins.ScreenCapture(false,this.node);
+            M_LHZMJClass.ins.ScreenCapture(true,this.node);
         }, 0.3);   
     }
 

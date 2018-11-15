@@ -39,7 +39,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
             this.bmp_cardHide.node.scaleX=0.56;
             this.bmp_cardHide.node.scaleY=0.43;
             this.bmp_cardHide.node.skewX=0;
-            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_oppo_1280");
+            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shangdp_back@2x");
             this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
         }else{
             this.show3DCard();
@@ -63,7 +63,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
     private show3DCard():void{
         switch (this._cardIndex) {
             case 1:{
-                this.node.x=-262;
+                this.node.x=-260;
                 this.node.y=-85;
 
                 this.bmp_cardback.node.width=59;
@@ -94,7 +94,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 2:{
-                this.node.x=-211;
+                this.node.x=-209;
                 this.node.y=-85;
 
                 this.bmp_cardback.node.width=57;
@@ -124,7 +124,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 3:{
-                this.node.x=-159;
+                this.node.x=-158;
                 this.node.y=-85;
 
                 this.bmp_cardback.node.width=56;
@@ -214,7 +214,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
             }
 
             case 6:{
-                this.node.x=-5;
+                this.node.x=-4;
                 this.node.y=-85;
 
                 this.bmp_cardback.node.width=55;
@@ -244,7 +244,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 7:{
-                this.node.x=46;
+                this.node.x=47;
                 this.node.y=-85;
 
                 this.bmp_cardback.node.width=56;
@@ -363,7 +363,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
 
 
             case 11:{
-                this.node.x=-265.4;
+                this.node.x=-264;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=60;
@@ -392,7 +392,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 12:{
-                this.node.x=-213.5;
+                this.node.x=-212;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=58;
@@ -421,7 +421,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 13:{
-                this.node.x=-160.9;
+                this.node.x=-160;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=57;
@@ -450,7 +450,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 14:{
-                this.node.x=-108.5;
+                this.node.x=-109;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=56;
@@ -479,7 +479,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 break;
             }
             case 15:{
-                this.node.x=-56.3;
+                this.node.x=-56;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=55;
@@ -509,7 +509,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
             }
 
             case 16:{
-                this.node.x=-5.6;
+                this.node.x=-3;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=55;
@@ -533,12 +533,12 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 this.bmp_greenbg.node.scaleX=0.6;
                 this.bmp_greenbg.node.scaleY=0.43;
                 this.bmp_greenbg.node.skewX=0;
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_05");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_04");
                 this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                 break;
             }
             case 17:{
-                this.node.x=48.1;
+                this.node.x=49;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=56;
@@ -562,12 +562,12 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 this.bmp_greenbg.node.scaleX=0.6;
                 this.bmp_greenbg.node.scaleY=0.43;
                 this.bmp_greenbg.node.skewX=-1;
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_04");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_03");
                 this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                 break;
             }
             case 18:{
-                this.node.x=100.6;
+                this.node.x=101;
                 this.node.y=-130.6;
 
                 this.bmp_cardback.node.width=57;
@@ -591,7 +591,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 this.bmp_greenbg.node.scaleX=0.6;
                 this.bmp_greenbg.node.scaleY=0.43;
                 this.bmp_greenbg.node.skewX=-1.2;
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_03");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_02");
                 this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                 break;
             }
@@ -620,7 +620,7 @@ export default class LHZMJ_SelfSinglePool extends LHZMJ_SinglePoolBase {
                 this.bmp_greenbg.node.scaleX=0.6;
                 this.bmp_greenbg.node.scaleY=0.43;
                 this.bmp_greenbg.node.skewX=-2.7;
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_02");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("d_pc_btm_1p_01");
                 this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                 break;
             }

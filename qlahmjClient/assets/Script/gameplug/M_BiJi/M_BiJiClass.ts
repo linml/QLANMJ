@@ -10,6 +10,7 @@ import { QL_Common } from "../../CommonSrc/QL_Common";
 import { TimeFlag, PlayerCount } from "./GameHelp/BJ_GameHelp";
 import { AudioType } from "../../CustomType/Enum";
 import VoicePlayer from "./GameHelp/BJ_VoicePlayer";
+import { Action } from "../../CustomType/Action";
 
 @ccclass
 export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
@@ -19,6 +20,7 @@ export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
     @property(M_BiJiView)
     private skingameView: M_BiJiView = null;
     private chatMsg: string[];
+    public allmoney:number=0;
     public VoiceType() { return this.VoiceType; }
 
     onLoad(): void {
@@ -91,7 +93,8 @@ export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
     //玩家人数
     //private _userCount :number[]=[];
     
-    
+    //玩家分数(续局时用)
+    public _tempScore:Array<number> = new Array(5);
 
 
     public OnGameMessage(cm: GameIF.CustomMessage): boolean {
@@ -223,12 +226,43 @@ export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
                     cc.log("收到玩家配牌成功消息");                
                     this.skingameView.Rec_DropCards(cm);
                     break;
+                }case CMD_Static.SUB_S_NextGamePlease:{
+                    cc.log("----------------------续--------------局-----------------------");
+                    this.RecNextGamePlease(cm);              
+
+                     break;
                 }
             }
         }
         return true;
     }
+    /**
+     * 请求续局弹框
+     * @param msg 
+     */
+    private RecNextGamePlease(msg:GameIF.CustomMessage){
+        var data = <M_BiJi_GameMessage.CMD_S_NextGamePlease>msg;
+         this.showResumeGameForm(new Action(this,this.RefusedNext),new Action(this,this.AgreeNext),this.getTablePlayerAry(),data.total,30);
+    }
 
+    //玩家拒绝续局 
+    private RefusedNext():void{
+        var voteGame : M_BiJi_GameMessage.CMD_C_VoteNextGame = new M_BiJi_GameMessage.CMD_C_VoteNextGame();
+        voteGame.select = false;
+        this.SendGameData(voteGame);
+    }
+    //玩家同意续局 0同意 1拒绝 2钻石不足
+    private AgreeNext():void{
+        var voteGame : M_BiJi_GameMessage.CMD_C_VoteNextGame = new M_BiJi_GameMessage.CMD_C_VoteNextGame();
+        voteGame.select = true;
+        this.SendGameData(voteGame);     
+    }
+        /**
+     * 获取桌子玩家集合
+     * */
+    public getTablePlayerAry(): Array<QL_Common.TablePlayer>{
+        return this.TablePlayer;
+    }
     /**
      * 销毁游戏
      */
@@ -280,6 +314,19 @@ export default class M_BiJiClass extends GameBaseClass implements IBiJiClass {
         }
 
      
+    }
+    protected OnAgreeNextGame(){
+        cc.log("所有玩家同意续局");
+        this.skingameView.tableInfo.tableCostNum+=this.allmoney;
+     //   this.skingameView.AgreeNextGameReset();
+    }
+    protected OnRefuseNextGame(){
+        cc.log("有玩家拒绝续局");
+        
+        this.skingameView.RefuseNextGameReset();
+    }
+    protected CheckCanNext():boolean{
+        return true;
     }
 
     /**

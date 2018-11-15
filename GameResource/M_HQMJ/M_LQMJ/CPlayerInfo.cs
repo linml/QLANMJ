@@ -24,6 +24,11 @@ namespace M_HQMJ
 
         #region 玩家属性信息
 
+
+        /// <summary>
+        /// 玩家总分数
+        /// </summary>
+        public int TotalScore { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
@@ -629,7 +634,7 @@ namespace M_HQMJ
                 _giveupHuMultiple = 0;
                 bIfCanVote = true;
                 _voteRight |= MahjongDef.gVoteRightMask_Chi;
-                _gameServer.PrintLog("有吃权限");
+                _gameServer.PrintLog("有吃权限，可吃选择有"+ CheckIfCanChiACard(_playerCard.activeCard.handCard, cbOutCard).Count+"种。");
             }
             //碰
             if (!isBaoTing && _playerCard.activeCard.Find(cbOutCard, 2) && !_giveupPeng.Contains(cbOutCard))
@@ -2001,7 +2006,7 @@ namespace M_HQMJ
         /// <param name="huCard"></param>
         /// <param name="huType"></param>
         /// <returns></returns>
-        public int[] HandleByHu(byte chair,byte huCard, enHuCardType huType, List<byte> list,int countOutMj)
+        public int[] HandleByHu(byte chair,byte huCard, enHuCardType huType, List<byte> list,int countOutMj,int isFirst = 0)
         {
             _cbHuCard = huCard;
             _huCardType = huType;
@@ -2012,7 +2017,7 @@ namespace M_HQMJ
             clsFixedCard fixedCard = new clsFixedCard();
             _playerCard.CopyACounterpartForFixedCard(ref fixedCard);
 
-            return AnalysisHuCardListMultiple(chair, huCard, huType, handCard, ref fixedCard,list, countOutMj);
+            return AnalysisHuCardListMultiple(chair, huCard, huType, handCard, ref fixedCard,list, countOutMj,isFirst);
         }
 
         /// <summary>
@@ -2204,7 +2209,7 @@ namespace M_HQMJ
         /// <param name="handCard"></param>
         /// <param name="fixedCard"></param>
         /// <returns></returns>
-        public int[] AnalysisHuCardListMultiple(byte chair, byte cbHuCard, enHuCardType huType, List<byte> handCard, ref clsFixedCard fixedCard, List<byte> list, int countOutMj)
+        public int[] AnalysisHuCardListMultiple(byte chair, byte cbHuCard, enHuCardType huType, List<byte> handCard, ref clsFixedCard fixedCard, List<byte> list, int countOutMj,int isFirst = 0)
         {
             //胡牌牌阵
             handCard.Add(cbHuCard);
@@ -2213,18 +2218,26 @@ namespace M_HQMJ
             int score = 1;
             bool qingyise_baofen = false;
             bool qyj_baofen = false;
+            int tianhu = 0;
             if (2 == (handCard.Count % 3))
             {
                 handCard.Sort();
 
                 JieSuan.Clear();
-                if(enHuCardType.HuCardType_PingHu == huType)
+                //天胡                  
+                if (chair == _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
+                {
+                    //score += 9;
+                    tianhu = 1;
+                    _gameServer._playerAry[chair]._vecType += "天胡+10 ";
+                }
+                if (tianhu == 0 && enHuCardType.HuCardType_PingHu == huType)
                     _gameServer._playerAry[chair].VecType += "平牌+1 ";
                 if (enHuCardType.HuCardType_ZiMo == huType)
                     _gameServer._playerAry[chair].VecType += "自摸x2 ";
                 if (enHuCardType.HuCardType_GangShangHua == huType)
                     _gameServer._playerAry[chair].VecType += "杠后乘四倍 ";
-                if (_gameServer._playerAry[chair]._isBaoTing)
+                if (tianhu == 0 && _gameServer._playerAry[chair]._isBaoTing)
                     _gameServer._playerAry[chair].VecType += "豹子胡x2 ";
 
                 //解析牌阵
@@ -2355,7 +2368,7 @@ namespace M_HQMJ
                 if (_gameServer._tableConfig.daiDaPai == 1 && siguiyi>0)
                 {
                     score += siguiyi;
-                    _gameServer._playerAry[chair].VecType += "四归一+ "+siguiyi;
+                    _gameServer._playerAry[chair].VecType += "四归一+"+siguiyi+" ";
                 }
 
                 bool chongtian = false;
@@ -2445,6 +2458,10 @@ namespace M_HQMJ
                             {
                                 chongtian = true;
                             }
+                            if (listChongTian[0] + 1 == listChongTian[1] && listChongTian[1] == listChongTian[2] && listChongTian[2] == listChongTian[3] && listChongTian[3] + 1 == listChongTian[4])
+                            {
+                                chongtian = true;
+                            }
                         }
                     }
                     if(pengGang == 1)
@@ -2515,11 +2532,11 @@ namespace M_HQMJ
                     _gameServer._playerAry[chair].VecType += "清一色+5 ";
 
                     //判断fixedcard是否满足清一色 全幺九
-                    if (fixedCard.fixedCard.Count >= 3)
+                    if (isFirst == 1 && fixedCard.fixedCard.Count >= 3)
                     {
                         if (MahjongGeneralAlgorithm.GetMahjongColor(fixedCard.fixedCard[0].card) == MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard))
                         {
-                            //清一色包分
+                            //清一色包分(第一个胡的玩家才能包分)
                             qingyise_baofen = true;
                             if(enHuCardType.HuCardType_ZiMo != huType){
                                 _gameServer._playerAry[chair].VecType += "清一色包分 ";
@@ -2540,32 +2557,25 @@ namespace M_HQMJ
                 {//全幺九
                     score += 15;
                     _gameServer._playerAry[chair].VecType += "全幺九+15 ";
-                    if (fixedCard.fixedCard.Count >= 3)
-                    {//全幺九包分
-                        if(MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) == MahjongDef.gMahjongColor_Zhi
-                            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) %10 == 1
-                            || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) % 10 == 9)
-                        {
+                    if (isFirst == 1 && fixedCard.fixedCard.Count >= 3)
+                    {//全幺九包分(第一个胡的玩家才能包分)
+                        //if(MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) == MahjongDef.gMahjongColor_Zhi
+                        //    || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) %10 == 1
+                        //    || MahjongGeneralAlgorithm.GetMahjongColor(cbHuCard) % 10 == 9)
+                        //{
                             qyj_baofen = true;
                             //_gameServer._playerAry[chair].VecType += "全幺九包分 ";
-                        }
+                        //}
                     }
-                }         
-
-                //天胡   
-                if (chair == _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
-                {
-                    score += 10;
-                    _gameServer._playerAry[chair]._vecType += "天胡+10 ";
                 }
-
+               
                 //地胡
-                if (chair != _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
-                {
-                    score += 10;
-                    _gameServer._playerAry[chair].VecType += "地胡+10 ";
+                //if (chair != _gameServer.BankerChair && _gameServer._playerAry[chair].PlayerCard.poolCard.Count == 0 && fixedCard.fixedCard.Count == 0 && countOutMj == 0)
+                //{
+                //    score += 10;
+                //    _gameServer._playerAry[chair].VecType += "地胡+10 ";
 
-                }
+                //}
 
                 if (MahjongPatternAlgorithm.ParseCards(handCard))
                 {
@@ -2613,10 +2623,11 @@ namespace M_HQMJ
                     parseFan.Package(ref this._jieSuan);
                 }
             }
-            int[] arr = new int[3];
+            int[] arr = new int[4];
             arr[0] = score;
             arr[1] = qingyise_baofen == true?1:0;
             arr[2] = qyj_baofen == true ? 1 : 0;
+            arr[3] = tianhu;
             return arr;
         }
 
@@ -3485,7 +3496,8 @@ namespace M_HQMJ
         /// <param name="pengCard"></param>
         public void checkGiveUpPeng(byte pengCard)
         {
-            _giveupPeng.Add(pengCard);
+            //霍邱麻将不需要过碰惩罚
+            //_giveupPeng.Add(pengCard);
         }
 
         #endregion

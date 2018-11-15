@@ -18,6 +18,9 @@ import { IsIOS, PlayEffect } from "../Tools/Function";
 import { InputFormViewParam } from "../Form/Daili/InputFormView";
 import { AudioType } from "../CustomType/Enum";
 import HornPanel from "../Form/Horn/HornPanel";
+import HornGamePanel from "../Form/Horn/HornGamePanel";
+import { UIOperationInfo } from "../CustomType/UIOperationInfo";
+import { isPrimitive } from "util";
 
 
 
@@ -28,7 +31,7 @@ export default class UiManager implements IUiManager {
     private _tipsList: Array<Tips>;
     private _msgBoxList: Array<MessageBox>;
     private _onlyOneInstance: any = {};
-    // private _noticeList: QL_Common.HallRoolNotice[];
+    private _uiOpQueue: Array<UIOperationInfo> = new Array<UIOperationInfo>()
 
     private _loading: LoadingForm;
     private _noticeForm: any;
@@ -42,13 +45,6 @@ export default class UiManager implements IUiManager {
     private _loadingInfo: string;
     private _loadingShow: boolean;
     private _noticeLock: boolean;
-
-    /**
-     * 跑马灯控制字段
-     */
-    private horn_type = 0;
-    private spriteFrame : cc.SpriteFrame = null;
-    private play_type = "";
 
     ShowLoading(str?: string) {
         this._loadingInfo = str;
@@ -79,6 +75,13 @@ export default class UiManager implements IUiManager {
 
         }
     }
+    public GetUINode(UIName: string): cc.Node {
+        let ui = this._uiList.GetValue(UIName);
+        if (ui) {
+            return ui.node;
+        }
+    }
+
 
 
 
@@ -87,95 +90,31 @@ export default class UiManager implements IUiManager {
     ShowUi(uiname: string, param: any): void;
     ShowUi(uiname: string, param: any, action: Action): void;
     ShowUi(uiname: any, param?: any, action?: any) {
-
-        //如果是审核服
-        if (ConfigData.RegionName === "review") {
-            //如果希望在ios中弹出充值界面
-            if (uiname === UIName.Shop && IsIOS()) {
-                //如果不支持ios_pay,则弹出审核专用界面，否则正常弹出
-                if (ConfigData.SiteConfig.AttachParam2 !== "ios_pay") {
-                    uiname = UIName.Contact;
-                }
-            }
-        } else {
-            // if (uiname === UIName.Shop && Global.Instance.DataCache.UserInfo.userData.AgentId === 0) {
-            //     uiname = UIName.Daili;
-            // }
-            // if (uiname === UIName.Daili && Global.Instance.DataCache.UserInfo.userData.AgentId > 0) {
-            //     this.ShowMsgBox("已经绑定过代理");
-            //     return;
-            // }
-        }
-        let ui = this._uiList.GetValue(uiname);
-        if (cc.isValid(ui)) {
-            cc.info(`已存在${uiname}，直接显示`);
-            PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
-            ui.Show(null, param, action);
-            return;
-        }
-        const t = this;
-        cc.log("开始加载" + uiname);
-
-        cc.loader.loadRes("Prefabs/" + uiname, function (err, prefab: cc.Prefab) {
-
-            if (err) {
-                cc.error(err.message || err);
-                return;
-            }
-
-            const newNode = cc.instantiate(prefab);
-            var u = <UIBase<any>>newNode.getComponent(UIBase)
-            if (!cc.isValid(u)) {
-                cc.warn("无效的ui组件")
-                return;
-            }
-
-            PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
-            //检查是否是单根实例
-            if (u.isOneInstance) {
-                let _oneInstance = t._onlyOneInstance[uiname];
-                if (cc.isValid(_oneInstance)) {
-                    return;
-                }
-                t._onlyOneInstance[uiname] = u;
-            }
-            u.Show(null, param, action);
-            t._uiList.AddOrUpdate(uiname, u);
-
-        });
+        let up = new UIOperationInfo();
+        up.name = uiname;
+        up.opType = "show";
+        up.param = param;
+        up.scene = "Hall";
+        up.action = action;
+        this._uiOpQueue.push(up);
+        this.TryProcessUIOperationHandle();
     }
-
-    public GetUINode(UIName: string): cc.Node {
-        let ui = this._uiList.GetValue(UIName);
-
-        if (ui) {
-            return ui.node;
-        }
+    CloseUi(uiname: string): void {
+        let up = new UIOperationInfo();
+        up.name = uiname;
+        up.opType = "close";
+        up.scene = "Hall";
+        this._uiOpQueue.push(up);
+        this.TryProcessUIOperationHandle();
     }
-
-    CloseUi(uiname: string, param?: any): void {
-        let ui = this._uiList.GetValue(uiname);
-        if (cc.isValid(ui)) {
-
-            if (ui.canReUse) {
-                ui.Close(null, param);
-            } else {
-                this.DestroyUi(uiname);
-            }
-        } else {
-            cc.warn("未找到组件" + uiname);
-        }
-    }
-
     DestroyUi(uiname: string): void {
-        let ui = this._uiList.GetValue(uiname);
-        if (cc.isValid(ui)) {
-            ui.node.destroy();
-            this._uiList.Remove(uiname);
-            PlayEffect(cc.url.raw("resources/Sound/close_panel.mp3"));
-        } else {
-            cc.warn("未找到组件" + uiname);
-        }
+        let up = new UIOperationInfo();
+        up.name = uiname;
+        up.opType = "destroy";
+        up.scene = "Hall";
+        this._uiOpQueue.push(up);
+        this.TryProcessUIOperationHandle();
+
     }
 
     ShowTip(msg: string, time: number = 2) {
@@ -256,42 +195,61 @@ export default class UiManager implements IUiManager {
     }
 
     /**
-     * 播放大厅跑马灯
-     * @param content 
-     * @param parent 
+     * 播放跑马灯
+     * @param HornEntity 数据实体
+     * @param pos_x 游戏才会调用此参数(有默认值) 跑马灯 x 坐标
+     * @param pos_y 游戏才会调用此参数(有默认值) 跑马灯 y 坐标
      */
-    ShowHallHorn(content : string, horn_type : number, spriteFrame : cc.SpriteFrame){
-        if(content == null || spriteFrame == null){
+    ShowHorn(HornEntity: QL_Common.SystemHornEntity, pos_x: number, pos_y: number) {
+        if (HornEntity == null) {
             return;
         }
 
-        this.play_type = "Hall";
- 
-        let scene = cc.director.getScene();
-        if(scene && scene.name == "" || scene.name == "Login" || scene.name == "hotupdate"){
-            HornPanel.HornHallList[HornPanel.HornHallList.length] = content;
-            return;
+        let systemHornType = QL_Common.SystemHornType; //跑马灯类型
+
+        /**
+         * 用于判断跑马灯类型
+         */
+        switch (HornEntity.HornType) {
+            case systemHornType.Unkonown:
+                cc.log("跑马灯类型未定义. 请联系技术部沈瑞.")
+                break;
+            case systemHornType.System:
+                break;
+            case systemHornType.Server:
+                break;
+            case systemHornType.Game: //游戏跑马灯
+                if (HornGamePanel.HornGameIsPlay == true) {
+                    HornGamePanel.HornGameList[HornGamePanel.HornGameList.length] = HornEntity;
+                    cc.log("当前有跑马灯正在播报");
+                    return;
+                }
+
+                if (pos_x == null) {
+                    pos_x = 0;
+                }
+
+                if (pos_y == null) {
+                    pos_y = 240;
+                }
+
+                HornGamePanel.HornGameList[HornGamePanel.HornGameList.length] = HornEntity;
+
+                this.ShowUi(UIName.HornGamePanel, [HornEntity.LoopCount, pos_x, pos_y]);
+                break;
+            case systemHornType.Hall: //大厅跑马灯
+                cc.log("进来了. 大厅跑马灯");
+                if (HornPanel.HornHallIsPlay == true) {
+                    return;
+                }
+
+                this.ShowUi(UIName.HornPanel, HornEntity.LoopCount);
+                break;
+            case systemHornType.All:
+                break;
+            default:
+                break;
         }
-
-        if(horn_type != null){
-            this.horn_type = horn_type;
-        }
-
-        HornPanel.HornHallList = [];
-
-        HornPanel.HornHallList[HornPanel.HornHallList.length] = content;
-
-        this.spriteFrame = spriteFrame;
-        this.ShowUi(UIName.HornPanel, this);
-    }
-
-    /**
-     * 播放游戏跑马灯
-     * @param content 
-     * @param parent 
-     */
-    ShowGameHorn(content : string, parent : cc.Node){
-
     }
 
     private onLoadingLoaded(err, prefab: cc.Prefab) {
@@ -367,5 +325,126 @@ export default class UiManager implements IUiManager {
         cc.log("公告播放完成！")
         this.onPlayNotice();
     }
+
+
+
+    private _doing = false;
+    private TryProcessUIOperationHandle(force: boolean = false) {
+        if (force) {
+            this._doing = false;
+        }
+        if (this._doing) return;
+        if (!this._uiOpQueue || this._uiOpQueue.length === 0) return false;
+        if (this._doing) return;
+        this._doing = true;
+        while (this.UIOperationHandle());
+        if (!this._uiOpQueue || this._uiOpQueue.length === 0) {
+            this.TryProcessUIOperationHandle();
+        }
+    }
+    private UIOperationHandle(): boolean {
+
+        if (!this._uiOpQueue || this._uiOpQueue.length === 0) {
+            this._doing = false;
+            return false;
+        }
+
+        //获取一条暂存的字节流信息
+        const op = this._uiOpQueue.shift();
+        if (!op) return true;
+        cc.log(op);
+
+
+        let uiname = op.name;
+        let param = op.param;
+        let action = op.action;
+        switch (op.opType) {
+            case "show": {
+                return this.UIOperationHandle_show(uiname, param, action);
+            }
+            case "close": {
+                return this.UIOperationHandle_close(uiname, param, action);
+            }
+            case "destroy": {
+                return this.UIOperationHandle_destroy(uiname, param, action);
+            }
+        }
+
+    }
+    private UIOperationHandle_destroy(uiname: string, param: any, action: any): boolean {
+
+        let ui = this._uiList.GetValue(uiname);
+        if (cc.isValid(ui)) {
+            ui.node.destroy();
+            this._uiList.Remove(uiname);
+            PlayEffect(cc.url.raw("resources/Sound/close_panel.mp3"));
+        } else {
+            cc.warn("未找到组件" + uiname);
+        }
+
+        return true;
+    }
+    private UIOperationHandle_close(uiname: string, param: any, action: any): boolean {
+        let ui = this._uiList.GetValue(uiname);
+        if (cc.isValid(ui)) {
+            if (ui.canReUse) {
+                ui.CloseClick();
+            } else {
+                this.DestroyUi(uiname);
+            }
+        } else {
+            cc.warn("未找到组件" + uiname);
+        }
+        return true;
+    }
+    private UIOperationHandle_show(uiname: any, param: any, action?: any): boolean {
+        let ui = this._uiList.GetValue(uiname);
+        if (cc.isValid(ui)) {
+            cc.info(`已存在${uiname}，直接显示`);
+            PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
+            ui.Show(null, param, action);
+            return true;
+        }
+        const t = this;
+        cc.log("开始加载" + uiname);
+        cc.loader.loadRes("Prefabs/" + uiname, function (err, prefab: cc.Prefab) {
+
+            try {
+                if (err) {
+                    cc.error(err.message || err);
+                    return;
+                }
+
+                const newNode = cc.instantiate(prefab);
+                var u = <UIBase<any>>newNode.getComponent(UIBase)
+                if (!cc.isValid(u)) {
+                    cc.warn("无效的ui组件")
+                    return;
+                }
+
+                PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
+                //检查是否是单根实例
+                if (u.isOneInstance) {
+                    let _oneInstance = t._onlyOneInstance[uiname];
+                    if (cc.isValid(_oneInstance)) {
+                        return;
+                    }
+                    t._onlyOneInstance[uiname] = u;
+                }
+                u.Show(null, param, action);
+                t._uiList.AddOrUpdate(uiname, u);
+            } catch (e) {
+
+            } finally {
+                t.TryProcessUIOperationHandle(true);
+            }
+
+        });
+        return false;
+    }
+
+
+
+
 
 }

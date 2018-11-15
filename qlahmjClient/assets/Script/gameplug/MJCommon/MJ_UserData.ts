@@ -79,7 +79,7 @@ export default class MJ_UserData extends cc.Component {
     @property(cc.Prefab)
     PlayerItem: cc.Prefab = null;
 
-    private play_item_inteval : number = 5; //施放道具间隔(/s)
+    private play_item_inteval : number = 2.5; //施放道具间隔(/s)
 
     private target_chairid : number = -1;
 
@@ -181,7 +181,7 @@ export default class MJ_UserData extends cc.Component {
             }
         }
         
-        if(this.target_chairid != -1){
+        if(this.target_chairid == -1){
             Global.Instance.UiManager.ShowTip("道具发送失败");
             cc.log("被点击人id未获取到!");
         }else{

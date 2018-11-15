@@ -27,17 +27,12 @@ export default class MJ_Cheating extends cc.Component {
             { x: -330,y: 20 }
         ];
 
-    public showOutPai(chair,outPai,isVideo:boolean = false){
+    public showOutPai(chair,outPai,_mjType:any){
 
-        let _HQMJ:any = null;
-        if(isVideo)
-            _HQMJ = M_HQMJVideoClass.ins;
-        else
-            _HQMJ = M_HQMJClass.ins;
-        this.mj_pai.spriteFrame=_HQMJ.getMahjong3DPaiBeiRes("hand_self_1");            
-        this.mj_hua.spriteFrame=_HQMJ.getMahjongPaiHuaRes(outPai);
+        this.mj_pai.spriteFrame=_mjType.getMahjong3DPaiBeiRes("hand_self_1");            
+        this.mj_hua.spriteFrame=_mjType.getMahjongPaiHuaRes(outPai);
         
-        var logicChair: number =_HQMJ.physical2logicChair(chair);
+        var logicChair: number =_mjType.physical2logicChair(chair);
 
         this.mj_pai.node.x = this.UserDataPos[logicChair].x;
 

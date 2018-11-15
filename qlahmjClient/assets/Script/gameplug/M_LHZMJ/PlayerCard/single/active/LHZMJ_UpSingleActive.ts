@@ -83,7 +83,7 @@ export default class LHZMJ_UpSingleActive extends LHZMJ_SingleActiveBase {
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcard_left_right_1280`;
                     //url1=LHZMJ.ins.iclass.getMahjongResName(card);
                     //SetTextureResAry([url,url1],[this.bmp_liecardback,this.bmp_cardcolor]);
-                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_left_right_1280");
+                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuoyoupg@2x");
                     this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
                     // this.bmp_cardcolor.node.x = 0;
                     // this.bmp_cardcolor.node.y = 5;
@@ -92,7 +92,7 @@ export default class LHZMJ_UpSingleActive extends LHZMJ_SingleActiveBase {
                     // this.bmp_cardcolor.node.scaleY = 0.5;
                 }else{
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcardback_left_right_1280`;
-                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcardback_left_right_1280");
+                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuoyou_back@2x");
                     //SetTextureRes(url,this.bmp_liecardback);
                 }
                 this.bmp_liecardback.node.active=true;
@@ -100,7 +100,7 @@ export default class LHZMJ_UpSingleActive extends LHZMJ_SingleActiveBase {
 
             } else {
                 url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_active_left_1280`;
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_active_left_1280");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuo_pai@2x");
                 //SetTextureRes(url,this.bmp_cardback);
                 this.bmp_cardback.node.active=true;
 
@@ -445,6 +445,10 @@ export default class LHZMJ_UpSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
         }
+        if(!LHZMJ.ins.iclass.isVideo()){
+                    this.node.x-=34;
+        }
+
     }
 
     private showShuPai():void{

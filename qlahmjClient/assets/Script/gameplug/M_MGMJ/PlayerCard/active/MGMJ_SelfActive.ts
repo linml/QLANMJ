@@ -156,8 +156,8 @@ export default class MGMJ_SelfActive extends MGMJ_ActiveBase {
                 this._cardData[i].node.y = -284;
                 this._cardData[i].node.width = 87;
                 this._cardData[i].node.height = 124;
-
-                this._cardData[i].showCard(this._handCard[i],this.isLie,0);
+                let hunpai = MGMJ.ins.iclass.getTableConfig().SetPeiZi;
+                this._cardData[i].showCard(this._handCard[i],this.isLie,0,hunpai);
 
                 if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                     this._cardData[i].node.x += 15;
@@ -207,8 +207,8 @@ export default class MGMJ_SelfActive extends MGMJ_ActiveBase {
             this._cardData[i].node.x = startPos + i * 83-600 + 100;
             this._cardData[i].node.y = -284;
 
-
-            this._cardData[i].showCard(this._handCard[i],this.isLie,0);
+            let hunpai = MGMJ.ins.iclass.getTableConfig().SetPeiZi;
+            this._cardData[i].showCard(this._handCard[i],this.isLie,0,hunpai);
 
             if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                 this._cardData[i].node.x += 15;
@@ -235,7 +235,8 @@ export default class MGMJ_SelfActive extends MGMJ_ActiveBase {
                 if(!this.isHoldAfter && this._cardData.length%3==2 && (i == (this._cardData.length - 1))){
                     this._cardData[i].node.x += 20;
                 }
-                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1);
+                let hunpai = MGMJ.ins.iclass.getTableConfig().SetPeiZi;
+                this._cardData[i].showCard(this._handCard[i],this.isLie,i+this.fixedCardNum*3+1,hunpai);
             }
         }
     }

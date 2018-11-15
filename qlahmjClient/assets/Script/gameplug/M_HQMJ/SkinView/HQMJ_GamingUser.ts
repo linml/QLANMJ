@@ -51,6 +51,9 @@ export default class HQMJ_GamingUser extends cc.Component {
     @property(cc.Label)
     lbl_score:cc.Label=null;
 
+    @property(cc.Animation)
+    img_guzhang:cc.Animation=null;
+
     private gender=0;
 
     private animation: cc.Animation;
@@ -59,6 +62,7 @@ export default class HQMJ_GamingUser extends cc.Component {
         // init logic
         // console.log("onLoad玩家信息初始化");
         // this.init();
+        this.img_guzhang.node.active=false;
     }
 
     public init():void{
@@ -88,12 +92,24 @@ export default class HQMJ_GamingUser extends cc.Component {
         this.img_pao.node.active=false;
         this.img_look.node.active=false;
         this.lbl_account.node.active=false;
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active =false;
         
         this.animation.stop();
     }
 
     onDisable():void{
         this.AniEmojiFinish();
+    }
+
+    public ShowGuZhang(){
+        this.img_guzhang.node.active = true;
+        this.img_guzhang.play();
+        this.scheduleOnce(this.AniGuZhangFinish, 2);
+    }
+    private AniGuZhangFinish() {
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active = false;
     }
 
     public playerLook(value: cc.AnimationClip):void{

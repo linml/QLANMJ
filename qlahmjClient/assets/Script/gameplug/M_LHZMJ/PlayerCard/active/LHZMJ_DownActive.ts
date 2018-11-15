@@ -18,14 +18,14 @@ export default class LHZMJ_DownActive extends LHZMJ_OtherActive {
     //
     //活动牌起点:x=1126
     //活动牌起点:y:468,415,305,195,85
-    private static ArrangeStartPos_stand: Array<number> = [461,400,287,174,61];
+    private static ArrangeStartPos_stand: Array<number> = [482,411,294,177,60];
     
     //
     //摊开状态,y间隔31
     //
     //活动牌起点:x=1099
     //活动牌起点:y:528,415,305,195,85
-    private static ArrangeStartPos_lie: Array<number> = [461,405,292,179,71];
+    private static ArrangeStartPos_lie: Array<number> = [505,420,300,183,66];
 
     private static ArrangeStartPos3D_stand: Array<number> = [-120,-5,110,225,340];
 
@@ -35,14 +35,16 @@ export default class LHZMJ_DownActive extends LHZMJ_OtherActive {
         
         let idx : number=0;
         if(LHZMJ.ins.iclass.is2D()){
+            this.node.x = 0;
+            this.node.rotation = 0;
             if(this.isLie){
             //起始位置
             var startPos: number = LHZMJ_DownActive.ArrangeStartPos_lie[this.fixedCardNum];
 
             for(var i: number = this._cardData.length; i>0; i--){
                 this._cardData[i-1].node.setLocalZOrder(i);
-                this._cardData[i - 1].node.x = 490;
-                this._cardData[i - 1].node.y = 360-(startPos - idx * 32)-45;
+                this._cardData[i - 1].node.x = 478;
+                this._cardData[i - 1].node.y = 360-(startPos - idx * 30);
                 this._cardData[i - 1].showCard(this._handCard[idx],this.isLie,0);
 
                 if(this.isHoldAfter && (i == 1)) {
@@ -51,14 +53,14 @@ export default class LHZMJ_DownActive extends LHZMJ_OtherActive {
                 
                 ++idx;
             }
-        }else{
+            }else{
             //起始位置
             var startPos: number = LHZMJ_DownActive.ArrangeStartPos_stand[this.fixedCardNum];
 
             for(var i: number = this._cardData.length;i > 0;i--) {
                 this._cardData[i-1].node.setLocalZOrder(i);
-                this._cardData[i - 1].node.x = 490;
-                this._cardData[i - 1].node.y = 360-(startPos - idx * 29)-45;
+                this._cardData[i - 1].node.x = 510;
+                this._cardData[i - 1].node.y = 360-(startPos - idx * 25);//屋顶拍，-145开始
                 this._cardData[i - 1].showCard(this._handCard[idx],this.isLie,0);
 
                 if(this.isHoldAfter && (i == 1)) {
@@ -68,7 +70,7 @@ export default class LHZMJ_DownActive extends LHZMJ_OtherActive {
                 ++idx;
             }
             
-        }
+            }
         }else{
             let temp=0;
             if(this._cardData.length%3==2){
@@ -98,8 +100,9 @@ export default class LHZMJ_DownActive extends LHZMJ_OtherActive {
 
                 for(let i: number = this._cardData.length;i > 0;i--) {
                     this._cardData[i-1].node.setLocalZOrder(this._cardData.length-i+1);
-                    // this._cardData[i - 1].node.x = 480;
+                    // this._cardData[i - 1].node.x = 450;
                     // this._cardData[i - 1].node.y = startPos + idx * 32 -60;
+                    
                     this._cardData[i - 1].showCard(this._handCard[i-1],this.isLie,++temp);
 
                     // if(this.isHoldAfter && (i == 1)) {

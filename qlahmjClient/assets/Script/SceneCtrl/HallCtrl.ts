@@ -24,6 +24,7 @@ import { ReConnectBase } from "./ReConnectBase";
 import { DateTime } from '../Serializer/DateTime';
 import RankList from "../Form/Rank/RankList";
 import HornPanel from "../Form/Horn/HornPanel";
+import HornGamePanel from "../Form/Horn/HornGamePanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -46,8 +47,6 @@ export default class HallCtrl extends ReConnectBase {
      */
     @property(cc.Layout)
     moreMenu: cc.Layout = null;
-
-    
     /** 
        实名认证按钮
      */
@@ -76,21 +75,21 @@ export default class HallCtrl extends ReConnectBase {
      * 排行榜content节点
      */
     @property(cc.Node)
-    content:cc.Node = null;
+    content: cc.Node = null;
 
     @property(cc.SpriteFrame)
-    frame_defaultHead:cc.SpriteFrame = null;
+    frame_defaultHead: cc.SpriteFrame = null;
 
     @property(cc.Node)
-    email : cc.Node = null;
+    email: cc.Node = null;
 
 
-    
-    @property(cc.Prefab)
-    rankPrefab:cc.Prefab = null;
 
     @property(cc.Prefab)
-    HornNode : cc.Prefab = null;
+    rankPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    HornNode: cc.Prefab = null;
 
     /**
      * 当前添加的游戏信息
@@ -112,10 +111,9 @@ export default class HallCtrl extends ReConnectBase {
         this.LoadActivity();
         this.DoShareParamHandle();
 
-        if(HornPanel.HornHallList.length > 0){
-            this.UiManager.ShowHallHorn(HornPanel.HornHallList[HornPanel.HornHallList.length - 1], 1, "");
+        if (HornPanel.HornHallList.length > 0) {
+            this.UiManager.ShowHorn(HornPanel.HornHallList[HornPanel.HornHallList.length - 1]);
         }
-        // this.UiManager.ShowHallHorn("1", 1, "");
     }
 
     start() {
@@ -135,8 +133,8 @@ export default class HallCtrl extends ReConnectBase {
         this.OnLatestBalance(); //刷新余额
         this.NewEmailInfo();    //刷新邮件显示
         if (!Debug()) {
-            if (!this.UserInfo.userData.TodayIsSign)
-                this.ShowUi(UIName.SignIn);//获取签到配置
+            // if (!this.UserInfo.userData.TodayIsSign)
+            //     this.ShowUi(UIName.SignIn);//获取签到配置
             // if (this.UserInfo.userData.AgentId === 0) {
             //     this.ShowUi(UIName.Daili);
             // }
@@ -150,8 +148,8 @@ export default class HallCtrl extends ReConnectBase {
     /**
      * 弹出赠送钻石 七豆面板
      */
-    private ShowGiftPanel(){
-        if(this.DataCache.UserInfo.isFirstLogon == 1){
+    private ShowGiftPanel() {
+        if (this.DataCache.UserInfo.isFirstLogon == 1) {
             this.ShowUi(UIName.GiveGiftPanel);
             this.DataCache.UserInfo.isFirstLogon = 0;
         }
@@ -171,7 +169,7 @@ export default class HallCtrl extends ReConnectBase {
 
         let CacheTime = LocalStorage.GetItem("ActivityTime"); //用于弹出面板控制变量
         if (!CacheTime) {
-            LocalStorage.SetItem("ActivityTime",nowDays.toString());
+            LocalStorage.SetItem("ActivityTime", nowDays.toString());
             this.ShowUi(UIName.Activity);
         } else {
             if (nowDays > parseInt(CacheTime)) {
@@ -192,7 +190,7 @@ export default class HallCtrl extends ReConnectBase {
         if (!preGameID || !preGame) {
             // 默认显示比鸡
             preGame = this.DataCache.GameList.GetGame(51)
-            LocalStorage.SetItem("PreSelectGame",'51');
+            LocalStorage.SetItem("PreSelectGame", '51');
             this.lab_gameName.string = "快乐比鸡";
 
             // 显示麻将动画节点
@@ -218,7 +216,7 @@ export default class HallCtrl extends ReConnectBase {
                 if (this.animate_pk) {
                     this.animate_pk.active = false;
                 }
-            }else if(QL_Common.GameType.ChessGame == preGame.GameType){
+            } else if (QL_Common.GameType.ChessGame == preGame.GameType) {
                 if (this.animate_maj) {
                     this.animate_maj.active = false;
                 }
@@ -259,15 +257,15 @@ export default class HallCtrl extends ReConnectBase {
      * 创建房间
      */
     private createClick() {
-        cc.info("--- gameList",this.DataCache.GameList.CityGames);
-        let act = new Action(this,this.refreshCurGameName);
-        this.ShowUi(UIName.SelectGame,{act:act,isFriendCircle: false});
+        cc.info("--- gameList", this.DataCache.GameList.CityGames);
+        let act = new Action(this, this.refreshCurGameName);
+        this.ShowUi(UIName.SelectGame, { act: act, isFriendCircle: false });
     }
 
     /**
      * 点击屏幕任意处
      */
-    public clickAnyAreaEvent(){
+    public clickAnyAreaEvent() {
         // 关闭更多面板
         if (this.moreMenu && this.moreMenu.node.active) {
             this.moreMenu.node.active = false;
@@ -284,7 +282,7 @@ export default class HallCtrl extends ReConnectBase {
             return;
         }
 
-        this.ShowUi(UIName.SelectRule, {gameInfo:this._curGameInfo,isFriendCircle: false});
+        this.ShowUi(UIName.SelectRule, { gameInfo: this._curGameInfo, isFriendCircle: false });
     }
 
     /**
@@ -471,35 +469,30 @@ export default class HallCtrl extends ReConnectBase {
     private rankingList() {
         this.UiManager.ShowUi(UIName.RankingList);
     }
-    
-    /**
-     * [circulationGetRank 获取ranklist 排行列表信息]
-     * @Author   李爽
-     * @DateTime 2018-09-20T17:35:41+0800
-     */
-    private circulationGetRank(){
+
+    private circulationGetRank() {
         cc.log("----刷新排行榜");
-        if(!this.content){
+        if (!this.content) {
             return;
         }
         this.content.removeAllChildren();
-        let callBack = new Action(null,(res) => {
-            if(!res){
+        let callBack = new Action(null, (res) => {
+            if (!res) {
                 return;
             }
-            for(var i =0; i<res.length; i++){
-                let prefab =cc.instantiate(this.rankPrefab);
+            for (var i = 0; i < res.length; i++) {
+                let prefab = cc.instantiate(this.rankPrefab);
                 let sprite = prefab.getChildByName("headImg");
-                if("" === res[i]){
+                if ("" === res[i]) {
                     sprite.getComponent(cc.Sprite).spriteFrame = this.frame_defaultHead;
-                }else{
-                    LoadHeader(res[i],sprite.getComponent(cc.Sprite));
+                } else {
+                    LoadHeader(res[i], sprite.getComponent(cc.Sprite));
                 }
                 this.content.addChild(prefab);
             }
         });
         RankList.Instance.getTodayRankInfos(callBack);
-        setTimeout(this.circulationGetRank.bind(this),10*60*1000);//十分钟刷新一次排行
+        setTimeout(this.circulationGetRank.bind(this), 10 * 60 * 1000);
     }
 
     /**
@@ -559,6 +552,13 @@ export default class HallCtrl extends ReConnectBase {
             case EventCode.EmailStatus:
                 this.NewEmailInfo();
                 return true;
+            case EventCode.HornHallStart:
+                cc.log("长度为：" + HornPanel.HornHallList.length);
+                if (HornPanel.HornHallList.length > 0) {
+                    this.UiManager.ShowHorn(HornPanel.HornHallList[HornPanel.HornHallList.length - 1]);
+                }
+                cc.log("大厅跑马灯到达");
+                return true;
             default:
                 return super.OnSceneEvent(eventCode, value);
         }
@@ -611,9 +611,9 @@ export default class HallCtrl extends ReConnectBase {
 
     private onNewUri() {
         // 延迟0.1秒执行
-        this.scheduleOnce(()=>{
+        this.scheduleOnce(() => {
             const data = Global.Instance.DataCache.ShareParam;
-            if(!cc.isValid(data)){
+            if (!cc.isValid(data)) {
                 return;
             }
             const tableid = parseInt(data.tableid);
@@ -627,8 +627,8 @@ export default class HallCtrl extends ReConnectBase {
                 return;
             }
 
-            this.UiManager.ShowUi(UIName.AutoJoinRoom,tableid.toString());
-        },0.1);
+            this.UiManager.ShowUi(UIName.AutoJoinRoom, tableid.toString());
+        }, 0.1);
     }
 
     OnFriendGroup() {
@@ -648,9 +648,9 @@ export default class HallCtrl extends ReConnectBase {
             const xianliaoshare = NativeCtrl.GetOpenUri("XianliaoUrlScheme");
             cc.log(`XianliaoUrlScheme = ${xianliaoshare}`);
             if (cc.isValid(xianliaoshare)) {
-               let share_param = ParseInviteJson(xianliaoshare);
-               this.DataCache.ShareParam = share_param;
-               this.EventManager.PostMessage(EventCode.onNewUri);
+                let share_param = ParseInviteJson(xianliaoshare);
+                this.DataCache.ShareParam = share_param;
+                this.EventManager.PostMessage(EventCode.onNewUri);
             }
         }
         catch (err) {

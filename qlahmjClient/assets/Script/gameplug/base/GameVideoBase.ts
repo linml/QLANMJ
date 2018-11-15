@@ -39,6 +39,8 @@ const timeinvinterval = 0;
 export class GameVideoBase extends UIBase<any>{
     public IsEventHandler: boolean = true;
     public IsKeyHandler: boolean = true
+    
+    public get isPlayPopAction(): boolean { return false; }
 
     public readonly TablePlayer: QL_Common.TablePlayer[] = new Array();
     private readonly _timerHandle: Function = this.timerHandle.bind(this);
@@ -91,7 +93,7 @@ export class GameVideoBase extends UIBase<any>{
     private _data: H5ByteBuffer = new H5ByteBuffer();
 
 
-    public get AudioManager(){
+    public get AudioManager() {
         return Global.Instance.AudioManager;
     }
 
@@ -105,24 +107,24 @@ export class GameVideoBase extends UIBase<any>{
             if (cc.sys.isBrowser) {
                 cc.error(e);
             }
-            ReportError(`销毁游戏场景出现异常`+ " err.msg=" + e.message);
+            ReportError(`销毁游戏场景出现异常` + " err.msg=" + e.message);
         }
         this.EventManager.PostMessage(EventCode.onReplayBack);
     }
 
-    protected InitShow() {
+    public InitShow() {
         const obj = this.ShowParam;
         if (!obj) return;
         this.OnResetGameClass();
         //恢复场地数据
         this._roomInfo = new QL_Common.RoomClient();
-        this._roomInfo.GameID = obj.room.GameID; 
-        this._roomInfo.RoomType = obj.room.RoomType; 
+        this._roomInfo.GameID = obj.room.GameID;
+        this._roomInfo.RoomType = obj.room.RoomType;
         this._roomInfo.BaseMoney = obj.room.BaseMoney;
         this._roomInfo.JoinMultiNum = obj.room.JoinMultiNum;
         this._roomInfo.MaxCount = obj.room.MaxCount;
         this._roomInfo.RoomLV = obj.room.RoomLV;
-        this._roomInfo.CheckMoneyType = obj.room.CheckMoneyType; 
+        this._roomInfo.CheckMoneyType = obj.room.CheckMoneyType;
         this._roomInfo.TableCost = obj.room.TableCost;
         this._roomInfo.Name = obj.room.Name;
         this._roomInfo.TableCostMoneyType = obj.room.TableCostMoneyType;
@@ -209,15 +211,13 @@ export class GameVideoBase extends UIBase<any>{
         let message: GameIF.CustomMessage = null;
         for (var i: number = this._msgIdx; i < this._videoMsg.length; i++) {
             message = this.TryPacketMessage(this._videoMsg[i].chair, this._videoMsg[i].data);
-                    
-            if (message && 105 != message.wSubCmdID) {
+            this._msgIdx = i + 1;
+            if (cc.isValid(message)) {
                 this.OnGameMessage(this._videoMsg[i].chair, message);
-            }else{
-                this._msgIdx ++;
+            }
+            if (!this.CanSkipReplayMessage(message)) {
                 break;
             }
-
-            this._msgIdx ++;
         }
 
         //开始
@@ -231,22 +231,22 @@ export class GameVideoBase extends UIBase<any>{
                 // ++this._videoTime;
                 this.onTimerTick();
                 var startIdx: number = this._msgIdx;
-                let message: GameIF.CustomMessage = null;                
+                let message: GameIF.CustomMessage = null;
                 message = this.TryPacketMessage(this._videoMsg[this._msgIdx].chair, this._videoMsg[this._msgIdx].data);
 
                 if (message) {
                     this.OnGameMessage(this._videoMsg[this._msgIdx].chair, message);
                 }
 
-                this._msgIdx ++;
-                
+                this._msgIdx++;
+
                 // for (var i: number = startIdx; i < this._videoMsg.length; i++) {
-                    // if (this._videoMsg[i].time < this._videoTime) {
-                        // this.TryPacketMessage(this._videoMsg[i].chair, this._videoMsg[i].data);
-                    // } else {
-                    //     this._msgIdx = i;
-                    //     break;
-                    // }
+                // if (this._videoMsg[i].time < this._videoTime) {
+                // this.TryPacketMessage(this._videoMsg[i].chair, this._videoMsg[i].data);
+                // } else {
+                //     this._msgIdx = i;
+                //     break;
+                // }
                 // }
             }
         }
@@ -386,7 +386,17 @@ export class GameVideoBase extends UIBase<any>{
     protected onPreStart(obj: any): void {
 
     }
-
+    /**
+     * 提供一个接口，让游戏来决定录像开局时消息的快进处理逻辑。
+     * 游戏可以将游戏开始到抓牌开始之前的消息进行快放处理
+     * @param message 对应解析的录像消息体信息
+     */
+    protected CanSkipReplayMessage(message: GameIF.CustomMessage): boolean {
+        if (message && message.wSubCmdID != 105) {
+            return true;
+        }
+        return false;
+    }
 
 
     /**

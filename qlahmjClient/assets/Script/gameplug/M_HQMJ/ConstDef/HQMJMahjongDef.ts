@@ -826,6 +826,8 @@ const { ccclass, property } = cc._decorator;
         private _tableCost:number;
         //能否同ip
         private _ifCanSameIP:boolean;
+        //是否检测GPS
+        private _ifCheckGps:boolean;       
 
         private _ifGangLeJiuYou:boolean;
 
@@ -863,7 +865,7 @@ const { ccclass, property } = cc._decorator;
             this._gangFen = true;
             this._daiDaPai = true;
             this._whoLose = true;
-            
+            this._ifCheckGps = false;
         }
         
         /**
@@ -900,7 +902,8 @@ const { ccclass, property } = cc._decorator;
             IfZhanZhuang:boolean,
             IfDaiDaPai:boolean,
             IfWhoLose:boolean,
-            tableWhere:number
+            tableWhere:number,
+            IfCheckGps:boolean
         ):void{      
             this._cellScore=cellScore;
             this._isLaPaoZuo=isLaPaoZuo;
@@ -929,6 +932,7 @@ const { ccclass, property } = cc._decorator;
             this._daiDaPai = IfDaiDaPai;
             this._gangFen = IfGangFen;
             this._tableWhere = tableWhere;
+            this._ifCheckGps = IfCheckGps;
         }
         /**
          * 是否保留房间
@@ -995,6 +999,10 @@ const { ccclass, property } = cc._decorator;
          * */
         public get setGameNum():number {
             return this._setGameNum;
+        }
+        //GPS检测
+        public get ifCheckGps(){
+            return this._ifCheckGps;
         }
         /**
          * 已经游戏局数

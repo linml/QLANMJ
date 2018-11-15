@@ -79,6 +79,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
     @property([LHZMJ_SinglePlayerBalance])
     balanceAry: LHZMJ_SinglePlayerBalance[]=[];
 
+    private huType:string;
     onLoad() {
         // init logic
         
@@ -114,6 +115,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
         this.btn_fanHui.node.active = false;
         this.btn_checkPaiZhuo.node.active = true;
         this._isPlayEnoughGameNum=false;
+        this.huType = "";
         for(let i=0;i<this.balanceAry.length;i++)
         {
             this.balanceAry[i].init();
@@ -123,7 +125,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
 
     private sharebtn():void{
         M_LHZMJClass.ins.ScreenCapture(true);
-    }   
+    } 
 
     private goonbtn():void{
         
@@ -251,8 +253,14 @@ export default class LHZMJ_JieShuan extends cc.Component {
             this.img_shu.node.active = false;
             this.img_ping.node.active = true;
         }
+        if(balanceData.playerBalance[me].HuType>0){
+            this.huType = "胡牌+2 ";
+        }else{
+            this.huType = "";
+        }
         this.balanceAry[0].showBalance(M_LHZMJClass.ins.TablePlayer[me].NickName,balanceData.playerCard[me],balanceData.playerBalance[me],M_LHZMJClass.ins.TablePlayer[me].FaceID);
-        this.lbl_HuCardType[0].string =  this.GetHuTypeString(balanceData.playerBalance[me]);
+        this.lbl_HuCardType[0].string =  this.huType+this.GetHuTypeString(balanceData.playerBalance[me]);
+         this.huType = "";
         this.lbl_HuCardType[0].node.active = true;
        // this.balanceAry[0].showFlowerCard(balanceData.playerCard[me]);
         if(balanceData.playerBalance[me].FangPao>0)
@@ -274,10 +282,17 @@ export default class LHZMJ_JieShuan extends cc.Component {
                 this.img_hu[0].node.active=true;
             }
         }
+
         var dui=(me+1)%4;
+        if(balanceData.playerBalance[dui].HuType>0){
+            this.huType = "胡牌+2 ";
+        }else{
+            this.huType = "";
+        }
         this.balanceAry[1].showBalance(M_LHZMJClass.ins.TablePlayer[dui].NickName,balanceData.playerCard[dui],balanceData.playerBalance[dui],M_LHZMJClass.ins.TablePlayer[dui].FaceID);  
        // this.balanceAry[1].showFlowerCard(balanceData.playerCard[dui]);
-       this.lbl_HuCardType[1].string =  this.GetHuTypeString(balanceData.playerBalance[dui]);
+       this.lbl_HuCardType[1].string = this.huType+this.GetHuTypeString(balanceData.playerBalance[dui]);
+        this.huType = "";
         this.lbl_HuCardType[1].node.active = true;
         if(balanceData.playerBalance[dui].FangPao>0)
         {
@@ -297,11 +312,18 @@ export default class LHZMJ_JieShuan extends cc.Component {
             {
                 this.img_hu[1].node.active=true;
             }
-        }  
+          
+        }
         var shang=(me+2)%4;
+         if(balanceData.playerBalance[shang].HuType>0){
+            this.huType = "胡牌+2 ";
+        }else{
+            this.huType = "";
+        }
         this.balanceAry[2].showBalance(M_LHZMJClass.ins.TablePlayer[shang].NickName,balanceData.playerCard[shang],balanceData.playerBalance[shang],M_LHZMJClass.ins.TablePlayer[shang].FaceID);
        // this.balanceAry[2].showFlowerCard(balanceData.playerCard[shang]);
-       this.lbl_HuCardType[2].string =  this.GetHuTypeString(balanceData.playerBalance[shang]);
+       this.lbl_HuCardType[2].string =  this.huType+this.GetHuTypeString(balanceData.playerBalance[shang]);
+        this.huType = "";
         this.lbl_HuCardType[2].node.active = true;
         if(balanceData.playerBalance[shang].FangPao>0)
         {
@@ -323,9 +345,15 @@ export default class LHZMJ_JieShuan extends cc.Component {
             }
         }
         var xia=(me+3)%4;
+         if(balanceData.playerBalance[xia].HuType>0){
+            this.huType = "胡牌+2 ";
+        }else{
+            this.huType = "";
+        }
         this.balanceAry[3].showBalance(M_LHZMJClass.ins.TablePlayer[xia].NickName,balanceData.playerCard[xia],balanceData.playerBalance[xia],M_LHZMJClass.ins.TablePlayer[xia].FaceID);
         //this.balanceAry[3].showFlowerCard(balanceData.playerCard[xia]);
-        this.lbl_HuCardType[3].string =  this.GetHuTypeString(balanceData.playerBalance[xia]);
+        this.lbl_HuCardType[3].string =  this.huType+this.GetHuTypeString(balanceData.playerBalance[xia]);
+         this.huType = "";
         this.lbl_HuCardType[3].node.active = true;
         if(balanceData.playerBalance[xia].FangPao>0)
         {
@@ -345,6 +373,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
             {
                 this.img_hu[3].node.active=true;
             }
+            
         }
 
         this.node.x=0;
@@ -362,6 +391,10 @@ export default class LHZMJ_JieShuan extends cc.Component {
         if(balanceData.MaPai.length==0){
             this.bmp_cardbackAry[0].node.active = false;
             this.bmp_cardbackAry[1].node.active = false;
+            this.bmp_cardbackAry[2].node.active = false;
+            this.bmp_cardbackAry[3].node.active = false;
+            this.bmp_cardbackAry[4].node.active = false;
+            this.bmp_cardbackAry[5].node.active = false;
         }else{
              this.bmp_cardbackAry[0].node.active = true;
             this.bmp_cardbackAry[1].node.active = true;
@@ -396,6 +429,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
         var lbl = "";
 
         if (balanceData.JieSuan[8] > 0) {
+            this.huType = "";
         if(balanceData.JieSuan[0]>0){
             lbl += "天胡+5 ";
         }else{
@@ -413,6 +447,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
             lbl+="七对+2 "
         }
         if(balanceData.JieSuan[10]>0){
+            this.huType = "";
             lbl+="抢杠+5 "
         }    
         if(balanceData.JieSuan[11]>0){
@@ -422,6 +457,7 @@ export default class LHZMJ_JieShuan extends cc.Component {
             lbl+="跑中+2 "
         }
         if(balanceData.JieSuan[13]>0){
+            this.huType = "";
             lbl+="四中+10 "
         }
         if(balanceData.JieSuan[14]>0){

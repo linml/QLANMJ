@@ -4,7 +4,6 @@
   "encryptJs": true,
   "excludeScenes": [
     "e6cc8370-0db2-4dc8-a260-b95b91363ad5",
-    "02ad6352-8b34-4100-8af9-a0c3c81e385a",
     "73ac7fb7-1e80-4b68-ab3b-0e40f25363ad"
   ],
   "includeAnySDK": false,

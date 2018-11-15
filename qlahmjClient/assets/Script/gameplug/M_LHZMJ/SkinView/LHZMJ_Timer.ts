@@ -71,6 +71,7 @@ export default class LHZMJ_TimerView extends cc.Component {
         this.showLuoPan(chair);
         }
         this.node.active = chair != LHZMJMahjongDef.gInvalidChar;
+        this.img_dipan.node.active = true;
         // let action= cc.repeatForever(cc.sequence(cc.fadeTo(0.5, 0), cc.fadeTo(0.5, 255)));
         for (var i: number = 0; i < LHZMJMahjongDef.gPlayerNum; i++) {
             // this.img_arrow[i].stopAllActions();
@@ -148,6 +149,7 @@ export default class LHZMJ_TimerView extends cc.Component {
         //     this.img_arrow[i].stop();
         // }
         this.ArrowNode.stop();
+        this.unscheduleAllCallbacks();
         // this._play=false;
     }
 

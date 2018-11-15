@@ -45,6 +45,8 @@ export default class LHZMJ_SZAni extends cc.Component {
         {
             return;
         }
+
+        
         this._msgCode = msgcode;
         
         // this.ani_sz_1.node.stopAllActions();

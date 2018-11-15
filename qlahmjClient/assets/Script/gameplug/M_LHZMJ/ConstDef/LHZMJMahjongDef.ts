@@ -224,7 +224,7 @@ const { ccclass, property } = cc._decorator;
          /**
          * 有效牌
          */
-        public static gMahjongCard:Array<number>=[0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x31,0x32,0x33,0x34,0x35,0x36,0x37];
+        public static gMahjongCard:Array<number>=[0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x35];
         /// <summary>
         /// 投票结果:弃
         /// </summary>
@@ -848,6 +848,8 @@ const { ccclass, property } = cc._decorator;
         public _PeopleNum:number;
         //出牌限时
         public _OutCardTime:number;
+        //亲友圈id
+        public _groupid:number;
 
         public constructor(){    
             this._cellScore=1;
@@ -883,6 +885,7 @@ const { ccclass, property } = cc._decorator;
             this._CheckGps = true;
             this._PeopleNum = 4;
             this._OutCardTime = 0;
+            this._groupid = 0;
         }
         
         /**
@@ -924,6 +927,7 @@ const { ccclass, property } = cc._decorator;
             CheckGps:boolean,
             PeopleNum:number,
             OutCardTime:number,
+            GroupId:number,
         ):void{      
             this._cellScore=cellScore;
             this._isLaPaoZuo=isLaPaoZuo;
@@ -936,7 +940,7 @@ const { ccclass, property } = cc._decorator;
             this._tableCreatorID = tableCreatorID;
             this._tableCreatorChair = tableCreatorChair;
             this._tableCode = tableCode;
-            this._setGameNum=setGameNum;
+            this._setGameNum=setGameNum*8+8;
             this._alreadyGameNum=alreadyGameNum;
             this._realGameNum=realGameNum;
             this._isOutTimeOp=isOutTimeOp;
@@ -958,6 +962,7 @@ const { ccclass, property } = cc._decorator;
             this._CheckGps = CheckGps;
             this._PeopleNum = PeopleNum;
             this._OutCardTime = OutCardTime;
+            this._groupid = GroupId;
 
         }
         /**
@@ -1393,6 +1398,7 @@ const { ccclass, property } = cc._decorator;
             for(var i:number=0; i<39; i++){
                 this._cardData.push(4);
             }
+            this.delFeng();
         }
         
         /**
@@ -1435,6 +1441,18 @@ const { ccclass, property } = cc._decorator;
          * */
         public gangACard(card: number):void{
             this.delCardNum(card,4);
+        }
+        /**
+         * 删除风牌记录
+         * @param card 
+         */
+        public delFeng():void{
+            this._cardData[31] = 0;
+            this._cardData[32] = 0;
+            this._cardData[33] = 0;
+            this._cardData[34] = 0;
+            this._cardData[36] = 0;
+            this._cardData[37] = 0;
         }
         
         /**

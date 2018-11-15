@@ -27,13 +27,17 @@ export default class MJ_Cheating extends cc.Component {
 
     @property(cc.Label)
     lab:cc.Label = null;
+    //处理游戏回调
+    private _func :any=null;
+    private _obj:any=null;
+
 
     onLoad() {
     }
     start(){
         this.leaveBtn.node.on(cc.Node.EventType.TOUCH_END,this.leaveRoom,this);
     }
-    public showCheatBox(msgStr:string[]){
+    public showCheatBox(msgStr:string[],action:any,obj:any){
         // if(this.node.active == false){
         //     this.node.active = true;
         //     this.msgLab0.string = msgStr;
@@ -56,6 +60,9 @@ export default class MJ_Cheating extends cc.Component {
             this.msgLab2.node.active = true;
             this.lab.node.active = true;
         }
+        //赋值动作
+        this._func = action;
+        this._obj=obj;
         this.node.active = true;
     }
     public hideCheatBox(){
@@ -67,7 +74,9 @@ export default class MJ_Cheating extends cc.Component {
     }
 
     private leaveRoom(){
-        M_HQMJView.ins._setting.onExit();
+        // M_HQMJView.ins._setting.onExit();
+        if(this._func!=null&&this._obj!=null)
+            this._func.call(this._obj);
     }
     
 

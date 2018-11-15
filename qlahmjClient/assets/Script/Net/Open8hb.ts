@@ -1,10 +1,8 @@
-import { Action, ActionNet } from "../CustomType/Action";
+import { ActionNet } from "../CustomType/Action";
 import { IDictionary } from "../Interface/IDictionary";
-import UrlCtrl from "./UrlCtrl";
 import ConfigData from "../Global/ConfigData";
 import Dictionary from "../CustomType/Dictionary";
 import Global from "../Global/Global";
-import { DESEncryptHelper } from "../Tools/DESEncryptHelper";
 import { ConstValues } from "../Global/ConstValues";
 import { UrlCtrl_new } from "./UrlCtrl_new";
 
@@ -417,8 +415,24 @@ export namespace WebRequest {
      * 获取礼品项
      */
     export class gift{
-        public static GiftList(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
-            doActionJson(`${ConfigData.webserverinterfaceUrl}/`, action, data, method);
+        public static giftList(action?: ActionNet, data?: IDictionary<string, any>, method: string = "GET"){
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/GiftView.getList`, action, data, method);
+        }
+
+        public static giftRequest(action:ActionNet, giftId:number, name:string, tel:string, address:string, payAccount:string){
+            let data = DefaultData(true);
+
+            data.AddOrUpdate("giftId",giftId);
+            data.AddOrUpdate("name",name);
+            data.AddOrUpdate("tel",tel); 
+            data.AddOrUpdate("address",address);
+            data.AddOrUpdate("payAccount",payAccount);
+
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/GiftView.giftRequest`, action,data,"GET"); 
+        }
+
+        public static showChangeRecord(action?: ActionNet, data?: IDictionary<string, any>, method: string = "GET"){
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/GiftView.showChangeRecord`, action, data, method);
         }
     }
 }

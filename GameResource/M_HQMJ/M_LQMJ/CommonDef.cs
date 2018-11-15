@@ -273,7 +273,10 @@ namespace M_HQMJ
     /// </summary>
     public class clsTableRule
     {
-
+        /// <summary>
+        /// 是否GPS检测
+        /// </summary>
+        public bool CheckGps { get; set; }
         /// <summary>
         /// 是否允许ip相同
         /// </summary>
@@ -340,6 +343,10 @@ namespace M_HQMJ
         /// </summary>
         public uint TableCreatorID { get; set; }
         /// <summary>
+        /// 是否已经返还圈主钻石
+        /// </summary>
+        public bool GiveBacked { get; set; }
+        /// <summary>
         /// 房主椅子号
         /// </summary>
         public ushort TableCreatorChair { get; set; }
@@ -390,6 +397,12 @@ namespace M_HQMJ
         /// </summary>
         public int SetGameNum { get { return this._setGameNum; } set { this._setGameNum = value; } }
 
+        private int _table_where;
+        /// <summary>
+        /// 设置局数
+        /// </summary>
+        public int TableWhere { get { return this._table_where; } set { this._table_where = value; } }
+
         /// <summary>
         /// 骰子1点数
         /// </summary>
@@ -425,6 +438,7 @@ namespace M_HQMJ
             TableCreatorPay = 0;
             IsRecordScoreRoom = false;
             TableCreatorID = 0;
+            GiveBacked = false;
             TableCreatorChair = MahjongDef.gInvalidChar;
             this.isCreateed = false;
             this._guid = "";
@@ -438,7 +452,7 @@ namespace M_HQMJ
             sz1Point = 1;
             sz2Point = 1;
             CreatedOutTimeOP = false;
-            IfCanSameIp = true;
+            IfCanSameIp = false;
             IsDissolution = true;
             whoLose = 1;
         }
@@ -468,17 +482,16 @@ namespace M_HQMJ
         /// <summary>
         /// 是否打满了设置的局数
         /// </summary>
-        public bool isPlayEnoughGameNum
+        public bool isPlayEnoughGameNum(int num)
         {
-            get
             {
                 if(this._setGameNum == 0)
                 {
-                    return this._gameNum >= 8;
+                    return this._gameNum >= 8*num;
                 }
                 else{
                     //设置的局数
-                    return this._gameNum >= 16;
+                    return this._gameNum >= 16*num;
                 }
                 
             }

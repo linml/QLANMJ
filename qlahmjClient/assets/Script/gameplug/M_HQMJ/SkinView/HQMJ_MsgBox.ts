@@ -46,6 +46,7 @@ export default class HQMJ_MsgBox extends cc.Component {
         //         this._fun2.call(this._obj2);
         //     }
         // },this);
+        this.node.setLocalZOrder(999);
     }
 
     public Init():void{

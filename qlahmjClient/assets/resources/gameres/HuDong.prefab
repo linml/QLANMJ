@@ -780,7 +780,7 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "911781cd-860f-44b7-a4bc-2b0cc3a7de86"
+      "__uuid__": "8981c8f1-a0ed-48c2-ae0f-0c2ca737c69e"
     },
     "_clips": [
       {
@@ -801,7 +801,7 @@
       "__uuid__": "3f87d31d-324d-429a-9adb-8490b6fd99a1"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

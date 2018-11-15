@@ -26,7 +26,7 @@ export default class LHZMJ_SingleActive extends LHZMJ_SingleActiveBase {
         this.bmp_cardback.node.active = true;
         
         url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcard_self_1280`;
-         this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_self_1280");
+         this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupaipg@2x");
         this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
         // SetTextureRes(url,this.bmp_cardback);
 

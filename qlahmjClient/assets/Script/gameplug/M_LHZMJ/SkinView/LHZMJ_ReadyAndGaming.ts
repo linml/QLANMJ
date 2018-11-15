@@ -28,6 +28,9 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
 
     @property([cc.Button])
     group_kickusers: cc.Button[]=[];
+
+    @property([cc.Sprite])
+    group_imguser:cc.Sprite[]=[];
     
     
     @property(cc.Button)
@@ -93,7 +96,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     private static UserDataGamingPos: Array<{ x: number, y: number }> = [
         { x: -350, y: -170 },
         { x: 350, y: 50 },
-        { x: 150, y: 230 },
+        { x: 150, y: 220 },
         { x: -350, y: 50 }
     ];
 
@@ -113,7 +116,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     private static GamingPlayerPos: Array<{ x: number,y: number }> = [
         { x: -577,y: -210 },
         { x: 573,y: 36 },
-        { x: 360,y: 255 },
+        { x: 360,y: 245 },
         { x: -575,y: 36 }
     ]; 
     private static ReadyVoicePos: Array<{ x: number,y: number }> = [
@@ -198,7 +201,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
                     point.y+=50;
                     break;
             case 2:point.x+=205;
-                    point.y+=100;
+                    point.y+=90;
                     break;
             case 3:point.x-=230;
                     point.y+=60;
@@ -405,7 +408,8 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         }
         if(logicChair!=0&&M_LHZMJClass.ins.SelfIsTableOwener){
         this.group_kickusers[logicChair-1].node.active = false;
-        }
+    }
+    this.group_imguser[logicChair].node.active = false;
         //准备字样消失
         if(cc.isValid(this.group_imgready[logicChair])){
             this.group_imgready[logicChair].node.active=false;
@@ -422,7 +426,7 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         if(logicChair!=0&&M_LHZMJClass.ins.SelfIsTableOwener){
         this.group_kickusers[logicChair-1].node.active = true;
         }
-
+        this.group_imguser[logicChair].node.active = true;
         if(cc.isValid(this.gameUserAry[logicChair])){
             this.gameUserAry[logicChair].SetPlayer(player,this.readyORgaming);
             //显示余额
@@ -462,32 +466,68 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     }
         
     private onReady():void{
-        
-        //如果不够,开始求助
-        if(M_LHZMJClass.ins.checkMoneyCanGame){
-            if(M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
-                //继续游戏
-                //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
-            }else{
-                //发送准备
-                M_LHZMJView.ins.OnReady();
+        if (M_LHZMJClass.ins.TableConfig.IsTableCreatorPay == 2) {
+            if (M_LHZMJClass.ins.SelfIsTableOwener) {
+                //如果不够,开始求助
+                if (M_LHZMJClass.ins.checkMoneyCanGame) {
+                    if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
+                        //继续游戏
+                        //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
+                    } else {
+                        //发送准备
+                        M_LHZMJView.ins.OnReady();
+                    }
+                    this.btn_ready.node.active = false;
+                    this.btn_invite.node.x = 0;
+                }
+                else {
+                    if (LHZMJ.ins.iclass.getTableStauts() != QL_Common.TableStatus.gameing) {
+                        // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
+                        M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
+                            //打开充值
+                            M_LHZMJClass.ins.showPay();
+                        }, this, "", null, null, () => {
+                            //打开充值
+                            LHZMJ.ins.iclass.exit();
+                        }, this, );
+                    }
+                }
+            } else {
+                if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
+                    //继续游戏
+                    //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
+                } else {
+                    //发送准备
+                    M_LHZMJView.ins.OnReady();
+                }
+                this.btn_ready.node.active = false;
+                this.btn_invite.node.x = 0;
             }
-            this.btn_ready.node.active=false;
-            this.btn_invite.node.x=0;
-        }
-        else {
-            if(LHZMJ.ins.iclass.getTableStauts()!=QL_Common.TableStatus.gameing)
-            {
-               // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
-                M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
-                    //打开充值
-                   M_LHZMJClass.ins.showPay();
-                }, this,"",null,null,() => {
-                    //打开充值
-                    LHZMJ.ins.iclass.exit();
-                }, this,);
+        } else
+            //如果不够,开始求助
+            if (M_LHZMJClass.ins.checkMoneyCanGame) {
+                if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
+                    //继续游戏
+                    //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
+                } else {
+                    //发送准备
+                    M_LHZMJView.ins.OnReady();
+                }
+                this.btn_ready.node.active = false;
+                this.btn_invite.node.x = 0;
             }
-        } 
+            else {
+                if (LHZMJ.ins.iclass.getTableStauts() != QL_Common.TableStatus.gameing) {
+                    // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
+                    M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
+                        //打开充值
+                        M_LHZMJClass.ins.showPay();
+                    }, this, "", null, null, () => {
+                        //打开充值
+                        LHZMJ.ins.iclass.exit();
+                    }, this, );
+                }
+            }
     }
 
     /**

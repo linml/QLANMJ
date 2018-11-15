@@ -34,6 +34,10 @@ import LHZMJ_OutCardView from "./SkinView/LHZMJ_OutCardView";
 import Global from "../../Global/Global";
 import LHZMJ_ReadyAndGaming from "./SkinView/LHZMJ_ReadyAndGaming";
 import HuDong_Animation from "../MJCommon/HuDong_Animation";
+import LHZMJ_Cheating from "./SkinView/LHZMJ_Cheating";
+import M_LHZMJVoice from "./M_LHZMJVoice";
+import { AudioType } from "../../CustomType/Enum";
+
 @ccclass
 export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
@@ -93,6 +97,9 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         //     }.bind(this));
         // }
     }
+            //中间层
+    @property(cc.Node)
+    info_mid: cc.Node = null;
         //中间层
     @property(cc.Node)
     group_mid: cc.Node = null;
@@ -508,6 +515,10 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         // }
 
     };
+    private _checkip:LHZMJ_Cheating;
+    public get CheckIp():LHZMJ_Cheating{
+        return this._checkip;
+    }
 
     // @property(cc.Button)
     // //请求计分板
@@ -537,7 +548,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         let ginode=cc.instantiate(this.GameInfoView);
         this._gameInfo=ginode.getComponent<LHZMJ_GameInfo>(LHZMJ_GameInfo);
         ginode.setLocalZOrder(1);
-        this.node.addChild(ginode);
+        this.info_mid.addChild(ginode);
         
 
         // let rsgnode = cc.instantiate(this.ReadyStatusGameInfoView);
@@ -1145,13 +1156,13 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         }
         
         this._cardView.node.active = true;
-        this._cardView.paiQiang.active = true;
+        if(!LHZMJ.ins.iclass.is2D()){
+            this._cardView.paiQiang.active = true;
+        }
 
     }
 
-    public StartSendCard(): void {
-        this.StartAniPlay();
-        this._cardView.PaiQiangInfo.showPaiWall(this,()=>{
+    public nextAction (): void{
         this.GameInfo.holdCardOver();
         for (let i = 0; i < LHZMJMahjongDef.gPlayerNum; i++) {
             this.CardView.holdTricksCard(i, 13);
@@ -1160,7 +1171,15 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
             this._cardView.selfActive.refreshHandCardData(LHZMJ.ins.iclass.getSelfHandCardData());
             this._cardView.selfActive.arrangeHandCard();      
             },1.25);
-        });
+    }
+
+    public StartSendCard(): void {
+        this.StartAniPlay();
+        if(LHZMJ.ins.iclass.is2D()){
+            this.nextAction();
+        }else{
+            this._cardView.PaiQiangInfo.showPaiWall(this,()=>this.nextAction());
+        }
 
     }
 
@@ -1360,6 +1379,8 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
             }
             this.huDongDaoJu.showChatItem(idx,point,point2);
         }else{
+           var path = cc.url.raw("resources/Sound/Item/guzhang.mp3");
+           M_LHZMJClass.ins.PlaySound(path,AudioType.Effect,false);
             this._rg_userInfo.ShowGuZhang(spschair);
         }
         // if(idx==4){
@@ -1651,6 +1672,28 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
                     this._startAni.play();
                 }else{
                     this._startAni.play();
+                }
+            }.bind(this));
+        }
+    }
+
+    public StartCheckIP(msgStr:string[]):void{
+        if(cc.isValid(this._checkip)){
+            this._checkip.showCheatBox(msgStr);
+        }else{
+            cc.loader.loadRes("gameres/M_LHZMJ/Prefabs/skinView/LHZMJ_Cheating", function (err, prefab) {
+                if (err) {
+                    cc.error(err);
+                    return;
+                }
+                if (!cc.isValid(this._checkip)) {
+                    let ipnode: cc.Node = cc.instantiate(prefab);
+                    this._checkip = ipnode.getComponent<LHZMJ_Cheating>(LHZMJ_Cheating);
+                    ipnode.setLocalZOrder(25);
+                    this.node.addChild(ipnode);
+                    this._checkip.showCheatBox(msgStr);
+                }else{
+                    this._checkip.showCheatBox(msgStr);
                 }
             }.bind(this));
         }

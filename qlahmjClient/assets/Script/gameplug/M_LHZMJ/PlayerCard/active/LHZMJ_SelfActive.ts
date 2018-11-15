@@ -32,7 +32,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
      * 活动牌起点:y=595
      * 活动牌起点:x:159,270,381,492,603
      * */
-    private static ArrangeStartPos: Array<number> = [70,280,504,718,962];
+    private static ArrangeStartPos: Array<number> = [0,265,495,725,955];
 
     private static ArrangeStartPos3D: Array<number> = [-572,-308,-44,178,442];
     
@@ -162,13 +162,14 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
         // }
         if(LHZMJ.ins.iclass.is2D()){
             //起始位置
+            //private static ArrangeStartPos: Array<number> = [];
             let startPos: number = LHZMJ_SelfActive.ArrangeStartPos[this.fixedCardNum];
             //开始排版
 
             for(var i: number = 0;i < this._cardData.length;i++) {
                 //this._cardData[i].node.setLocalZOrder(i+1);
-                this._cardData[i].node.x = startPos + i * 83-600;
-                this._cardData[i].node.y = -284;
+                this._cardData[i].node.x = startPos + i * 87-590;
+                this._cardData[i].node.y = -293;
 
                 this._cardData[i].showCard(this._handCard[i],this.isLie,0);
 
@@ -236,7 +237,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
                 this.resetZ();
                 //this._cardData[i].node.setLocalZOrder(i+1);
                 this._cardData[i].node.x = startPos + i * 87;
-                this._cardData[i].node.y = -290;
+                this._cardData[i].node.y = -300;
 
                
 

@@ -513,9 +513,7 @@
       "__id__": 14
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "144f2da5-9a69-41f1-bde0-0a5f38c8119f"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -758,7 +756,33 @@
     },
     "disabledPanel": {
       "__uuid__": "2a8827c8-d82a-4353-aab0-b013754a72ff"
-    }
+    },
+    "icon": [
+      {
+        "__uuid__": "002c0d94-134e-40fe-9577-a53d52040a3e"
+      },
+      {
+        "__uuid__": "1d0f1f76-8d31-45da-bac8-1e8bf083212c"
+      },
+      {
+        "__uuid__": "490fa6f0-ca8f-40ce-a056-dfdc147b4c8c"
+      },
+      {
+        "__uuid__": "8e76e965-af27-4e5f-a220-031f3408ad81"
+      },
+      {
+        "__uuid__": "51460343-a345-4ad0-a34f-360617a4a324"
+      },
+      {
+        "__uuid__": "d6c9a6cc-6961-4ade-b90f-a62cb7f8d2a1"
+      },
+      {
+        "__uuid__": "1dc97532-b01e-43e4-b539-44e1e9f9501b"
+      },
+      {
+        "__uuid__": "144f2da5-9a69-41f1-bde0-0a5f38c8119f"
+      }
+    ]
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -24,6 +24,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
 
     @property(cc.Sprite)
     bmp_greenZZ:cc.Sprite=null;
+    
     @property(cc.Sprite)
     bmp_greenbg:cc.Sprite=null;    
 
@@ -210,7 +211,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
 
 
     
-    private onClick():void{
+    public onClick():void{
         //console.log("55555");
         //    if(M_LHZMJClass.ins._canVote){
         //     this.down();
@@ -324,7 +325,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
      * 是否显示显示绿色遮罩
      */
     public set ShowGreenZZ(isShow:boolean){
-        //this.bmp_greenZZ.node.active=isShow;
+        // this.bmp_greenZZ.node.active=isShow;
         this.bmp_greenbg.node.active = isShow;
     }
     /**
@@ -361,7 +362,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
     //   //  SetTextureRes(url,this.bmp_cardback);
     //   this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_backcard_self_1280");
      if(LHZMJ.ins.iclass.is2D()){
-            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_backcard_self_1280");
+            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupaipg_back@2x");
         }
         else{
             this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjong3DPaiBeiRes("b_btm_self_mj_bg");
@@ -392,7 +393,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
                 return;
         }
         super.showCard(card,isLie,index);
-        this.HuiCardShowGreenZZ(card);
+        
         this.node.opacity=255;
         this._isUp=false;
         this.bmp_cardcolor.node.active = false;
@@ -403,8 +404,8 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
         if(LHZMJ.ins.iclass.is2D()){
             this.node.width=79;
             this.node.height=119;
-            this.bmp_cardback.node.width=88;
-            this.bmp_cardback.node.height=121;
+            this.bmp_cardback.node.width=78;
+            this.bmp_cardback.node.height=110;
             this.bmp_cardback.node.scaleX=1;
             this.bmp_cardcolor.node.width=68;
             this.bmp_cardcolor.node.height=97;
@@ -422,7 +423,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
 
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcard_self_1280`;
                     //url1=LHZMJ.ins.iclass.getMahjongResName(card);
-                    this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_self_1280");
+                    this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupaipg@2x");
                     this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
                     //SetTextureResAry([url,url1],[this.bmp_cardback,this.bmp_cardcolor]);
                     //this.bmp_cardcolor.node.x = 0;//9;
@@ -438,7 +439,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
                     this.bmp_cardback.node.active = true;
                 }else{
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_backcard_self_1280`;
-                    this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_backcard_self_1280");
+                    this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupaipg_back@2x");
                     //SetTextureRes(url,this.bmp_cardback);
                     //this._bmp_cardback.texture = <egret.Texture>RES.getRes(switchResName("xzmj_backcard_self_png"));
                     this.bmp_cardback.node.active = true;
@@ -454,7 +455,7 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
                 // SetTextureRes(url,this.bmp_cardcolor);
                 url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_active_self_1280`;
                 //url1=LHZMJ.ins.iclass.getMahjongResName(card);
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_active_self_1280");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupai2@2x");
                 this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
                 //SetTextureResAry([url,url1],[this.bmp_cardback,this.bmp_cardcolor]);
 
@@ -469,6 +470,8 @@ export default class LHZMJ_SelfSingleActive extends LHZMJ_SingleActiveBase {
                 this.bmp_cardback.node.active = true;
             }
         }else{
+            this.HuiCardShowGreenZZ(card);
+            
             this.node.width=88;
             this.node.height=119;
             this.node.scaleX=1;

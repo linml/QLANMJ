@@ -286,6 +286,11 @@ export default class RoomRuleItem extends cc.Component {
             ruleObj[key] = eval(ruleObj[key]);
         }
 
+        if (ruleObj["TableCost"]) {
+            ruleData.TableCost = ruleObj["TableCost"];
+            delete ruleObj["TableCost"];
+        }
+
         ruleData.GameData = ruleObj;
         rule.RoomData = ruleData;
         
@@ -375,11 +380,19 @@ export default class RoomRuleItem extends cc.Component {
      * 分享按钮事件
      */
     public btnShareClick() {
-        let curRule = FriendCircleDataCache.Instance.getCurFriendCircleRule();
+        let curRule = FriendCircleDataCache.Instance.CurSelectedRule;
+        let gameName = curRule.gameName;
+
+        if (51 == curRule.gameId) {
+            gameName = "快乐BiJi";
+        }
+
         const share = new ShareParam();
         share.link = ConfigData.SiteConfig.DownloadUrl;
-        share.title = curRule.gameName+" 亲友房已开 圈号："+ FriendCircleDataCache.Instance.CurEnterFriendCircle.ID;
-        share.text  = '七乐' + curRule.gameName + '：' + curRule.ruleDesc;
+        share.title = gameName +" 亲友房已开 圈号："+ FriendCircleDataCache.Instance.CurEnterFriendCircle.ID;
+        share.text  = '七乐' + gameName + '：' + curRule.ruleDesc;
+
+        
         Global.Instance.UiManager.ShowUi(UIName.Share,share);
     }
 

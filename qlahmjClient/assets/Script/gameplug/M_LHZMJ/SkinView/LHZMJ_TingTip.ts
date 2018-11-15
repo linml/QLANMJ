@@ -82,11 +82,11 @@ export default class LHZMJ_TingTip extends cc.Component {
         //设置背景宽度
        // this.img_bg.node.width = 90 + tingTip.length * 120 - 40;
 
-         let maxwidth=120 + tingTip.length * 90 - 40;
+         let maxwidth=120 + tingTip.length * 80 - 40;
         this.showNode.width=maxwidth;
-        if(maxwidth>1280){
+        if(maxwidth>680){
             //this.maskRect.width=1280;
-            this.img_bg.node.width=1280;
+            this.img_bg.node.width=680;
             //this.scroll.node.width=1280;
         }
         else{
@@ -94,27 +94,28 @@ export default class LHZMJ_TingTip extends cc.Component {
             this.img_bg.node.width=maxwidth;
         }
         if(tips){
-            if(maxwidth>1280){
-                this.scroll.node.width = 1080;
-                this.img_zhezhao.node.active = true;
+            if(maxwidth>680){
+                this.scroll.node.width = 980;
+                this.img_zhezhao.node.active = false;
                
                 //this.maskRect.width = 880;
-                this.scroll.node.x  = 719 - 80;
+                this.scroll.node.x  = 719 - 80-200-20;
                 this.scroll.horizontal = true;
-                this.img_hu.x = 209;
+                this.img_hu.x = 9;
                 this.img_zhezhao.node.x = 200;
+               // this.maskRect.x = 20;
             }else{
                 this.scroll.node.width = maxwidth-100;
                 //this.maskRect.width =maxwidth -100;
-                this.scroll.node.x  = 719 - (1280-maxwidth)/2+44;
+                this.scroll.node.x  = 719 - (680-maxwidth)/2+44-300;
                 this.scroll.horizontal = false;
                 this.img_zhezhao.node.active = false;
             }
         
         
         }else{
-            this.scroll.node.x =719;
-            this.scroll.node.width=1280;
+            this.scroll.node.x =719-300;
+            this.scroll.node.width=680;
             this.scroll.horizontal = true;
             this.img_hu.x = 9;
             this.img_zhezhao.node.active = false;
@@ -137,11 +138,11 @@ export default class LHZMJ_TingTip extends cc.Component {
             }
             this._singleTingCard=singleTip.getComponent<LHZMJ_SingleTingCardTip>(LHZMJ_SingleTingCardTip);
             this._singleTingCard.setData(tingTip[i]);
-            if(tips&&maxwidth>1280){
-            this._singleTingCard.node.x = 214 + i * 90;
+            if(tips&&maxwidth>680){
+            this._singleTingCard.node.x = 214 + i * 80;
             this._singleTingCard.node.y = 0;
             }else{
-            this._singleTingCard.node.x = 30 + i * 90;
+            this._singleTingCard.node.x = 30 + i * 80;
             this._singleTingCard.node.y = 0;
             }
             

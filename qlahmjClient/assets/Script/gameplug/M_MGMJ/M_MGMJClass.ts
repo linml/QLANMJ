@@ -382,6 +382,10 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
             return this._handCard[this._handCard.length - 1];
         }
 
+        protected CheckCanNext():boolean{
+            return true;
+        }
+
         /**
          * 显示听牌
          * */
@@ -1056,7 +1060,16 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
             this.showCheckIP();
         this.gameView.ReadyStatusUserInfo.OnPlayerSitDown(chairID,player);
         this.gameView.GameStatusUserInfo.OnPlayerSitDown(chairID,player);
-
+        //踢人按钮
+        if(M_MGMJClass.ins.SelfIsTableOwener){
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = true;
+        }else{
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = false;
+        }
     }
     /**
      * IP检测提示
@@ -1135,7 +1148,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
                         tipMsg[1] = "玩家:"+this.TablePlayer[parseInt(sameIps[0])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[2])].NickName
                         tipMsg[2] = "玩家:"+this.TablePlayer[parseInt(sameIps[1])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[2])].NickName
                     }
-                    M_MGMJView.ins.cheatBox.showCheatBox(tipMsg);
+                    M_MGMJView.ins.cheatBox.showCheatBox(tipMsg,()=>{M_MGMJView.ins._setting.onExit();},this);
                 }   
             }
     }
@@ -1147,6 +1160,16 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         if(this.TablePlayer[chairID].PlayerState != QL_Common.GState.Gaming)
             this.showCheckIP();
         this.gameView.ReadyStatusUserInfo.OnTablePlayer(chairID,player);
+        //踢人按钮
+        if(M_MGMJClass.ins.SelfIsTableOwener){
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = true;
+        }else{
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = false;
+        }
     }
 
     /**
@@ -1169,6 +1192,16 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
      * @returns {} 
      */
     protected OnPlayerChangeTable() {
+    }
+
+    /**
+    * 玩家道具
+    * */
+    protected OnPlayerChatItem(self_chairID: number, chairID: number, player: QL_Common.TablePlayer, index:string): void {
+        var rechair = this.PhysicChair2LogicChair(self_chairID);
+        var rechair1 = this.PhysicChair2LogicChair(chairID);       
+        cc.log("收到玩家道具消息,发起者"+rechair1+"接收者"+rechair,"玩家实体昵称"+player.NickName+"动画文件索引"+index);
+        M_MGMJView.ins.ShowChatItem(rechair1,rechair,index);
     }
 
     /**
@@ -1359,6 +1392,11 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
                 // M_MGMJView.ins.TimerView.node.active = false;
                 //玩家点击继续游戏 清除所有的牌蹲
                 M_MGMJView.ins.CardView.PaiWallView.hidePaiWall();
+                //踢人按钮
+                this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = false;
+                this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = false;
+                this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = false;
+        
                 break;
             }
             //发送准备
@@ -1530,6 +1568,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         this._tableConfig.init(
             tableConfig.PlayerNum,
             tableConfig.WaitTimeNum,
+            tableConfig.CheckGps>0,
             tableConfig.SetPeiZi,
             tableConfig.DianPao>0,
             tableConfig.QiangGangHu>0,
@@ -2494,11 +2533,17 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         var createTable : M_MGMJ_GameMessage.CMD_C_CreateTable = new M_MGMJ_GameMessage.CMD_C_CreateTable();
         
         // createTable.CellScore = data.CellScore;
-        createTable.PlayerNum = data.SetPlayerNum;
-        createTable.WaitTimeNum = data.WaitTimeNum;
+        createTable.PlayerNum = data.PlayerNum;
+        createTable.WaitTimeNum = data.OutCardTime;
+        createTable.SetGameNum = data.SetGameNum;
         createTable.SetPeiZi = data.SetPeiZi;
-        createTable.DianPao = data.dianPao;
-        createTable.QiangGangHu = data.qiangGangHu;
+        createTable.zhanZhuang = data.zhanZhuang;
+        createTable.DianPao = data.DianPao;
+        createTable.QiangGangHu = data.QiangGangHu;
+        createTable.IfCanSameIp=data.IfCanSameIP;
+        createTable.CheckGps=data.CheckGps;
+        createTable.isTableCreatorPay=data.tableCreatorPay;
+//-------------------------------------------------------------------
         createTable.isYiPaoDuoXiang = data.isYiPaoDuoXiang?1:0;
         createTable.QiDuiJia = data.isQiDui?1:0;
         createTable.BuKaoJia = data.isBuKao?1:0;
@@ -2508,35 +2553,32 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         createTable.GoldRoomBaseIdx = 1;//data.GoldRoomBaseIdx;//this._selBaseMoney.baseMoneyIdx;
         createTable.IsRecordScoreRoom = 1;//this._cbx_jifenRoom.isSel ? 1 : 0;
         createTable.TableCode = M_MGMJClass.ins.TableID.toString();
-        createTable.SetGameNum = data.SetGameNum;
+        
         createTable.TableCost = gameRuleData.TableCost;
-        createTable.isOutTimeOp= data.isOutTimeOp;
-        createTable.isTableCreatorPay=data.tableCreatorPay;
-        createTable.IfCanSameIp=data.ifcansameip;
+        
         createTable.canChi = data.canChi;
         createTable.daiDaPai = data.daiDaPai;
         createTable.gangFen = data.gangFen;
-        createTable.zhanZhuang = data.zhanZhuang;
         createTable.whoLose = data.whoLose;
         
-        if(data.tableCreatorPay==2){//如果是房主支付
-            if(data.SetGameNum ==0){ //如果是8局
-                 createTable.TableCost = 32;//桌费32钻
-            }else  if(data.SetGameNum ==1){//如果是16局
-                createTable.TableCost = 64;//桌费64钻
-            }else{
-                createTable.TableCost = 64;//局数未取到，默认桌费64钻
-            }
+        // if(data.tableCreatorPay==2){//如果是房主支付
+        //     if(data.SetGameNum ==0){ //如果是8局
+        //          createTable.TableCost = 32;//桌费32钻
+        //     }else  if(data.SetGameNum ==1){//如果是16局
+        //         createTable.TableCost = 64;//桌费64钻
+        //     }else{
+        //         createTable.TableCost = 64;//局数未取到，默认桌费64钻
+        //     }
            
-        }else if(data.tableCreatorPay==1) {//如果是AA支付
-            if(data.SetGameNum ==0){
-                createTable.TableCost = 8;
-            }else if(data.SetGameNum ==1){
-                createTable.TableCost = 16;
-            }else{
-                createTable.TableCost = 16;
-            }
-        }
+        // }else if(data.tableCreatorPay==1) {//如果是AA支付
+        //     if(data.SetGameNum ==0){
+        //         createTable.TableCost = 8;
+        //     }else if(data.SetGameNum ==1){
+        //         createTable.TableCost = 16;
+        //     }else{
+        //         createTable.TableCost = 16;
+        //     }
+        // }
         //设置分享内容
         // if(this._tableConfig.isValid){
             this._shareContext = this._tableConfig.shareContext;
@@ -2594,7 +2636,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         M_MGMJView.ins.showGameNum(this._tableConfig.setGameNum,this._tableConfig.alreadyGameNum,this._tableConfig.realGameNum);
         var gameInfo : M_MGMJ_GameMessage.CMD_S_ORC_GameInfo = <M_MGMJ_GameMessage.CMD_S_ORC_GameInfo>msg;
         this._bankerChair = gameInfo.bankerChair;
-        this._lianBanker=gameInfo.lianBanker+1;
+        this._lianBanker=gameInfo.lianBanker;
         this._gameid = gameInfo.gameid;
         this._gamePhase = gameInfo.gamePhase;
         M_MGMJView.ins.GameStatusUserInfo.setBankerChair(this._bankerChair,this._lianBanker);
@@ -2750,7 +2792,21 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
         }
 
         this.showFangxiang(this.SelfChair);
-        
+
+        //断线重连后显示踢人按钮
+        if(M_MGMJClass.ins.SelfIsTableOwener){
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = true;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = true;
+        }
+        //每局之间断线重连 踢人按钮、准备按钮、邀请按钮需要隐藏
+        if(this.getTableConfig().alreadyGameNum > 0){
+            this.gameView.ReadyStatusUserInfo.kickBtn[0].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[1].node.active = false;
+            this.gameView.ReadyStatusUserInfo.kickBtn[2].node.active = false;
+            this.gameView.ReadyStatusUserInfo.btn_ready.node.active = false;
+            this.gameView.ReadyStatusUserInfo.btn_invite.node.active = false;
+        }
         
     }
 
@@ -3010,7 +3066,7 @@ export default class M_MGMJClass extends GameBaseClass implements IMGMJClass {
     }
     
 
-        getFreeActive(chair:number):cc.NodePool{
+    getFreeActive(chair:number):cc.NodePool{
         return MGMJ_CardView._freeActiveNode[chair];
         // switch(chair){
         //     case 0:{

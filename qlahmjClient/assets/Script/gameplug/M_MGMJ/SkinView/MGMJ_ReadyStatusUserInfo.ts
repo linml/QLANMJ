@@ -66,6 +66,8 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
     @property(cc.Button)
     btn_invite: cc.Button=null;
 
+    private btn_flag :boolean = false;
+
     onLoad() {
         // init logic
         //this.init();
@@ -121,6 +123,11 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
         for(let i=0;i<MGMJMahjongDef.gPlayerNum;i++){
             this.group_user[i].on(cc.Node.EventType.TOUCH_END,()=>{this.onSelUserFace(i);},this);
         }
+        //处理踢人按钮
+        for(let i= 0 ;i<this.kickBtn.length;i++){
+            let chair: number = M_MGMJClass.ins.logic2physicalChair(i+1);
+            this.kickBtn[i].node.on("click",()=>{if(!this.btn_flag){this.onKickUser(chair);this.btn_flag=true;}},this);
+        }
     }
 
     /**
@@ -131,8 +138,46 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
         var chair: number = MGMJ.ins.iclass.logic2physicalChair(logicChair);
         console.log("选择了用户"+logicChair+chair);
         //M_MGMJView.ins.UserData.showUserData(MGMJ.ins.iclass.getTablePlayerAry()[chair],MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
-       M_MGMJView.ins.UserData.showUserData(MGMJ.ins.iclass.getTableConfig().isValid,MGMJ.ins.iclass.getTablePlayerAry()[chair],MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
+       //M_MGMJView.ins.UserData.showUserData(MGMJ.ins.iclass.getTableConfig().isValid,MGMJ.ins.iclass.getTablePlayerAry()[chair],MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,MGMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
+       let point = new cc.Vec2(MGMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].x, MGMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].y);
+       M_MGMJClass.ins.showPlayerInfoForm(MGMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);  
+    }
 
+    /**
+     * 获取用户头像坐标
+     * @param chair 椅子号
+     */
+    public GetPlayerPoint(chair:number){
+        let point = new cc.Vec2(MGMJ_ReadyStatusUserInfo.UserDataGamingPos[chair].x, MGMJ_ReadyStatusUserInfo.UserDataGamingPos[chair].y);   
+        switch(chair){
+            case 0:point.x-=240;
+                    point.y+=30;
+                    break;
+            case 1:point.x+=220;
+                    point.y+=50;
+                    break;
+            case 2:point.x+=205;
+                    point.y+=100;
+                    break;
+            case 3:point.x-=230;
+                    point.y+=60;
+                    break;
+        }
+        return point;
+     }
+     private static UserDataGamingPos: Array<{ x: number, y: number }> = [
+        { x: -300, y: -250 },
+        { x: 350, y: 50 },
+        { x: 150, y: 230 },
+        { x: -350, y: 50 }
+    ];
+
+    /**
+     * 显示鼓掌动画
+     */
+    public ShowGuZhang(chair: number) {
+        if (this.userAry[chair].node.active)
+            this.userAry[chair].ShowGuZhang();
     }
     /**
      * 设置断线玩家
@@ -171,7 +216,7 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
         let title : string;
         let context : string;
         let tableID : number = M_MGMJClass.ins.TableID;
-        title = "霍邱麻将 房间号:" + tableID + " "+curPlayerCount+"缺"+(4-curPlayerCount);
+        title = "明光麻将 房间号:" + tableID + " "+curPlayerCount+"缺"+(4-curPlayerCount);
 
         let wanfa:string=  "";
 
@@ -398,7 +443,7 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
              this.btn_ready.node.active=false;
             this.btn_invite.node.x=0;
         }
-         else {
+        else {
             if(MGMJ.ins.iclass.getTableStauts()!=QL_Common.TableStatus.gameing)
             {
                 M_MGMJView.ins.MsgBox.showMsgBox('余额不足请先充值！', "确定", () => {
@@ -480,10 +525,11 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
             return;
         }
         
-        M_MGMJView.ins.MsgBox.showMsgBox(`是否踢出玩家${MGMJ.ins.iclass.getTablePlayerAry()[chair].NickName}?`,"确定",()=>{
+        M_MGMJClass.ins.ShowMsgBox(`是否踢出玩家${MGMJ.ins.iclass.getTablePlayerAry()[chair].NickName}?`,this,()=>{
             M_MGMJClass.ins.PleaseLeavePlayer(MGMJ.ins.iclass.getTablePlayerAry()[chair].PlayerID);
             // this.group_kickuser.active=false;
-        },this,"取消");
+            this.btn_flag =false;
+        },()=>{this.btn_flag=false;},()=>{this.btn_flag=false;});
     }
 
     onEnable():void{

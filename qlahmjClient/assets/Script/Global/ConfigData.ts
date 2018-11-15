@@ -3,13 +3,14 @@ import { Debug, StartWiths, CurrentPackageType } from "../Tools/Function";
 import { NativeCallBack } from "../Native/NativeCallBack";
 import { NativeCtrl } from "../Native/NativeCtrl";
 import { PackageType } from "../CustomType/PackageType";
+import { ConstValues } from "./ConstValues";
 
 export default class ConfigData {
 
     public static NeedHotupdate = true;
     public static AutoLogin = true;
     private static _siteConfig = new WebSiteConfig();
-    public static _isGetedOpenUri:boolean =false;
+    public static _isGetedOpenUri: boolean = false;
 
 
     private static _nativeConf: any = null;
@@ -40,10 +41,9 @@ export default class ConfigData {
     static init() {
         let o: any = {};
 
-        o.Identifier = "ceshi_android";
-        o.RegionName = "ceshi";
+        o.Identifier = ConstValues.DefaultRegion+"_android";
+        o.RegionName = ConstValues.DefaultRegion;
         o.AppVersion = 0;
-        o.Identifier = "ceshi_android";
 
         return o;
     }
@@ -74,10 +74,9 @@ export default class ConfigData {
                 return ipArray;
             case PackageType.Preview:
             default:
-                return [`ls.${ConfigData.RegionName}-login.qileah.cn:9003`]
+                return [`ws://${ConfigData.RegionName}.ls-qlgame.qileah.cn/`];
         }
     }
-
     /**
      * 通用类服务接口地址，类似检查热更新地址
      */
@@ -91,7 +90,6 @@ export default class ConfigData {
                 return "http://api.qileah.cn";
         }
     }
-
     /*
      * 网站服务接口地址
      * */
@@ -102,33 +100,10 @@ export default class ConfigData {
         switch (CurrentPackageType()) {
             case PackageType.Debug:
                 return apiBaseUrl;
-            case PackageType.Preview:
+            case PackageType.Preview: 
             default:
                 return `http://api.${ConfigData.RegionName}-qlgame.qileah.cn`
         }
-        // return "http://api.test.qileah.cn"
-        // //return "http://192.168.1.250:12345";
-
-        // if (Debug()) {
-        //     /**
-        //     * 测试
-        //     */
-        //     return "http://192.168.1.12:12345";
-        //     // return `http://${ConfigData.RegionName}.8hb.cc/open`;
-        // }
-
-        // if (!cc.sys.isNative) {
-        //     return 'open';
-        // }
-
-        // if (StartWiths(ConfigData.domain, "http")) {
-        //     return ConfigData.domain;
-        // }
-        // if (ConfigData.RegionName === "review") {
-        //     return `http://review-new.8hb.cc/open`;
-        // }
-        // cc.log("当前domain=" + ConfigData.domain);
-        // return `http://${ConfigData.RegionName}.8hb.cc/open`;
     }
 
     public static domain = "";
@@ -149,11 +124,11 @@ export default class ConfigData {
     /**
      * app唯一标识符
      */
-    public static Identifier = "ceshi_android";
+    public static Identifier = ConstValues.DefaultRegion+"_android";
     /**
      * 分区名称
      */
-    public static RegionName: string = "ceshi";
+    public static RegionName: string = ConstValues.DefaultRegion;
     /**
      * app版本号
      */

@@ -225,6 +225,17 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         console.log("chair:" + chair + ",name:" + name + ",faceID:" + faceID + ",gender:" + gender);
         this.skinPlayerControl.SetUserInfo(chair, faceID, name, gender);
     }
+    public AgreeNextGameReset(){
+    //    this.skinLabelView.SetGameCountForNext(this.gameInfo.gameCount[1]);
+    }
+    public RefuseNextGameReset(){
+        this.gameInfo.gameCount[1] -=this.skinLabelView.allgamenum;
+        this.gameInfo.gameCount[0] = this.gameInfo.gameCount[1]; 
+      //  this.skinLabelView.SetGameCountForNext(this.gameInfo.gameCount[1]);
+        cc.log("---------清理-----------游戏--------规则------");
+        this.TheEnd();
+       // this.skinButtonView.ShowTotalScore();
+    }
     /**
      * 设置玩家状态
      */
@@ -260,10 +271,17 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
     public ShowChatItem(spschair:number,rechair:number,index:string){
         var idx = parseInt(index);
         if(idx==4){
+            var path = cc.url.raw("resources/Sound/Item/guzhang.mp3");
+            this.skingameClass.PlaySound(path,AudioType.Effect,false);
             this.skinPlayerControl.ShowGuZhang(spschair);
         }else{
             var point = this.skinPlayerControl.GetPlayerInfoPoint(spschair);
             var point2 = this.skinPlayerControl.GetPlayerInfoPoint(rechair);
+       //     if(rechair !=0){
+                 point2.y += 20;
+  //          }
+               
+
             this.huDongDaoJu.showChatItem(idx,point,point2);
         }
      
@@ -302,7 +320,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         cc.log("是否带弃牌" + data.havedropcard + "是否带喜分" + data.havexiscore+"是否带三顺子"+data.havesanshunzi);
         this.gamerule = new GameRule();
         this.skinLabelView.SetCellScore(data.cellScore, this.skingameClass.IsCreateTable());
-
+        this.skinLabelView.allgamenum = data.gameCount[1];
         this.skinLabelView.SetMoneyType(data.moneyType);
         this.skinLabelView.SetGameCount(data.gameCount);
        
@@ -319,6 +337,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         
         this.tableInfo.SetCardTypeModel(data.cardTypeModel);
         this.tableInfo.SetTableCostNum(data.tableCostNum);
+        this.skingameClass.allmoney = data.tableCostNum;
         this.tableInfo.SetForceLeftMoney(data.forceLeftMoney);
         this.tableInfo.SetForceLeftMoneyType(<QL_Common.CurrencyType>data.forceLeftMoneyType);
         this.tableInfo.SetCheckIP(data.checkIP);
@@ -1009,8 +1028,11 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
             }
             if (data.isShow) {
                 this.gameInfo.SetIsTrueReady(false);
-                if (data.isExit)
+                if (data.isExit){
+                    cc.log("---------清理-----------游戏--------规则------");
                     this.TheEnd();
+                }
+
                 else
                     this.OnClassOver();
             }
@@ -1289,9 +1311,9 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
     public OnButtonShare() {
         var title = "";
          if(Global.Instance.DataCache.GroupId>0){
-            title = this.skingameClass.isSelfCreateRoom ? `【快乐比鸡】亲友圈房号：${this.skingameClass.TableID}` : `赶快加入"快乐比鸡"`;
+            title = this.skingameClass.isSelfCreateRoom ? `【快乐BiJi】亲友圈房号：${this.skingameClass.TableID}` : `赶快加入"快乐BiJi"`;
          }else{
-              title = this.skingameClass.isSelfCreateRoom ? `【快乐比鸡】房号：${this.skingameClass.TableID}` : `赶快加入"快乐比鸡"`;
+              title = this.skingameClass.isSelfCreateRoom ? `【快乐BiJi】房号：${this.skingameClass.TableID}` : `赶快加入"快乐BiJi"`;
          }
        
         //  var checkIP = this.tableInfo.checkIP ? "同IP不许同桌" : "同IP允许同桌";
@@ -1327,11 +1349,11 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
                 j++;}
             }
         shareText = shareText+havedropcard+havexifen+havesanshunzi+j+"缺"+(5-j);
-        var context = this.skingameClass.isSelfCreateRoom ? shareText : `你的好友邀请你来加入"快乐比鸡"！`;
+        var context = this.skingameClass.isSelfCreateRoom ? shareText : `你的好友邀请你来加入"快乐BiJi"！`;
         this.skingameClass.ShowShare(0, this.skingameClass.TableID, title, context);
     }
     public OnButtonCopy(){
-           var title = this.skingameClass.isSelfCreateRoom ? `【快乐比鸡】房号：${this.skingameClass.TableID}` : `赶快加入"快乐比鸡"`;
+           var title = this.skingameClass.isSelfCreateRoom ? `【快乐BiJi】房号：${this.skingameClass.TableID}` : `赶快加入"快乐BiJi"`;
            var gameCount = this.GetGameCount();
            var tableCostType = this.GetTableCostType();
            var difen = this.skinLabelView.GetCellScore();          

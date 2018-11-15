@@ -224,6 +224,12 @@ export default class SendMessage {
         const player_ready = new QL_Common.MSG_C_PlayerReady();
         this.sendData(player_ready);
     }
+    public GameContinueStatus(status:QL_Common.GameContinueStatus){
+        const continue_status = new QL_Common.MSG_C_SendGameContinueStatus();
+        continue_status.status = status;
+        this.sendData(continue_status)
+    }
+
 
     /**
      * 玩家起立

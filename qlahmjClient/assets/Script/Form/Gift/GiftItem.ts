@@ -6,10 +6,10 @@ import { UserData } from "../Record/RecordInfo";
 import { QL_Common } from "../../CommonSrc/QL_Common";
 
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GiftItem extends cc.Component {
+export default class GiftItem extends cc.Component{
     /**
      * 七豆数量
      */
@@ -19,33 +19,46 @@ export default class GiftItem extends cc.Component {
      * 礼品图片
      */
     @property(cc.Sprite)
-    giftImg:cc.Sprite = null;
+    giftImg: cc.Sprite = null;
     /**
      * 礼品名称
      */
     @property(cc.Label)
-    giftName:cc.Label = null;
+    giftName: cc.Label = null;
 
-    private giftInfo:GiftInfo=null;
+    /**
+     * 接收传来的对象
+     */
+    private giftInfo: GiftInfo = null;
 
+    public InitData(Info: GiftInfo) {
+        if (!Info) {
+            cc.log("传过来的对象为空!");
+            return;
+        }
 
-    public initUI(Info:GiftInfo){
-        this.lab_qidouNum.string = Info.price.toString();
         this.giftName.string = Info.giftName;
-        cc.loader.loadRes(Info.image,cc.SpriteFrame,(err,spriteFrame)=>{
-            this.giftImg.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        })
+        this.lab_qidouNum.string = Info.qidou.toString();
+
+        LoadHeader(Info.giftpic, this.giftImg);
 
         this.giftInfo = Info;
     }
     /**
      * 点击进入兑换页面
      */
-    private goExchangeClick(){
-        if(Global.Instance.DataCache.UserProp.GetValue(QL_Common.CurrencyType.QiDou) < this.giftInfo.price){
-            Global.Instance.UiManager.ShowTip("您的七豆不足！无法进行兑换！");
+    private goExchangeClick() {
+        let obj = this.giftInfo;
+
+        if (!obj) {
             return;
         }
-        Global.Instance.UiManager.ShowUi(UIName.GiftExchange,this.giftInfo);
+
+        if (Global.Instance.DataCache.UserProp.GetValue(QL_Common.CurrencyType.QiDou) < obj.qidou) {
+            Global.Instance.UiManager.ShowTip("您当前的七豆数量不足以兑换该物品");
+            return;
+        }
+
+        Global.Instance.UiManager.ShowUi(UIName.GiftExchange, obj);
     }
 }

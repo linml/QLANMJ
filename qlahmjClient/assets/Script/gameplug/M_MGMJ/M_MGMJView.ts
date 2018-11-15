@@ -39,6 +39,7 @@ import MGMJ_StartAni from "./SkinView/MGMJ_StartAni";
 import MGMJ_JiFenBanX from "./SkinView/MGMJ_JiFenBanX";
 import MGMJ_OutCardView from "./SkinView/MGMJ_OutCardView";
 import M_MGMJVoice from "./M_MGMJVoice";
+import HuDong_Animation from "../MJCommon/HuDong_Animation";
 
 @ccclass
 export default class M_MGMJView extends cc.Component implements IMGMJView {
@@ -114,6 +115,12 @@ export default class M_MGMJView extends cc.Component implements IMGMJView {
             return this._timerView;
         }
 
+        @property(cc.Prefab)
+        prefab_hudong:cc.Prefab = null;
+        private huDongDaoJu:HuDong_Animation;
+        public get HuDong_Ani():HuDong_Animation{
+            return this.huDongDaoJu;
+        }
 
         @property(cc.Prefab)
         SZAni_View: cc.Prefab=null;
@@ -431,6 +438,10 @@ export default class M_MGMJView extends cc.Component implements IMGMJView {
             this._gameStatus_userInfo=gsunode.getComponent<MGMJ_GameStatusUserInfo>(MGMJ_GameStatusUserInfo);
             this.node.addChild(gsunode);      
 
+            let hudongnode = cc.instantiate(this.prefab_hudong);
+            this.huDongDaoJu = hudongnode.getComponent<HuDong_Animation>(HuDong_Animation);
+            this.node.addChild(hudongnode);
+
             let opnode=cc.instantiate(this.MGMJ_OP_View);
             this._operatorView=opnode.getComponent<MGMJ_OperatorView>(MGMJ_OperatorView);
             this.node.addChild(opnode);
@@ -660,6 +671,49 @@ export default class M_MGMJView extends cc.Component implements IMGMJView {
                 //this.gameClass.PauseSound();
             }
         }
+
+        /**
+     * 显示互动道具
+     * @param spschair 发起者
+     * @param rechair 接收者
+     * @param index 道具索引
+     */
+    public ShowChatItem(spschair:number,rechair:number,index:string){
+        cc.log("索引"+index);
+        var idx = parseInt(index);
+        if(idx!=4){
+            var point = this.ReadyStatusUserInfo.GetPlayerPoint(spschair);
+            var point2 = this.ReadyStatusUserInfo.GetPlayerPoint(rechair);
+            if(point==null||point == undefined){
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            if (point2 == null || point2 == undefined) {
+                cc.log("获取用户头像坐标失败");
+                return;
+            }
+            this.huDongDaoJu.showChatItem(idx,point,point2);
+            // if(idx == 0)
+            //     M_HQMJVoice.playDaoJu("eggs.mp3");
+            // if(idx == 1)
+            //     M_HQMJVoice.playDaoJu("zuichun.mp3");
+            // if(idx == 2)
+            //     M_HQMJVoice.playDaoJu("banzhuan.mp3");
+            // if(idx == 3)
+            //     M_HQMJVoice.playDaoJu("zhadan.mp3");
+        }else{
+            this.ReadyStatusUserInfo.ShowGuZhang(spschair);
+            this.GameStatusUserInfo.ShowGuZhang(spschair);
+            // M_HQMJVoice.playDaoJu("guzhang.mp3");
+        }
+        // if(idx==4){
+        //     this.skinPlayerControl.ShowGuZhang(spschair);
+        // }else{
+        //     var point = this.skinPlayerControl.GetPlayerInfoPoint(spschair);
+        //     var point2 = this.skinPlayerControl.GetPlayerInfoPoint(rechair);
+        //     this._aniPanel.showChatItem(idx,point,point2);
+        // }     
+    }
         
         /**
          * 录音结束

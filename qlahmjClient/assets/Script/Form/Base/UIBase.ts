@@ -7,6 +7,10 @@ import { PlayEffect, ReflushNodeWidgetAlignment } from "../../Tools/Function";
 
 const { ccclass, property } = cc._decorator;
 
+/**
+ * 弹窗类窗体组件基类，提供弹窗类界面的弹出和关闭等一些管理方法，提供界面从弹出到关闭的方法生命周期维护
+ * 
+ */
 export default abstract class UIBase<T> extends cc.Component implements IEventHandler {
 
     protected isShowUI: boolean = false;
@@ -14,6 +18,7 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
     protected hasEnterAnimation: boolean = false;
     //表示当前的页面是否已经激活进场动画
     protected hasExitAnimation: boolean = false;
+    //表示当前弹窗界面是否是单根实例
     public get isOneInstance(): boolean { return true; }
     public get isPersistRootFrom(): boolean { return false; }
     public get isPlayPopAction(): boolean { return true; }
@@ -23,11 +28,11 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
 
 
     protected _isFree = true;
+    private _canClose: boolean = true;
+    private _reqClose: boolean = false;
     public get IsFree() {
         return this._isFree;
     }
-
-
 
     onLoad(): void {
         //cc.game.addPersistRootNode(this.node);
@@ -121,15 +126,24 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
     }
 
     /**
-     * 显示
+     * 显示方法，调用该方法会显示界面。
      * @param root 
      * @param param 
      * @param action 
      */
     public Show(root?: cc.Node, param?: T, action?: Action) {
-        if (this.isShowUI && this.isOneInstance) return;
+        if (this.isShowUI && this.isOneInstance) {
+            if (this._canClose) {
+                //如果当前界面可以关闭，则调用关闭后重新显示
+                let a: Action = new Action(this, this.Show, [root, param, action]);
+                this.Close(a);
+            }
+            return;
+        }
+        this._canClose = false;
         this.isShowUI = true;
         this._isFree = false;
+        this._reqClose = false;
         if (!(cc.isValid(root) && this.isValid)) {
             //root = cc.director.getScene();
             root = cc.Canvas.instance.node;
@@ -151,10 +165,13 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
         this.InitShow();
         this.PlayEnterAnimation(() => {
             this.OnShow();
+            this._canClose = true;
             if (action) {
                 action.RunArgs();
             }
-
+            if(this._reqClose){
+                this.CloseClick();
+            }
         });
     }
 
@@ -163,11 +180,20 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
      * @param action 
      */
     public Close(action?: Action, param?: any) {
+        if(!this._canClose){
+            this._reqClose = true;
+            if(this._canClose){
+                this.scheduleOnce(()=>{
+                    this.CloseClick();
+                },0);
+            }
+            return;
+        }
         this.scheduleOnce(() => {
             if (!this.isShowUI || this.hasEnterAnimation) return;
             this.hasEnterAnimation = false;
             this.PlayExitAnimation(() => {
-                this.CloseUI();
+                this.CloseUI(action);
             })
         });
     }
@@ -187,18 +213,6 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
     }
 
 
-    /**
-     * 刷新
-     */
-    protected InitShow() {
-    }
-
-    protected OnShow() {
-    }
-
-    protected OnClose() {
-        // this.InitShow();
-    }
 
 
     /****************************** 界面的进场动画和退场动画部分 ************************************* */
@@ -292,6 +306,17 @@ export default abstract class UIBase<T> extends cc.Component implements IEventHa
 
 
 
+    /**
+     * 刷新
+     */
+    public InitShow() {
+    }
+    public OnShow() {
+    }
+
+    public OnClose() {
+        // this.InitShow();
+    }
     public BackClick() {
         this.CloseClick();
     }

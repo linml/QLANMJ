@@ -139,7 +139,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                     // SetTextureRes(url,this.bmp_cardcolor);
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcard_left_right_1280`;
                     //url1=LHZMJ.ins.iclass.getMahjongResName(card);
-                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_left_right_1280");
+                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuoyoupg@2x");
                     this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
                     //SetTextureResAry([url,url1],[this.bmp_liecardback,this.bmp_cardcolor]);
                     // this.bmp_cardcolor.node.x = 0;
@@ -149,7 +149,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                     // this.bmp_cardcolor.node.scaleY = 0.5;
                 }else{
                     url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_showcardback_left_right_1280`;
-                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcardback_left_right_1280");
+                    this.bmp_liecardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuoyou_back@2x");
                 
                     //SetTextureRes(url,this.bmp_liecardback);
                 }
@@ -158,7 +158,7 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
             } else {
                 url=`gameres/gameCommonRes/Texture/Mahjong/PaiBei3/pb3_active_right_1280`;
                 cc.log("显示下家");
-                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_active_right_1280");
+                this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("you_pai@2x");
                 //SetTextureRes(url,this.bmp_cardback);
                 this.bmp_cardback.node.active=true;
                 //this.bmp_cardcolor.node.active=false;
@@ -670,6 +670,10 @@ export default class LHZMJ_DownSingleActive extends LHZMJ_SingleActiveBase {
                 break;
             }
         }
+        if(!LHZMJ.ins.iclass.isVideo()){
+                     this.node.x+=30;
+        }
+
     }
 }
 

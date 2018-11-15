@@ -1,7 +1,8 @@
-import { MGMJMahjongDef } from "../ConstDef/MGMJMahjongDef";
+import { MGMJMahjongDef,MGMJ } from "../ConstDef/MGMJMahjongDef";
 import { allZhi } from "../ConstDef/MGMJMahjongDef";
 import { enTinType, enFixedCardType } from "../ConstDef/MGMJMahjongDef";
 import M_MGMJView from "../M_MGMJView";
+import M_MGMJVideoView from "../M_MGMJVideoView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -89,7 +90,9 @@ const { ccclass, property } = cc._decorator;
             // cc.info("排序前：" + cardAry);
             
             var tempCard : number=0;
-            var hunpai :number = M_MGMJView.ins.gameClass.TableConfig.SetPeiZi;
+            // var hunpai :number = MGMJ.ins.iclass.isVideo() ? M_MGMJVideoView.ins.gameClass.TableConfig.SetPeiZi : M_MGMJView.ins.gameClass.TableConfig.SetPeiZi;
+            //处理宝牌
+            let hunpai = MGMJ.ins.iclass.getTableConfig().SetPeiZi;
             var tempCardArray = [];
             while(cardAry.indexOf(hunpai)!=-1){
                  tempCardArray.push(hunpai);

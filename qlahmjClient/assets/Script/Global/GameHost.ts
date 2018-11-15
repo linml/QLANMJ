@@ -218,11 +218,6 @@ export class GameHost implements IGameHost {
         }
     }
 
-    /**
-     * [OnGameSceneComplete 加载游戏场景之后]
-     * @Author   李爽
-     * @DateTime 2018-09-30T11:55:16+0800
-     */
     OnGameSceneComplete(): void {
         if (this._initGameParam.IsOffLine) {
             SendMessage.Instance.OfflineComein();

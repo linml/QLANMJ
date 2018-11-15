@@ -26,7 +26,7 @@ export default class CheckBoxLeftRight extends RuleItemToggleBase {
 		this._curSelectIdx = this.showData.defaultValue;
 
 		if (this.lab_desc) {
-			this.lab_desc.string = this.showData.list[0].desc;
+			this.lab_desc.string = this.showData.list[this._curSelectIdx].desc;
 		}
 
 		if (this.showData.defaultSelected) {
@@ -47,17 +47,22 @@ export default class CheckBoxLeftRight extends RuleItemToggleBase {
 		if (data.selected) {
 			this.checkBox.check();
 		}else{
-			this._curSelectIdx = this.showData.defaultValue;
 			this.checkBox.uncheck();
 		}
 
-		if (typeof data.value !== 'undefined') {
+		this._curSelectIdx = parseInt(data.value);
+
+		if (this.lab_desc) {
+			this.lab_desc.string = this.showData.list[this._curSelectIdx].desc;
+		}
+		
+		/*if (typeof data.value !== 'undefined') {
 			this._curSelectIdx = data.value;
 
 			if (data.value == this.showData.defaultValue) {
 				this.checkBox.uncheck();
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -94,15 +99,15 @@ export default class CheckBoxLeftRight extends RuleItemToggleBase {
 			this._curSelectIdx --;
 
 			if (this._curSelectIdx < 0) {
-				this._curSelectIdx = 0;
+				this._curSelectIdx = this.showData.list.length - 1;
 			}
 
 			this.lab_desc.string = this.showData.list[this._curSelectIdx].desc;
 		}else if ("RIGHT" == customEventData) {
 			this._curSelectIdx ++;
 
-			if (this._curSelectIdx >= this.showData.list.length) {
-				this._curSelectIdx = this.showData.list.length - 1;
+			if (this._curSelectIdx > this.showData.list.length - 1) {
+				this._curSelectIdx = 0;
 			}
 
 			this.lab_desc.string = this.showData.list[this._curSelectIdx].desc;

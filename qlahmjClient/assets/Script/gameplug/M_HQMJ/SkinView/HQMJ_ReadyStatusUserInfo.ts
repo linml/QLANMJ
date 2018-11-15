@@ -143,7 +143,34 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         }
         
     }
-
+    /**
+     * 获取用户头像坐标
+     * @param chair 椅子号
+     */
+    public GetPlayerPoint(chair:number){
+        let point = new cc.Vec2(HQMJ_ReadyStatusUserInfo.UserDataGamingPos[chair].x, HQMJ_ReadyStatusUserInfo.UserDataGamingPos[chair].y);   
+        switch(chair){
+            case 0:point.x-=240;
+                    point.y+=30;
+                    break;
+            case 1:point.x+=220;
+                    point.y+=50;
+                    break;
+            case 2:point.x+=205;
+                    point.y+=100;
+                    break;
+            case 3:point.x-=230;
+                    point.y+=60;
+                    break;
+        }
+        return point;
+     }
+    private static UserDataGamingPos: Array<{ x: number, y: number }> = [
+        { x: -300, y: -250 },
+        { x: 350, y: 50 },
+        { x: 150, y: 230 },
+        { x: -350, y: 50 }
+    ];
     /**
      * 选择用户头像
      * */
@@ -152,8 +179,9 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         var chair: number = this.HQMJClass.logic2physicalChair(logicChair);
         console.log("选择了用户"+logicChair+chair);
         //M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTablePlayerAry()[chair],HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
-       M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
-
+       //M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
+       let point = new cc.Vec2(HQMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].x, HQMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].y);
+       M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
     }
     /**
      * 设置断线玩家
@@ -468,6 +496,13 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         //         },this);   
         //     }
         // }
+    }
+    /**
+     * 显示鼓掌动画
+     */
+    public ShowGuZhang(chair: number) {
+        if (this.userAry[chair].node.active)
+            this.userAry[chair].ShowGuZhang();
     }
     /**
      * 玩家表情

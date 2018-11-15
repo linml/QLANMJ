@@ -1079,7 +1079,14 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(31)]
         public int tableWhere;
-        
+
+        /// <summary>
+        /// GPS
+        /// </summary>
+        [PacketMember(32)]
+        public byte CheckGps;
+        /// <summary>
+
     };
 
     /// <summary>
@@ -2011,6 +2018,12 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(23)]
         public byte QiangGangHu;
+
+        /// <summary>
+        /// 等待时间
+        /// </summary>
+        [PacketMember(24)]
+        public byte CheckGps;
 
 
     };

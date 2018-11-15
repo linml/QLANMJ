@@ -40,6 +40,12 @@ export default class LHZMJ_SingleActiveBase extends LHZMJ_SingleCardBase {
         this._cardIndex=index;
         
     }
+    /**
+     * 尾牌弹起
+     */
+    public onClick(){
+
+    }
 
     /**
      * 弹下

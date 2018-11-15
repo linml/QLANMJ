@@ -146,6 +146,9 @@ export default class HQMJ_JieShuan extends cc.Component {
         this.node.active=false;
     }
 
+    public isVisible() : boolean{
+        return this.node.active;
+    }
     private sharebtn():void{
         M_HQMJClass.ins.ScreenCapture(true);
     }   

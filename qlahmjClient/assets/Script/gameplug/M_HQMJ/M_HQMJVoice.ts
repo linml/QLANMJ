@@ -1,5 +1,5 @@
 import { HQMJSoundDef, HQMJ } from "./ConstDef/HQMJMahjongDef";
-import { AudioType, VoiceType } from "../../CustomType/Enum";
+import { AudioType, VoiceType } from '../../CustomType/Enum';
 
 const { ccclass, property } = cc._decorator;
 
@@ -103,4 +103,5 @@ export default class M_HQMJVoice{
         var path = "resources/gameres/Voice/MJ_Voice/sound/mj_sound_bg.mp3";
         HQMJ.ins.iclass.playMJSound(path, AudioType.Music, true);
     }
+    
 }

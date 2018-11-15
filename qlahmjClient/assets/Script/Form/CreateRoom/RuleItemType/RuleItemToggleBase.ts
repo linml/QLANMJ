@@ -62,6 +62,19 @@ export default abstract class RuleItemToggleBase extends cc.Component {
     private _childrenAttr = [];
 
     public showData: any = null;
+
+    /**
+     * 类型
+     */
+    protected _Type: ToggleType = null;
+
+    public set Type(type: ToggleType) {
+        this._Type = type;
+    }
+
+    public get Type() : ToggleType {
+        return this._Type;
+    }
     /*
      * 返回选中的参数和数值
      */

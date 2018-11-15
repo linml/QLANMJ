@@ -45,6 +45,8 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
 
     private static _ins: M_HQMJVideoClass;
     public static get ins(): M_HQMJVideoClass { return this._ins; }
+
+    private videostart:boolean= true;
     // @property(cc.Label)
     // label: cc.Label;
 
@@ -998,6 +1000,11 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
         timenode.color=cc.color().fromHEX("#fedbc7");
         this.node.addChild(timenode); 
     }
+
+    protected CanSkipReplayMessage(message:GameIF.CustomMessage):boolean{
+        return this.videostart;
+    }
+
     /**
      * 初始化游戏 有参数 用于初始化，每次游戏中断线重连都会被调用
      */
@@ -1877,6 +1884,7 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
      * 当前活动玩家
      * */
     private Handle_CMD_S_ActivePlayer(msg: GameIF.CustomMessage): void {
+        this.videostart = false;
         var activePlayer: M_HQMJ_GameMessage.CMD_S_ActivePlayer = <M_HQMJ_GameMessage.CMD_S_ActivePlayer>msg;
         this._gamePhase = enGamePhase.GamePhase_PlayerOP;
         this._activePlayer = activePlayer.playerChair;
@@ -2003,7 +2011,7 @@ export default class M_HQMJVideoClass extends GameVideoBase implements IHQMJClas
         // var action = cc.moveTo(0.1, 0, 120);
         // this.node.runAction(action);
         if(chair != this.SelfChair)
-            M_HQMJVideoView.ins.mg_out.showOutPai(chair,outPai,true);
+            M_HQMJVideoView.ins.mg_out.showOutPai(chair,outPai,M_HQMJVideoClass.ins);
 
         // var bgStr = "#shoupai2@2x.png";
         // var colorStr = $.Mj4_common.getNewCardRes(mj,"sp");

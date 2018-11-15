@@ -55,4 +55,9 @@ export namespace EventCode {
      * 邮件状态改变
      */
     export const EmailStatus = 20;
+
+    /**
+     * 大厅跑马灯到达
+     */
+    export const HornHallStart = 21;
 }

@@ -13,36 +13,15 @@
                             "attr": "PeopleNum",
                             "value": 0,
                             "desc": "四人",
-                            "enabled": false,
+                            "enabled": true,
                             "defaultSelected": true
                         },
                         {
                             "attr": "PeopleNum",
                             "value": 1,
                             "desc": "三人",
-                            "enabled": false,
+                            "enabled": true,
                             "defaultSelected": false
-                        }
-                    ]
-                },
-                {
-                    "nodeType": "CHECKBOX_LEFTRIGHT",
-                    "defaultSelected": true,
-                    "defaultValue": 2,
-                    "attr": "OutCardTime",
-                    "enabled": false,
-                    "list": [
-                        {
-                            "value": 0,
-                            "desc": "15s"
-                        },
-                        {
-                            "value": 1,
-                            "desc": "30s"
-                        },
-                        {
-                            "value": 2,
-                            "desc": "无限制出牌"
                         }
                     ]
                 }
@@ -170,11 +149,32 @@
                             "defaultSelected": false
                         }
                     ]
+                },
+                {
+                    "nodeType": "CHECKBOX_LEFTRIGHT",
+                    "defaultSelected": true,
+                    "defaultValue": 2,
+                    "attr": "OutCardTime",
+                    "enabled": true,
+                    "list": [
+                        {
+                            "value": 0,
+                            "desc": "15s"
+                        },
+                        {
+                            "value": 1,
+                            "desc": "30s"
+                        },
+                        {
+                            "value": 2,
+                            "desc": "无限制"
+                        }
+                    ]
                 }
             ]
         },
         {
-            "attrIcon": "cjfj_46.png",
+            "attrIcon": "cjfj_77.png",
             "desc": "定位",
             "enabled": true,
             "itemList": [
@@ -221,7 +221,7 @@
                             "enabled": true,
                             "defaultSelected": false
                         },
-                         {
+                        {
                             "attr": "tableCreatorPay",
                             "value": 3,
                             "desc": "圈主支付",
@@ -233,36 +233,36 @@
             ]
         }
     ],
-    "defaultAttr":[
-        {   
+    "defaultAttr": [
+        {
             "attrName": "GangKaiJia",
             "value": 1,
-            "desc":"杠开（杠开"
+            "desc": "杠开（杠开"
         },
         {
             "attrName": "IsRecordScoreRoom",
             "value": false,
-            "desc":"是否是记分场"
+            "desc": "是否是记分场"
         },
         {
             "attrName": "isOutTimeOp",
             "value": false,
-            "desc":"自主建房是否超时代打"
+            "desc": "自主建房是否超时代打"
         },
         {
             "attrName": "isYiPaoDuoXiang",
             "value": true,
-            "desc":"一炮多响"
+            "desc": "一炮多响"
         },
         {
             "attrName": "isGangJiuYou",
             "value": true,
-            "desc":"是否杠了就有"
+            "desc": "是否杠了就有"
         },
         {
             "attrName": "IfCanSameIp",
             "value": false,
-            "desc":"是否杠了就有"
+            "desc": "是否杠了就有"
         }
     ]
 }

@@ -194,6 +194,8 @@ export default class SkinPlayer extends cc.Component {
 
         this.img_userimg.spriteFrame = null;
         this.animation.stop();
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active = false;
         this.unscheduleAllCallbacks();
         this.img_chat.node.active = false;
         this.img_offline.node.active = false;
@@ -478,7 +480,7 @@ export default class SkinPlayer extends cc.Component {
     public ShowGuZhang(){
         this.img_guzhang.node.active = true;
         this.img_guzhang.play();
-        this.scheduleOnce(this.AniGuZhangFinish, 3 * BiJi.ins.iclass.GetSpeed());
+        this.scheduleOnce(this.AniGuZhangFinish, 2 * BiJi.ins.iclass.GetSpeed());
     }
     private AniGuZhangFinish() {
         this.img_guzhang.stop();

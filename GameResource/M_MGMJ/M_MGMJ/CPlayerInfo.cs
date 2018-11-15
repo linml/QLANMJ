@@ -605,7 +605,7 @@ namespace M_MGMJ
         /// </summary>
         /// <param name="cbOutCard"></param>
         /// <returns></returns>
-        public bool CheckIfCanVote(byte cbOutCard, enHuCardType huType, ushort outcardchair, bool canChi, bool isOneBodyHaveHu,bool isDianPao)
+        public bool CheckIfCanVote(byte cbOutCard, enHuCardType huType, ushort outcardchair, bool canChi, bool isOneBodyHaveHu,bool isDianPao,bool isNoHuOpertion)
         {
             ClearVote();
             if (MahjongDef.gInvalidMahjongValue == cbOutCard)
@@ -649,7 +649,7 @@ namespace M_MGMJ
             }
             
             //点炮胡
-            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0)&& isDianPao&& !isOneBodyHaveHu)
+            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0)&& isDianPao&& !isOneBodyHaveHu&& isNoHuOpertion&& cbOutCard!=_gameServer._tableConfig.SetPeiZi)
             {
                 bIfCanVote = true;
                 _voteRight |= MahjongDef.gVoteRightMask_Hu;

@@ -11,6 +11,9 @@ import { onProfileSignIn2 } from "../CustomType/CallUMengParam";
 import { SystmPushMessage } from "../CustomType/SystmPushMsg";
 import { Tools } from "../Tools/SystemConfigReader";
 import { UIName } from "../Global/UIName";
+import UiManager from "../Manager/UiManager";
+import HornGamePanel from "../Form/Horn/HornGamePanel";
+import HornPanel from "../Form/Horn/HornPanel";
 
 /**
  * 主网络信息处理者
@@ -150,7 +153,18 @@ export default class MainMessageHandler implements ISocketHandler {
     private MSG_S_SystemHornMsg(cm: GameIF.CustomMessage){
         const e = <QL_Common.MSG_S_SystemHornMsg>cm;
         if (!e) return;
-        Global.Instance.UiManager.ShowHallHorn(e.HornMsgList[e.HornMsgList.length - 1].Context, 1, "");
+
+        let entity = e.HornMsgList[e.HornMsgList.length - 1];
+        if(!entity){
+            return;
+        }
+        if(entity.HornType == QL_Common.SystemHornType.Hall){
+            HornPanel.HornHallList = [];
+            HornPanel.HornHallList[HornPanel.HornHallList.length] = entity;
+            this.EventManager.PostMessage(EventCode.HornHallStart);
+        }else{
+            // Global.Instance.UiManager.ShowHorn(e.HornMsgList[e.HornMsgList.length - 1]);
+        }
     }
 
 

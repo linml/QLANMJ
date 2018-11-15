@@ -4,6 +4,7 @@ import { QL_Common } from "../../../CommonSrc/QL_Common";
 import { MGMJMahjongAlgorithm } from "../MGMJMahjongAlgorithm/MGMJMahjongAlgorithm";
 import MJ_PlayVoiceStaus from "../../MJCommon/MJ_PlayVoiceStaus";
 import M_MGMJView from "../M_MGMJView";
+import M_MGMJClass from "../M_MGMJClass";
 import M_MGMJVoice from "../M_MGMJVoice";
 
 const { ccclass, property } = cc._decorator;
@@ -95,9 +96,26 @@ export default class MGMJ_GameStatusUserInfo extends cc.Component {
                     yPos = MGMJ_GameStatusUserInfo.UserDataPos[logicChair].y;
                 }
                 M_MGMJVoice.PlayCardType(`/sound/Button32.mp3`);
-                M_MGMJView.ins.UserData.showUserData(MGMJ.ins.iclass.getTableConfig().isValid,MGMJ.ins.iclass.getTablePlayerAry()[chair],xPos,yPos);
+               
+                // M_MGMJView.ins.UserData.showUserData(MGMJ.ins.iclass.getTableConfig().isValid,MGMJ.ins.iclass.getTablePlayerAry()[chair],xPos,yPos);
+                let point = new cc.Vec2(MGMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].x, MGMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].y);
+                M_MGMJClass.ins.showPlayerInfoForm(MGMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);            
             }
         }
+        /**
+         * 显示鼓掌动画
+         */
+        public ShowGuZhang(chair: number) {
+            if (this.userAry[chair].node.active)
+                this.userAry[chair].ShowGuZhang();
+        }
+
+        private static UserDataGamingPos: Array<{ x: number, y: number }> = [
+            { x: -300, y: -250 },
+            { x: 350, y: 50 },
+            { x: 150, y: 230 },
+            { x: -350, y: 50 }
+        ];
         /**
          * 玩家表情
          */

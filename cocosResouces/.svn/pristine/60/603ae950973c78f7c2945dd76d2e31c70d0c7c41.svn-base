@@ -1,0 +1,745 @@
+{
+  "ID": "1b02491c-d55b-480d-9ff4-464e9a8562bd",
+  "Version": "2.3.4",
+  "Name": "CSB_Jianyifankui",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Tag": 966,
+        "Children": [
+          {
+            "ClipAble": false,
+            "BackColorAlpha": 102,
+            "ComboBoxIndex": 1,
+            "SingleColor": {
+              "R": 150,
+              "G": 200
+            },
+            "FirstColor": {
+              "R": 150,
+              "G": 200
+            },
+            "EndColor": {},
+            "ColorVector": {
+              "ScaleY": 1.0
+            },
+            "TouchEnable": true,
+            "AnchorPoint": {},
+            "Position": {
+              "X": -0.762,
+              "Y": -1.1312
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": -0.0006,
+              "Y": -0.0016
+            },
+            "PreSize": {
+              "X": 1.0,
+              "Y": 1.0
+            },
+            "LeftMargin": -0.762,
+            "RightMargin": 0.762,
+            "TopMargin": 1.1312,
+            "BottomMargin": -1.1312,
+            "Tag": 974,
+            "ActionTag": 1989408509,
+            "Size": {
+              "X": 1280.0,
+              "Y": 720.0
+            },
+            "Alpha": 0,
+            "Name": "Panel_4",
+            "ctype": "PanelObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "jsfj/img_dwkuang@2x.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 640.0,
+              "Y": 360.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.5
+            },
+            "PreSize": {
+              "X": 0.6094,
+              "Y": 0.8542
+            },
+            "LeftMargin": 250.0,
+            "RightMargin": 250.0,
+            "TopMargin": 52.5,
+            "BottomMargin": 52.5,
+            "Tag": 2194,
+            "ActionTag": 976687067,
+            "Size": {
+              "X": 780.0,
+              "Y": 615.0
+            },
+            "Name": "BG",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "weixin/img_neirongbg@2x.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 1.0
+            },
+            "Position": {
+              "X": 641.3807,
+              "Y": 571.4579
+            },
+            "Scale": {
+              "ScaleX": 3.9,
+              "ScaleY": 1.973
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5011,
+              "Y": 0.7937
+            },
+            "PreSize": {
+              "X": 0.1563,
+              "Y": 0.2778
+            },
+            "LeftMargin": 541.3807,
+            "RightMargin": 538.6193,
+            "TopMargin": 148.5421,
+            "BottomMargin": 371.4579,
+            "Tag": 971,
+            "ActionTag": 934791840,
+            "Size": {
+              "X": 200.0,
+              "Y": 200.0
+            },
+            "Name": "Sprite_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "ClipAble": false,
+            "BackColorAlpha": 0,
+            "ComboBoxIndex": 1,
+            "SingleColor": {
+              "R": 150,
+              "G": 200
+            },
+            "FirstColor": {
+              "R": 150,
+              "G": 200
+            },
+            "EndColor": {},
+            "ColorVector": {
+              "ScaleY": 1.0
+            },
+            "Scale9Width": 1,
+            "Scale9Height": 1,
+            "TouchEnable": true,
+            "AnchorPoint": {},
+            "Position": {
+              "X": -1.7657,
+              "Y": 9.9784
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": -0.0014,
+              "Y": 0.0139
+            },
+            "PreSize": {
+              "X": 1.0,
+              "Y": 1.0
+            },
+            "LeftMargin": -1.7657,
+            "RightMargin": 1.7656,
+            "TopMargin": -9.9784,
+            "BottomMargin": 9.9784,
+            "Tag": 1864,
+            "Children": [
+              {
+                "FontSize": 14,
+                "ButtonText": "",
+                "TextColor": {
+                  "R": 65,
+                  "G": 65,
+                  "B": 70
+                },
+                "DisabledFileData": {
+                  "Type": "Default",
+                  "Path": "Default/Button_Disable.png",
+                  "Plist": ""
+                },
+                "NormalFileData": {
+                  "Type": "Normal",
+                  "Path": "common/btn_changyong@2x.png",
+                  "Plist": ""
+                },
+                "Scale9Enable": true,
+                "Scale9OriginX": 15,
+                "Scale9OriginY": 11,
+                "Scale9Width": 224,
+                "Scale9Height": 63,
+                "OutlineColor": {
+                  "G": 0,
+                  "B": 0
+                },
+                "ShadowColor": {
+                  "R": 110,
+                  "G": 110,
+                  "B": 110
+                },
+                "ShadowOffsetX": 2.0,
+                "ShadowOffsetY": -2.0,
+                "TouchEnable": true,
+                "AnchorPoint": {
+                  "ScaleX": 0.5,
+                  "ScaleY": 0.5
+                },
+                "Position": {
+                  "X": 640.1837,
+                  "Y": 106.2996
+                },
+                "Scale": {
+                  "ScaleX": 1.0,
+                  "ScaleY": 1.0
+                },
+                "CColor": {},
+                "IconVisible": false,
+                "PrePosition": {
+                  "X": 0.5001,
+                  "Y": 0.1476
+                },
+                "PreSize": {
+                  "X": 0.1984,
+                  "Y": 0.1181
+                },
+                "LeftMargin": 513.1837,
+                "RightMargin": 512.8163,
+                "TopMargin": 571.2004,
+                "BottomMargin": 63.7996,
+                "Tag": 972,
+                "ActionTag": 1922587880,
+                "Size": {
+                  "X": 254.0,
+                  "Y": 85.0
+                },
+                "Name": "Button_8",
+                "ctype": "ButtonObjectData"
+              }
+            ],
+            "ActionTag": 550356463,
+            "Size": {
+              "X": 1280.0,
+              "Y": 720.0
+            },
+            "Name": "ID_LAYOUT_SUREDISMISS",
+            "ctype": "PanelObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "jrfj/img_tcdx@2x.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 630.7429,
+              "Y": 634.626
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4928,
+              "Y": 0.8814
+            },
+            "PreSize": {
+              "X": 0.3063,
+              "Y": 0.1292
+            },
+            "LeftMargin": 434.7429,
+            "RightMargin": 453.2571,
+            "TopMargin": 38.874,
+            "BottomMargin": 588.126,
+            "Tag": 2195,
+            "ActionTag": 1524602225,
+            "Size": {
+              "X": 392.0,
+              "Y": 93.0
+            },
+            "Name": "Sprite_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "kefu/font_home_fankui_fk@2x.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 633.2637,
+              "Y": 642.0494
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4947,
+              "Y": 0.8917
+            },
+            "PreSize": {
+              "X": 0.1227,
+              "Y": 0.0556
+            },
+            "LeftMargin": 554.7637,
+            "RightMargin": 568.2363,
+            "TopMargin": 57.9506,
+            "BottomMargin": 622.0494,
+            "Tag": 819,
+            "ActionTag": -82513968,
+            "Size": {
+              "X": 157.0,
+              "Y": 40.0
+            },
+            "Name": "Sprite_4",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FontSize": 24,
+            "LabelText": "有任何建议都可以提给我们，您的建议将帮助改进产品与服务",
+            "OutlineColor": {
+              "G": 0,
+              "B": 0
+            },
+            "ShadowColor": {
+              "R": 110,
+              "G": 110,
+              "B": 110
+            },
+            "ShadowOffsetX": 2.0,
+            "ShadowOffsetY": -2.0,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 635.3979,
+              "Y": 515.5721
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {
+              "R": 184,
+              "G": 190
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4964,
+              "Y": 0.7161
+            },
+            "PreSize": {
+              "X": 0.5063,
+              "Y": 0.0333
+            },
+            "LeftMargin": 311.3979,
+            "RightMargin": 320.6021,
+            "TopMargin": 192.4279,
+            "BottomMargin": 503.5721,
+            "Tag": 820,
+            "ActionTag": -2115461246,
+            "Size": {
+              "X": 648.0,
+              "Y": 24.0
+            },
+            "Alpha": 140,
+            "Name": "Text_1",
+            "ctype": "TextObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "common/img_home_srkuang@2x.png",
+              "Plist": ""
+            },
+            "Scale9Enable": true,
+            "Scale9OriginX": 19,
+            "Scale9OriginY": 19,
+            "Scale9Width": 22,
+            "Scale9Height": 22,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 630.7957,
+              "Y": 449.7259
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4928,
+              "Y": 0.6246
+            },
+            "PreSize": {
+              "X": 0.4844,
+              "Y": 0.0833
+            },
+            "LeftMargin": 320.7957,
+            "RightMargin": 339.2043,
+            "TopMargin": 240.2741,
+            "BottomMargin": 419.7259,
+            "Tag": 860,
+            "ActionTag": 76722074,
+            "Size": {
+              "X": 620.0,
+              "Y": 60.0
+            },
+            "Name": "Image_10",
+            "ctype": "ImageViewObjectData"
+          },
+          {
+            "FontSize": 24,
+            "IsCustomSize": true,
+            "LabelText": "",
+            "PlaceHolderText": "请输入手机号，方便与您联系",
+            "MaxLengthText": 10,
+            "TouchEnable": true,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 637.4357,
+              "Y": 440.7817
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {
+              "R": 184,
+              "G": 190
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.498,
+              "Y": 0.6122
+            },
+            "PreSize": {
+              "X": 0.4531,
+              "Y": 0.0597
+            },
+            "LeftMargin": 347.4357,
+            "RightMargin": 352.5643,
+            "TopMargin": 257.7183,
+            "BottomMargin": 419.2817,
+            "Tag": 862,
+            "ActionTag": 627439050,
+            "Size": {
+              "X": 580.0,
+              "Y": 43.0
+            },
+            "Alpha": 89,
+            "Name": "TextField_3",
+            "ctype": "TextFieldObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "common/img_home_srkuang@2x.png",
+              "Plist": ""
+            },
+            "Scale9Enable": true,
+            "Scale9OriginX": 19,
+            "Scale9OriginY": 19,
+            "Scale9Width": 22,
+            "Scale9Height": 22,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 630.0085,
+              "Y": 306.8925
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4922,
+              "Y": 0.4262
+            },
+            "PreSize": {
+              "X": 0.4844,
+              "Y": 0.2778
+            },
+            "LeftMargin": 320.0085,
+            "RightMargin": 339.9915,
+            "TopMargin": 313.1075,
+            "BottomMargin": 206.8925,
+            "Tag": 863,
+            "ActionTag": 1141124067,
+            "Size": {
+              "X": 620.0,
+              "Y": 200.0
+            },
+            "Name": "Image_10_0",
+            "ctype": "ImageViewObjectData"
+          },
+          {
+            "FontSize": 24,
+            "IsCustomSize": true,
+            "LabelText": "",
+            "PlaceHolderText": "请输入您的宝贵意见（200字）",
+            "MaxLengthText": 10,
+            "TouchEnable": true,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 637.4357,
+              "Y": 298.0589
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {
+              "R": 184,
+              "G": 190
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.498,
+              "Y": 0.414
+            },
+            "PreSize": {
+              "X": 0.4531,
+              "Y": 0.25
+            },
+            "LeftMargin": 347.4357,
+            "RightMargin": 352.5643,
+            "TopMargin": 331.9411,
+            "BottomMargin": 208.0589,
+            "Tag": 864,
+            "ActionTag": -1138823513,
+            "Size": {
+              "X": 580.0,
+              "Y": 180.0
+            },
+            "Alpha": 89,
+            "Name": "TextField_4",
+            "ctype": "TextFieldObjectData"
+          },
+          {
+            "FontSize": 14,
+            "ButtonText": "",
+            "TextColor": {
+              "R": 65,
+              "G": 65,
+              "B": 70
+            },
+            "DisabledFileData": {
+              "Type": "Normal",
+              "Path": "cjfj/img_close@2x.png",
+              "Plist": ""
+            },
+            "NormalFileData": {
+              "Type": "Normal",
+              "Path": "cjfj/img_close@2x.png",
+              "Plist": ""
+            },
+            "Scale9Enable": true,
+            "Scale9OriginX": 15,
+            "Scale9OriginY": 11,
+            "Scale9Width": 51,
+            "Scale9Height": 60,
+            "OutlineColor": {
+              "G": 0,
+              "B": 0
+            },
+            "ShadowColor": {
+              "R": 110,
+              "G": 110,
+              "B": 110
+            },
+            "ShadowOffsetX": 2.0,
+            "ShadowOffsetY": -2.0,
+            "TouchEnable": true,
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 1019.3809,
+              "Y": 639.1901
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7964,
+              "Y": 0.8878
+            },
+            "PreSize": {
+              "X": 0.0633,
+              "Y": 0.1139
+            },
+            "LeftMargin": 978.8809,
+            "RightMargin": 220.1191,
+            "TopMargin": 39.8099,
+            "BottomMargin": 598.1901,
+            "Tag": 966,
+            "ActionTag": -789826961,
+            "Size": {
+              "X": 81.0,
+              "Y": 82.0
+            },
+            "Name": "ID_BUTTON_CLOSE",
+            "ctype": "ButtonObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "kefu/font_home_fankui_tijiao@2x.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 640.5843,
+              "Y": 121.5976
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5005,
+              "Y": 0.1689
+            },
+            "PreSize": {
+              "X": 0.1148,
+              "Y": 0.0556
+            },
+            "LeftMargin": 567.0843,
+            "RightMargin": 565.9157,
+            "TopMargin": 578.4025,
+            "BottomMargin": 101.5976,
+            "Tag": 973,
+            "ActionTag": -782517844,
+            "Size": {
+              "X": 147.0,
+              "Y": 40.0
+            },
+            "Name": "Sprite_22",
+            "ctype": "SpriteObjectData"
+          }
+        ],
+        "Size": {
+          "X": 1280.0,
+          "Y": 720.0
+        },
+        "Name": "Layer",
+        "ctype": "LayerObjectData"
+      },
+      "UsedResources": [
+        "cjfj/img_close@2x.png",
+        "common/btn_changyong@2x.png",
+        "common/img_home_srkuang@2x.png",
+        "Default/Button_Disable.png",
+        "jrfj/img_tcdx@2x.png",
+        "jsfj/img_dwkuang@2x.png",
+        "kefu/font_home_fankui_fk@2x.png",
+        "kefu/font_home_fankui_tijiao@2x.png",
+        "weixin/img_neirongbg@2x.png"
+      ],
+      "ctype": "GameFileData"
+    }
+  },
+  "Type": "Layer"
+}

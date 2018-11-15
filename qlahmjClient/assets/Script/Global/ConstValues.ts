@@ -1,14 +1,7 @@
 
 export namespace ConstValues{
 
-    // /**
-    //  * 公钥Key
-    //  */
-    // export const RSA_SecretKey ="rsa_gblxx574o76d";
-    // /**
-    //  * 公钥
-    //  */
-    // export const RSA_PublicKey ="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbQac19TS47448Y5VhPyIoLQNDS4s1Mn4whiQe9RG7X9buaKdjS+cS7w1Z2ipD1TFHu7+MEMVHlI53PDtAo6OoHNZ+gM0XO6CUk8KdR3aF56V13RUcbiTSSaE7xgkQfeYtLWMJLNkFMHutJdcSJXrTxp6FuiCQfvc1NUhs6UPzowIDAQAB";
+    export const DefaultRegion ="ceshi";
 
     /**
      * 公钥Key
@@ -36,6 +29,8 @@ export namespace ConstValues{
     export const RecordMin = 0.3;
 
     export const StartUserId = 210000
+
+    export const NIMAppKey = "7876ec78f15522ee6eefa9754b42684f";
 }
 
 

@@ -30,12 +30,19 @@ export default class SkinLabelView extends cc.Component {
     @property(cc.Label)
     private label_tablenum: cc.Label = null;
 
+    private gamenum:number;
+    private allnum:number;
+
+    public allgamenum:number;
+
     onLoad() {
         this.Init();
     }
     public Init() {
         this.label_cellScore.string = "";
         this.label_gameCount.string = "";
+        this.gamenum = 0;
+        this.allnum = 0;
         this.group_tablenum.active = false;
         this.group_money.active = false;
     }
@@ -69,10 +76,21 @@ export default class SkinLabelView extends cc.Component {
      * 设置局数
      */
     public SetGameCount(value: number[]) {
-        if (value[0] < value[1])
-            this.label_gameCount.string = "局数：" + (value[0] + 1) + "/" + value[1];
-        else
+        if (value[0] < value[1]){
+             this.label_gameCount.string = "局数：" + (value[0] + 1) + "/" + value[1];
+             this.gamenum = value[0]+1;
+             this.allnum = value[1];
+        }
+           
+        else{
             this.label_gameCount.string = "局数：" + (value[0]) + "/" + value[1];
+            this.gamenum = value[0];
+            this.allnum = value[1];
+        }
+            
+    }
+    public SetGameCountForNext(value:number){
+            this.label_gameCount.string = "局数："+(this.allnum-this.allgamenum)+"/" + (this.allnum-this.allgamenum);
     }
     /**
      * 设置房间号

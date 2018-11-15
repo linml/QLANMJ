@@ -1,6 +1,7 @@
 
 import SkinTotalScoreEle from "./BJ_SkinTotalScoreEle";
 import { BiJi } from "../GameHelp/BJ_IBiJiClass";
+import { TotalScoreData } from "../GameHelp/BJ_GameHelp";
 
 
 const { ccclass, property } = cc._decorator;
@@ -78,7 +79,7 @@ export default class SkinTotalScore extends cc.Component {
         let maxScore = Math.max(...total);
         for (let i = 0; i < scoreview.chairlist.length; i++) {
             this.namelist[i] = scoreview.namelist[i];
-            this.scorelist[i] = total[i]+"";
+            this.scorelist[i] = total[i]+"";    
             let skinEle = this.CreateEle();
             skinEle.node.x = -640+259*i;
             skinEle.Show(scoreview.facelist[i], scoreview.namelist[i], scoreview.scorelist.length, scoreview.IDlist[i], total[i], selfID, scoreview.scorelist.length > 0 && total[i] == maxScore);

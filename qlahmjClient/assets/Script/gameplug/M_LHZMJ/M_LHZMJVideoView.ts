@@ -26,6 +26,8 @@ export default class M_LHZMJVideoView extends cc.Component {
     //局数显示
     @property(cc.Node)
     group_gameNum: cc.Node=null;
+    @property(cc.Node)
+    info_mid: cc.Node=null;
 
     @property(cc.Node)
     LHZMJ_Card_View: cc.Node=null;
@@ -137,6 +139,9 @@ export default class M_LHZMJVideoView extends cc.Component {
     //动画面板
     private _aniPanel:LHZMJ_Ani;
 
+    public get Ani_Op():LHZMJ_Ani{
+        return this._aniPanel;
+    }
     @property(cc.Prefab)
     LHZMJ_VideoCtl_View:cc.Prefab=null;
     //录像控制条
@@ -156,7 +161,7 @@ export default class M_LHZMJVideoView extends cc.Component {
             
         let ginode=cc.instantiate(this.GameInfoView);
         this._gameInfo=ginode.getComponent<LHZMJ_GameInfo>(LHZMJ_GameInfo);
-        this.node.addChild(ginode);
+        this.info_mid.addChild(ginode);
 
         let timenode=cc.instantiate(this.Time_View);
         this._timerView=timenode.getComponent<LHZMJ_TimerView>(LHZMJ_TimerView);
@@ -215,7 +220,7 @@ export default class M_LHZMJVideoView extends cc.Component {
         this.OperatorView.init();
         this.SelGangView.init();
         // this.QiangGangView.init();
-        this._setting.init();
+        this._setting.node.active = false;
         this.TipMsgView.Init();
     }
     /**
@@ -251,7 +256,7 @@ export default class M_LHZMJVideoView extends cc.Component {
     public GameStart():void{
 
         this._gameInfo.init();
-        this._szAni.Clear();
+       // this._szAni.Clear();
 
         this._gameStatus_userInfo.node.active = true;
         this._gameStatus_userInfo.reflashPlayer();
@@ -259,13 +264,28 @@ export default class M_LHZMJVideoView extends cc.Component {
         this._gameStatus_userInfo.HideLaPao();
         this._gameStatus_userInfo.tableOwener = LHZMJ.ins.iclass.getTableConfig().tableCreatorChair;
         this._timerView.timerNum = 0;
-        this._timerView.showArrow = LHZMJMahjongDef.gInvalidChar;
+      //  this._timerView.showArrow = LHZMJMahjongDef.gInvalidChar;
         this._timerView.node.active=false;
         this._cardView.node.active = true;
     }
 
     public StartSendCard():void{
-      //  this._szAni.playSZ(M_LHZMJVideoClass.ins.SZ1,M_LHZMJVideoClass.ins.SZ2,LHZMJEvent.msg_holdCardSZComplete);
+        
+            for(let i=0;i<LHZMJMahjongDef.gPlayerNum;i++){
+                this.CardView.holdTricksCard(i,13);
+            }
+            for(var i:number=0; i<LHZMJMahjongDef.gPlayerNum; i++){
+                    this._cardView.getActive(i).arrangeHandCard();
+                }
+              this._gameInfo.holdCardOver();
+            this._videoCtl.start();
+
+
+ 
+
+
+        
+       // this._szAni.playSZ(M_LHZMJVideoClass.ins.SZ1,M_LHZMJVideoClass.ins.SZ2,LHZMJEvent.msg_holdCardSZComplete);
     }
 
     public TableCreatorInfo(chair:number):void{
@@ -294,6 +314,7 @@ export default class M_LHZMJVideoView extends cc.Component {
                 for(var i:number=0; i<LHZMJMahjongDef.gPlayerNum; i++){
                     this._cardView.getActive(i).arrangeHandCard();
                 }
+              //   this._cardView.selfActive.refreshHandCardData(M_LHZMJVideoClass.ins.getSelfHandCardData());
                 this._szAni.node.active = false;
                 this._gameInfo.holdCardOver();
                 this._videoCtl.start();
@@ -311,6 +332,14 @@ export default class M_LHZMJVideoView extends cc.Component {
                 break;
             }
         }
+    }
+     /**
+     * 罗盘
+     */
+        public ShowTimerView(chair:number): void {
+
+             this._timerView.showLuoPan(chair);
+
     }
 
     /**

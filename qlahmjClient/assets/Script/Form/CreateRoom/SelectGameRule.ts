@@ -17,6 +17,8 @@ import FriendCircleDataCache from "../FriendsCircle/FriendCircleDataCache";
 import { FriendCircleRule } from "../../CustomType/FriendCircleInfo";
 import CreateRoomDataCache from "./CreateRoomDataCache";
 import { ObjectToString, StrToObject} from "../../Tools/Function";
+import { ToggleType } from "./CreateRoomEnum";
+import GameWanFaDesc from "../../config/GameWanfaDesc";
 const { ccclass, property } = cc._decorator;
 
 /**
@@ -118,6 +120,18 @@ export class SelectGameRule extends UIBase<any>{
     text:cc.RichText = null;
 
     /**
+     * 房费节点
+     */
+    @property(cc.Node)
+    node_payWay:cc.Node = null;
+
+    /**
+     * 房费节点底图
+     */
+    @property(cc.Node)
+    sp_payway:cc.Node = null;
+
+    /**
      * 游戏房费配置
      */
     private payConfig: any = {};
@@ -145,74 +159,6 @@ export class SelectGameRule extends UIBase<any>{
     private nowGameInfo: QL_Common.GameInfo;
     private isFriendCircle: boolean = false; // 是否是从亲友圈进来的
 
-    //霍邱麻将规则
-    private M_HQMJ_desc = "<color=#FC811F><b>一、基本玩法</b></color><color=#BB8A5A><size=22>"+    
-    "\n1、牌    数：包含条、筒、万108张、字牌28张共计136张"+
-    "\n2、可行操作：可碰杠 "+
-    "\n3、庄家选择：第一局房主当庄，之后胡牌者当庄，黄庄不下庄"+
-    "\n4、可一炮多响"+
-    "\n5、七对不可胡牌"+
-    "\n6、过胡不胡，即在能胡牌却不胡牌的时候，若该玩家没有行动前，其他玩家"+
-    "再打同样的牌不可胡牌"+
-    "\n7、抢杠算自摸</size></color>"+
-    "\n<color=#FC811F><b>二、特殊规则</b></color><color=#BB8A5A><size=22>  "+
-    "\n1、全幺九包分"+
-    "\n当玩家碰杠达到三对及以上时且胡牌类型为全幺九，则此时谁点炮由谁来包赔"+
-    "其余两家所付的分值（仅在赢倒三家有中出现）"+
-    "\n2、清一色包分"+
-    "当玩家吃碰杠达到三对及以上时且胡牌类型为清一色，则此时谁点炮由谁来包"+
-    "赔其余两家所付的分值（仅在赢倒三家有中出现）</size></color>"+
-    "\n<color=#FC811F><b>三、名词解释</b></color><color=#BB8A5A><size=22>"+
-    "\n谁打谁出分：即仅点炮者付给赢家双倍分数即可"+
-    "\n赢倒三家有：即只要有玩家胡牌，其他三位玩家都需要赔付给玩家相应的分数"+
-    "\n占庄：即连庄加分，每连一次庄多加1分"+
-    "\n带大牌：即胡牌时计算相对应的牌型分（如四归一、冲天、混一色、对对胡、"+
-    "清一色、全幺九等）"+
-    "\n明杠暗杠：即胡牌时计算明杠以及暗杠的分值"+
-    "\n四归一：某种牌有四张且做为一个刻子及与另两张牌构成一个顺子的胡牌（四"+
-    "核时，其中2张不能作为将牌）"+
-    "\n冲天：某种花色有1-9的顺子（将1-9去掉以后还能组成胡牌类型）"+
-    "\n对对胡：手中只有刻子、碰、杠以及一对将牌组成的胡牌"+
-    "\n混一色：由一种序数牌和字牌组成的胡牌"+
-    "\n清一色：由一种序数牌组成的胡牌"+
-    "\n全幺九：即全部由序数牌的1和9以及字牌组成的胡牌</size></color>"+
-    "\n<color=#FC811F><b>四、分值计算</b></color><color=#BB8A5A><size=22>"+
-    "\n平胡：1分"+
-    "\n明杠/补杠：1分"+
-    "\n暗杠：2分"+
-    "\n自摸：X2"+
-    "\n四归一：1分"+
-    "\n冲天：2分"+
-    "\n混一色：3分"+
-    "\n对对胡：4分"+
-    "\n清一色：5分"+
-    "\n全幺九：15分（此牌型不与任何其他牌型叠加）"+
-    "\n杠后开花：X4</size></color>";
-
-    /**
-     * 比鸡规则
-     */
-    private M_BiJi_desc = "<color=#FC811F><b>一、玩法说明</b></color><color=#BB8A5A><size=22>"+
-    "\n1、一副牌去掉大小王，共计52张，支持2-5名玩家"+
-    "\n2、开局每人发9张牌，玩家需要将九张牌配成头道、中道、尾道三副牌型，"+
-    "\n每副三张，且需满足头道＜中道＜尾道。"+
-    "\n3、当玩家都点击我已配好之后，所有玩家开始互相比较三道牌型大小，"+
-    "\n先比头道，再比中道，最后比尾道，判定每道输赢，结算每道得分，汇总计算每家得分。"+
-    "\n4、比牌阶段，玩家可选择弃牌，弃牌的玩家三道牌型默认最后一名，弃牌玩家只输基础分，"+
-    "\n不输喜钱，若多个玩家同时弃牌，则按弃牌先后顺序判断名次，最后弃牌的玩家为最后一名。</size></color>"+
-    "\n<color=#FC811F><b>二、比牌规则</b></color><color=#BB8A5A><size=22>"+
-    "\n1、先比较牌型，三条＞同花顺＞同花＞顺子＞对子＞单张(即乌龙)。若牌型相同，则比较点数。"+
-    "\n2、点数按大小比较，A＞K＞Q＞J＞10＞9＞8＞7＞6＞5＞4＞3＞2,若点数大小相同，在比较花色。"+
-    "\n3、花色大小按照黑桃＞红桃＞梅花＞方块的方式进行比较。"+
-    "\n注：炸弹配成1、1、2形式则不算炸弹的喜分，必须组成3、1形式才行"+
-    "\n三条配成2、1形式则不算三条的喜分，必须三张在一起的形式才行</size></color>"+
-    "\n<color=#FC811F><b>三、喜分计分规则</b></color><color=#BB8A5A><size=22>"+
-    "\n经典玩法:（此为每个人应付喜分）"+
-    "\n三青、双顺青、双三条、炸弹、全红、全黑、通关的喜分为(人数-1)X1倍X底分"+
-    "\n三顺青、连顺的喜分为(人数-1)X2倍X底分"+
-    "\n连顺青、全三条、双炸弹的喜分为(人数-1)X3倍X底分"+
-    "\n<b>注：底分即为喜分的倍数</b></size></color>";
-
     /**
      * 游戏规则数据结构
      */
@@ -227,7 +173,7 @@ export class SelectGameRule extends UIBase<any>{
         this.RuleNodeDict.Clear();
         this.nowGameInfo = this.ShowParam.gameInfo;
         this.isFriendCircle = this.ShowParam.isFriendCircle;
-
+        
         this.initPayConfig();
 
         // 显示游戏昵称
@@ -263,16 +209,35 @@ export class SelectGameRule extends UIBase<any>{
                 // 加载本地保存的玩法 亲友圈进来的不做记忆功能
                 if (!this.isFriendCircle) {
                     this.loadLocalSettingConfig();
+                }else{
+
                 }
                 
                 // 判断是从亲友圈进来的则显示圈主支付
                 let item = this.RuleNodeDict.GetValue('房费');
+                item.node.setPosition(cc.p(0,0));
+                item.node.removeFromParent(false);
+
+                // 隐藏横线
+                let lineUp = cc.find("sp_lineUp", item.node);
+                let lineDown = cc.find("sp_lineDown", item.node);
+
+                if (lineUp && lineDown) {
+                    lineUp.active = false;
+                    lineDown.active = false;
+                }
+                
+                if (this.node_payWay) {
+                    this.node_payWay.removeAllChildren();
+                    this.node_payWay.addChild(item.node);
+                }
+
                 let itemDict = item.ItemNodeArray;
 
                 // 圈主支付
                 let circleOwnerPayNode = itemDict.GetValue('tableCreatorPay:3');
                 // 房主支付
-                let fzPayNode = itemDict.GetValue('tableCreatorPay:2');
+                let fzPayNode: cc.Node = itemDict.GetValue('tableCreatorPay:2');
 
                 if (fzPayNode && circleOwnerPayNode) {
                     if (this.isFriendCircle) {
@@ -299,6 +264,8 @@ export class SelectGameRule extends UIBase<any>{
         if (!ruleStr) {
             return;
         }
+
+        cc.info('--- loadRuleConfig ', ruleStr);
 
         let tmpArray = ruleStr.split('#');
         let gameInfo = StrToObject(tmpArray[0]);
@@ -327,6 +294,12 @@ export class SelectGameRule extends UIBase<any>{
                     continue;
                 }
 
+                if (ToggleType.CHECKBOX_LEFTRIGHT == ruleItemBase.Type 
+                    || ToggleType.SINGLE_LEFTRIGHT == ruleItemBase.Type) {
+                    ruleItemBase.setSelectValue({selected: true,value: localRule[rule[0]]});
+                    break;
+                }
+                
                 if (-1 != Object.keys(localRule).indexOf(rule[0]) && rule[1] == localRule[rule[0]]) {
                     ruleItemBase.setSelectValue({selected: true,value: rule[1]});
                 }else{
@@ -578,6 +551,7 @@ export class SelectGameRule extends UIBase<any>{
                 let info: FriendCircleRule = new FriendCircleRule();
                 info.friendId = parseInt(friendCircle.ID);
                 info.gameId = this.nowGameInfo.GameID;
+                this._gameRuleData.GameData["TableCost"] = this._gameRuleData.TableCost;
                 info.ruleStr = ObjectToString(this._gameRuleData.GameData);
                 let gameRule = this._gameRuleData.GameData;
                 let param = {};
@@ -653,15 +627,19 @@ export class SelectGameRule extends UIBase<any>{
                 this.node_Rule.active = true;
                 this.node_gameLab.active = true;
                 this.node_diamond.active = true;
+                this.node_payWay.active = true;
+                this.sp_payway.active = true;
             }
         }else if(argument == "DESC"){
 
             this.node_Desc.active = true;
             this.node_DescLab.active = true;
-            this.text.string = this[this.nowGameInfo.ModuleName + '_desc'];
+            this.text.string = GameWanFaDesc[this.nowGameInfo.ModuleName + '_desc'];
             this.node_Rule.active = false;
             this.node_gameLab.active = false;
             this.node_diamond.active = false;
+            this.node_payWay.active = false;
+            this.sp_payway.active = false;
         }
     }
 }

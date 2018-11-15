@@ -5,6 +5,7 @@ import { HQMJMahjongAlgorithm } from "../HQMJMahjongAlgorithm/HQMJMahjongAlgorit
 import MJ_PlayVoiceStaus from "../../MJCommon/MJ_PlayVoiceStaus";
 import M_HQMJView from "../M_HQMJView";
 import M_HQMJVoice from "../M_HQMJVoice";
+import M_HQMJClass from "../M_HQMJClass";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,8 +53,12 @@ export default class HQMJ_GameStatusUserInfo extends cc.Component {
         }
         
     }
-
-    
+    private static UserDataGamingPos: Array<{ x: number, y: number }> = [
+        { x: -300, y: -250 },
+        { x: 350, y: 50 },
+        { x: 150, y: 230 },
+        { x: -350, y: 50 }
+    ];
 
     private static UserDataPos: Array<{ x: number,y: number }> = [
         { x: -5,y: -60+30 },
@@ -61,6 +66,14 @@ export default class HQMJ_GameStatusUserInfo extends cc.Component {
         { x: -5,y: -60+30 },
         { x: -5,y: -60+30 }
     ]; 
+
+    /**
+     * 显示鼓掌动画
+     */
+    public ShowGuZhang(chair: number) {
+        if (this.userAry[chair].node.active)
+            this.userAry[chair].ShowGuZhang();
+    }
 		
         /**
          * 显示分数变化
@@ -104,7 +117,9 @@ export default class HQMJ_GameStatusUserInfo extends cc.Component {
                     yPos = HQMJ_GameStatusUserInfo.UserDataPos[logicChair].y;
                 }
                 M_HQMJVoice.PlayCardType(`/sound/Button32.mp3`);
-                M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],xPos,yPos);
+                // M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],xPos,yPos);
+                let point = new cc.Vec2(HQMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].x, HQMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].y);
+                M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
             }
         }
         /**

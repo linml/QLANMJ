@@ -44,4 +44,5 @@ export default class MGMJ_ReadyStatusGameInfo extends cc.Component {
         this.lbl_gk.opacity=MGMJ.ins.iclass.getTableConfig().IsGangKai?255:0;
         this.lbl_bukao.opacity=MGMJ.ins.iclass.getTableConfig().IsBuKao?255:0;
     }
+    
 }

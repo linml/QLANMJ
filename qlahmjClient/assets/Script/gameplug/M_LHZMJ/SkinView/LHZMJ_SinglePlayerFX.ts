@@ -73,6 +73,7 @@ export default class HBMJ_SinglePlayerFX extends cc.Component {
         //this.lbl_other.string = "对局数:23343/ID:2344544";
 
         
+        
        // SetTextureRes(HBMJ.ins.iclass.getTablePlayerAry()[this._idx].FaceID, this.);
 
         this.img_win.node.active = this._isShowWin;
@@ -89,7 +90,7 @@ export default class HBMJ_SinglePlayerFX extends cc.Component {
         
         this._idx = playidx;
         this.lbl_play.string = LHZMJ.ins.iclass.getTablePlayerAry()[this._idx].NickName;
-        this._player="/ID:" + `${LHZMJ.ins.iclass.getTablePlayerAry()[this._idx].PlayerID}`;
+        this._player="ID:" + `${LHZMJ.ins.iclass.getTablePlayerAry()[this._idx].PlayerID}`;
         LoadHeader(LHZMJ.ins.iclass.getTablePlayerAry()[this._idx].FaceID, this.img_play);
     }
 }

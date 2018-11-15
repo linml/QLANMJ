@@ -86,12 +86,12 @@ export default class LHZMJ_BanlanceActive extends LHZMJ_CardBase {
      * 刷新手牌
      * */
     protected refreshHandCard(): void {
-            //起始位置
+            //起始位置private _arrangeStartPos: Array<number> = [-45,117,262,413,565];
         var startPos: number = this._arrangeStartPos[this.fixedCardNum];
         
         //开始排版
         for(var i: number = 0;i < this._cardData.length;i++) {
-            this._cardData[i].node.x = startPos + i * 49-350+22.5+10;
+            this._cardData[i].node.x = startPos + i * 44.5-350+22.5+10;
             this._cardData[i].node.y = -5;
             this._cardData[i].showCard(this._handCard[i],true);
             

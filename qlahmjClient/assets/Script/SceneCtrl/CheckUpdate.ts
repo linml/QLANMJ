@@ -83,7 +83,6 @@ export default class HotUpdateCtrl extends cc.Component {
     }
     public onLoad() {
 
-        cc._initDebugSetting(cc.DebugMode.INFO);
         //隐藏loading
         NativeCtrl.HideSplash();
         if (!ConfigData.SystemInited) {
@@ -91,17 +90,18 @@ export default class HotUpdateCtrl extends cc.Component {
             InitKeyListener();
             ConfigData.SystemInited = true;
         }
-        cc.sys.localStorage.getItem('appRunMark', "0");
-
-        ConfigData.InitConfigFromNative();
-
         if (!cc.sys.isNative || !ConfigData.NeedHotupdate) {
             this.enterLoginScene();
             return;
         }
+        
         ConfigData.NeedHotupdate = false;
+        cc._initDebugSetting(cc.DebugMode.INFO);
+        cc.sys.localStorage.getItem('appRunMark', "0");
 
-        this.lab_status.string = '正在初始化更新';
+        ConfigData.InitConfigFromNative();
+
+        this.lab_status.string = '正在检查更新';
         this.progress.progress = 0;
 
 

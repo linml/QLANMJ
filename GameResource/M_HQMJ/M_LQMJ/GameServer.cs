@@ -51,6 +51,11 @@ namespace M_HQMJ
         /// </summary>
         public bool AlreadyStart = false;
 
+        ///<summary>
+        ///续局次数(可累计)
+        ///</summary>>
+        public byte _addNum = 1;
+
         /// <summary>
         /// 检查可以投胡票的人数
         /// </summary>
@@ -153,6 +158,14 @@ namespace M_HQMJ
         /// </summary>
         private uint _payId;
 
+        /// <summary>
+        /// 是否续局投票中
+        /// </summary>
+        private bool _isAddGame = false;
+
+        private byte[] playerVote = { 2,2,2,2};
+
+        private DateTime _startAddTime { get; set; }
 
         private byte _hunPiCard;
         /// <summary>
@@ -187,6 +200,8 @@ namespace M_HQMJ
         ///胡牌 杠牌次数
         ///<summary>
         public byte[][] huGangCount = new byte[4][];
+
+        List<byte> list = new List<byte> { 0x02, 0x19, 0x31, 0x06, 0x28, 0x16, 0x25, 0x22, 0x29, 0x23, 0x09, 0x21, 0x07, 0x17, 0x02, 0x05, 0x27, 0x22, 0x14 };
 
         /// <summary>
         ///  牌包 
@@ -361,33 +376,48 @@ namespace M_HQMJ
                     }
                 }
             }
-            //if (handle == "TryDeleteRoom")
-            //{
+            if (handle == "TryDeleteRoom")
+            {
 
-            //    if (tableInfo.state == State.Free || tableInfo.state == State.WaitCreate || tableInfo.state == State.Creating)
-            //    {
-            //        #region 房费返还
-            //        CheckWithHoldCostBack();
-            //        #endregion
-            //        DestroyTimer(TimerList.IDI_TableCreatorLeft);
-            //        foreach (UserInfo userinfo in userList)
-            //        {
-            //            if (IsPlayerExist(userinfo))
-            //            {
-            //                CMD_S_ShowMsg showmsg = new CMD_S_ShowMsg();
-            //                showmsg.type = 1;
-            //                showmsg.msg = "群主解散了该房间";
-            //                showmsg.isexit = true;
-            //                SendGameMsg(userinfo.chairID, showmsg, false);
-            //            }
-            //        }
-            //        OnDissolveTable();
-            //    }
-            //    else
-            //    {
-            //        gameLog.WriteLog("该房间正在游戏中，不能解散");
-            //    }
-            //}
+                if (TableStatus.free == 0)
+                {
+                    #region 房费返还
+                    if ((!this._tableConfig.GiveBacked || this._addNum > 1) && this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+                    {
+                        GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                        {
+                            OrderId = quanZhuID,
+                            MoneyNum = 0,
+                        }, Rec_BackPay);
+
+                    }                    
+                    #endregion
+                    //DestroyTimer(TimerList.IDI_TableCreatorLeft);
+
+                    //foreach (UserInfo userinfo in userList)
+                    //{
+                    //    if (IsPlayerExist(userinfo))
+                    //    {
+                    //        CMD_S_ShowMsg showmsg = new CMD_S_ShowMsg();
+                    //        showmsg.type = 1;
+                    //        showmsg.msg = "群主解散了该房间";
+                    //        showmsg.isexit = true;
+                    //        SendGameMsg(userinfo.chairID, showmsg, false);
+                    //    }
+                    //}
+                    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_ShowMsg()
+                    {
+                        //CMD_S_ShowMsg showmsg = new CMD_S_ShowMsg();
+                        tipType = 101,
+                        msg = "群主解散了该房间",
+                    });
+                    TableOwnerExitAndForceAll();
+                }
+                else
+                {
+                    GameHost.SaveLog("该房间正在游戏中，不能解散");
+                }
+            }
         }
         /// <summary>
         /// 复位桌子
@@ -536,7 +566,7 @@ namespace M_HQMJ
         {
             GameHost.WriteMessage("_tableConfig.IfCanSameIp:" + _tableConfig.IfCanSameIp.ToString());
 
-            if (_tableConfig.IfCanSameIp)
+            if (!_tableConfig.IfCanSameIp)
             {
 
                 errorMsg = "";
@@ -607,8 +637,49 @@ namespace M_HQMJ
         /// <summary>
         /// 调用gamehost.gameend, 
         /// </summary>
-        private void GameEnd()
+        private void GameEnd(Boolean isDismissRoom = false,Boolean forceEnd = false)
         {
+            //if (isDismissRoom || forceEnd || this._tableConfig.isPlayEnoughGameNum(this._addNum))
+            //{//桌费
+                int cost = 0;
+                cost = _tableConfig.GameNum;
+                List<UserAuditData> userAuditData = new List<UserAuditData>();
+                foreach (var player in _playerAry)
+                {
+                    userAuditData.Add(new UserAuditData()
+                    {
+                        MoneyNum = player.TotalScore,
+                        UserID = player.PlayerID
+                    });
+                }
+                var balance = new PlayerForFeeDataMultiple()
+                {
+                    FeeDataType = ForFeeDataType.多人游戏结算,
+                    FeeUserCount = userAuditData.Count,
+                    Mark = "霍邱麻将记分场结算",
+                    MoneyType = GameHost.GetRoomInfo.CheckMoneyType,
+                    NoCheckUserMoney = 1,
+                    //1AA 2房主 3圈住
+                    RoomCostPayType = (RoomCostPayType)_tableConfig.TableCreatorPay,
+                    //PayRoomCostUserID = payRoomCostUserID,
+                    //RoomCost = roomCost,
+                    //当前局数
+                    GameNum = _tableConfig.GameNum,
+                    //桌费 根据局数计算
+                    RoomCost = (uint)cost,
+
+                    TotalGameNum = (_tableConfig.SetGameNum + 1) * 8 * this._addNum,
+
+                    RoomCostType = this.GameHost.GetRoomInfo.TableCostMoneyType,
+                    RoomID = GameHost.GetRoomInfo.ID,
+                    UserAuditDataArray = userAuditData.ToArray()
+                };
+                this.GameHost.HostSettlementService.PlayerForFeeMultiple(balance, p1 =>
+                {
+                    this.GameHost.WriteMessage("结算成功");
+
+                });
+            //}
             if (_tableConfig.isValid)
             {
                 sendGameRecord();
@@ -927,8 +998,24 @@ namespace M_HQMJ
             return CardAry;
         }
 
+        /// <summary>
+        /// 玩家续局投票超时
+        /// </summary>
+        void voteAddGameOutTime()
+        {
+            this._isAddGame = false;//续局开关 关闭
+            //注销定时器
+            GameHost.HostTimerService.DestroyTimer(CommonDef.TimerID_OutTime);
+            this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameOutTime()
+            {
+            });
+            this.GameHost.WriteMessage("**游戏结束 **");
+            //通知平台游戏结束
+            GameEnd();
+        }
+
         //游戏结束
-        private void OnEventGameEnd(ushort wChairID, bool forceEnd = false,bool isDismissRoom = false)
+        private void OnEventGameEnd(ushort wChairID, bool forceEnd = false,bool isDismissRoom = false,bool needRecord = true)
         {
             AddLogTitle("游戏结束");
             AlreadyStart = false;
@@ -963,10 +1050,10 @@ namespace M_HQMJ
                 lianzhuang = 0;
             }
 
-            int[] anGangs = new int[4];
-            int[] mingGangs = new int[4];
-            int[] buGangs = new int[4];
-            int[] dianGangs = new int[4];
+            int[] anGangs = { 0,0,0,0};
+            int[] mingGangs = { 0,0,0,0};
+            int[] buGangs = { 0,0,0,0};
+            int[] dianGangs = { 0,0,0,0};
 
             //1、将所有未胡牌的玩家牌阵亮出 清空 准备状态
             foreach (var player in _playerAry)
@@ -1028,18 +1115,21 @@ namespace M_HQMJ
                 });
                 if (player.TotalGameScore != 0)
                     _noOneWin = false;
-                
+                player.TotalScore += player.TotalGameScore;
             }
             if (_noOneWin)
             {
-                lianzhuang++;//黄庄 连庄加1
+                //lianzhuang++;//黄庄 连庄次数不变
             }
-            this.SaveMsg(MahjongDef.gInvalidChar, new CMD_S_Balance()
-            {
-                playerCard = playerCard.ToArray(),
-                playerBalance = playerBalance.ToArray(),
-                isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum ? 1 : 0)
-            });
+            
+            
+                this.SaveMsg(MahjongDef.gInvalidChar, new CMD_S_Balance()
+                {
+                    playerCard = playerCard.ToArray(),
+                    playerBalance = playerBalance.ToArray(),
+                    isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum(this._addNum) ? 1 : 0)
+                });
+            
 
             #endregion
 
@@ -1112,27 +1202,29 @@ namespace M_HQMJ
                 gameRecordData.Type = GameRecordType.AutoMatch;
             }
             gameRecordData.RoomOwner = this._tableConfig.TableCreatorID;
-
-            List<UserRecordData> userRecordData = new List<UserRecordData>();
-            foreach (var player in _playerAry)
+            if (needRecord)
             {
-                userRecordData.Add(new UserRecordData()
+                List<UserRecordData> userRecordData = new List<UserRecordData>();
+                foreach (var player in _playerAry)
                 {
-                    NickName = player.NickName,
-                    MoneyNum = player.TotalGameScore,
-                    UserID = player.PlayerID,
-                    MoneyType = GameHost.GetRoomInfo.CheckMoneyType
-                });
-                //this.PrintLog(player.NickName + " 输赢: " + player.TotalGameScore.ToString());
+                    userRecordData.Add(new UserRecordData()
+                    {
+                        NickName = player.NickName,
+                        MoneyNum = player.TotalGameScore,
+                        UserID = player.PlayerID,
+                        MoneyType = GameHost.GetRoomInfo.CheckMoneyType
+                    });
+                    //this.PrintLog(player.NickName + " 输赢: " + player.TotalGameScore.ToString());
+                }
+                gameRecordData.RecordDataArray = userRecordData.ToArray();
             }
-            gameRecordData.RecordDataArray = userRecordData.ToArray();
 
             List<UserAuditData> userAuditData = new List<UserAuditData>();
             foreach (var player in _playerAry)
             {
                 userAuditData.Add(new UserAuditData()
                 {
-                    MoneyNum = _tableConfig.IsRecordScoreRoom ? 0 : player.TotalGameScore,
+                    MoneyNum = player.TotalScore,
                     UserID = player.PlayerID
                 });
             }
@@ -1166,56 +1258,91 @@ namespace M_HQMJ
                         }
                         else
                         {
-                            if (isDismissRoom || forceEnd || this._tableConfig.isPlayEnoughGameNum)
-                            {//桌费
-                                int cost = 0;
-                                cost = _tableConfig.GameNum;
-                                var balance = new PlayerForFeeDataMultiple()
+                            if (this._tableConfig.isPlayEnoughGameNum(this._addNum) && !forceEnd)
+                            {
+                                if ((!this._tableConfig.GiveBacked || this._addNum > 1) && this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
                                 {
-                                    FeeDataType = ForFeeDataType.多人游戏结算,
-                                    FeeUserCount = userAuditData.Count,
-                                    Mark = "霍邱麻将记分场结算",
-                                    MoneyType = GameHost.GetRoomInfo.CheckMoneyType,
-                                    NoCheckUserMoney = 1,
-                                    //1AA 2房主 3圈住
-                                    RoomCostPayType = (RoomCostPayType)_tableConfig.TableCreatorPay,
-                                    //PayRoomCostUserID = payRoomCostUserID,
-                                    //RoomCost = roomCost,
-                                    //当前局数
-                                    GameNum = _tableConfig.GameNum,
-                                    //桌费 根据局数计算
-                                    RoomCost = (uint)cost,
-                                    
-                                    RoomCostType = this.GameHost.GetRoomInfo.TableCostMoneyType,
-                                    RoomID = GameHost.GetRoomInfo.ID,
-                                    UserAuditDataArray = userAuditData.ToArray()
-                                };
-                                this.GameHost.HostSettlementService.PlayerForFeeMultiple(balance, p1 =>
-                                {
-                                    this.GameHost.WriteMessage("结算成功");
-
-                                });
+                                    GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                                    {
+                                        OrderId = quanZhuID,
+                                        MoneyNum = 0,
+                                    }, Rec_BackPay);
+                                }
                             }
+                            //if (isDismissRoom || forceEnd || this._tableConfig.isPlayEnoughGameNum(this._addNum))
+                            //{//桌费
+                            //    int cost = 0;
+                            //    cost = _tableConfig.GameNum;
+                            //    var balance = new PlayerForFeeDataMultiple()
+                            //    {
+                            //        FeeDataType = ForFeeDataType.多人游戏结算,
+                            //        FeeUserCount = userAuditData.Count,
+                            //        Mark = "霍邱麻将记分场结算",
+                            //        MoneyType = GameHost.GetRoomInfo.CheckMoneyType,
+                            //        NoCheckUserMoney = 1,
+                            //        //1AA 2房主 3圈住
+                            //        RoomCostPayType = (RoomCostPayType)_tableConfig.TableCreatorPay,
+                            //        //PayRoomCostUserID = payRoomCostUserID,
+                            //        //RoomCost = roomCost,
+                            //        //当前局数
+                            //        GameNum = _tableConfig.GameNum,
+                            //        //桌费 根据局数计算
+                            //        RoomCost = (uint)cost,
+
+                            //        TotalGameNum = (_tableConfig.SetGameNum + 1) * 8 * this._addNum,
+                                    
+                            //        RoomCostType = this.GameHost.GetRoomInfo.TableCostMoneyType,
+                            //        RoomID = GameHost.GetRoomInfo.ID,
+                            //        UserAuditDataArray = userAuditData.ToArray()
+                            //    };
+                            //    this.GameHost.HostSettlementService.PlayerForFeeMultiple(balance, p1 =>
+                            //    {
+                            //        this.GameHost.WriteMessage("结算成功");
+
+                            //    });
+                            //}
                             //if (!isDismissRoom)
                             //{
                                 this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_Balance()
                                 {
                                     playerCard = playerCard.ToArray(),
                                     playerBalance = playerBalance.ToArray(),
-                                    isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum ? 1 : 0),
+                                    isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum(this._addNum) ? 1 : 0),
                                     liuju = isliuju
                                 });
                             //}
                             //如果有人一底输光，强推，计分板，然后在下一底开始时清空记录
-                            if (!this._tableConfig.isPlayEnoughGameNum)
+                            if (!this._tableConfig.isPlayEnoughGameNum(this._addNum))
+                            {
                                 //发送玩家余额
                                 this.UpdateClientPlayerMoney();
-                            //打满局数,游戏结束
-                            if (forceEnd || this._tableConfig.isPlayEnoughGameNum)
+                            }                            
+                            //有玩家退出
+                            if (forceEnd)
                             {
                                 this.GameHost.WriteMessage("** 霍邱麻将,记分场，游戏结束 **");
                                 //通知平台游戏结束
-                                GameEnd();
+                                GameEnd(isDismissRoom, true);
+                            }
+                            //if (this._tableConfig.isPlayEnoughGameNum(this._addNum))
+                            //{
+                            //    this.GameHost.WriteMessage("** 霍邱麻将,记分场，游戏结束 **");
+                            //    //通知平台游戏结束
+                            //    GameEnd();
+                            //}
+                            //打满局数 发送续局投票
+                            if (this._tableConfig.isPlayEnoughGameNum(this._addNum))
+                            { 
+                                SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                                {
+                                    gameNum = 2
+                                });
+                                this._isAddGame = true;
+                                this._startAddTime = DateTime.Now;
+                                GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_OutTime, 310, () =>
+                                {
+                                    voteAddGameOutTime();
+                                });
                             }
                         }
                     });
@@ -1304,12 +1431,12 @@ namespace M_HQMJ
                             {
                                 playerCard = playerCard.ToArray(),
                                 playerBalance = playerBalance.ToArray(),
-                                isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum ? 1 : 0)
+                                isPlayEnougnGameNum = (byte)(forceEnd ? 1 : this._tableConfig.isPlayEnoughGameNum(this._addNum) ? 1 : 0)
                             });
                             //发送玩家余额
                             this.UpdateClientPlayerMoney();
                             //通知平台游戏结束
-                            GameEnd();
+                            GameEnd(isDismissRoom,forceEnd);
                         });
                     }
                 });
@@ -1364,7 +1491,7 @@ namespace M_HQMJ
             #endregion
 
             //自建房间,局数未打完,断线玩家自动准备
-            if (this._tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum && !forceEnd)
+            if (this._tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum(this._addNum) && !forceEnd)
             {
                 for (ushort i = 0; i < HQMJConstants.GAME_PLAYER; i++)
                 {
@@ -1573,6 +1700,12 @@ namespace M_HQMJ
                             this.HandleMsg_CMD_C_GiveUpBaoTing(chairID, giveUpbao.point);
                             break;
                         }
+                    case HQMJMsgID_c2s.CMD_C_AddGameNum:
+                        {
+                            CMD_C_AddGameNum addGameNum = cm as CMD_C_AddGameNum;
+                            this.HandleMsg_CMD_C_AddGameNum(chairID, addGameNum.point);
+                            break;
+                        }
                 }
             }
             return 0;
@@ -1619,9 +1752,9 @@ namespace M_HQMJ
                         }
                         else
                         {
-                            if (_tableConfig.TableCreatorPay  > 1 && userInfo.DiamondsNum < _tableConfig.TableCost && _tableConfig.GameNum == 0)
-                                NoMoneyForce(chairID);
-                            else
+                            //if (_tableConfig.TableCreatorPay  > 1 && userInfo.DiamondsNum < _tableConfig.TableCost && _tableConfig.GameNum == 0)
+                                //NoMoneyForce(chairID, _tableConfig.TableCost);
+                            //else
                             {
                                 this.GameHost.WriteMessage(userInfo.NickName + "(" + userInfo.PlayerID + ")进入,此时桌子规则有效,无需创建桌子规则");
 
@@ -1780,6 +1913,14 @@ namespace M_HQMJ
         /// <returns></returns>
         public override int OnUserLeft(ushort chairID, QL.Common.TablePlayer userInfo, byte userState)
         {
+            if ((!this._tableConfig.GiveBacked || this._addNum > 1)&& this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0 && _tableConfig.TableCreatorID == userInfo.PlayerID)
+            {
+                GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                {
+                    OrderId = quanZhuID,
+                    MoneyNum = 0,
+                }, Rec_BackPay);
+            }
             //如果桌子上已经没有玩家了,清理规则配置
             var playerInfoOnTable = this.GameHost.PlayerInfoOnTable;
             if ((null == playerInfoOnTable) || (0 == playerInfoOnTable.Length))
@@ -2133,6 +2274,85 @@ namespace M_HQMJ
             {
                 tingMj[chair] = false;
                 SendCardToPlayer();
+            }
+        }
+        /// <summary>
+        /// 续局
+        /// </summary>
+        /// <param name="chair"></param>
+        /// <param name="point"></param>
+        private void HandleMsg_CMD_C_AddGameNum(ushort chair, byte point)
+        {          
+            if(point == 2)
+            {
+                PrintLog("钻石不足 无法续局 游戏结束");
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                {
+                    gameNum = 101
+                });
+                this.GameHost.WriteMessage("**游戏结束 **");
+                //通知平台游戏结束
+                GameEnd();
+            }
+            if(point == 1)
+            {
+                PrintLog(chair+"号玩家拒绝续局 游戏结束。");
+                this._isAddGame = false;
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                {
+                    gameNum = 1
+                });
+                this.GameHost.WriteMessage("**游戏结束 **");
+                //通知平台游戏结束
+                GameEnd();
+            }
+            if (point == 0)
+            {
+                PrintLog(chair + "号玩家同意续局");
+                this.playerVote[chair] = 0;
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                {
+                    gameNum = 0,
+                    chair = (byte)chair
+                });
+                _completeCount++;
+                _playerAry[chair].IfCanOp = true;
+            }
+            if(_completeCount >= 4)
+            {
+                PrintLog("所有玩家同意续局");
+                this._addNum += 1;              
+                this._isAddGame = false;
+                this._tableConfig.GiveBacked = false;
+                //先返还续局前扣的钻石 再按照新的总局数扣钻
+                if (this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+                {
+                    //GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                    //{
+                    //    OrderId = quanZhuID,
+                    //    MoneyNum = 0,
+                    //}, Rec_BackPay);
+                    //圈主支付时 钻石判断
+                    int moneyNum = (this._tableConfig.SetGameNum  + 1) * 32*this._addNum;
+                    GameHost.HostSettlementService.FrozenUserAccount(new GameIF.FrozenUserAccountParam()
+                    {
+                         in_ObjectId = GameHost.TableInfo.GroupId,
+                         in_ObjectType = (FrozenUserAccountObjectType)2,
+                         MoneyType = GameHost.GetRoomInfo.TableCostMoneyType,
+                         MoneyNum = moneyNum,
+                         Mark = "霍邱麻将圈主付费房费预扣",
+                    }, Rec_PreHoldPayForAdd);
+                }
+                else
+                {
+                    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                    {
+                        gameNum = 100,
+                        addNum = this._addNum
+                    });
+                    _completeCount = 0;
+                }
+                
             }
         }
 
@@ -3004,10 +3224,16 @@ namespace M_HQMJ
             int[] multiple = CurPlayer.HandleByHu((byte)chair, cbHuCard, CurPlayer.IsJustGang ? enHuCardType.HuCardType_GangShangHua : enHuCardType.HuCardType_ZiMo, _playerAry[chair].PlayerCard.activeCard.handCard,outMj[chair]);
             //GameHost.WriteMessage("总：" + multiple);
             _noOneWin = false;
+            //天胡
+            Boolean _tianHu = multiple[3] == 1;
+            if (_tianHu)
+            {
+                multiple[0] -= 1;//天胡时 没有底分
+            }
             //加番
             int tempjia = 2;
-            if (_baoTing[chair])
-            {
+            if (!_tianHu && _baoTing[chair])
+            {//天胡时 不算豹听
                 tempjia *= 2;
             }
             if (CurPlayer.IsJustGang)
@@ -3061,11 +3287,16 @@ namespace M_HQMJ
             {
                 multiple[0] += (lianzhuang - 1);
                 _playerAry[chair].VecType += " 庄分+ " + (lianzhuang - 1);
-            }
+            }         
             for (int i = 0; i < HQMJConstants.GAME_PLAYER; i++)
             {
                 if ((i != chair) && !_playerAry[i].IsAlreadyHu)
                 {                  
+                    if (_tianHu)
+                    {                      
+                        _playerAry[i].PlayerScore.huScore -= 10;
+                        _playerAry[chair].PlayerScore.huScore += 10;
+                    }
                     _playerAry[i].PlayerScore.huScore -= multiple[0] * _tableConfig.CellScore * tempjia;
                     _playerAry[chair].PlayerScore.huScore += multiple[0]* _tableConfig.CellScore * tempjia;
                 }
@@ -3131,13 +3362,13 @@ namespace M_HQMJ
             }
             if (voteResult == 3 && CanHuNum == 1)
             {
-                for (int i = 1; i < HQMJConstants.GAME_PLAYER; i++) //不带一炮多响，从出牌者的下家开始找起
+                for (int i = 1; i < HQMJConstants.GAME_PLAYER; i++)
                 {
                     int temp = (i + _outCardInfo.chair) % HQMJConstants.GAME_PLAYER;
                     if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
                     {
                         //   huPlayer.Add(_playerAry[temp].PlayerChair);
-                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[temp]);
+                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[temp],1);
                         break;
                     }
                 }
@@ -3186,14 +3417,15 @@ namespace M_HQMJ
 
                 if (!_tableConfig.YiPaoDuoXiang)
                 {
-
+                    int _index = 0;//判断是否包分字段
                     for (int i = 1; i < HQMJConstants.GAME_PLAYER; i++) //不带一炮多响，从出牌者的下家开始找起
                     {
                         int temp = (i + _outCardInfo.chair) % HQMJConstants.GAME_PLAYER;
                         if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
                         {
+                            _index ++;
                             huPlayer.Add(_playerAry[temp].PlayerChair);
-                            this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[i].PlayerCard.activeCard.handCard,outMj[_playerAry[temp].PlayerChair]);
+                            this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[_playerAry[temp].PlayerChair],_index);
                             break;
                         }
                     }
@@ -3216,13 +3448,15 @@ namespace M_HQMJ
                     {
                         _yipaosanxiang = true;
                     }
+                    int _index = 0;
                     for(int i = 1; i < HQMJConstants.GAME_PLAYER; i++)
                     {
                         int temp = (i + _outCardInfo.chair) % HQMJConstants.GAME_PLAYER;
                         if(MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
                         {
+                            _index++;
                             huPlayer.Add(_playerAry[temp].PlayerChair);
-                            this.PlayerHuCard(_playerAry[temp].PlayerChair,_outCardInfo.card,_playerAry[i].PlayerCard.activeCard.handCard,outMj[_playerAry[temp].PlayerChair]);
+                            this.PlayerHuCard(_playerAry[temp].PlayerChair,_outCardInfo.card,_playerAry[temp].PlayerCard.activeCard.handCard,outMj[_playerAry[temp].PlayerChair],_index);
                         }
                     }
                     //foreach (var player in _playerAry)
@@ -3322,7 +3556,7 @@ namespace M_HQMJ
             //3、逻辑处理
             PrintLog("吃牌前手中活动牌:");
             PrintPlayerHandCard((byte)chair);
-
+            PrintLog("本次吃牌类型:"+chiType);
             _playerAry[chair].HandleByAfterChi(card, (byte)_outCardInfo.chair, chiType);
             _rememberCard.ChiCard(card);
             PrintLog("吃牌后手中活动牌:");
@@ -3529,11 +3763,11 @@ namespace M_HQMJ
         /// </summary>
         /// <param name="chair"></param>
         /// <param name="card"></param>
-        private void PlayerHuCard(ushort chair, byte card, List<byte> list,int countOutMj)
+        private void PlayerHuCard(ushort chair, byte card, List<byte> list,int countOutMj,int isFirst = 0)
         {
             _playerAry[chair].IfCanOp = false;
             _outCardRecord.Add(card);
-            int[] multiple = new int[3];
+            int[] multiple = new int[4];
 
             String _vecHuType = "";
             //if (_playerAry[_outCardInfo.chair].IsJustGang)
@@ -3542,7 +3776,7 @@ namespace M_HQMJ
             //}
             //else
             //{
-                multiple = _playerAry[chair].HandleByHu((byte)chair,card, enHuCardType.HuCardType_PingHu, list, countOutMj);
+                multiple = _playerAry[chair].HandleByHu((byte)chair,card, enHuCardType.HuCardType_PingHu, list, countOutMj, isFirst);
             //}
 
             this.huGangCount[chair][1]++;
@@ -3586,10 +3820,11 @@ namespace M_HQMJ
             }
             else if(_yipaoliangxiang)
             {//一炮两响
-                _lastBanker = _bankerChar;
                 if (hu_number == 1)
                 {
                     lianzhuang++;
+                    _lastBanker = _bankerChar;
+                    _bankerChar = (byte)_outCardInfo.chair;
                 }
                 //庄分
                 if (lianzhuang > 1 && _tableConfig.zhanZhuang == 1)
@@ -3597,12 +3832,16 @@ namespace M_HQMJ
                     multiple[0] += lianzhuang-1;
                     _playerAry[chair].VecType += "庄分+ " + (lianzhuang - 1);
                 }
-                _bankerChar = (byte)_outCardInfo.chair;
+                if(hu_number == 2)
+                {
+                    lianzhuang = 0;
+                }
             }else if (_yipaosanxiang)
             {//一炮三响
-                _lastBanker = _bankerChar;
                 if (hu_number == 1) {              
                     lianzhuang++;
+                    _lastBanker = _bankerChar;
+                    _bankerChar = (byte)_outCardInfo.chair;
                 }
                 //庄分
                 if (lianzhuang > 1 && _tableConfig.zhanZhuang == 1)
@@ -3610,7 +3849,10 @@ namespace M_HQMJ
                     multiple[0] += lianzhuang - 1;
                     _playerAry[chair].VecType += "庄分+ " + (lianzhuang - 1);
                 }
-                _bankerChar = (byte)_outCardInfo.chair;
+                if(hu_number == 3)
+                {
+                    lianzhuang = 0;
+                }
             }
 
             //建立一个临时数组 存放分数 包分时 方便计算
@@ -3850,17 +4092,19 @@ namespace M_HQMJ
                 if (_tableConfig.YiPaoDuoXiang)
                 {
                     int huPerson = 0;
+                    int _index = 0;
                     for (int j = 1; j < HQMJConstants.GAME_PLAYER; j++)
                     {
                         int temp = (j + _qiangGangInfo.chair) % HQMJConstants.GAME_PLAYER;
                         {
                             if (_playerAry[temp].IsVoteQiangGang)
                             {
+                                _index++;
                                 huPerson++;
                                 lastHuChair = (ushort)temp;
                                 _playerAry[_qiangGangInfo.chair].IsFangPao = true;
                                 int[] multiple = _playerAry[temp].HandleByHu((byte)temp, _qiangGangInfo.card,
-                                    enHuCardType.HuCardType_QiangGangHu, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[temp]);
+                                    enHuCardType.HuCardType_QiangGangHu, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[temp],_index);
                                 _noOneWin = false;
                                 int[] tempScore = new int[4];
 
@@ -3877,32 +4121,52 @@ namespace M_HQMJ
                                         _lastBanker = _bankerChar;
                                         _bankerChar = (byte)temp;
                                     }
+                                    if (_tableConfig.zhanZhuang == 1 && lianzhuang > 1)
+                                    {
+                                        multiple[0] += (lianzhuang - 1);
+                                        _playerAry[temp].VecType += " 庄分+ " + (lianzhuang - 1);
+                                    }
                                 }
                                 else
                                 {
                                     if (_completeCount == 2)
                                     {//两人抢杠胡
-                                        _lastBanker = _bankerChar;
                                         if (huPerson == 1)
                                         {
+                                            _lastBanker = _bankerChar;
                                             lianzhuang++;
+                                            _bankerChar = (byte)_qiangGangInfo.chair;
+                                        }
+                                        if (_tableConfig.zhanZhuang == 1 && lianzhuang > 1)
+                                        {
+                                            multiple[0] += (lianzhuang - 1);
+                                            _playerAry[temp].VecType += " 庄分+ " + (lianzhuang - 1);
+                                        }
+                                        if(huPerson == 2)
+                                        {
+                                            lianzhuang = 0;
                                         }
                                     }
                                     if (_completeCount == 3)
                                     {//三人抢杠胡
-                                        _lastBanker = _bankerChar;
                                         if (huPerson == 1)
                                         {
+                                            _lastBanker = _bankerChar;
                                             lianzhuang++;
+                                            _bankerChar = (byte)_qiangGangInfo.chair;
+                                        }
+                                        if (_tableConfig.zhanZhuang == 1 && lianzhuang > 1)
+                                        {
+                                            multiple[0] += (lianzhuang - 1);
+                                            _playerAry[temp].VecType += " 庄分+ " + (lianzhuang - 1);
+                                        }
+                                        if(huPerson == 3)
+                                        {
+                                            lianzhuang = 0;
                                         }
                                     }
-                                    _bankerChar = (byte)_qiangGangInfo.chair;
                                 }
-                                if(_tableConfig.zhanZhuang == 1 && lianzhuang > 1)
-                                {
-                                    multiple[0] += (lianzhuang - 1);
-                                    _playerAry[temp].VecType += " 庄分+ " + (lianzhuang - 1);
-                                }
+                                
 
                                 int anGangs = 0;
                                 int mingGangs = 0;
@@ -3933,7 +4197,7 @@ namespace M_HQMJ
                                     }
                                 }
                                 if (multiple[1] == 1)
-                                {//清一色包分
+                                {//清一色包分(第一个抢杠胡的才能包分)
                                     if (huPerson == 1)
                                     {
                                         //_playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= multiple[0] * 4 * tempjia;
@@ -3942,12 +4206,12 @@ namespace M_HQMJ
                                         {
                                             if (i == _qiangGangInfo.chair)//被抢杠的人
                                             {
-                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
+                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 4 * tempjia;
                                                 //_playerAry[temp].PlayerScore.huScore += multiple[0] * 2 * tempjia;
                                             }
                                             else if (i != temp)
                                             {
-                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * tempjia;
+                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
                                                 //_playerAry[temp].PlayerScore.huScore += multiple[0] * tempjia;
                                             }
                                         }
@@ -3955,8 +4219,7 @@ namespace M_HQMJ
                                         for(int a = 0; a < 4; a++)
                                         {
                                             if(a != temp)
-                                            {
-                                                _playerAry[temp].PlayerScore.huScore -= _playerAry[a].PlayerScore.huScore;
+                                            {                                           
                                                 if(a != _qiangGangInfo.chair)
                                                 {
                                                     _playerAry[_qiangGangInfo.chair].PlayerScore.huScore += _playerAry[a].PlayerScore.huScore;
@@ -3964,12 +4227,13 @@ namespace M_HQMJ
                                                 }
                                             }
                                         }
+                                        _playerAry[temp].PlayerScore.huScore -= _playerAry[_qiangGangInfo.chair].PlayerScore.huScore;
                                         _playerAry[temp].VecType += "清一色包分 ";
                                     }
                                     else if (huPerson > 1)
                                     {
-                                        _playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
-                                        _playerAry[temp].PlayerScore.huScore += multiple[0] * 2 * tempjia;
+                                        _playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= multiple[0] * 4 * tempjia;
+                                        _playerAry[temp].PlayerScore.huScore += multiple[0] * 4 * tempjia;
                                         _playerAry[temp].VecType += "清一色包分 ";
                                     }
                                 }
@@ -3981,11 +4245,11 @@ namespace M_HQMJ
                                         {
                                             if (i == _qiangGangInfo.chair)//被抢杠的人
                                             {
-                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
+                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 4 * tempjia;
                                             }
                                             else if (i != temp)
                                             {
-                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * tempjia;
+                                                _playerAry[i].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
                                             }
                                         }
                                         //玩家分数赋值
@@ -3993,7 +4257,6 @@ namespace M_HQMJ
                                         {
                                             if (a != temp)
                                             {
-                                                _playerAry[temp].PlayerScore.huScore -= _playerAry[a].PlayerScore.huScore;
                                                 if (a != _qiangGangInfo.chair)
                                                 {
                                                     _playerAry[_qiangGangInfo.chair].PlayerScore.huScore += _playerAry[a].PlayerScore.huScore;
@@ -4001,12 +4264,13 @@ namespace M_HQMJ
                                                 }
                                             }
                                         }
+                                        _playerAry[temp].PlayerScore.huScore -= _playerAry[_qiangGangInfo.chair].PlayerScore.huScore;
                                         _playerAry[temp].VecType += "全幺九包分 ";
                                     }
                                     else if (huPerson > 1)
                                     {
-                                        _playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= multiple[0] * 2 * tempjia;
-                                        _playerAry[temp].PlayerScore.huScore += multiple[0] * 2 * tempjia;
+                                        _playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= multiple[0] * 4 * tempjia;
+                                        _playerAry[temp].PlayerScore.huScore += multiple[0] * 4 * tempjia;
                                         _playerAry[temp].VecType += "全幺九包分 ";
                                     }
                                 }
@@ -4094,7 +4358,7 @@ namespace M_HQMJ
                         {
                             lastHuChair = (ushort)temp;
                             _playerAry[_qiangGangInfo.chair].IsFangPao = true;
-                            int[] multiple = _playerAry[temp].HandleByHu((byte)_qiangGangInfo.chair, _qiangGangInfo.card, enHuCardType.HuCardType_QiangGangHu, _playerAry[_qiangGangInfo.chair].PlayerCard.activeCard.handCard, outMj[temp]);
+                            int[] multiple = _playerAry[temp].HandleByHu((byte)_qiangGangInfo.chair, _qiangGangInfo.card, enHuCardType.HuCardType_QiangGangHu, _playerAry[_qiangGangInfo.chair].PlayerCard.activeCard.handCard, outMj[temp],1);
                             _noOneWin = false;
                             _playerAry[temp].JieSuan[8]++;
 
@@ -4263,61 +4527,61 @@ namespace M_HQMJ
         /// <param name="playerID"></param>
         private void HandleMsg_CMD_C_ForceLeft(ushort chair, uint playerID)
         {
-            #region 强退扣费
+            //#region 强退扣费
 
-            if (0 == this._gameForceLeftNum[chair])
-            {
-                var forceMoneyType = CurrencyType.QiDou;
-                int forceMoneyNum = -1000;
+            //if (0 == this._gameForceLeftNum[chair])
+            //{
+            //    var forceMoneyType = CurrencyType.QiDou;
+            //    int forceMoneyNum = 0;
 
-                #region 取系统配置表,获取强退惩罚
+            //    #region 取系统配置表,获取强退惩罚
 
-                var forceConfig = (this.GameHost.HostSystemConfigManger["QuitDeduct"] ?? "4|-1000").Split('|');
-                if (forceConfig.Length >= 2)
-                {
-                    int moneyType = 0;
-                    if (int.TryParse(forceConfig[0], out moneyType))
-                    {
-                        forceMoneyType = (CurrencyType)moneyType;
-                    }
+            //    var forceConfig = (this.GameHost.HostSystemConfigManger["QuitDeduct"] ?? "4|-1000").Split('|');
+            //    if (forceConfig.Length >= 2)
+            //    {
+            //        int moneyType = 0;
+            //        if (int.TryParse(forceConfig[0], out moneyType))
+            //        {
+            //            forceMoneyType = (CurrencyType)moneyType;
+            //        }
 
-                    int moneyNum = 0;
-                    if (int.TryParse(forceConfig[1], out moneyNum))
-                    {
-                        forceMoneyNum = moneyNum;
-                    }
-                }
+            //        int moneyNum = 0;
+            //        if (int.TryParse(forceConfig[1], out moneyNum))
+            //        {
+            //            forceMoneyNum = moneyNum;
+            //        }
+            //    }
 
-                #endregion
+            //    #endregion
 
-                List<UserAuditData> userAuditData = new List<UserAuditData>();
-                userAuditData.Add(new UserAuditData()
-                {
-                    MoneyNum = forceMoneyNum,
-                    UserID = playerID
-                });
+            //    List<UserAuditData> userAuditData = new List<UserAuditData>();
+            //    userAuditData.Add(new UserAuditData()
+            //    {
+            //        MoneyNum = forceMoneyNum,
+            //        UserID = playerID
+            //    });
 
-                GameHost.HostSettlementService.PlayerForFeeMultiple(new PlayerForFeeDataMultiple()
-                {
-                    FeeDataType = ForFeeDataType.多人游戏结算,
-                    Mark = "强退扣费",
-                    MoneyType = forceMoneyType,
-                    NoCheckUserMoney = 0,
-                    RoomID = GameHost.GetRoomInfo.ID,
-                    UserAuditDataArray = userAuditData.ToArray()
-                }, p =>
-                {
+            //    GameHost.HostSettlementService.PlayerForFeeMultiple(new PlayerForFeeDataMultiple()
+            //    {
+            //        FeeDataType = ForFeeDataType.多人游戏结算,
+            //        Mark = "强退扣费",
+            //        MoneyType = forceMoneyType,
+            //        NoCheckUserMoney = 0,
+            //        RoomID = GameHost.GetRoomInfo.ID,
+            //        UserAuditDataArray = userAuditData.ToArray()
+            //    }, p =>
+            //    {
 
-                });
+            //    });
 
-                ++this._gameForceLeftNum[chair];
-            }
+            //    ++this._gameForceLeftNum[chair];
+            //}
 
-            //强退影响其他不在家的玩家
-            this.playerForceLeftCheckOtherPlayerForce(chair);
-            _playerAry[chair].isForceLefting = true;
+            ////强退影响其他不在家的玩家
+            //this.playerForceLeftCheckOtherPlayerForce(chair);
+            //_playerAry[chair].isForceLefting = true;
 
-            #endregion
+            //#endregion
 
             //强退成功
             this.SendGameMsg(chair, new CMD_S_ForceLeftSuccess());
@@ -4345,7 +4609,6 @@ namespace M_HQMJ
                     //uint moneyNum = tableInfo.tableCostMoney;
                     GameHost.HostSettlementService.FrozenUserAccount(new GameIF.FrozenUserAccountParam()
                     {
-
                         //     指定此次预扣的账户Id
                         in_ObjectId = GameHost.TableInfo.GroupId,
                         //
@@ -4370,9 +4633,8 @@ namespace M_HQMJ
             }
             
             //检查余额
-            if (player.MoneyBag.DiamondNum < tableRule.TableCost)
-                NoMoneyForce(chair);
-            else
+            
+            //else
             {
                 this._tableConfig.TableCreatorChair = chair;
                 this._tableConfig.TableCreatorID = player.UserID;
@@ -4382,7 +4644,8 @@ namespace M_HQMJ
                 _tableConfig.LaPaoZuo = false;
                 _tableConfig.CellScore = 1;
                 _tableConfig.GangKaiJia = true;//tableRule.GangKaiJia > 0;
-                _tableConfig.IfCanSameIp = true;
+                _tableConfig.IfCanSameIp = tableRule.IfCanSameIp > 0 ? true : false;
+                _tableConfig.CheckGps = tableRule.IfCheckGps > 0 ? true : false;
                 _tableConfig.BuKaoJia = false;
                 _tableConfig.QiDuiJia = false;
                 _tableConfig.IsRecordScoreRoom = true;
@@ -4398,6 +4661,8 @@ namespace M_HQMJ
                 //支付方式
                 _tableConfig.TableCreatorPay = tableRule.isTableCreatorPay;
                 _tableConfig.TableCode = tableRule.TableCode;
+
+                
                 //总局数
                 _tableConfig.SetGameNum = tableRule.SetGameNum;//_specialAttri.JuShu[tableRule.SetGameNum+1];//
                 //通知桌子规则
@@ -4407,15 +4672,48 @@ namespace M_HQMJ
                 this.SendTableCreator2Client(MahjongDef.gInvalidChar);
                 //创建成功
                 this.SendGameMsg(chair, new CMD_S_CreateTableSuccess());
+
+                //if (player.MoneyBag.DiamondNum < 101)
+                //    NoMoneyForce(chair, _tableConfig.TableCost);
             }
         }
 
          void Rec_PreHoldPay(FrozenUserAccountResult result)
         {
             if (result.IsSuccess)
+            {
                 this.quanZhuID = result.OrderId;
+            }
             else
+            {
                 this.SendGameMsg(MahjongDef.gInvalidChar,new CMD_S_QuitCreator());
+            }
+        }
+
+        void Rec_PreHoldPayForAdd(FrozenUserAccountResult result)
+        {
+            if (result.IsSuccess)
+            {
+                this.quanZhuID = result.OrderId;
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                {
+                    gameNum = 100,
+                    addNum = this._addNum
+                });
+                _completeCount = 0;
+            }
+            else
+            {
+                PrintLog("钻石不足 无法续局 游戏结束");
+                this._addNum--;
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                {
+                    gameNum = 101
+                });
+                this.GameHost.WriteMessage("**游戏结束 **");
+                //通知平台游戏结束
+                GameEnd();
+            }
         }
         /// <summary>
         /// 查询游戏记录
@@ -4622,7 +4920,7 @@ namespace M_HQMJ
                         }
                         else
                         {
-                            this.OnEventGameEnd(MahjongDef.gInvalidChar, true, true);
+                            this.OnEventGameEnd(MahjongDef.gInvalidChar, true, true,false);
                             this._tableConfig.GameNum = 0;
                             //_tableConfig.TableCreatorChair = MahjongDef.gInvalidChar;
                             GameEnd();
@@ -4634,7 +4932,7 @@ namespace M_HQMJ
                         //{
                         //    GameHost.PlayerDataService.PostUserExitMessage(player);
                         //}
-                        if (this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0) { 
+                        if ((!this._tableConfig.GiveBacked || this._addNum > 1 ) && this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0) { 
                             GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
                             {
                                 OrderId = quanZhuID,
@@ -4649,6 +4947,7 @@ namespace M_HQMJ
 
         private void Rec_BackPay(ThawUserAccountResult obj)
         {
+            this._tableConfig.GiveBacked = true;
             this.PrintLog("圈主支付 钻石返还成功"); 
         }
 
@@ -4824,7 +5123,11 @@ namespace M_HQMJ
             PrintPlayerHandCard(_opPlayerChar);
 
             //测试用
-            //   holdCard = 0x14;
+            holdCard = 0x07;
+            
+
+            //holdCard = list[0];
+            //list.RemoveAt(0);
             //设置当前玩家抓到的牌
             CurPlayer.HoldCard = holdCard;
             PrintPlayerHandCard(_opPlayerChar);
@@ -5100,39 +5403,73 @@ namespace M_HQMJ
 
                 //#region 测试牌阵
 
-                if (i != 1)//_playerAry[i].IsAIPlayer)
+                if (i == 0)//_playerAry[i].IsAIPlayer)
                 {
                     _playerAry[i].PlayerCard.activeCard.handCard.Clear();
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x12);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x15);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x17);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x18);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x08);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                }
+                else if (i == 1)
+                {
+                    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x08);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                }
+                else if (i == 2)
+                {
+                    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x08);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
                 }
                 else
                 {
                     _playerAry[i].PlayerCard.activeCard.handCard.Clear();
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x07);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x01);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x01);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x04);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x05);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x25);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x31);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x29);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
                     _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x22);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x23);
-                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x24);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x21);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x08);
+                    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x09);
                 }
 
                 //#endregion
@@ -5231,7 +5568,14 @@ namespace M_HQMJ
             {
                 GameHost.PlayerDataService.PostUserExitMessage(player);
             }
-
+            if ((!this._tableConfig.GiveBacked || this._addNum > 1) && this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+            {
+                GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                {
+                    OrderId = quanZhuID,
+                    MoneyNum = 0,
+                }, Rec_BackPay);
+            }
             //this._tableConfig.clear();
         }
         /// <summary>
@@ -5267,7 +5611,7 @@ namespace M_HQMJ
         /// <summary>
         /// 玩家余额不足,强退玩家
         /// </summary>
-        private void NoMoneyForce(ushort chairID)
+        private void NoMoneyForce(ushort chairID,int cost)
         {
             //this.SendGameMsg(chairID, new CMD_S_ForceUserLeft()
             //{
@@ -5275,8 +5619,11 @@ namespace M_HQMJ
             //}, false);
             //if (GameHost.PlayerInfoOnTable[chairID].PlayerState == GState.OfflineInGame)
             //    GameHost.PlayerDataService.PostUserExitMessage(GameHost.PlayerInfoOnTable[chairID]);
-            GameHost.PlayerDataService.PostUserExitMessage(GameHost.PlayerInfoOnTableSeat[chairID], string.Format("抱歉，您的房卡不足！进入此房间需要{0}张房卡。", _tableConfig.TableCost));
-
+            //GameHost.PlayerDataService.PostUserExitMessage(GameHost.PlayerInfoOnTableSeat[chairID], string.Format("抱歉，您的钻石不足！进入此房间需要{0}张房卡。", _tableConfig.TableCost));
+            //this.SendGameMsg(chairID, new CMD_S_ForceUserLeft()
+            //{
+            //    cost = cost
+            //}, false);
         }
 
         /// <summary>
@@ -5377,7 +5724,7 @@ namespace M_HQMJ
             //}
             //断线重连自主建房,局数没打满处理
             //  else
-            if (_tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum && !this._isGameing)
+            if (_tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum(this._addNum) && !this._isGameing)
             {
                 this.HandleMsg_CMD_C_NextGame(chairID, new CMD_C_NextGame());
             }
@@ -5400,6 +5747,21 @@ namespace M_HQMJ
                         HandleMsg_CMD_C_HoldCardComplete(chairID);
                         break;
                     }
+            }
+            //断线重连 续局投票
+            if(_tableConfig.isValid && !this._isGameing && this._isAddGame)
+            {
+                int[] tempScore = new int[4];
+                for(var i = 0; i < 4; i++)
+                {
+                    tempScore[i] = _playerAry[i].TotalScore;
+                }
+                this.SendGameMsg(chairID,new CMD_S_ORC_AddGameNum() {
+                    chair = chairID,
+                    tempScore = tempScore,
+                    playerVote = this.playerVote,
+                    leftTime = (byte)(30 - MahjongGeneralAlgorithm.GetSecondsInTwoTime(this._startAddTime, DateTime.Now))
+                });
             }
             //断线重连自主建房,局数没打满处理
             if (_tableConfig.isValid && !this._isGameing) //&& !_playerAry[chairID].IsReady)
@@ -5426,11 +5788,9 @@ namespace M_HQMJ
                         leftTime = (byte)(60 - MahjongGeneralAlgorithm.GetSecondsInTwoTime(_ApplyDissTableTime, DateTime.Now)),
 
                     }, false);
-                }
+                }          
                 return;
             }
-
-
 
             //1、恢复游戏信息
             this.SendGameMsg(chairID, new CMD_S_ORC_GameInfo()
@@ -5523,8 +5883,6 @@ namespace M_HQMJ
                     }, false);
                 }
             }
-
-
 
             //3、恢复阶段信息
             switch (this._gamePhase)
@@ -5813,12 +6171,14 @@ namespace M_HQMJ
                 tableCreatorPay = _tableConfig.TableCreatorPay,
                 tableCost = _tableConfig.TableCost,
 
-                IfCanSameIP = 1,//不需要
+                IfCanSameIP = (byte)(_tableConfig.IfCanSameIp ? 1 : 0),
                 zhanZhuang = _tableConfig.zhanZhuang,
                 gangFen = _tableConfig.gangFen,
                 canChi = _tableConfig.canChi,
                 daiDaPai = _tableConfig.daiDaPai,
-                whoLose = _tableConfig.whoLose
+                whoLose = _tableConfig.whoLose,
+                tableWhere = (int)GameHost.TableInfo.GroupId,
+                checkGps = (byte)(_tableConfig.CheckGps ? 1 : 0)
 
             });
         }

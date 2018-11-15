@@ -937,13 +937,13 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0.49537439242832615,
       "y": 0.5
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 69,
-      "height": 65
+      "width": 240,
+      "height": 187
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -951,8 +951,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -330,
-      "y": 51
+      "x": -259,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -992,12 +992,12 @@
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 0.5044369103758359
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40,
-      "height": 40
+      "width": 160,
+      "height": 151.2
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -1005,8 +1005,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 73,
-      "y": -30
+      "x": -1.2,
+      "y": 15.5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1027,7 +1027,7 @@
       "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -1096,8 +1096,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 78,
-      "y": -110
+      "x": 3,
+      "y": -74
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1118,17 +1118,17 @@
     "_actualFontSize": 28,
     "_fontSize": 28,
     "_lineHeight": 30,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "b163d019-579c-428e-b155-062ab4c90274"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "爱奇艺月卡",
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1152,8 +1152,8 @@
     "_spriteFrame": {
       "__uuid__": "ace58c63-62f9-4b7f-b200-30aaadc1f40e"
     },
-    "_type": 0,
-    "_sizeMode": 1,
+    "_type": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -1339,11 +1339,11 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "适用于爱奇艺app影视会员，可免费观看\n爱奇艺电影、电视剧、综艺节目等，免除\n广告，享受18项VIP特权......",
+    "_N$string": "适用于爱奇艺app影视会员，可免费观看爱奇艺电影、电视剧、综艺节目等，免除\n广告，享受18项VIP特权......",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0
+    "_N$overflow": 3
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1556,7 +1556,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67,
+      "width": 210,
       "height": 40
     },
     "_rotationX": 0,
@@ -1565,7 +1565,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 155.00000000000006,
+      "x": 228,
       "y": 0
     },
     "_skewX": 0,
@@ -1584,8 +1584,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 32,
-    "_fontSize": 32,
+    "_actualFontSize": 28,
+    "_fontSize": 28,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {
@@ -1594,10 +1594,10 @@
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "1500",
-    "_N$horizontalAlign": 1,
+    "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1673,7 +1673,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "b6ac1b9c-f7ba-4daf-8672-df6f1878bd03"
+      "__uuid__": "f4bd0163-2a9d-4a2e-b705-2a182bad43f6"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2018,22 +2018,22 @@
     "_N$returnType": 0,
     "_N$inputFlag": 5,
     "_N$inputMode": 6,
-    "_N$fontSize": 29,
-    "_N$lineHeight": 40,
+    "_N$fontSize": 26,
+    "_N$lineHeight": 30,
     "_N$fontColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
-    "_N$placeholder": "",
-    "_N$placeholderFontSize": 20,
+    "_N$placeholder": "请输入收货人姓名",
+    "_N$placeholderFontSize": 26,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
-      "r": 127,
-      "g": 127,
-      "b": 127,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
     "_N$maxLength": 8,
@@ -2310,22 +2310,22 @@
     "_N$returnType": 0,
     "_N$inputFlag": 5,
     "_N$inputMode": 6,
-    "_N$fontSize": 29,
-    "_N$lineHeight": 40,
+    "_N$fontSize": 26,
+    "_N$lineHeight": 30,
     "_N$fontColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
-    "_N$placeholder": "",
-    "_N$placeholderFontSize": 20,
+    "_N$placeholder": "请输入详情地址",
+    "_N$placeholderFontSize": 26,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
-      "r": 127,
-      "g": 127,
-      "b": 127,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
     "_N$maxLength": 18,
@@ -2542,7 +2542,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "phone_editBox",
+    "_name": "virtual_editBox",
     "_objFlags": 0,
     "_parent": {
       "__id__": 72
@@ -2613,25 +2613,25 @@
     "_N$returnType": 0,
     "_N$inputFlag": 5,
     "_N$inputMode": 6,
-    "_N$fontSize": 29,
-    "_N$lineHeight": 40,
+    "_N$fontSize": 26,
+    "_N$lineHeight": 30,
     "_N$fontColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
     "_N$placeholder": "",
-    "_N$placeholderFontSize": 20,
+    "_N$placeholderFontSize": 26,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
-      "r": 127,
-      "g": 127,
-      "b": 127,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
-    "_N$maxLength": 8,
+    "_N$maxLength": 20,
     "_N$stayOnTop": false
   },
   {
@@ -2905,25 +2905,25 @@
     "_N$returnType": 0,
     "_N$inputFlag": 5,
     "_N$inputMode": 6,
-    "_N$fontSize": 29,
-    "_N$lineHeight": 40,
+    "_N$fontSize": 26,
+    "_N$lineHeight": 30,
     "_N$fontColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
-    "_N$placeholder": "",
-    "_N$placeholderFontSize": 20,
+    "_N$placeholder": "请输入手机号",
+    "_N$placeholderFontSize": 26,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
-      "r": 127,
-      "g": 127,
-      "b": 127,
+      "r": 187,
+      "g": 138,
+      "b": 90,
       "a": 255
     },
-    "_N$maxLength": 8,
+    "_N$maxLength": 11,
     "_N$stayOnTop": false
   },
   {

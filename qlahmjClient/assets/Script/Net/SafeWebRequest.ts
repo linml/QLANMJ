@@ -15,4 +15,10 @@ export namespace SafeWebRequest{
             doSafeActionJson(`${ConfigData.CommonBaseUrl}/safeApi/GameHall.getUpdateInfo`, action, data, method); 
         }
     }
+
+    export class Test{ 
+        public static test(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
+            doSafeActionJson(`http://192.168.1.250:12345/safeApi/Test.test`, action, data, method); 
+        }
+    }
 }

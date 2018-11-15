@@ -94,9 +94,9 @@
             ]
         },
         {
-            "attrIcon": "cjfj_46.png",
+            "attrIcon": "cjfj_77.png",
             "desc": "定位",
-            "enabled": false,
+            "enabled": true,
             "itemList": [
                 {
                     "nodeType": "TOGGLE_CHECKBOX",
@@ -154,11 +154,6 @@
         }
     ],
     "defaultAttr":[
-        {   
-            "attrName": "IfCanSameIp",
-            "value": false,
-            "desc":"是否同ip"
-        },
         {
             "attrName": "isGangJiuYou",
             "value": true,

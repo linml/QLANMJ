@@ -42,6 +42,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     // @property(cc.Node)
     // GameInfoView:cc.Node;
     // private LHZMJ_GameInfoView:LHZMJ_GameInfo;
+    @property(cc.SpriteAtlas)
+    private paihua2d:cc.SpriteAtlas=null;
 
      @property(cc.SpriteAtlas)
     private paihua:cc.SpriteAtlas=null;
@@ -461,21 +463,21 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
       
 
         if(tingTip.length>0 && pos!=3000){
-            if((pos-M_LHZMJView.ins.TingTip.size.width/2)<-640){
+            if((pos-M_LHZMJView.ins.TingTip.size.width/2-300)<-640){
                 M_LHZMJView.ins.TingTip.node.x=-540;
                 console.log("1111111111111111111111111111");
             }
-            else if((pos + M_LHZMJView.ins.TingTip.size.width/2) > 640){
-                M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width;
+            else if((pos + M_LHZMJView.ins.TingTip.size.width/2+300) > 640){
+                M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-600;
                 console.log("22222222222222222222222222222222");
             }
             else{
-                M_LHZMJView.ins.TingTip.node.x = pos - M_LHZMJView.ins.TingTip.size.width/2;
+                M_LHZMJView.ins.TingTip.node.x = pos - M_LHZMJView.ins.TingTip.size.width/2-300;
                 console.log("333333333333333333333333333333333");
             }
         }else{
             
-             M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-200;
+             M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-200-300;
             //  M_LHZMJView.ins.TingTip.scroll.node.width = 1080;
             
             //  M_LHZMJView.ins.TingTip.scroll.node.x = 619;
@@ -1174,7 +1176,87 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     public GetChatMsg(): string[] {
         return this.MsgArray;
     }
-
+        /**
+     * IP检测提示
+     */
+    private showCheckIP(){
+        var sameIPPlayer :Array<string> = new Array<string>();           
+            for(var i:number=0; i<LHZMJMahjongDef.gPlayerNum-1; i++){              
+                var checkIPPlayer :string = i.toString();               
+                for(var j:number=i+1; j<LHZMJMahjongDef.gPlayerNum; j++){
+                    if(null != this.TablePlayer[i] && null != this.TablePlayer[j] && i != this.SelfChair && j != this.SelfChair){
+                        if(this.TablePlayer[i].UserIP == this.TablePlayer[j].UserIP){
+                            checkIPPlayer+=`,${j}`;
+                        }
+                    }
+                }          
+                //检查本次收到的是否全部包含在其他集合中
+                if(checkIPPlayer.length > 1){                  
+                    var add:boolean=true;                
+                    for(var m:number=0; m<sameIPPlayer.length; m++){
+                        if(sameIPPlayer[m].indexOf(checkIPPlayer) >= 0){
+                            add=false;
+                            break;
+                        }
+                    }                
+                    if(add){
+                        sameIPPlayer.push(checkIPPlayer);
+                    }
+                }
+            }        
+            if(this._tableConfig.alreadyGameNum == 0 && sameIPPlayer.length > 0){           
+                var tipMsg:string[] = [];       
+                // for(var n:number=0; n<sameIPPlayer.length; n++){
+                //     var chairAry: Array<string> = sameIPPlayer[n].split(",");
+                //     if(chairAry.length > 1){
+                //         for(var x:number=0; x<chairAry.length; x++){
+                //             if(this.TablePlayer[parseInt(chairAry[x])].NickName.length > 6)
+                //                 tipMsg += this.TablePlayer[parseInt(chairAry[x])].NickName.substr(0,6)+" ";
+                //             else
+                //                 tipMsg += this.TablePlayer[parseInt(chairAry[x])].NickName+" ";
+                //             tipMsg += x == (chairAry.length - 1) ? "":",";
+                //             //tipMsg += `玩家:${this.TablePlayer[parseInt(chairAry[x])].NickName}${x == (chairAry.length - 1) ? "":","}`;
+                //         }
+                //         // tipMsg+="  IP相同"+"\n"; 
+                //     }
+                //     if(n != (sameIPPlayer.length - 1)){
+                //         tipMsg+=" | ";
+                //     }
+                // }
+                let playerCount:number = 0;
+                for(var i=0;i<4;i++) {
+                    if(null != this.TablePlayer[i])
+                        playerCount++;
+                }
+                if(playerCount == 4){
+                    var sameIps = sameIPPlayer[0].split(",");
+                    if(sameIps.length == 2){
+                        if(this.TablePlayer[parseInt(sameIps[0])].NickName.length > 4){
+                            this.TablePlayer[parseInt(sameIps[0])].NickName = this.TablePlayer[parseInt(sameIps[0])].NickName.substr(0,4);
+                        }
+                        if(this.TablePlayer[parseInt(sameIps[1])].NickName.length > 4){
+                            this.TablePlayer[parseInt(sameIps[1])].NickName = this.TablePlayer[parseInt(sameIps[1])].NickName.substr(0,4);
+                        }
+                        tipMsg[0] = "玩家:"+this.TablePlayer[parseInt(sameIps[0])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[1])].NickName
+                    }
+                    if(sameIps.length == 3){
+                        if(this.TablePlayer[parseInt(sameIps[0])].NickName.length > 4){
+                            this.TablePlayer[parseInt(sameIps[0])].NickName = this.TablePlayer[parseInt(sameIps[0])].NickName.substr(0,4);
+                        }
+                        if(this.TablePlayer[parseInt(sameIps[1])].NickName.length > 4){
+                            this.TablePlayer[parseInt(sameIps[1])].NickName = this.TablePlayer[parseInt(sameIps[1])].NickName.substr(0,4);
+                        }
+                        if(this.TablePlayer[parseInt(sameIps[2])].NickName.length > 4){
+                            this.TablePlayer[parseInt(sameIps[2])].NickName = this.TablePlayer[parseInt(sameIps[2])].NickName.substr(0,4);
+                        }
+                        tipMsg[0] = "玩家:"+this.TablePlayer[parseInt(sameIps[0])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[1])].NickName
+                        tipMsg[1] = "玩家:"+this.TablePlayer[parseInt(sameIps[0])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[2])].NickName
+                        tipMsg[2] = "玩家:"+this.TablePlayer[parseInt(sameIps[1])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[2])].NickName
+                    }
+                    M_LHZMJView.ins.StartCheckIP(tipMsg);
+                }   
+            }
+    }
 
 
     /**
@@ -1197,7 +1279,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     protected OnPlayerSitDown(chairID: number, player: QL_Common.TablePlayer): void {
         //cc.log("OnPlayerSitDown:" + chairID.toString() + "," + player.FaceID + "," + player.NickName + "," + player.PlayerState);      
       //  this.gameView.ReadyStatusUserInfo.OnPlayerSitDown(chairID,player);
-        this.gameView.ReadyAndGameUserInfo.OnPlayerSitDown(chairID,player);       
+        if (this.TablePlayer[chairID].PlayerState != QL_Common.GState.Gaming)
+            this.showCheckIP();
+        this.gameView.ReadyAndGameUserInfo.OnPlayerSitDown(chairID, player);  
        // this.gameView.GameStatusUserInfo.OnPlayerSitDown(chairID,player);
     }
 
@@ -1206,7 +1290,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      * */
     protected OnTablePlayer(chairID: number, player: QL_Common.TablePlayer): void {
         //cc.log("OnPlayerSitDown:" + chairID.toString() + "," + player.FaceID + "," + player.NickName + "," + player.PlayerState);
-        this.gameView.ReadyAndGameUserInfo.OnTablePlayer(chairID,player);
+        if (this.TablePlayer[chairID].PlayerState != QL_Common.GState.Gaming)
+            this.showCheckIP();
+        this.gameView.ReadyAndGameUserInfo.OnTablePlayer(chairID, player);
         //this.gameView.ReadyStatusUserInfo.OnTablePlayer(chairID,player);
         var chair = this.physical2logicChair(chairID);
         if(chair == 0){
@@ -1284,23 +1370,16 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      */
     public get MsgArray() {
         return [
-            "我又打错牌了",
-            "别吵了别吵了，专心玩游戏吧",
-            "别急，我要好好想想",
-            "不要走，决战到天亮",
-            "大家好，很高兴认识各位",
-            "各位，不好意思，我要离开一会",
-            "哈哈，春风得意呀",
-            "和你合作真是太愉快了",
-            "看来，我又要输光了",
-            "快点，小蜗牛",
-            "快点啊，我等的花都谢了",
-            "来啊，互相伤害呀",
-            "你们的牌真是太好了",
-            "我的牌真是太好了",
-            "我有大把银子，有本事来拿啊",
-            "呦！手气比脚气还好",
-            "怎么又断线了"
+           "大家好,很高兴见到各位",
+            "快点吧,我等的花都谢了",
+            "不要走,决战到天亮",
+            "你的牌打的也太好了",
+            "不要吵啦,不要吵啦,专心玩游戏",
+            "不好意思，我要离开一会儿",
+            "下次咱们再玩吧，我要走了",
+            "再见了，我会想念大家的",
+            "怎么又掉线了啊,网络怎么差",
+            "你是MM还是GG",         
         ];
     }
 
@@ -1551,6 +1630,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     private Handle_CMD_S_TableConfig(msg: GameIF.CustomMessage):void{
         var tableConfig: M_LHZMJ_GameMessage.CMD_S_TableConfig = <M_LHZMJ_GameMessage.CMD_S_TableConfig>msg;
         this.GameRule["GameData"] = tableConfig;
+        this.GameRule["GameData"].ifcansameip = true;
         this._tableConfig.init(
             tableConfig.CellScore,
             tableConfig.LaPaoZuo>0,
@@ -1577,7 +1657,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
 
             tableConfig.isChuHunJiaFan,
 
-            tableConfig.ifCanHu7Dui,
+            tableConfig.IfCanHu7Dui,
             tableConfig.ifCanTianHu,
             tableConfig.GangLeJiuYou,
             tableConfig.GuoHuBuHu,
@@ -1586,6 +1666,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             tableConfig.CheckGps,
             tableConfig.PeopleNum,
             tableConfig.OutCardTime,
+            tableConfig.GroupId,
                    
         );
 
@@ -1593,7 +1674,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         M_LHZMJView.ins.GameInfo.init();
         M_LHZMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,this._tableConfig.setGameNum);
         M_LHZMJView.ins.GameInfo.tableCode = tableConfig.TableCode;
-       M_LHZMJView.ins.ReadyAndGameUserInfo.SelfReady();
+        M_LHZMJView.ins.ReadyAndGameUserInfo.SelfReady();
        
         //设置分享内容
         if(this._tableConfig.isValid){
@@ -1602,6 +1683,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         if(this._tableConfig.needHideUserMoney){
             M_LHZMJView.ins.ReadyAndGameUserInfo.hideUserMoney();
         }
+        if(this.getTableStauts()!=QL_Common.TableStatus.gameing)
+            this.showWanfa();
 
         
     }
@@ -1633,69 +1716,69 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             
         }
         
-        if(this.isSelfCreateRoom){
-            var sameIPPlayer :Array<string> = new Array<string>();
+        // if(this.isSelfCreateRoom){
+        //     var sameIPPlayer :Array<string> = new Array<string>();
             
-            for(var i:number=0; i<LHZMJMahjongDef.gPlayerNum-1; i++){
+        //     for(var i:number=0; i<LHZMJMahjongDef.gPlayerNum-1; i++){
                 
-                var checkIPPlayer :string = i.toString();
+        //         var checkIPPlayer :string = i.toString();
                 
-                for(var j:number=i+1; j<LHZMJMahjongDef.gPlayerNum; j++){
-                    if(this.TablePlayer[i].UserIP == this.TablePlayer[j].UserIP){
-                        checkIPPlayer+=`,${j}`;
-                    }
-                }
+        //         for(var j:number=i+1; j<LHZMJMahjongDef.gPlayerNum; j++){
+        //             if(this.TablePlayer[i].UserIP == this.TablePlayer[j].UserIP){
+        //                 checkIPPlayer+=`,${j}`;
+        //             }
+        //         }
                 
-                //检查本次收到的是否全部包含在其他集合中
-                if(checkIPPlayer.length > 1){
+        //         //检查本次收到的是否全部包含在其他集合中
+        //         if(checkIPPlayer.length > 1){
                     
-                    var add:boolean=true;
+        //             var add:boolean=true;
                     
-                    for(var m:number=0; m<sameIPPlayer.length; m++){
-                        if(sameIPPlayer[m].indexOf(checkIPPlayer) >= 0){
-                            add=false;
-                            break;
-                        }
-                    }
+        //             for(var m:number=0; m<sameIPPlayer.length; m++){
+        //                 if(sameIPPlayer[m].indexOf(checkIPPlayer) >= 0){
+        //                     add=false;
+        //                     break;
+        //                 }
+        //             }
                     
-                    if(add){
-                        sameIPPlayer.push(checkIPPlayer);
-                    }
-                }
-            }
+        //             if(add){
+        //                 sameIPPlayer.push(checkIPPlayer);
+        //             }
+        //         }
+        //     }
             
             
-            if(sameIPPlayer.length > 0){
+        //     if(sameIPPlayer.length > 0){
                 
-                var tipMsg:string="";
+        //         var tipMsg:string="";
                 
-                for(var n:number=0; n<sameIPPlayer.length; n++){
-                    var chairAry: Array<string> = sameIPPlayer[n].split(",");
-                    if(chairAry.length > 1){
-                        for(var x:number=0; x<chairAry.length; x++){
-                            tipMsg += `玩家:${this.TablePlayer[parseInt(chairAry[x])].NickName}${x == (chairAry.length - 1) ? "":","}`;
-                        }
-                        tipMsg+="  IP相同";
-                    }
-                    if(n != (sameIPPlayer.length - 1)){
-                        tipMsg+=" | ";
-                    }
-                }
+        //         for(var n:number=0; n<sameIPPlayer.length; n++){
+        //             var chairAry: Array<string> = sameIPPlayer[n].split(",");
+        //             if(chairAry.length > 1){
+        //                 for(var x:number=0; x<chairAry.length; x++){
+        //                     tipMsg += `玩家:${this.TablePlayer[parseInt(chairAry[x])].NickName}${x == (chairAry.length - 1) ? "":","}`;
+        //                 }
+        //                 tipMsg+="  IP相同";
+        //             }
+        //             if(n != (sameIPPlayer.length - 1)){
+        //                 tipMsg+=" | ";
+        //             }
+        //         }
                 
-                if(tipMsg.length > 0){
-                   // M_LHZMJView.ins.TipMsgView.showTip(tipMsg,true,4);
-                   this.UiManager.ShowTip(tipMsg);
-                }
+        //         if(tipMsg.length > 0){
+        //            // M_LHZMJView.ins.TipMsgView.showTip(tipMsg,true,4);
+        //            this.UiManager.ShowTip(tipMsg);
+        //         }
                 
-            }
-        }else{
-            var tableCostName = TranslateMoneyTypeName(this.RoomClient.TableCostMoneyType);
-            var tableCostNum = this.RoomClient.TableCost;
-            if (tableCostNum > 0) {
-                var tipMsg = `游戏已经开始，每局扣除桌费${tableCostNum}${tableCostName}`;
-                this.UiManager.ShowTip(tipMsg);
-            }
-        }
+        //     }
+        // }else{
+        //     var tableCostName = TranslateMoneyTypeName(this.RoomClient.TableCostMoneyType);
+        //     var tableCostNum = this.RoomClient.TableCost;
+        //     if (tableCostNum > 0) {
+        //         var tipMsg = `游戏已经开始，每局扣除桌费${tableCostNum}${tableCostName}`;
+        //         this.UiManager.ShowTip(tipMsg);
+        //     }
+        // }
     }
     /**
      * 骰子数据
@@ -1792,8 +1875,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         
         M_LHZMJView.ins.GameInfo.holdACard();
-        M_LHZMJView.ins.CardView.PaiQiangInfo.holdACard();
-        
+        if(!this.is2D()){
+            M_LHZMJView.ins.CardView.PaiQiangInfo.holdACard();
+        }
         //玩家抓牌
         M_LHZMJView.ins.CardView.playerHoldCard(playerHoldCard.chair,playerHoldCard.card);
         if((this.SelfChair == playerHoldCard.chair) && (LHZMJMahjongDef.gInvalidMahjongValue != playerHoldCard.card)){
@@ -1815,7 +1899,12 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
                     M_LHZMJView.ins.SelGangView.node.active=false;
                 }
         //注册计时器
-        this.regTimer(LHZMJTimerDef.timer_id_playerop,activePlayer.timer,this._activePlayer);
+        if(this.TableConfig._OutCardTime<2){
+            this.regTimer(LHZMJTimerDef.timer_id_playerop,activePlayer.timer+10*this.TableConfig._OutCardTime+10,this._activePlayer);
+        }else{
+             this.regTimer(LHZMJTimerDef.timer_id_playerop,activePlayer.timer,this._activePlayer);
+        }
+        
     }
     /**
      * 我的投票权限
@@ -1841,8 +1930,12 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
                                             true,false);
                                             
         }
-       
-        this.regTimer(LHZMJTimerDef.timer_id_vote,LHZMJTimerDef.timer_len_vote,this.SelfChair);
+       if(this.TableConfig._OutCardTime<2){
+             this.regTimer(LHZMJTimerDef.timer_id_vote,LHZMJTimerDef.timer_len_vote+10*(this.TableConfig._OutCardTime+1),this.SelfChair);
+       }else{
+          this.regTimer(LHZMJTimerDef.timer_id_vote,LHZMJTimerDef.timer_len_vote,this.SelfChair);
+       }
+      
     } 
     /**
      * 玩家打出牌
@@ -1957,7 +2050,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         let sex:number=this.TablePlayer[playerPeng.chair].Gender==1?1:2;
         //音效
-        M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_peng_${sex}.mp3`);
+        M_LHZMJVoice.PlayCardType(`/sound/1/peng_${sex}.mp3`);
         
         //动画
         M_LHZMJView.ins.playLHZMJAni(playerPeng.chair,enLHZMJAniType.aniType_peng);
@@ -1985,7 +2078,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         let sex:number=this.TablePlayer[playerAGang.chair].Gender==1?1:2;
         // 音效
-        M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_gang_${sex}.mp3`);
+        M_LHZMJVoice.PlayCardType(`/sound/1/gang_${sex}.mp3`);
 
         //动画
         M_LHZMJView.ins.playLHZMJAni(playerAGang.chair,enLHZMJAniType.aniType_anGang);
@@ -2010,7 +2103,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         let sex:number=this.TablePlayer[playerMGang.chair].Gender==1?1:2;
         // 音效
-        M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_gang_${sex}.mp3`);
+        M_LHZMJVoice.PlayCardType(`/sound/1/gang_${sex}.mp3`);
 
         //动画
         M_LHZMJView.ins.playLHZMJAni(playerMGang.chair,enLHZMJAniType.aniType_minggGang);
@@ -2037,7 +2130,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         
         let sex:number=this.TablePlayer[playerBGang.chair].Gender==1?1:2;
         // 音效
-        M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_gang_${sex}.mp3`);
+        M_LHZMJVoice.PlayCardType(`/sound/1/gang_${sex}.mp3`);
 
         //动画
         M_LHZMJView.ins.playLHZMJAni(playerBGang.chair,enLHZMJAniType.aniType_minggGang);
@@ -2067,28 +2160,25 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             case enHuCardType.HuCardType_PingHu:{
                 //清理玩家打出的牌
                 this._outCardPlayer.clear();
-                M_LHZMJVoice.PlayCardType(`/sound/${sex}/hu_${sex}.mp3`);
+                M_LHZMJVoice.PlayCardType(`/sound/1/hu_${sex}.mp3`);
 
                 M_LHZMJView.ins.playLHZMJAni(playerHu.chair,enLHZMJAniType.aniType_huCard);
                 break;
             }
             case enHuCardType.HuCardType_QiangGangHu:{
-                M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_hu_${sex}.mp3`);
+                M_LHZMJVoice.PlayCardType(`/sound/1/hu_${sex}.mp3`);
                 M_LHZMJView.ins.playLHZMJAni(playerHu.chair,enLHZMJAniType.aniType_huCard);
                 this._recordCard.outACard(playerHu.card);
                 break;
             }
             case enHuCardType.HuCardType_ZiMo:{
-                M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_zimo_${sex}.mp3`);
+                M_LHZMJVoice.PlayCardType(`/sound/1/zimo_${sex}.mp3`);
                 M_LHZMJView.ins.playLHZMJAni(playerHu.chair,enLHZMJAniType.aniType_ziMo);
                 this._recordCard.outACard(playerHu.card);
                 break;
             }
             case enHuCardType.HuCardType_GangShangHua:{
-            if(playerHu.chair%2 == 0)
-                    M_LHZMJVoice.PlayCardType(`/sound/1/zimo_1.mp3`);
-                else
-                    M_LHZMJVoice.PlayCardType(`/sound/1/zimo_2.mp3`);
+               M_LHZMJVoice.PlayCardType(`/sound/1/zimo_${sex}.mp3`);
                 M_LHZMJView.ins.playLHZMJAni(playerHu.chair,enLHZMJAniType.aniType_ziMo);
                 this._recordCard.outACard(playerHu.card);
                 break;
@@ -2129,7 +2219,10 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         }
         
         M_LHZMJView.ins.CardView.selfActive.refreshCardStatus();
-
+        if((this._gangCard.length <= 0) && (op.ifCanZiMo <= 0)){
+            M_LHZMJView.ins.CardView.selfActive.standPai();
+        }
+        
         // //检查打出哪些牌可以听牌
         // var tingToken: Array<number> = LHZMJMahjongAlgorithm1.GetLastCardToTing(this._handCard);
 
@@ -2152,7 +2245,11 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
 
         
         //注册计时器
+        if(this.TableConfig._OutCardTime<2){
+             this.regTimer(LHZMJTimerDef.timer_id_qianggang,LHZMJTimerDef.timer_len_qianggang+10*(this.TableConfig._OutCardTime+1),this.SelfChair);
+        }else{
         this.regTimer(LHZMJTimerDef.timer_id_qianggang,LHZMJTimerDef.timer_len_qianggang,this.SelfChair);
+        }
     }
     /**
      * 删除抢杠牌
@@ -2215,13 +2312,12 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
                 }
 
             }
-
+             M_LHZMJView.ins.CardView.HideFanMa();
+             this.gameView.TimerView.clearAction();
             M_LHZMJView.ins.UserData.node.active = false;
         }, 3); 
-        } 
-        
-
-            M_LHZMJView.ins.JieShuanView.showJieShuan(balance);
+        }else{
+             M_LHZMJView.ins.JieShuanView.showJieShuan(balance);
             if (this.TableConfig.isPlayEnoughGameNum) {
                 if (cc.isValid(M_LHZMJView.ins.DissTable)) {
                     M_LHZMJView.ins.DissTable.node.active = false;
@@ -2231,6 +2327,10 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             }
 
             M_LHZMJView.ins.UserData.node.active = false;
+        } 
+        
+
+           
 
 
     }
@@ -2497,7 +2597,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             }
 
 
-            }
+        }
+        
             
     }
     /**
@@ -2529,8 +2630,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     private Handle_CMD_S_ORC_Over(msg: GameIF.CustomMessage):void{
         var orcOver : M_LHZMJ_GameMessage.CMD_S_ORC_Over = <M_LHZMJ_GameMessage.CMD_S_ORC_Over>msg;
         M_LHZMJView.ins.GameInfo.init();
-       
-        
+        if(!this.is2D()){
+           M_LHZMJView.ins.CardView.PaiQiangInfo.showPaiQiang(orcOver.leftCardNum);
+        }
         M_LHZMJView.ins.GameInfo.leftCardNum = orcOver.leftCardNum;
         M_LHZMJView.ins.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,this._tableConfig.setGameNum);
         M_LHZMJView.ins.GameInfo.tableCode=this._tableConfig.TableCode;
@@ -2647,7 +2749,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             M_LHZMJView.ins.DissTable.node.active=false;
             M_LHZMJView.ins.DissTable.node.destroy();
             let name=this.getTablePlayerAry()[playerVoteDissTable.chair].NickName;
-            M_LHZMJView.ins.ShowMsgBox("玩家 "+name+" 拒绝解散房间");
+            name = name.substring(0,4);
+            this.ShowMsgBox("玩家 "+name+" 拒绝解散房间");
+           // M_LHZMJView.ins.ShowMsgBox("玩家 "+name+" 拒绝解散房间");
         }
     }
     
@@ -3002,7 +3106,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
        
 
         if (this.oncebuhua){
-                M_LHZMJVoice.PlayCardType(`/sound/${sex}/mj_buhua_${sex}.mp3`);
+                M_LHZMJVoice.PlayCardType(`/sound/1/buhua_${sex}.mp3`);
                 this.oncebuhua=false;
         }
         

@@ -43,7 +43,7 @@ export default class LHZMJ_OppoSinglePool extends LHZMJ_SinglePoolBase {
             this.bmp_cardHide.node.scaleX=0.56;
             this.bmp_cardHide.node.scaleY=0.43;
             this.bmp_cardHide.node.skewX=0;
-            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_oppo_1280");
+            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shangdp_back@2x");
             this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
         }else{
             this.show3DCard();

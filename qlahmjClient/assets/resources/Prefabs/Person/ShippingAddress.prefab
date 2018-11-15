@@ -25,14 +25,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 78
+        "__id__": 79
       },
       {
-        "__id__": 79
+        "__id__": 80
       }
     ],
     "_prefab": {
-      "__id__": 80
+      "__id__": 81
     },
     "_id": "",
     "_opacity": 255,
@@ -261,14 +261,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 75
+        "__id__": 76
       },
       {
-        "__id__": 76
+        "__id__": 77
       }
     ],
     "_prefab": {
-      "__id__": 77
+      "__id__": 78
     },
     "_id": "",
     "_opacity": 255,
@@ -346,11 +346,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 73
+        "__id__": 74
       }
     ],
     "_prefab": {
-      "__id__": 74
+      "__id__": 75
     },
     "_id": "",
     "_opacity": 255,
@@ -794,7 +794,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -259,
-      "y": 87
+      "y": 75
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -943,7 +943,7 @@
       "b": 90,
       "a": 255
     },
-    "_N$placeholder": "某某某",
+    "_N$placeholder": "请输入姓名",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
@@ -1087,7 +1087,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -259,
-      "y": 29
+      "y": -5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1236,7 +1236,7 @@
       "b": 90,
       "a": 255
     },
-    "_N$placeholder": "123123123",
+    "_N$placeholder": "请输入手机号",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
@@ -1344,7 +1344,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 51
@@ -1835,7 +1835,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -259,
-      "y": -91
+      "y": -86
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1975,8 +1975,8 @@
     "_N$returnType": 0,
     "_N$inputFlag": 5,
     "_N$inputMode": 6,
-    "_N$fontSize": 20,
-    "_N$lineHeight": 30,
+    "_N$fontSize": 26,
+    "_N$lineHeight": 40,
     "_N$fontColor": {
       "__type__": "cc.Color",
       "r": 187,
@@ -1984,7 +1984,7 @@
       "b": 90,
       "a": 255
     },
-    "_N$placeholder": "包河万达",
+    "_N$placeholder": "请输入详细收货地址",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
@@ -2193,7 +2193,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 72
+      "__id__": 73
     },
     "_id": "",
     "_opacity": 255,
@@ -2391,7 +2391,11 @@
     },
     "duration": 0.1,
     "zoomScale": 0.9,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 72
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -2429,6 +2433,15 @@
     "_N$target": {
       "__id__": 65
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "ShippingAddress",
+    "handler": "ClickSave",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",

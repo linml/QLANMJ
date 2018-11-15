@@ -40,6 +40,7 @@ export default class LHZMJ_CardView extends cc.Component {
     @property(cc.Prefab)
     cardWall: cc.Prefab=null;
     private _cardWall: LHZMJ_PaiQiang;//me
+    
     /**
      * 准备状态玩家信息
      * */
@@ -469,8 +470,9 @@ export default class LHZMJ_CardView extends cc.Component {
         }
         // this.img_poolCardArrow.node.active=false;
         this.bg_poolCardArrow.active=false;
-        this.timeidx = 0;
+        this.timeidx = 0;       
         this.PaiQiangInfo.init();
+        this.fama_view.active = false;
     }
 
     public showFanMa(mapai:number[]): void {
@@ -483,7 +485,7 @@ export default class LHZMJ_CardView extends cc.Component {
             for (var k = 0; k < mapai.length; k++) {
                 if (this.fanma_cardback[k].node.active) {
                     var cardvalue = Math.floor(Math.random() * 100) % 3;
-                    var cardvalue2 = Math.floor(Math.random() * 100) % 10;
+                    var cardvalue2 = Math.floor(Math.random() * 100) % 9+1;
                     this.fanma_cardcolor[k].spriteFrame = M_LHZMJClass.ins.getRanDomMahjongPaiHuaRes(cardvalue, cardvalue2);
                 }
             }      
@@ -496,6 +498,9 @@ export default class LHZMJ_CardView extends cc.Component {
         }, 0.1, 10);
        
         
+    }
+    public HideFanMa(){
+        this.fama_view.active = false;
     }
 
 

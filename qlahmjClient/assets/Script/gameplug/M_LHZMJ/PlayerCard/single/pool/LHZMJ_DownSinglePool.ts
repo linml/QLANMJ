@@ -42,7 +42,7 @@ export default class LHZMJ_DownSinglePool extends LHZMJ_SinglePoolBase {
             this.bmp_cardHide.node.scaleX=0.45;
             this.bmp_cardHide.node.scaleY=0.45;
             this.bmp_cardHide.node.skewY=0;
-            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("pb3_showcard_left_right_1280");
+            this.bmp_cardback.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("zuoyoupg@2x");
             this.bmp_cardcolor.spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(card);
         }else{
             this.show3DCard();

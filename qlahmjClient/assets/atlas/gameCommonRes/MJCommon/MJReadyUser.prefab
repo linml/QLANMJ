@@ -117,7 +117,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 84,
+      "width": 89,
       "height": 114
     },
     "_rotationX": 0,
@@ -568,7 +568,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42,
+      "width": 41.71,
       "height": 25
     },
     "_rotationX": 0,
@@ -893,7 +893,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 61,
+      "width": 61.17,
       "height": 25
     },
     "_rotationX": 0,
@@ -987,7 +987,8 @@
     },
     "lbl_money": {
       "__id__": 28
-    }
+    },
+    "img_guzhang": null
   },
   {
     "__type__": "cc.PrefabInfo",

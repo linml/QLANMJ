@@ -104,6 +104,10 @@ namespace M_HQMJ_GameMessage
         /// 放弃豹听
         /// </summary>
         public const byte CMD_C_GiveUpBaoTing = 33;
+        /// <summary>
+        /// 续局
+        /// </summary>
+        public const byte CMD_C_AddGameNum = 34;
     }
 
     /// <summary>
@@ -417,5 +421,11 @@ namespace M_HQMJ_GameMessage
         #endregion
 
         public const byte CMD_S_QuitCreator = 165;
+
+        public const byte CMD_S_AddGameNum = 166;
+
+        public const byte CMD_S_AddGameOutTime = 167;
+
+        public const byte CMD_S_ORC_AddGameNum = 210;
     }
 }

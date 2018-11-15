@@ -43,6 +43,10 @@ export default class LHZMJ_ActiveBase extends LHZMJ_CardBase {
         // init logic
         
     }
+    public standPai():void{
+        this._cardData[this._cardData.length-1].onClick();
+        
+    }
     
     public init(logicChair: number):void{
         this._logicChair= logicChair;

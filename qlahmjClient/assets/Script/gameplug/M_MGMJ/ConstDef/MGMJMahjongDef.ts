@@ -826,6 +826,8 @@ const { ccclass, property } = cc._decorator;
         private _alreadyGameNum:number=0;
         //已经游戏的真实局数
         private _realGameNum:number=0;
+        //GPS
+        private _checkGPS:boolean;
         //金币场底金索引
         private _goldRoomBaseIdx:number;
         //自建房是否超时代打
@@ -877,6 +879,7 @@ const { ccclass, property } = cc._decorator;
             this._gangFen = true;
             this._daiDaPai = true;
             this._whoLose = true;
+            this._checkGPS = false;
             
         }
         
@@ -886,6 +889,7 @@ const { ccclass, property } = cc._decorator;
         public init(
             palyerNum:number,
             waitTimeNum:number,
+            checkGPS:boolean,
             setPeiZi:number,
             dianPao:boolean,
             qiangGangHu:boolean,
@@ -953,6 +957,7 @@ const { ccclass, property } = cc._decorator;
             this._daiDaPai = IfDaiDaPai;
             this._gangFen = IfGangFen;
             this._tableWhere = tableWhere;
+            this._checkGPS = checkGPS;
         }
         /**
          * 是否保留房间

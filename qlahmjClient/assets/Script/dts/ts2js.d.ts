@@ -1,9 +1,9 @@
- 
 
-declare function MathaccAdd(arg1: any,arg2: any):number
-declare function MathaccSub(arg1: any,arg2: any): number
-declare function MathaccMul(arg1: any,arg2: any): number
-declare function MathaccDiv(arg1: any,arg2: any): number
+
+declare function MathaccAdd(arg1: any, arg2: any): number
+declare function MathaccSub(arg1: any, arg2: any): number
+declare function MathaccMul(arg1: any, arg2: any): number
+declare function MathaccDiv(arg1: any, arg2: any): number
 //declare var Promise: PromiseConstructor;
 
 //interface PromiseConstructor {
@@ -12,15 +12,15 @@ declare function MathaccDiv(arg1: any,arg2: any): number
 /**
  * 获取当前分站配置
  * */
-declare function getWebConfig():any;
+declare function getWebConfig(): any;
 /*
  * 获取参数配置
  * */
-declare function getUrlQueryData():any;
+declare function getUrlQueryData(): any;
 /**
  * 拉起浏览器支付接口
  */
-declare function runWebBrowserRequest(req:any):any;
+declare function runWebBrowserRequest(req: any): any;
 /**
  * 获取浏览器平台
  * */
@@ -61,7 +61,7 @@ declare function getJsVersion(): string;
  *
  * @returns {} 
  */
-declare function CustomerService(): string; 
+declare function CustomerService(): string;
 
 /**
  * 
@@ -70,10 +70,10 @@ declare function CustomerService(): string;
  * @param exdays 
  * @returns {} 
  */
-declare function setCookie(cname, cvalue, exdays):void;
+declare function setCookie(cname, cvalue, exdays): void;
 
 
-declare function require(src):void;
+declare function require(src): void;
 
 /**
  * 加载一个js脚本
@@ -81,12 +81,16 @@ declare function require(src):void;
  * @param callback
  * @param o
  */
-declare function GameLoadJsProceeer(path,callback,o):void;
+declare function GameLoadJsProceeer(path, callback, o): void;
 
 declare class Uyi {
-    static DebugNetAddress:string;
-} 
-declare class JSEncrypt{
-    setPublicKey(pk:string):void;
-    encrypt(pk:string):string;
+    static DebugNetAddress: string;
+}
+declare class JSEncrypt {
+    setPublicKey(pk: string): void;
+    encrypt(pk: string): string;
+}
+
+declare class NIM {
+    static getInstance(option: any): NIM;
 }

@@ -27,7 +27,6 @@ export default class NewClass extends UIBase<any> {
     @property(cc.Node)
     notice: cc.Node = null;
 
-
     InitShow() {
         super.InitShow();
         this.notice.active = false;
@@ -43,9 +42,10 @@ export default class NewClass extends UIBase<any> {
         let scroll_ActivityItem: ItemListScrollView = this.activityItem_scrollview.getComponent("ItemListScrollView");
         let itemList = [
             {
-                //     name: "礼品上线",
-                //     list:["image/activity/activity/a"]
-                // }, {
+                name: "礼品上线",
+                list: ["image/activity/activity/d"]
+            },
+            {
                 name: "麻神争霸赛",
                 list: ["image/activity/activity/c"]
             },
@@ -106,18 +106,37 @@ export default class NewClass extends UIBase<any> {
                 that.layout.node.addChild(node);
                 node.addComponent(cc.Sprite).spriteFrame = spriteFrames[i];
 
+                let btn = node.addComponent<cc.Button>(cc.Button);
+                const e = new cc.Component.EventHandler();
+
+                switch (info.name) {
+                    case "麻神争霸赛":
+                        e.target = this.node;
+                        e.component = "Activity";
+                        e.handler = "OnClickRank";
+                        btn.clickEvents.push(e);
+                        break;
+                    case "礼品上线":
+                        e.target = this.node;
+                        e.component = "Activity";
+                        e.handler = "OnClickGift";
+                        btn.clickEvents.push(e);
+                        break;
+                    default:
+                        break;
+                }
+
                 /**
                  * 如果点击的是麻神争霸赛
                  */
-                if (info.name == "麻神争霸赛") {
-                    // node.on(cc.Node.EventType.TOUCH_START, () => { this.OnClickRank() }, that);
-                    let btn = node.addComponent<cc.Button>(cc.Button);
-                    const e = new cc.Component.EventHandler();
-                    e.target = this.node;
-                    e.component = "Activity";
-                    e.handler = "OnClickRank";
-                    btn.clickEvents.push(e);
-                }
+                // if (info.name == "麻神争霸赛") {
+                //     let btn = node.addComponent<cc.Button>(cc.Button);
+                //     const e = new cc.Component.EventHandler();
+                //     e.target = this.node;
+                //     e.component = "Activity";
+                //     e.handler = "OnClickRank";
+                //     btn.clickEvents.push(e);
+                // }
             }
         });
 
@@ -141,6 +160,11 @@ export default class NewClass extends UIBase<any> {
             this.notice.active = true;
             this.noticeItemListInitUI();
         }
+    }
+
+    OnClickGift() {
+        this.UiManager.ShowUi(UIName.Gift);
+        this.CloseClick(); //关闭本窗体
     }
 
 }

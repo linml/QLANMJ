@@ -30,52 +30,6 @@
             <param name="fileName">CSV文件路径</param>
             <returns>返回读取了CSV数据的DataTable</returns>
         </member>
-        <member name="T:QL.Data.ExcelHelper">
-            <summary>
-            类ExcelHelper的注释信息
-            </summary>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.ExcelToDS(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="Path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.ExcelToDS(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="Path"></param>
-            <param name="tbname"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.DT2Excel(System.Data.DataTable,System.IO.Stream)">
-            <summary>
-            
-            </summary> 
-            <returns></returns>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.DT2Excel(System.Data.DataTable[],System.IO.Stream)">
-            <summary>
-            
-            </summary> 
-            <returns></returns>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.DT2Excel(System.Data.DataTable[],System.String)">
-            <summary>
-            
-            </summary>
-            <param name="tbArray"></param>
-            <param name="path"></param>
-        </member>
-        <member name="M:QL.Data.ExcelHelper.DT2Excel(System.Data.DataTable,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="tb"></param>
-            <param name="path"></param>
-        </member>
         <member name="T:QL.Data.QLDBHelper">
             <summary>
             为数据库的操作提供简单操作支持
@@ -888,511 +842,6 @@
         <member name="M:QL.Extension._XmlExtension.SetAttribute(System.Xml.XmlAttributeCollection,System.String,System.String,System.Xml.XmlDocument)">
             <summary>
             设置属性
-            </summary>
-        </member>
-        <member name="T:QL.IO.FileHelper">
-            <summary>
-            系统文件
-            </summary>
-            <summary>
-            系统文件
-            </summary>
-        </member>
-        <member name="M:QL.IO.FileHelper.DeleteFileToRecycle(System.String)">
-            <summary>
-            将文件删除进回收站而不直接删除
-            </summary>
-            <param name="fullName"></param>
-        </member>
-        <member name="P:QL.IO.FileHelper.ProcessBaseDir">
-            <summary>
-            进程基础文件夹路径
-            </summary>
-        </member>
-        <member name="P:QL.IO.FileHelper.ProcessName">
-            <summary>
-            当前程序的进程名称
-            </summary>
-        </member>
-        <member name="M:QL.IO.FileHelper.GetDirectories(System.String,System.String,System.IO.SearchOption)">
-            <summary>
-            获取当前目录中与指定搜索模式匹配并使用某个值确定是否在子目录中搜索的目录的数组。
-            </summary> 
-        </member>
-        <member name="M:QL.IO.FileHelper.GetFiles(System.String,System.String,System.IO.SearchOption)">
-            <summary>
-             返回指定目录中文件的名称，该目录与指定搜索模式匹配并使用某个值确定是否在子目录中搜索。
-            </summary> 
-        </member>
-        <member name="M:QL.IO.FileHelper.Copy(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <param name="target"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.WriteAllText(System.String,System.String,System.Text.Encoding)">
-            <summary>
-            创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。
-            </summary>
-            <param name="path">写入文件的文件路径</param>
-            <param name="context">写入的文件内容</param>
-            <param name="encoding"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.WriteAllText(System.String,System.String)">
-            <summary>
-            创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。
-            </summary>
-            <param name="path">写入文件的文件路径</param>
-            <param name="context">写入的文件内容</param>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadAllText(System.String)">
-            <summary>
-            打开一个文本文件，读取文件的所有行，然后关闭该文件。
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadAllText(System.String,System.Text.Encoding)">
-            <summary>
-             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
-            </summary>
-            <param name="path"></param>
-            <param name="encoding"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadAllLines(System.String)">
-            <summary>
-             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.AppendAllText(System.String,System.String)">
-            <summary>
-            将指定的字符串追加到文件中，如果文件还不存在则创建该文件。
-            </summary>
-            <param name="path"></param>
-            <param name="contents"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.AppendAllText(System.String,System.String,System.Text.Encoding)">
-            <summary>
-            将指定的字符串追加到文件中，如果文件还不存在则创建该文件。
-            </summary>
-            <param name="path"></param>
-            <param name="contents"></param>
-            <param name="encoding"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadAllBytes(System.String)">
-            <summary>
-            打开一个文件，将文件的内容读入一个字节数组，然后关闭该文件。
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.WriteAllBytes(System.String,System.Byte[])">
-            <summary>
-            创建一个新文件，在其中写入指定的字节数组，然后关闭该文件。如果目标文件已存在，则覆盖该文件。
-            </summary>
-            <param name="path"></param>
-            <param name="data"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.AppendAllBytes(System.String,System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="path"></param>
-            <param name="data"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadAllLines(System.String,System.Text.Encoding)">
-            <summary>
-             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
-            </summary>
-            <param name="path"></param>
-            <param name="encoding"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.OpenWriterOrCreate(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="file"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.AppendOrCreate(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="file"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.Open(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="file"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.Create(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="file"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.GetRelativePath(System.String,System.String)">
-            <summary>
-            获取指定文件相对于基础路径的相对路径
-            </summary>
-            <param name="basedir">需要计算的基础路径</param>
-            <param name="filePath">需要计算的文件路径</param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.WriteAllBytesAsync(System.String,System.Byte[],QL.QLAction{System.Exception})">
-            <summary>
-            
-            </summary>
-            <param name="path"></param>
-            <param name="data"></param>
-            <param name="call"></param>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadFileToMemoryStream(System.String)">
-            <summary>
-            读取一个文件并将其缓存到内存流中
-            </summary>
-            <param name="path">需要读取的文件路径</param>
-            <returns>返回读取到的文件流，如果读取失败则返回 null 值</returns>
-        </member>
-        <member name="M:QL.IO.FileHelper.ReadFileToMemoryStreamAsync(System.String,QL.QLAction{System.IO.MemoryStream})">
-            <summary>
-            开启一个异步操作来读取一个文件到内存流中
-            </summary>
-            <param name="path">需要读取的文件</param>
-            <param name="call">读取失败的回调方法</param>
-        </member>
-        <member name="M:QL.IO.FileHelper.CheckFileIsOpen(System.String)">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QL.IO.ISerializer">
-            <summary>
-            实现自定义的序列化操作
-            </summary>
-        </member>
-        <member name="M:QL.IO.ISerializer.Serializer(QL.IO.IQLBinnaryOperation)">
-            <summary>
-            将对象进行序列化
-            </summary>
-            <param name="operation"></param>
-        </member>
-        <member name="M:QL.IO.ISerializer.Deserializer(QL.IO.IQLBinnaryOperation)">
-            <summary>
-            将对象进行反序列化
-            </summary>
-            <param name="operation"></param>
-        </member>
-        <member name="T:QL.IO.NetworkStream">
-            <summary>
-            提供一个只进的读写流。该类是线程安全的
-            </summary>
-        </member>
-        <member name="M:QL.IO.NetworkStream.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:QL.IO.NetworkStream.#ctor(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="data"></param>
-        </member>
-        <member name="M:QL.IO.NetworkStream.CopyTo(System.IO.Stream)">
-            <summary>
-            
-            </summary>
-            <param name="stream"></param>
-        </member>
-        <member name="M:QL.IO.NetworkStream.ReadByte">
-            <summary>
-            读取一个字节数据
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:QL.IO.NetworkStream.CanRead">
-            <summary>
-            只是该流是否支持读取
-            </summary>
-        </member>
-        <member name="P:QL.IO.NetworkStream.CanSeek">
-            <summary>
-            指示该流是否支持查找
-            </summary>
-        </member>
-        <member name="P:QL.IO.NetworkStream.CanWrite">
-            <summary>
-            指示该流是否支持写入
-            </summary>
-        </member>
-        <member name="P:QL.IO.NetworkStream.Length">
-            <summary>
-            获取该流的数据长度
-            </summary>
-        </member>
-        <member name="P:QL.IO.NetworkStream.Position">
-            <summary>
-            获取或者设置该流的游标位置
-            </summary>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Flush">
-            <summary>
-            将数据写入基础支持流并清空缓冲区
-            </summary>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            读取并删除读取的数据
-            </summary> 
-        </member>
-        <member name="M:QL.IO.NetworkStream.Seek(System.Int64,System.IO.SeekOrigin)">
-            <summary>
-            设置当前流的游标位置
-            </summary>
-            <param name="offset">偏移量</param>
-            <param name="origin"></param>
-            <returns>该流不支持该方法，调用该方法永远引发 <see cref="T:System.NotSupportedException"/> 异常</returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.SetLength(System.Int64)">
-            <summary>
-            设置数据流的长度，执行该操作一般会导致截断数据
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Write(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            向流的末尾处追加数据
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="count"></param>
-        </member>
-        <member name="P:QL.IO.NetworkStream.Count">
-            <summary>
-            长度
-            </summary>
-        </member>
-        <member name="P:QL.IO.NetworkStream.Item(System.Int32)">
-            <summary>
-            获取指定索引处的字节数据
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.ReadArray(System.Int32,System.Int32)">
-            <summary>
-            读取但不删除数据
-            </summary>
-            <param name="startIndex"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.ReadAndRemoveBytes(System.Int32)">
-            <summary>
-            读取并删除读取的数据
-            </summary>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Remove(System.Int32)">
-            <summary>
-            删除数据
-            </summary>
-            <param name="count"></param>
-        </member>
-        <member name="M:QL.IO.NetworkStream.ToByteArray">
-            <summary>
-            返回缓冲区内所有数据的一个数组
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.ToArray">
-            <summary>
-            返回缓冲区内所有数据的一个数组，并清空缓存区
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Write(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="data"></param>
-        </member>
-        <member name="M:QL.IO.NetworkStream.Dispose(System.Boolean)">
-            <summary>
-            
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="T:QL.IO.QLBinnaryOperation">
-            <summary>
-            读写字节数据的缓冲区数组
-            </summary>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.SByte)">
-            <summary>
-            写入一个有符号的字节
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Byte)">
-            <summary>
-            写入一个无符号的字节
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt16)">
-            <summary>
-            写入一个无符号的 16 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int16)">
-            <summary>
-            写入一个有符号的 16 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt32)">
-            <summary>
-            写入一个无符号的 32 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int32)">
-            <summary>
-            写入一个有符号的 32 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt64)">
-            <summary>
-            写入一个无符号的 64 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int64)">
-            <summary>
-            写入一个有符号的 64 位整数值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Single)">
-            <summary>
-            写入表示一个单精度浮点数字
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Double)">
-            <summary>
-            写入表示一个双精度浮点数字
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Decimal)">
-            <summary>
-            写入表示一个单精度浮点数字
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Guid)">
-            <summary>
-            写入表示一个双精度浮点数字
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.String)">
-            <summary>
-            写入一个字符串
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Byte[])">
-            <summary>
-            写入一个字节数组
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.DateTime)">
-            <summary>
-            写入表示时间的刻度值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.TimeSpan)">
-            <summary>
-            写入一个时间间隔表示的时间值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.ReadLength">
-            <summary>
-            读取一个表示数组长度的值
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QL.IO.QLBinnaryOperation.WriteLength(System.Int32)">
-            <summary>
-            写入一个表示数组长度的值
-            </summary>
-            <param name="value">需要写入的值</param>
-        </member>
-        <member name="T:QL.IO.QLStreamWriter">
-            <summary>
-            类QLStreamWriter的注释信息
-            </summary>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.#ctor(System.IO.Stream,System.Text.Encoding)">
-            <summary>
-            用指定的编码及默认缓冲区大小，为指定的流初始化 <see cref="T:QL.IO.QLStreamWriter"/> 类的新实例。
-            不会再流的开头添加编码信息
-            </summary>
-            <param name="stream">要写入的流</param>
-            <param name="encoding">要使用的字符编码</param>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.#ctor(System.IO.Stream)">
-            <summary>
-            用默认的UTF-8编码及默认缓冲区大小，为指定的流初始化 <see cref="T:QL.IO.QLStreamWriter"/> 类的新实例。
-            不会再流的开头添加编码信息
-            </summary>
-            <param name="stream"></param>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.Close">
-            <summary>
-            关闭操作对象
-            </summary>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.Flush">
-            <summary>
-            清空缓冲区，并将缓冲区的对象写到基础对象中
-            </summary>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.Write(System.String)">
-            <summary>
-            将指定的字符串内容写入到响应流中
-            </summary>
-            <param name="value">需要写入的字符串内容</param>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.WriteLine(System.String)">
-            <summary>
-            将指定的字符串内容写入到响应流中，并在其字符串尾部追加换行符
-            </summary>
-            <param name="value">需要写入的字符串内容</param>
-        </member>
-        <member name="M:QL.IO.QLStreamWriter.Dispose">
-            <summary>
-            释放其对象
             </summary>
         </member>
         <member name="T:QL.Net.IWebServerListen">
@@ -5317,26 +4766,6 @@
             
             </summary>
         </member>
-        <member name="T:QL.Web.RestfulApi.AlipayWebParamData">
-            <summary>
-            类AlipayWebParamData的注释信息
-            </summary>
-        </member>
-        <member name="M:QL.Web.RestfulApi.AlipayWebParamData.MarkSign(System.Boolean,System.String[])">
-            <summary>
-            
-            </summary>
-            <param name="addsign"></param>
-            <param name="secrets"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Web.RestfulApi.AlipayWebParamData.VerifySign(System.String[])">
-            <summary>
-            
-            </summary>
-            <param name="secrets"></param>
-            <returns></returns>
-        </member>
         <member name="T:QL.Web.RestfulApi.QCloudWebParamData">
             <summary>
             腾讯云接口签名支持类
@@ -5463,18 +4892,6 @@
             <summary>
             为电玩城的参数提供签名和验签实现
             </summary>
-        </member>
-        <member name="T:QL.Web.RestfulApi.QLRsaAuthorizeParam">
-            <summary>
-            提供非对称验证加密支持
-            </summary>
-        </member>
-        <member name="M:QL.Web.RestfulApi.QLRsaAuthorizeParam.VerifySign(System.String[])">
-            <summary>
-            
-            </summary>
-            <param name="secrets"></param>
-            <returns></returns>
         </member>
         <member name="T:QL.Web.RestfulApi.QLWebParamDataV2">
             <summary>
@@ -7027,6 +6444,502 @@
             获取新行的标记符号
             </summary>
         </member>
+        <member name="T:QL.IO.FileHelper">
+            <summary>
+            系统文件
+            </summary>
+        </member>
+        <member name="P:QL.IO.FileHelper.ProcessBaseDir">
+            <summary>
+            进程基础文件夹路径
+            </summary>
+        </member>
+        <member name="P:QL.IO.FileHelper.ProcessName">
+            <summary>
+            当前程序的进程名称
+            </summary>
+        </member>
+        <member name="M:QL.IO.FileHelper.GetDirectories(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            获取当前目录中与指定搜索模式匹配并使用某个值确定是否在子目录中搜索的目录的数组。
+            </summary> 
+        </member>
+        <member name="M:QL.IO.FileHelper.GetFiles(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+             返回指定目录中文件的名称，该目录与指定搜索模式匹配并使用某个值确定是否在子目录中搜索。
+            </summary> 
+        </member>
+        <member name="M:QL.IO.FileHelper.Copy(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+            <param name="target"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.WriteAllText(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。
+            </summary>
+            <param name="path">写入文件的文件路径</param>
+            <param name="context">写入的文件内容</param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.WriteAllText(System.String,System.String)">
+            <summary>
+            创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。
+            </summary>
+            <param name="path">写入文件的文件路径</param>
+            <param name="context">写入的文件内容</param>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadAllText(System.String)">
+            <summary>
+            打开一个文本文件，读取文件的所有行，然后关闭该文件。
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadAllText(System.String,System.Text.Encoding)">
+            <summary>
+             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
+            </summary>
+            <param name="path"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadAllLines(System.String)">
+            <summary>
+             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.AppendAllText(System.String,System.String)">
+            <summary>
+            将指定的字符串追加到文件中，如果文件还不存在则创建该文件。
+            </summary>
+            <param name="path"></param>
+            <param name="contents"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.AppendAllText(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            将指定的字符串追加到文件中，如果文件还不存在则创建该文件。
+            </summary>
+            <param name="path"></param>
+            <param name="contents"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadAllBytes(System.String)">
+            <summary>
+            打开一个文件，将文件的内容读入一个字节数组，然后关闭该文件。
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.WriteAllBytes(System.String,System.Byte[])">
+            <summary>
+            创建一个新文件，在其中写入指定的字节数组，然后关闭该文件。如果目标文件已存在，则覆盖该文件。
+            </summary>
+            <param name="path"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.AppendAllBytes(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadAllLines(System.String,System.Text.Encoding)">
+            <summary>
+             打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。
+            </summary>
+            <param name="path"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.OpenWriterOrCreate(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.AppendOrCreate(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.Open(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.Create(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.GetRelativePath(System.String,System.String)">
+            <summary>
+            获取指定文件相对于基础路径的相对路径
+            </summary>
+            <param name="basedir">需要计算的基础路径</param>
+            <param name="filePath">需要计算的文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.WriteAllBytesAsync(System.String,System.Byte[],QL.QLAction{System.Exception})">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="data"></param>
+            <param name="call"></param>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadFileToMemoryStream(System.String)">
+            <summary>
+            读取一个文件并将其缓存到内存流中
+            </summary>
+            <param name="path">需要读取的文件路径</param>
+            <returns>返回读取到的文件流，如果读取失败则返回 null 值</returns>
+        </member>
+        <member name="M:QL.IO.FileHelper.ReadFileToMemoryStreamAsync(System.String,QL.QLAction{System.IO.MemoryStream})">
+            <summary>
+            开启一个异步操作来读取一个文件到内存流中
+            </summary>
+            <param name="path">需要读取的文件</param>
+            <param name="call">读取失败的回调方法</param>
+        </member>
+        <member name="M:QL.IO.FileHelper.CheckFileIsOpen(System.String)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:QL.IO.ISerializer">
+            <summary>
+            实现自定义的序列化操作
+            </summary>
+        </member>
+        <member name="M:QL.IO.ISerializer.Serializer(QL.IO.IQLBinnaryOperation)">
+            <summary>
+            将对象进行序列化
+            </summary>
+            <param name="operation"></param>
+        </member>
+        <member name="M:QL.IO.ISerializer.Deserializer(QL.IO.IQLBinnaryOperation)">
+            <summary>
+            将对象进行反序列化
+            </summary>
+            <param name="operation"></param>
+        </member>
+        <member name="T:QL.IO.NetworkStream">
+            <summary>
+            提供一个只进的读写流。该类是线程安全的
+            </summary>
+        </member>
+        <member name="M:QL.IO.NetworkStream.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.IO.NetworkStream.#ctor(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:QL.IO.NetworkStream.CopyTo(System.IO.Stream)">
+            <summary>
+            
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:QL.IO.NetworkStream.ReadByte">
+            <summary>
+            读取一个字节数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:QL.IO.NetworkStream.CanRead">
+            <summary>
+            只是该流是否支持读取
+            </summary>
+        </member>
+        <member name="P:QL.IO.NetworkStream.CanSeek">
+            <summary>
+            指示该流是否支持查找
+            </summary>
+        </member>
+        <member name="P:QL.IO.NetworkStream.CanWrite">
+            <summary>
+            指示该流是否支持写入
+            </summary>
+        </member>
+        <member name="P:QL.IO.NetworkStream.Length">
+            <summary>
+            获取该流的数据长度
+            </summary>
+        </member>
+        <member name="P:QL.IO.NetworkStream.Position">
+            <summary>
+            获取或者设置该流的游标位置
+            </summary>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Flush">
+            <summary>
+            将数据写入基础支持流并清空缓冲区
+            </summary>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            读取并删除读取的数据
+            </summary> 
+        </member>
+        <member name="M:QL.IO.NetworkStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            设置当前流的游标位置
+            </summary>
+            <param name="offset">偏移量</param>
+            <param name="origin"></param>
+            <returns>该流不支持该方法，调用该方法永远引发 <see cref="T:System.NotSupportedException"/> 异常</returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.SetLength(System.Int64)">
+            <summary>
+            设置数据流的长度，执行该操作一般会导致截断数据
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            向流的末尾处追加数据
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="P:QL.IO.NetworkStream.Count">
+            <summary>
+            长度
+            </summary>
+        </member>
+        <member name="P:QL.IO.NetworkStream.Item(System.Int32)">
+            <summary>
+            获取指定索引处的字节数据
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.ReadArray(System.Int32,System.Int32)">
+            <summary>
+            读取但不删除数据
+            </summary>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.ReadAndRemoveBytes(System.Int32)">
+            <summary>
+            读取并删除读取的数据
+            </summary>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Remove(System.Int32)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:QL.IO.NetworkStream.ToByteArray">
+            <summary>
+            返回缓冲区内所有数据的一个数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.ToArray">
+            <summary>
+            返回缓冲区内所有数据的一个数组，并清空缓存区
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Write(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:QL.IO.NetworkStream.Dispose(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="T:QL.IO.QLBinnaryOperation">
+            <summary>
+            读写字节数据的缓冲区数组
+            </summary>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.SByte)">
+            <summary>
+            写入一个有符号的字节
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Byte)">
+            <summary>
+            写入一个无符号的字节
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt16)">
+            <summary>
+            写入一个无符号的 16 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int16)">
+            <summary>
+            写入一个有符号的 16 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt32)">
+            <summary>
+            写入一个无符号的 32 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int32)">
+            <summary>
+            写入一个有符号的 32 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.UInt64)">
+            <summary>
+            写入一个无符号的 64 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Int64)">
+            <summary>
+            写入一个有符号的 64 位整数值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Single)">
+            <summary>
+            写入表示一个单精度浮点数字
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Double)">
+            <summary>
+            写入表示一个双精度浮点数字
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Decimal)">
+            <summary>
+            写入表示一个单精度浮点数字
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Guid)">
+            <summary>
+            写入表示一个双精度浮点数字
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.String)">
+            <summary>
+            写入一个字符串
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.Byte[])">
+            <summary>
+            写入一个字节数组
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.DateTime)">
+            <summary>
+            写入表示时间的刻度值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteValue(System.TimeSpan)">
+            <summary>
+            写入一个时间间隔表示的时间值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.ReadLength">
+            <summary>
+            读取一个表示数组长度的值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.IO.QLBinnaryOperation.WriteLength(System.Int32)">
+            <summary>
+            写入一个表示数组长度的值
+            </summary>
+            <param name="value">需要写入的值</param>
+        </member>
+        <member name="T:QL.IO.QLStreamWriter">
+            <summary>
+            类QLStreamWriter的注释信息
+            </summary>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.#ctor(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            用指定的编码及默认缓冲区大小，为指定的流初始化 <see cref="T:QL.IO.QLStreamWriter"/> 类的新实例。
+            不会再流的开头添加编码信息
+            </summary>
+            <param name="stream">要写入的流</param>
+            <param name="encoding">要使用的字符编码</param>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.#ctor(System.IO.Stream)">
+            <summary>
+            用默认的UTF-8编码及默认缓冲区大小，为指定的流初始化 <see cref="T:QL.IO.QLStreamWriter"/> 类的新实例。
+            不会再流的开头添加编码信息
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.Close">
+            <summary>
+            关闭操作对象
+            </summary>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.Flush">
+            <summary>
+            清空缓冲区，并将缓冲区的对象写到基础对象中
+            </summary>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.Write(System.String)">
+            <summary>
+            将指定的字符串内容写入到响应流中
+            </summary>
+            <param name="value">需要写入的字符串内容</param>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.WriteLine(System.String)">
+            <summary>
+            将指定的字符串内容写入到响应流中，并在其字符串尾部追加换行符
+            </summary>
+            <param name="value">需要写入的字符串内容</param>
+        </member>
+        <member name="M:QL.IO.QLStreamWriter.Dispose">
+            <summary>
+            释放其对象
+            </summary>
+        </member>
         <member name="T:QL.MachineInfo">
             <summary>
             
@@ -7361,117 +7274,6 @@
             
             </summary>
             <param name="secretKey">加密字符串长度固定为24个字符</param>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoService">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.#ctor(System.String,System.String,System.Int32)">
-            <summary>
-            初始化RSA加密对象
-            </summary>
-            <param name="privateKey">密钥对的私钥</param>
-            <param name="publicKey">密钥对的公钥</param>
-            <param name="certBits">密钥长度目前可选 1024，2048</param>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.Decrypt(System.String)">
-            <summary>
-            使用当前的RSA对象进行解密数据
-            </summary>
-            <param name="cipherText">待解密的加密数据</param>
-            <returns>返回解密的数据</returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.Encrypt(System.String)">
-            <summary>
-            对数据进行加密处理
-            </summary>
-            <param name="text">需要加密的文本数据</param>
-            <returns>返回加密后的base64字符串数据</returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.Encrypt(System.Byte[])">
-            <summary>
-            对数据进行加密处理
-            </summary>
-            <param name="encryptBytes">需要加密的字节数据</param>
-            <returns>返回加密后的base64字符串数据</returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.Decrypt(System.Byte[])">
-            <summary>
-            使用当前的RSA对象进行解密数据
-            </summary>
-            <param name="decryptBytes">待解密的加密数据</param>
-            <returns>返回解密的数据</returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.SignDataSHA1(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="bytes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.VerifyDataSHA1(System.Byte[],System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="bytes"></param>
-            <param name="signature"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.SignDataSHA256(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="bytes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoService.VerifyDataSHA256(System.Byte[],System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="bytes"></param>
-            <param name="signature"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_DECODE_FLAGS">
-            <summary>Enumeration derived from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_ENCODING_FLAGS">
-            <summary>Enumeration derived from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_OUTPUT_TYPES">
-            <summary>Enumeration derived from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_OBJID_BLOB">
-            <summary>Structure from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_ALGORITHM_IDENTIFIER">
-            <summary>Structure from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_BIT_BLOB">
-            <summary>Structure from Crypto API.</summary>
-        </member>
-        <member name="T:QL.Security.RSA.RSACryptoServiceProviderExtension.CERT_PUBLIC_KEY_INFO">
-            <summary>Structure from Crypto API.</summary>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoServiceProviderExtension.CryptDecodeObject(QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_ENCODING_FLAGS,System.IntPtr,System.Byte[],System.UInt32,QL.Security.RSA.RSACryptoServiceProviderExtension.CRYPT_DECODE_FLAGS,System.Byte[],System.UInt32@)">
-            <summary>Function from Crypto API.</summary>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoServiceProviderExtension.LoadRSAPrivateKeyPkcs1(System.Byte[],System.Int32)">
-            <summary>
-            加载私钥处理对象
-            </summary>
-            <param name="privkey">提交私钥内容</param>
-            <param name="certBits">密钥位数</param>
-            <returns></returns>
-        </member>
-        <member name="M:QL.Security.RSA.RSACryptoServiceProviderExtension.LoadPublicKeyDER(System.Security.Cryptography.RSACryptoServiceProvider,System.Byte[])">
-            <summary>Extension method which initializes an RSACryptoServiceProvider from a DER public key blob.</summary>
         </member>
         <member name="T:QL.Security.Encryption">
             <summary>

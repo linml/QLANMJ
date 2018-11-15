@@ -12,12 +12,12 @@ export default class M_LHZMJVoice{
     public static PlayChatVoice(value: number, gender: number,Type:VoiceType) {
         //如果是普通话
         if(Type==VoiceType.Mandarin){
-        var path = "resources/gameres/gameCommonRes/Voice/";
+        var path = "resources/gameres/Voice/";
         if (gender == 1) {
-            path += "ChatVoice/Boy/ChatVoiceB_" + value + ".mp3";
+            path += "MJ_Voice/sound/chatVoice/1/pt/fix_msg_" + value + ".mp3";
         }
         else {
-            path += "ChatVoice/Girl/ChatVoiceG_" + value + ".mp3";
+            path += "MJ_Voice/sound/chatVoice/2/pt/fix_msg_" + value + ".mp3";
         }
         //path = cc.url.raw(path);
         LHZMJ.ins.iclass.playMJSound(path, AudioType.Effect, false);

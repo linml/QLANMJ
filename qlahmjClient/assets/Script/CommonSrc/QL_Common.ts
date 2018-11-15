@@ -2,12 +2,13 @@
 import { SerializerCreator } from "../Serializer/SerializerCreator";
 import { TSRH } from "../Serializer/TypeSerializerRegisterHandle";
 import {GameIF_Common} from "./GameIF_Common";
+import {DateTime} from "../Serializer/DateTime";
 import {GameIF} from "./GameIF";
 export module QL_Common {
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：消息主码编号，定义各个服务器传递数据所需要的消息主码,包含方向性定义
      *
      */
@@ -58,8 +59,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
      *
      */
@@ -90,8 +91,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
      *
      */
@@ -118,8 +119,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：服务器内部通讯处理的消息,礼游平台基础通讯消息体定义
      *
      */
@@ -142,8 +143,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：无效值定义
      *
      */
@@ -178,8 +179,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：常量值定义
      *
      */
@@ -214,8 +215,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家数据(超简版)
      *
      */
@@ -245,8 +246,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家数据
      *
      */
@@ -276,8 +277,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家客户端版本，带金币钻石
      *
      */
@@ -306,8 +307,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -353,8 +354,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家客户端版本，带金币钻石
      *
      */
@@ -408,8 +409,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -427,8 +428,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：游戏场地状态
             0，初始，尚未编辑 （保存）
             1，编辑，尚未审核 （提交）
@@ -479,8 +480,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：场地信息的最终基类，包含一个场地ID
      *
      */
@@ -502,8 +503,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：桌子信息
      *
      */
@@ -533,8 +534,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：桌子上的玩家信息
      *
      */
@@ -608,8 +609,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：指定当前登录的用户信息
      *
      */
@@ -631,8 +632,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：游戏状态
             0:正常
             1:显示但不准进入
@@ -657,8 +658,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：货币种类
      *
      */
@@ -692,8 +693,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：场地类型
      *
      */
@@ -727,8 +728,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：房费的付费方式
      *
      */
@@ -754,8 +755,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：游戏类型
      *
      */
@@ -781,8 +782,55 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
+     * 备注：游戏标签类型
+     *
+     */
+    export enum GameLabelType{
+        /**
+        * 无
+        */
+        None = 0,
+        /**
+        * 火爆
+        */
+        Fire = 1,
+        /**
+        * 免费
+        */
+        Free = 2,
+        /**
+        * 内测
+        */
+        InTest = 3,
+        /**
+        * 维护中
+        */
+        Maintain = 4,
+        /**
+        * 限免
+        */
+        LimitFree = 5,
+        /**
+        * 热门
+        */
+        Hot = 6,
+        /**
+        * 新
+        */
+        New = 7,
+        /**
+        * 公测
+        */
+        PubTest = 8,    
+    }
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：场地信息，包含场地的状态信息
      *
      */
@@ -805,8 +853,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：桌子状态
      *
      */
@@ -824,8 +872,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：玩家在游戏服务器GS上的状态
      *
      */
@@ -867,8 +915,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：错误码定义
      *
      */
@@ -910,8 +958,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：用户登录方式
      *
      */
@@ -937,8 +985,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：系统配置数据实体
      *
      */
@@ -964,8 +1012,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：场地：客户端简版
      *
      */
@@ -1036,8 +1084,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏信息的基类，只有一个游戏ID信息
      *
      */
@@ -1059,8 +1107,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏基本信息
      *
      */
@@ -1106,16 +1154,20 @@ export module QL_Common {
         *游戏描述
         */
        public GameDesc: string = "";
+       /**
+        *游戏标签类型
+        */
+       public GameLabel: GameLabelType = 0;
    
     }
     SerializerCreator.Register("QL.Common.GameInfo", function () {return new GameInfo()})
-    TSRH.RSerializer("QL.Common.GameInfo", "12|GameName&1|GameType&1|GameStatus&3|SupportPlatform&3|SortID&3|GameID&12|GameCity&12|GameDesc&12|LatestVersion&12|ModuleName", "QL.Common.GameInfo");
+    TSRH.RSerializer("QL.Common.GameInfo", "12|GameName&1|GameType&1|GameStatus&3|SupportPlatform&3|SortID&3|GameID&12|GameCity&12|GameDesc&1|GameLabel&12|LatestVersion&12|ModuleName", "QL.Common.GameInfo");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：道具实体
      *
      */
@@ -1145,8 +1197,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：表示请求的桌子类型
      *
      */
@@ -1164,8 +1216,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：指示进入场地的方式
      *
      */
@@ -1187,8 +1239,8 @@ export module QL_Common {
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：游戏服务端发送跑马灯公告
      *
      */
@@ -1222,8 +1274,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：系统跑马灯消息实体
      *
      */
@@ -1253,16 +1305,20 @@ export module QL_Common {
         *循环间隔（单位秒）
         */
        public LoopInterval: number = 0;
+       /**
+        *
+        */
+       public Priority: number = 0;
    
     }
     SerializerCreator.Register("QL.Common.SystemHornEntity", function () {return new SystemHornEntity()})
-    TSRH.RSerializer("QL.Common.SystemHornEntity", "!QL.Common.KeyValueData|AttachData&12|Context&1|HornType&4|LoopCount&4|LoopInterval", "QL.Common.SystemHornEntity");
+    TSRH.RSerializer("QL.Common.SystemHornEntity", "!QL.Common.KeyValueData|AttachData&12|Context&1|HornType&4|LoopCount&4|LoopInterval&1|Priority", "QL.Common.SystemHornEntity");
 
 
     /**
      *
-     * 创建时间：2018年10月24日 13:40:54
-     * 创建人员：SHENRUI\admin
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
      * 备注：
      *
      */
@@ -1292,8 +1348,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -1319,8 +1375,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -1342,8 +1398,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -1386,6 +1442,10 @@ export module QL_Common {
         */
        public GroupId: number = 0;
        /**
+        *
+        */
+       public RuleId: number = 0;
+       /**
         *游戏内发送给客户端的附加参数
         */
        public AttachParams: KeyValueData[] = null;
@@ -1408,13 +1468,13 @@ export module QL_Common {
    
     }
     SerializerCreator.Register("QL.Common.UserCreateTableInfo", function () {return new UserCreateTableInfo()})
-    TSRH.RSerializer("QL.Common.UserCreateTableInfo", "!QL.Common.KeyValueData|AttachParams&1|GameId&1|GameNum&5|GroupId&14|IsFreeCreate&14|IsFullUsered&1|PlayerCount&!12|PlayerHeaders&5|RoomId&5|RoomOwner&1|status&5|TableId", "QL.Common.UserCreateTableInfo");
+    TSRH.RSerializer("QL.Common.UserCreateTableInfo", "!QL.Common.KeyValueData|AttachParams&1|GameId&1|GameNum&5|GroupId&14|IsFreeCreate&14|IsFullUsered&1|PlayerCount&!12|PlayerHeaders&5|RoomId&5|RoomOwner&5|RuleId&1|status&5|TableId", "QL.Common.UserCreateTableInfo");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：服务器信息
      *
      */
@@ -1444,8 +1504,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家在登录服务器上的位置信息
      *
      */
@@ -1475,8 +1535,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -1502,8 +1562,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家将创建的房间信息
      *
      */
@@ -1517,16 +1577,20 @@ export module QL_Common {
         *
         */
        public MaxUserCount: number = 0;
+       /**
+        *当前房间的服务器信息
+        */
+       public ServerInfo: ServerInfo = null;
    
     }
     SerializerCreator.Register("QL.Common.UserCRoomInfo", function () {return new UserCRoomInfo()})
-    TSRH.RSerializer("QL.Common.UserCRoomInfo", "!QL.Common.KeyValueData|AttachParams&1|GameId&1|GameNum&5|GroupId&14|IsFreeCreate&14|IsFullUsered&1|PlayerCount&!12|PlayerHeaders&5|RoomId&5|RoomOwner&1|status&5|TableId&1|MaxUserCount", "QL.Common.UserCRoomInfo");
+    TSRH.RSerializer("QL.Common.UserCRoomInfo", "!QL.Common.KeyValueData|AttachParams&1|GameId&1|GameNum&5|GroupId&14|IsFreeCreate&14|IsFullUsered&1|PlayerCount&!12|PlayerHeaders&5|RoomId&5|RoomOwner&5|RuleId&1|status&5|TableId&1|MaxUserCount&QL.Common.ServerInfo|ServerInfo", "QL.Common.UserCRoomInfo");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家在登录服务器上的位置信息
      *
      */
@@ -1552,8 +1616,47 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：手机验证码相关信息
+     *
+     */
+    export class PhoneSmsCode extends UyiObject {
+        public constructor()
+        {
+            super();
+            this.$T="QL.Common.PhoneSmsCode"; 
+        }
+       /**
+        *发送短信的手机号码
+        */
+       public Phone: string = "";
+       /**
+        *手机验证码
+        */
+       public SmsCode: string = "";
+       /**
+        *验证码的使用场景
+        */
+       public Scene: string = "";
+       /**
+        *验证码验证次数
+        */
+       public TryCount: number = 0;
+       /**
+        *验证码的发送时间
+        */
+       public SendTime: DateTime = DateTime.Now;
+   
+    }
+    SerializerCreator.Register("QL.Common.PhoneSmsCode", function () {return new PhoneSmsCode()})
+    TSRH.RSerializer("QL.Common.PhoneSmsCode", "12|Phone&12|Scene&11|SendTime&12|SmsCode&4|TryCount", "QL.Common.PhoneSmsCode");
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：提供序列化测试类
      *
      */
@@ -1638,8 +1741,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：客户端登录平台游戏服务器统一请求消息
      *
      */
@@ -1676,8 +1779,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：进入游戏场地
      *
      */
@@ -1698,6 +1801,10 @@ export module QL_Common {
         *指定玩家进入场地的进入方式
         */
        public Method: EnterRoomMethod = 0;
+       /**
+        *
+        */
+       public GsServerInfo: ServerInfo = null;
    
     }
     SerializerCreator.Register("QL.Common.MSG_C_EnterGameRoom", function () {return new MSG_C_EnterGameRoom()})
@@ -1706,8 +1813,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：查询某个游戏下的所有场地
      *
      */
@@ -1732,8 +1839,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：查询游戏
      *
      */
@@ -1758,8 +1865,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：查询游戏
      *
      */
@@ -1784,8 +1891,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：查询玩家道具余额，提供给玩家的余额更新通知
      *
      */
@@ -1810,8 +1917,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：查询断线场地
      *
      */
@@ -1832,8 +1939,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：心跳包消息
      *
      */
@@ -1854,8 +1961,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：获取群内创建房间列表
      *
      */
@@ -1877,6 +1984,10 @@ export module QL_Common {
         */
        public GroupId: number = 0;
        /**
+        *
+        */
+       public RuleId: number = 0;
+       /**
         *起始Id
         */
        public startId: number = 0;
@@ -1887,13 +1998,13 @@ export module QL_Common {
    
     }
     SerializerCreator.Register("QL.Common.MSG_C_QueryGroupTableList", function () {return new MSG_C_QueryGroupTableList()})
-    TSRH.RSerializer("7946", "4|count&5|GroupId&5|startId&5|UserId", "QL.Common.MSG_C_QueryGroupTableList");
+    TSRH.RSerializer("7946", "4|count&5|GroupId&5|RuleId&5|startId&5|UserId", "QL.Common.MSG_C_QueryGroupTableList");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：请求配桌
      *
      */
@@ -1919,6 +2030,10 @@ export module QL_Common {
         */
        public IsFreeCreate: boolean = false;
        /**
+        *创建房间使用的玩法编号，没有可以传零
+        */
+       public RuleId: number = 0;
+       /**
         *
         */
        public Empty: MSG_C_OfferPairTable = null;
@@ -1929,13 +2044,13 @@ export module QL_Common {
    
     }
     SerializerCreator.Register("QL.Common.MSG_C_OfferPairTable", function () {return new MSG_C_OfferPairTable()})
-    TSRH.RSerializer("10497", "1|ChairID&5|GroupId&14|IsFreeCreate&5|TableID", "QL.Common.MSG_C_OfferPairTable");
+    TSRH.RSerializer("10497", "1|ChairID&5|GroupId&14|IsFreeCreate&5|RuleId&5|TableID", "QL.Common.MSG_C_OfferPairTable");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：退出场地
      *
      */
@@ -1960,8 +2075,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家坐下
      *
      */
@@ -1982,8 +2097,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家准备
      *
      */
@@ -2004,8 +2119,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家起立
      *
      */
@@ -2026,8 +2141,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：同桌聊天
      *
      */
@@ -2056,8 +2171,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：断线重连进来
      *
      */
@@ -2078,8 +2193,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家执行踢人处理逻辑，必须在游戏的桌子中且游戏没有开始
      *
      */
@@ -2105,8 +2220,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家发起求助请求，服务服务器在接收到该消息后会将该消息转发给指定玩家，客户端也需要处理该消息
      *
      */
@@ -2132,8 +2247,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家最新余额
      *
      */
@@ -2158,8 +2273,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：登录成功
      *
      */
@@ -2184,8 +2299,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：通知客户端刷新的玩家 SessionKey
      *
      */
@@ -2210,8 +2325,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家创建桌的推送消息（实时推送）
      *
      */
@@ -2244,8 +2359,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：推送消息（实时推送）
      *
      */
@@ -2278,8 +2393,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：场地列表
      *
      */
@@ -2304,8 +2419,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏列表
      *
      */
@@ -2330,8 +2445,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：系统配置表
      *
      */
@@ -2356,8 +2471,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家道具列表
      *
      */
@@ -2382,8 +2497,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：断线场地
      *
      */
@@ -2408,8 +2523,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：根据桌子Id获取创建的房间信息
      *
      */
@@ -2438,8 +2553,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：获取到的群内玩家创建的房间列表
      *
      */
@@ -2457,6 +2572,10 @@ export module QL_Common {
         */
        public GroupId: number = 0;
        /**
+        *查询的群玩法编号Id
+        */
+       public RuleId: number = 0;
+       /**
         *房间列表
         */
        public Data: UserCreateTableInfo[] = null;
@@ -2471,17 +2590,17 @@ export module QL_Common {
    
     }
     SerializerCreator.Register("QL.Common.MSG_S_GroupTableList", function () {return new MSG_S_GroupTableList()})
-    TSRH.RSerializer("9996", "!QL.Common.UserCreateTableInfo|Data&5|GroupId&5|LastId&4|Total", "QL.Common.MSG_S_GroupTableList");
+    TSRH.RSerializer("9996", "!QL.Common.UserCreateTableInfo|Data&5|GroupId&5|LastId&5|RuleId&4|Total", "QL.Common.MSG_S_GroupTableList");
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：系统跑马灯消息
      *
      */
-    export class MSG_S_SystemHornMsg extends UyiObject {
+    export class MSG_S_SystemHornMsg extends GameIF.CustomMessage {
         public constructor()
         {
             super();
@@ -2502,8 +2621,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：配桌成功
      *
      */
@@ -2539,8 +2658,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家换桌完成，这个消息是推送的随时会出现
      *
      */
@@ -2561,8 +2680,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家坐到桌子上
      *
      */
@@ -2591,8 +2710,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：桌子上的玩家
      *
      */
@@ -2621,8 +2740,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家从椅子上起立
      *
      */
@@ -2647,8 +2766,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家从场地中离开，推送消息，玩家在被系统强制离开场地会发送该消息
      *
      */
@@ -2673,8 +2792,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：桌子上的玩家状态更新
      *
      */
@@ -2703,8 +2822,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：桌子上的聊天消息
      *
      */
@@ -2737,8 +2856,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家进入场地成功
      *
      */
@@ -2759,8 +2878,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家进入场地成功
      *
      */
@@ -2793,8 +2912,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏结束的通知消息
      *
      */
@@ -2815,8 +2934,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏场景状态
      *
      */
@@ -2841,8 +2960,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：游戏开始的通知消息
      *
      */
@@ -2863,8 +2982,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家断线游戏的当前状态
      *
      */
@@ -2905,8 +3024,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家准备倒计时
      *
      */
@@ -2931,8 +3050,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -2957,8 +3076,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：
      *
      */
@@ -2987,8 +3106,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：服务端发送给玩家请求更换座位的请求消息
      *
      */
@@ -3021,8 +3140,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：玩家座位号被更换，如果新座位上有玩家存在直接调换座次，服务端不另行通知
      *
      */
@@ -3051,8 +3170,182 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：开始处理续局功能结果
+     *
+     */
+    export class MSG_S_BeginGameContinue extends GameIF.CustomMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 49;
+            this.wSubCmdID = 26;
+            this.$T="QL.Common.MSG_S_BeginGameContinue"; 
+        }
+       /**
+        *操作剩余时间
+        */
+       public Time: number = 0;
+       /**
+        *玩家的结算分数信息
+        */
+       public GamePlayerScore: PlayerGameScore[] = null;
+   
+    }
+    SerializerCreator.Register("QL.Common.MSG_S_BeginGameContinue", function () {return new MSG_S_BeginGameContinue()})
+    TSRH.RSerializer("12570", "!QL.Common.PlayerGameScore|GamePlayerScore&1|Time", "QL.Common.MSG_S_BeginGameContinue");
+
+
+    /**
+     *
+     * 创建时间：2018年11月09日 17:32:55
+     * 创建人员：DESKTOP-U2RLB94\Cyq
+     * 备注：
+     *
+     */
+    export enum GameContinueStatus{
+        /**
+        * 未知
+        */
+        Unknown = 0,
+        /**
+        * 同意
+        */
+        Agree = 1,
+        /**
+        * 拒绝
+        */
+        Denied = 2,    
+    }
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：服务端发送给玩家请求更换座位的请求消息
+     *
+     */
+    export class MSG_S_PlayerGameContinueStatus extends GameIF.CustomMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 49;
+            this.wSubCmdID = 28;
+            this.$T="QL.Common.MSG_S_PlayerGameContinueStatus"; 
+        }
+       /**
+        *
+        */
+       public PlayerId: number = 0;
+       /**
+        *
+        */
+       public ChairId: number = 0;
+       /**
+        *
+        */
+       public status: GameContinueStatus = 0;
+       /**
+        *
+        */
+       public GameScore: number = 0;
+   
+    }
+    SerializerCreator.Register("QL.Common.MSG_S_PlayerGameContinueStatus", function () {return new MSG_S_PlayerGameContinueStatus()})
+    TSRH.RSerializer("12572", "5|PlayerId&1|status", "QL.Common.MSG_S_PlayerGameContinueStatus");
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：服务端发送给玩家请求更换座位的请求消息
+     *
+     */
+    export class MSG_C_SendGameContinueStatus extends GameIF.CustomMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 41;
+            this.wSubCmdID = 20;
+            this.$T="QL.Common.MSG_C_SendGameContinueStatus"; 
+        }
+       /**
+        *
+        */
+       public status: GameContinueStatus = 0;
+   
+    }
+    SerializerCreator.Register("QL.Common.MSG_C_SendGameContinueStatus", function () {return new MSG_C_SendGameContinueStatus()})
+    TSRH.RSerializer("10516", "1|status", "QL.Common.MSG_C_SendGameContinueStatus");
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：完成续局功能操作
+     *
+     */
+    export class MSG_S_EndGameContinue extends GameIF.CustomMessage {
+        public constructor()
+        {
+            super();
+            
+            this.wMainCmdID = 49;
+            this.wSubCmdID = 27;
+            this.$T="QL.Common.MSG_S_EndGameContinue"; 
+        }
+       /**
+        *续局操作结束，操作结果
+        */
+       public status: GameContinueStatus = 0;
+   
+    }
+    SerializerCreator.Register("QL.Common.MSG_S_EndGameContinue", function () {return new MSG_S_EndGameContinue()})
+    TSRH.RSerializer("12571", "1|status", "QL.Common.MSG_S_EndGameContinue");
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
+     * @备注信息：表示游戏内玩家的分数信息
+     *
+     */
+    export class PlayerGameScore extends UyiObject {
+        public constructor()
+        {
+            super();
+            this.$T="QL.Common.PlayerGameScore"; 
+        }
+       /**
+        *玩家Id
+        */
+       public PlayerId: number = 0;
+       /**
+        *玩家椅子号
+        */
+       public ChairId: number = 0;
+       /**
+        *玩家分数
+        */
+       public GameScore: number = 0;
+   
+    }
+    SerializerCreator.Register("QL.Common.PlayerGameScore", function () {return new PlayerGameScore()})
+    TSRH.RSerializer("QL.Common.PlayerGameScore", "1|ChairId&4|GameScore&5|PlayerId", "QL.Common.PlayerGameScore");
+
+
+    /**
+     *
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：错误码
      *
      */
@@ -3081,8 +3374,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：往登录服务器
      *
      */
@@ -3133,8 +3426,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：往游戏服务器
      *
      */
@@ -3203,14 +3496,18 @@ export module QL_Common {
     * 玩家同意更换玩家座位号
     */
    public static readonly MSG_C_AcceptChangeChairId = 19;
+    /**
+    * 服务端发送给玩家请求更换座位的请求消息
+    */
+   public static readonly MSG_C_SendGameContinueStatus = 20;
 
     }
 
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：从登录服务器来
      *
      */
@@ -3277,8 +3574,8 @@ export module QL_Common {
 
     /**
      *
-     * @创建时间：2018年10月24日 13:40:54
-     * @创建人员：SHENRUI\admin
+     * @创建时间：2018年11月09日 17:32:55
+     * @创建人员：DESKTOP-U2RLB94\Cyq
      * @备注信息：从游戏服务器来
      *
      */
@@ -3355,6 +3652,18 @@ export module QL_Common {
     * 玩家椅子号被更换分配的新的椅子号
     */
    public static readonly MSG_S_PlayerNewChairInfo = 25;
+    /**
+    * 开始处理续局功能结果
+    */
+   public static readonly MSG_S_BeginGameContinue = 26;
+    /**
+    * 完成续局功能操作
+    */
+   public static readonly MSG_S_EndGameContinue = 27;
+    /**
+    * 服务端发送给玩家请求更换座位的请求消息
+    */
+   public static readonly MSG_S_PlayerGameContinueStatus = 28;
 
     }
 

@@ -31,6 +31,9 @@ export default class MJ_ReadyUser extends cc.Component {
     @property(cc.Label)
     lbl_money: cc.Label=null;
 
+    @property(cc.Animation)
+    img_guzhang:cc.Animation=null;
+
     private gender:number;
 
     private animation: cc.Animation=null;
@@ -38,7 +41,7 @@ export default class MJ_ReadyUser extends cc.Component {
     onLoad() {
         // init logic
         //this.init();
-        
+        this.img_guzhang.node.active=false;
     }
 
     public init():void{
@@ -61,6 +64,8 @@ export default class MJ_ReadyUser extends cc.Component {
         this.img_look.node.active=false;
         this.animation.stop();
         this.gender=0;
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active =false;
         // this.img_touxiang.node.active = false;
     }
 
@@ -93,6 +98,16 @@ export default class MJ_ReadyUser extends cc.Component {
 
     public ShowMoney(value:boolean):void{
         this.group_money.active=value;
+    }
+
+    public ShowGuZhang(){
+        this.img_guzhang.node.active = true;
+        this.img_guzhang.play();
+        this.scheduleOnce(this.AniGuZhangFinish, 2);
+    }
+    private AniGuZhangFinish() {
+        this.img_guzhang.stop();
+        this.img_guzhang.node.active = false;
     }
 
     public playerLook(value: cc.AnimationClip):void{

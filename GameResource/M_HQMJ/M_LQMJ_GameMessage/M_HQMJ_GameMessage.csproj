@@ -30,13 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GameIF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\qlahmjServer\Debug\Server\GameIF.dll</HintPath>
+    <Reference Include="GameIF">
+      <HintPath>E:\qlahmjServer\Debug\Server\GameIF.dll</HintPath>
     </Reference>
-    <Reference Include="QL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\qlahmjServer\Debug\Server\QL.dll</HintPath>
+    <Reference Include="QL">
+      <HintPath>E:\qlahmjServer\Debug\Server\QL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

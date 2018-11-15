@@ -23,6 +23,7 @@ export default class LHZMJ_GameInfo extends cc.Component {
     lbl_GameNum: cc.Label=null;
 
     private _leftCardNum:number;
+    private _groupid:number;
 
     onLoad() {
         // init logic
@@ -43,7 +44,9 @@ export default class LHZMJ_GameInfo extends cc.Component {
         this.GroupRoomInfo.active=false;
         
         this.GroupLeftCard.active=false;
+        this._groupid = 0;
     }
+
     
     /**
      * 设置桌子号
@@ -51,7 +54,19 @@ export default class LHZMJ_GameInfo extends cc.Component {
     public set tableCode(value:string){
         if(value.length > 0){
             this.GroupRoomInfo.active=true;
-            this.lbl_RoomInfo.string = "房号:"+value;
+            if(LHZMJ.ins.iclass.isVideo()){
+                if(M_LHZMJVideoClass.ins.TableConfig._groupid>0){
+                    this.lbl_RoomInfo.string = "亲友圈房号:"+value;
+                }else{
+                     this.lbl_RoomInfo.string = "房号:"+value;
+                }
+            }else{
+                if(M_LHZMJClass.ins.TableConfig._groupid>0){
+                    this.lbl_RoomInfo.string = "亲友圈房号:"+value;
+                }else{
+                     this.lbl_RoomInfo.string = "房号:"+value;
+                }
+            }
         }
     }
     public SetGameNum(now:number,all:number):void{

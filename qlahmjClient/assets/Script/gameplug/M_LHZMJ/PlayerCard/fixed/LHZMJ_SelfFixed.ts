@@ -29,7 +29,7 @@ export default class LHZMJ_SelfFixed extends LHZMJ_FixedBase {
             if(LHZMJ.ins.iclass.is2D()){
                 for(var i:number=0; i<this._fixedData.length; i++){
                     this._fixedData[i].node.x = -510 + i*230;
-                    this._fixedData[i].node.y = -290;
+                    this._fixedData[i].node.y = -300;
                 }
             }else{
                 for(let i:number=0; i<this._fixedData.length; i++){
