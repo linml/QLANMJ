@@ -32,6 +32,9 @@ export default class M_MGMJVideoClass extends GameVideoBase implements IMGMJClas
 
     //牌桌配置
     private _tableConfig : MGMJTableConfig;
+
+    //续局次数
+    private _addNum :number = 1;
     /**
      * 牌桌配置
      * */
@@ -361,7 +364,7 @@ export default class M_MGMJVideoClass extends GameVideoBase implements IMGMJClas
      * */
     private Handle_CMD_S_TableConfig(sendChair : number,msg: GameIF.CustomMessage):void{
         var tableConfig: M_MGMJ_GameMessage.CMD_S_TableConfig = <M_MGMJ_GameMessage.CMD_S_TableConfig>msg;
-        
+        this._addNum = tableConfig.addNum;
         console.log(`录像消息:桌子规则`);
 
        this._tableConfig.init(
@@ -411,7 +414,7 @@ export default class M_MGMJVideoClass extends GameVideoBase implements IMGMJClas
                 gameCount = 8;
             if(this._tableConfig.setGameNum == 1)
                 gameCount = 16;
-        this.gameView.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount);
+        this.gameView.GameInfo.SetGameNum(this._tableConfig.alreadyGameNum,gameCount*this._addNum);
     }
     /**
      * 游戏开始
@@ -791,9 +794,9 @@ export default class M_MGMJVideoClass extends GameVideoBase implements IMGMJClas
         this._outCardPlayer.clear();
         this.stopTimer();
 
-        this.gameView.TimerView.node.active=false;
+        // this.gameView.TimerView.node.active=false;
         
-        this.gameView.TipMsgView.showTip("录像回放结束,点击右上角[返回]退出录像",false);
+        this.gameView.TipMsgView.showTip("录像回放结束,点击[返回]退出录像",false);
         this.gameView.VideoCtl.end();
     }
     /**
@@ -848,8 +851,8 @@ export default class M_MGMJVideoClass extends GameVideoBase implements IMGMJClas
         this._timer.setTimer(timerid,timerLen,chair,this.onTimerEvent,this);
         
         M_MGMJVideoView.ins.TimerView.node.active=true;
-        M_MGMJVideoView.ins.TimerView.showArrow = chair;
-        // M_MGMJVideoView.ins.TimerView.showArr(chair,this.SelfChair);// = chair;
+        // M_MGMJVideoView.ins.TimerView.showArrow = chair;
+        M_MGMJVideoView.ins.TimerView.showArr(chair,this.SelfChair);// = chair;
         M_MGMJVideoView.ins.TimerView.timerNum = timerLen;
         
         this._timer.start();

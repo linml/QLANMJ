@@ -63,7 +63,6 @@ export default class HotUpdateCtrl extends cc.Component {
     private _storagePath = '';
     private _storagePath_temp = '';
     private _showRetryBox: boolean = false
-    private _showBoxCancleCall = () => { cc.game.end(); }
 
 
     //更新回调
@@ -83,6 +82,7 @@ export default class HotUpdateCtrl extends cc.Component {
     }
     public onLoad() {
 
+        cc.log(`游戏程序启动`);
         //隐藏loading
         NativeCtrl.HideSplash();
         if (!ConfigData.SystemInited) {
@@ -94,7 +94,7 @@ export default class HotUpdateCtrl extends cc.Component {
             this.enterLoginScene();
             return;
         }
-        
+
         ConfigData.NeedHotupdate = false;
         cc._initDebugSetting(cc.DebugMode.INFO);
         cc.sys.localStorage.getItem('appRunMark', "0");
@@ -104,9 +104,7 @@ export default class HotUpdateCtrl extends cc.Component {
         this.lab_status.string = '正在检查更新';
         this.progress.progress = 0;
 
-
-        //开始启动热更新
-        this.startGetHotupdateConf();
+        this.reStart();
 
     }
     private startGetHotupdateConf() {
@@ -123,21 +121,20 @@ export default class HotUpdateCtrl extends cc.Component {
         data.AddOrUpdate("device_type", device_type);
         data.AddOrUpdate("_t", new Date().valueOf().toString());
 
+        cc.log(`发起网络请求，获取更新配置信息`);
         SafeWebRequest.GameHall.getUpdateInfo(action, data);
-        
+
 
     }
     private onloadUpdateSuccess(json) {
         this.appinfo = json;
-        if (this.appinfo.status != "success") {
+        // if (this.appinfo.status != "success") {
 
-            this.loginfo(`获取热更新配置失败，需要重试`);
+        //     this.loginfo(`获取热更新配置失败，需要重试`);
 
-            Global.Instance.UiManager.ShowMsgBox("获取更新配置失败，是否重试？", this, () => {
-                this.startGetHotupdateConf();
-            }, this._showBoxCancleCall, this._showBoxCancleCall);
-            return;
-        }
+        //     Global.Instance.UiManager.ShowMsgBox("获取更新配置失败，是否重试？", this,  this.reStart, this._showBoxCancleCall, this._showBoxCancleCall);
+        //     return;
+        // }
         if (this.appinfo.debug_model != 0) {
             //设置日志输出模式
             cc._initDebugSetting(cc.DebugMode.INFO);
@@ -147,6 +144,7 @@ export default class HotUpdateCtrl extends cc.Component {
         }
 
 
+        //输出获取的热更新信息
         this.loginfo(JSON.stringify(json));
 
 
@@ -166,10 +164,6 @@ export default class HotUpdateCtrl extends cc.Component {
             cc.log("正式版本");
         }
 
-
-
-
-
         try {
             this.createAm();
             this.loadCustomManifest();
@@ -179,19 +173,27 @@ export default class HotUpdateCtrl extends cc.Component {
             this.loginfo(s.message);
             NativeCtrl.ReportError(s);
 
-            Global.Instance.UiManager.ShowMsgBox("检查热更新配置失败，是否重试？", this, () => {
-                this.startGetHotupdateConf();
-            }, this._showBoxCancleCall, this._showBoxCancleCall);
+            Global.Instance.UiManager.ShowMsgBox("检查热更新配置失败，是否重试？", this, this.reStart, this._showBoxCancleCall, this._showBoxCancleCall);
 
         }
+    }
+    private reStart(): any {
+        cc.log(`开始启动热更新`);
+
+        this.scheduleOnce(() => {
+            this._showRetryBox = false;
+            this.startGetHotupdateConf();
+        }, 1);
+    }
+    private _showBoxCancleCall() {
+        cc.log(`取消更新，程序关闭`);
+        cc.game.end();
     }
     private onloadUpdateError(e) {
 
         this.loginfo(`获取热更新配置失败，需要重试`);
 
-        Global.Instance.UiManager.ShowMsgBox("获取热更新配置失败，是否重试？", this, () => {
-            this.startGetHotupdateConf();
-        }, this._showBoxCancleCall, this._showBoxCancleCall);
+        Global.Instance.UiManager.ShowMsgBox("获取热更新配置失败，是否重试？", this, this.reStart, this._showBoxCancleCall, this._showBoxCancleCall);
         return;
     }
 
@@ -375,9 +377,7 @@ export default class HotUpdateCtrl extends cc.Component {
 
         if (reTryStatus) {
 
-            Global.Instance.UiManager.ShowMsgBox("比对热更新文件失败，是否重试？", this, () => {
-                this.startGetHotupdateConf();
-            }, this._showBoxCancleCall, this._showBoxCancleCall);
+            Global.Instance.UiManager.ShowMsgBox("比对热更新文件失败，是否重试？", this, this.reStart, this._showBoxCancleCall, this._showBoxCancleCall);
             return;
         }
 
@@ -501,10 +501,7 @@ export default class HotUpdateCtrl extends cc.Component {
         if (failed) {
             if (this._showRetryBox) return;
 
-            Global.Instance.UiManager.ShowMsgBox("获取更新文件清单失败，是否重试？", this, () => {
-                this._showRetryBox = false;
-                this.startGetHotupdateConf();
-            }, this._showBoxCancleCall, this._showBoxCancleCall);
+            Global.Instance.UiManager.ShowMsgBox("获取更新文件清单失败，是否重试？", this, this.reStart, this._showBoxCancleCall, this._showBoxCancleCall);
         }
         else {
             this._updating = false;
@@ -517,15 +514,15 @@ export default class HotUpdateCtrl extends cc.Component {
         if (this._needRetry && !this._showRetryBox) {
             this._showRetryBox = true;
 
-            Global.Instance.UiManager.ShowMsgBox("部分文件下载失败，是否重试？", this, () => {
-                this._showRetryBox = false;
-                this._needRetry = false;
-                this.loginfo('正在尝试重新下载');
-                this._am.downloadFailedAssets();
-            }, this._showBoxCancleCall, this._showBoxCancleCall);
+            Global.Instance.UiManager.ShowMsgBox("部分文件下载失败，是否重试？", this, this.downloadFailedAssets, this._showBoxCancleCall, this._showBoxCancleCall);
         }
     }
-
+    private downloadFailedAssets() {
+        this._showRetryBox = false;
+        this._needRetry = false;
+        this.loginfo('正在尝试重新下载');
+        this._am.downloadFailedAssets();
+    }
 
 
     /************************************************** 完成行更新 ************************************/
@@ -561,10 +558,10 @@ export default class HotUpdateCtrl extends cc.Component {
             if (jsb.fileUtils.isDirectoryExist(remote_asset)) {
                 jsb.fileUtils.removeDirectory(remote_asset);
             }
-            cc.game.restart();
+            this.reStart();
         }, this._showBoxCancleCall, this._showBoxCancleCall);
     }
-    
+
     private buildSearchPath(checkStoragePath: string) {
         if (!EndWiths(checkStoragePath, "/")) {
             checkStoragePath = checkStoragePath + "/";

@@ -16,7 +16,7 @@ export class TaskForm extends UIBase<any> {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab=null;
 
-    private _isFree = true;
+    private isFree = true;
 
     //private taskdata: Array<Array<any>>;
 
@@ -55,7 +55,7 @@ export class TaskForm extends UIBase<any> {
     }
 
     LoadTask(count = 20, startid = 0) {
-        if (!this._isFree) {
+        if (!this.isFree) {
             cc.log("已经开始加载，请等待结果返回");
             return;
         }
@@ -64,7 +64,7 @@ export class TaskForm extends UIBase<any> {
         data.Add("count", count);
         data.Add("startid", startid);
         WebRequest.userinfo.gettasklist(action, data);
-        this._isFree = false;
+        this.isFree = false;
     }
 
     onsuccess(msg: TaskMessage) {
@@ -81,11 +81,11 @@ export class TaskForm extends UIBase<any> {
                 item.initShow();
                 node.parent = this.Group;
             }
-        }
-        this._isFree = true;
+        } 
+        this.isFree = true;
     }
     onerror() {
-        this._isFree = true;
+        this.isFree = true;
     }
 
 

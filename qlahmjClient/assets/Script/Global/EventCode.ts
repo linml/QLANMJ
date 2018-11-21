@@ -60,4 +60,9 @@ export namespace EventCode {
      * 大厅跑马灯到达
      */
     export const HornHallStart = 21;
+
+    /**
+     * 手机号登录成功
+     */
+    export const MobileLoginSuccess = 22;
 }

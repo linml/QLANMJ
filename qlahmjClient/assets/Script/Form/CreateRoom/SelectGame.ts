@@ -9,6 +9,7 @@ import GameListScrollView from "./GameListScrollView";
 import CreateRoomDataCache from "./CreateRoomDataCache";
 import GameItem from "./GameItem";
 import TopFormBase from "../General/TopFormBase";
+import FriendCircleDataCache from "../FriendsCircle/FriendCircleDataCache";
 
 const { ccclass, property } = cc._decorator;
 
@@ -59,6 +60,26 @@ export class SelectGame extends TopFormBase {
     	// 初始化滚动列表
     	let scroll_city: CityListScrollView = this.scroll_cityList.getComponent("CityListScrollView");
         let cityList = CreateRoomDataCache.Instance.cityList;
+
+        // 如果不是从亲友圈过来的则过滤掉亲友圈授权的特殊游戏列表
+        if (!this.ShowParam.isFriendCircle) {
+           cityList = CreateRoomDataCache.Instance.getHallCityGameList();
+        } else {
+            // 如果是从亲友圈进来的则判断并获取指定授权的游戏列表
+            let curFriendInfo = FriendCircleDataCache.Instance.CurEnterFriendCircle;
+            let gameIdArry = [];
+            if (curFriendInfo && curFriendInfo.accessGame) {
+                let gameList = curFriendInfo.accessGame.split(",");
+                for (var idx = 0; idx < gameList.length; ++idx) {
+                    if (gameList[idx]) {
+                        gameIdArry.push(parseInt(gameList[idx]));
+                    }
+                }
+            }
+
+            cityList = CreateRoomDataCache.Instance.getFriendCityGameList(gameIdArry);
+        }
+
         let act = new Action(this,this.cityItemClickEvent);
         scroll_city.resetList();
         scroll_city.clickAction = act;

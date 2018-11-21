@@ -3,9 +3,8 @@ import { GameBaseClass } from "../base/GameBaseClass";
 import { HQMJMahjongDef, IHQMJClass, HQMJ, HQMJTableConfig, HQMJTimer, enGamePhase, HQMJOutCardPlayer, HQMJRecordCard, HQMJTimerDef, TingCardTip, HQMJSoundDef, enHuCardType, enHQMJAniType } from './ConstDef/HQMJMahjongDef';
 import { GameIF } from "../../CommonSrc/GameIF";
 import { ShareParam } from "../../CustomType/ShareParam";
-// import { String, set, Label, update, property, pointEqualToPoint } from '../../../../creator';
+// import { String, set, Label, update, property, pointEqualToPoint, nodeDrawSetup } from '../../../../creator';
 import SendMessage from '../../Global/SendMessage';
-import PrefabClass from './PrefabClass';
 
 import Global from '../../Global/Global';
 import M_HQMJView from './M_HQMJView';
@@ -34,6 +33,8 @@ import { QL_Common } from '../../CommonSrc/QL_Common';
 import { Action } from '../../CustomType/Action';
 import { UIName } from "../../Global/UIName";
 import HQMJ_FenXiang from './SkinView/HQMJ_FenXiang';
+import M_HQMJVideoView from './M_HQMJVideoView';
+import HQMJ_ReadyStatusUserInfo from './SkinView/HQMJ_ReadyStatusUserInfo';
 const { ccclass, property } = cc._decorator;
 
 
@@ -233,15 +234,15 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         /**
          * 检查余额是否可以继续游戏
          * */
-        public checkMoneyCanGame():boolean{//圈主支付可能有问题 先不管
+        public checkMoneyCanGame():boolean{
             if(this.TableConfig.IsTableCreatorPay == 2){//房主支付
                 if(this.SelfIsTableOwener){//如果是房主
-                    if(this.SelfRoomMoney < this.gameMoneyNum) {
+                    if(this.SelfRoomMoney < this.gameMoneyNum*this._addNum) {
                         return false;
                     }
                 }
             }else if(this.TableConfig.IsTableCreatorPay == 1){//AA支付
-                if(this.SelfRoomMoney < this.gameMoneyNum) {
+                if(this.SelfRoomMoney < this.gameMoneyNum*this._addNum) {
                     return false;
                 }
             }
@@ -609,6 +610,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             this._ifCanQiangGang = false;
             this._isTing=false;
             this._isIgnoreForceLeft=false;
+            
         }
 
     onLoad() {
@@ -958,6 +960,12 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                 //续局超时
                 case M_HQMJ_GameMessage.HQMJMsgID_s2c.CMD_S_AddGameOutTime:{
                     this.Hanle_CMD_S_AddGameOutTime();
+                    break;
+                }
+                //断线重连豹听按钮
+                case M_HQMJ_GameMessage.HQMJMsgID_s2c.CMD_S_ORC_BaoTing:{
+                    this.Handle_CMD_S_PlayerBaoTing(cm);
+                    break;
                 }
 
                 default:{
@@ -1001,11 +1009,43 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             // }
         }
         if(addGameNum.gameNum == 100){//所有玩家同意续局
-            cc.log("-----续局成功-----");
+            cc.log("-----全部同意续局-----");
             this._addNum = addGameNum.addNum;
-            cc.log("-----续局次数："+(this._addNum-1));
-            M_HQMJView.ins.JieShuanView.goonbtn();
+
+            if(M_HQMJView.ins.JieShuanView.isVisible()){
+                M_HQMJView.ins.JieShuanView.node.active = false;
+            }
+            // if(this.checkAddGame(this._addNum)){
+                // M_HQMJView.ins.JieShuanView.goonbtn();
+            // }
+            // M_HQMJView.ins.JieShuanView.btn_goon.node.active = true;
+            // M_HQMJView.ins.JieShuanView.btn_LookZongJieSuan.node.active = false;
+            // var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
+
+            this.OnPlayerStatusChange(this.SelfChair,QL_Common.GState.PlayerReady);
+            // M_HQMJView.ins.ReadyStatusUserInfo.node.active = true;
+            M_HQMJView.ins.ReadyStatusUserInfo.group_userReady.active = true;
+            M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.active = true;
+            M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.x=0;
+            M_HQMJView.ins.ReadyStatusUserInfo.group_ready[0].node.active = false;
+            // if(this.checkAddGame(this._addNum)){
+                // c_addGameNum.point = 0;
+                // this.SendGameData(c_addGameNum);
+                // M_HQMJView.ins.JieShuanView.goonbtn();
+                // M_HQMJView.ins.JieShuanView.btn_goon.node.active = true;
+                // M_HQMJView.ins.JieShuanView.btn_LookZongJieSuan.node.active = false;
+                // c_addGameNum.point = 0;
+                // this.SendGameData(c_addGameNum);
+            // }
+            // else
+            // {
+                //钻石不足 无法续局 游戏结束
+                // c_addGameNum.point = 2;
+                // this.SendGameData(c_addGameNum);
+            // }
+            // cc.log("-----续局次数："+(this._addNum-1));
             // Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
+            
         }
         if(addGameNum.gameNum == 101){//有玩家钻石不足
             Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
@@ -1013,7 +1053,13 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
                 this.TablePlayer[this.SelfChair].PlayerState = 0;
                 this.exit();
             }
-            M_HQMJView.ins.MsgBox.showMsgBox("玩家钻石不足 续局失败");
+            // M_HQMJView.ins.MsgBox.showMsgBox("玩家钻石不足 续局失败");
+        }
+        if(addGameNum.gameNum == 103){//续局失败
+            if(!M_HQMJView.ins.JieShuanView.isVisible()){
+                this.TablePlayer[this.SelfChair].PlayerState = 0;
+                this.exit();
+            }
         }
 
     }
@@ -1025,7 +1071,13 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         // let tempScore = orc_addGameNum.tempScore;
         // this.showResumeGameForm(new Action(this,this.RefusedAddGameNum),new Action(this,this.AgreeAddGameNum),
         //     this.getTablePlayerAry(),tempScore,letfTime,playerVote);
-       
+        
+       //显示准备按钮
+       this.OnPlayerStatusChange(this.SelfChair,QL_Common.GState.PlayerReady);
+       M_HQMJView.ins.ReadyStatusUserInfo.group_userReady.active = true;
+       M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.active = true;
+       M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.x=0;
+       M_HQMJView.ins.ReadyStatusUserInfo.group_ready[0].node.active = false;
         // cc.log("断线重连进来了"+playerVote);
     }
     //续局投票超时
@@ -1039,26 +1091,27 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         //     // cc.director.loadScene("Hall"); 
         // }
     }
-
     //玩家拒绝续局 
     // private RefusedAddGameNum():void{
     //     var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
     //     c_addGameNum.point = 1;
     //     this.SendGameData(c_addGameNum);
     // }
-    //玩家同意续局 0同意 1拒绝 2钻石不足
-    // private AgreeAddGameNum():void{
-    //     var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
-    //     if(this.checkAddGame(this._addNum+1)){
-    //         c_addGameNum.point = 0;
-    //         this.SendGameData(c_addGameNum);
-    //     }else
-    //     {
-    //         //钻石不足 无法续局 游戏结束
-    //         c_addGameNum.point = 2;
-    //         this.SendGameData(c_addGameNum);
-    //     }
-    // }
+
+    // 玩家同意续局 0同意 1拒绝 2钻石不足
+    private AgreeAddGameNum():void{
+        // var c_addGameNum : M_HQMJ_GameMessage.CMD_C_AddGameNum = new M_HQMJ_GameMessage.CMD_C_AddGameNum();
+        // if(this.checkAddGame(this._addNum+1)){
+        //     c_addGameNum.point = 0;
+        //     this.SendGameData(c_addGameNum);
+        // }else
+        // {
+        //     //钻石不足 无法续局 游戏结束
+        //     c_addGameNum.point = 2;
+        //     this.SendGameData(c_addGameNum);
+        // }
+    }
+
     /**
      * 把混皮牌发送到客户端
      * @param msg 
@@ -1067,7 +1120,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         var hunpi:M_HQMJ_GameMessage.CMD_S_FanKaiHun=<M_HQMJ_GameMessage.CMD_S_FanKaiHun>msg;
         this._hunPiCard=hunpi.card;
         if(this.fankai){
-              this.scheduleOnce(function () {
+            this.scheduleOnce(function () {
                 M_HQMJView.ins.CardView.hunPi.ShowCard(this._hunPiCard);             
                  M_HQMJView.ins.CardView.hunPi.ShowCardHaveZZ(this._hunPiCard);
                 console.log("--------延时翻牌-------")
@@ -1078,8 +1131,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             M_HQMJView.ins.CardView.hunPi.ShowCardHaveZZ(this._hunPiCard);
         }
             
-       
-
         
         
         //this._recordCard.outACard(hunpi.card);//这是听牌提示中显示剩余牌的结果
@@ -1706,6 +1757,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         * */
     private Handle_CMD_S_TableConfig(msg: GameIF.CustomMessage):void{
         var tableConfig: M_HQMJ_GameMessage.CMD_S_TableConfig = <M_HQMJ_GameMessage.CMD_S_TableConfig>msg;
+        this._addNum = tableConfig.addNum;
         this.GameRule["GameData"] = tableConfig;
         // this.GameRule = tableConfig;
         this._tableConfig.init(
@@ -1762,22 +1814,22 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         }
         this.showFangxiang(this.getSelfChair());
 
-        //玩家距离检测
-        if(this._tableConfig.ifCheckGps){
-            for(let i:number=0;i<HQMJMahjongDef.gPlayerNum;i++){
-                var playLength : number;
-                if(this.getSelfChair() != i && null != this.TablePlayer[i]){
-                    playLength = SizeLength(this.GetPlayerPos(this.getSelfChair())[0],this.GetPlayerPos(this.getSelfChair())[1]
-                                    ,this.GetPlayerPos(i)[0],this.GetPlayerPos(i)[1]);
-                }
-                if(Math.floor(playLength) < 100){
-                    if(this.getTableStauts()!=QL_Common.TableStatus.gameing)
-                        M_HQMJView.ins._setting.onExit();
-                    M_HQMJView.ins.MsgBox.showMsgBox("玩家距离过近 无法加入游戏");
-                    return;
-                }
-            }
-        }
+        //玩家距离检测 先不检测了
+        // if(this._tableConfig.ifCheckGps){
+        //     for(let i:number=0;i<HQMJMahjongDef.gPlayerNum;i++){
+        //         var playLength : number;
+        //         if(this.getSelfChair() != i && null != this.TablePlayer[i]){
+        //             playLength = SizeLength(this.GetPlayerPos(this.getSelfChair())[0],this.GetPlayerPos(this.getSelfChair())[1]
+        //                             ,this.GetPlayerPos(i)[0],this.GetPlayerPos(i)[1]);
+        //         }
+        //         if(Math.floor(playLength) < 100){
+        //             if(this.getTableStauts()!=QL_Common.TableStatus.gameing)
+        //                 M_HQMJView.ins._setting.onExit();
+        //             M_HQMJView.ins.MsgBox.showMsgBox("玩家距离过近 无法加入游戏");
+        //             return;
+        //         }
+        //     }
+        // }
         
         //进入房间 显示玩法
         if(this.getTableStauts()!=QL_Common.TableStatus.gameing)
@@ -2584,15 +2636,12 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     }
 
      private Handle_CMD_S_IsDissolution(msg:GameIF.CustomMessage):void
-
-    {
+     {
         var busy: M_HQMJ_GameMessage.CMD_S_IsDissolution = <M_HQMJ_GameMessage.CMD_S_IsDissolution>msg;
         if(busy.IsDissolution==true){
             this.gameView.showMsg();
-
         }
-
-    }
+     }
 
     /**
      * 
@@ -2604,9 +2653,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         var VS: M_HQMJ_GameMessage.CMD_S_Version = <M_HQMJ_GameMessage.CMD_S_Version>msg;
         M_HQMJView.ins.Help.SV.string="SV"+VS.Version;
         }
-
-
-
 
     /**
      * 玩家准备
@@ -2881,8 +2927,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             // {
             //     M_HQMJView.ins.ReadyStatusUserInfo.OnPlayerStatusChange(this.SelfChair,QL_Common.GState.PlayerReady);
             // }
-        }
-        
+        }      
         
         if(this._tableConfig.isValid){
             M_HQMJView.ins.GameInfo.init();
@@ -2898,7 +2943,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         // if(this._tableConfig.needHideUserMoney){
         //     M_HQMJView.ins.ReadyStatusUserInfo.hideUserMoney();
         // }
-
         this.showFangxiang(this.SelfChair);
         //断线重连后显示踢人按钮
         if(M_HQMJClass.ins.SelfIsTableOwener){
@@ -2914,9 +2958,17 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             this.gameView.ReadyStatusUserInfo.btn_ready.node.active = false;
             this.gameView.ReadyStatusUserInfo.btn_invite.node.active = false;
         }
+        if(tablefree.isXuJu == 1){
+            // this.OnPlayerStatusChange(this.SelfChair,QL_Common.GState.PlayerReady);
+            // M_HQMJView.ins.ReadyStatusUserInfo.node.active = true;
+            // M_HQMJView.ins.ReadyStatusUserInfo.group_userReady.active = true;
+            M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.active = true;
+            M_HQMJView.ins.ReadyStatusUserInfo.btn_ready.node.x=0;
+            M_HQMJView.ins.ReadyStatusUserInfo.group_ready[0].node.active = false;
+            this._addNum = tablefree.addNum;
+        }
         
     }
-
 
     /**
      * 强退成功
@@ -2924,6 +2976,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     private Handle_CMD_S_ForceLeftSuccess(msg: GameIF.CustomMessage): void {
         this.ForceQuitting();
     }
+    
     //
     /**
      * 显示消息

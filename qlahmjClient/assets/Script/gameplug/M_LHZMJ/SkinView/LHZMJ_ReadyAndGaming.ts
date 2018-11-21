@@ -51,6 +51,10 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     private readyORgaming:boolean = false;
 
     onLoad() {
+        for (let i = 0; i < LHZMJMahjongDef.gPlayerNum - 1; i++) {
+            const x = i + 1;
+            this.gameUserAry[x].node.on(cc.Node.EventType.TOUCH_END, () => { this.onSelUserFace(x); }, this);
+        }
         // init logic
         // cc.log("gameUserInfo玩家信息初始化");
         //this.init();
@@ -73,8 +77,6 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
                     let chair: number = i+1;
                     this.onKickUser(chair);
             },this);
-            const x = i + 1;
-            this.gameUserAry[x].node.on(cc.Node.EventType.TOUCH_END, () => { this.onSelUserFace(x); }, this);
         }
         cc.log("UserInfo玩家信息初始化33333333");
         for (let i = 0; i < this.gameUserAry.length; i++) {

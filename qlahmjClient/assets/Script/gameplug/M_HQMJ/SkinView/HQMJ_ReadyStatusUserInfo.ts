@@ -81,7 +81,7 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
     public get HQMJClass():any{
        return this._hqmjClass;
     }
-    
+
     onLoad() {
         // init logic
         //this.init();
@@ -139,6 +139,7 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         },this);           
 
         for(let i=0;i<HQMJMahjongDef.gPlayerNum;i++){
+            this.unscheduleAllCallbacks();
             this.group_user[i].on(cc.Node.EventType.TOUCH_END,()=>{this.onSelUserFace(i);},this);
         }
         
@@ -181,7 +182,12 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         //M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTablePlayerAry()[chair],HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
        //M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].x,HQMJ_ReadyStatusUserInfo.UserDataPos[logicChair].y);
        let point = new cc.Vec2(HQMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].x, HQMJ_ReadyStatusUserInfo.UserDataGamingPos[logicChair].y);
+    //    M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
        M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
+    }
+
+    private showPlayerInfoForm(){
+        
     }
     /**
      * 设置断线玩家
@@ -437,13 +443,13 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
         
         //如果不够,开始求助
         if(M_HQMJClass.ins.checkMoneyCanGame()){
-            if(M_HQMJClass.ins.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum(M_HQMJClass.ins._addNum)) {
+            // if(M_HQMJClass.ins.isSelfCreateRoom && (M_HQMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_HQMJClass.ins.TableConfig.isPlayEnoughGameNum(M_HQMJClass.ins._addNum)) {
                 //继续游戏
                 //this.dispatchEvent(new HQMJEvent(HQMJEvent.msg_goongame));
-            }else{
+            // }else{
                 //发送准备
                 M_HQMJView.ins.OnReady();
-            }       
+            // }       
             // //解散桌子不能用
             // this._btn_dissTable.visible=false;
             // this._btn_ready.visible=false;
@@ -451,8 +457,8 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
             this.btn_invite.node.x=0;
         }
          else {
-            if(this.HQMJClass.getTableStauts()!=QL_Common.TableStatus.gameing)
-            {
+            // if(this.HQMJClass.getTableStauts()!=QL_Common.TableStatus.gameing)
+            // {
                 M_HQMJClass.ins.UiManager.ShowMsgBox('余额不足请先充值！', "确定", () => {
                     //打开充值
                     M_HQMJClass.ins.showPay();
@@ -460,7 +466,7 @@ export default class HQMJ_ReadyStatusUserInfo extends cc.Component {
                     //打开充值
                     this.HQMJClass.exit();
                 });
-            }
+            // }
         } 
         // else{                 
         //     var tipMsg: string = `您的游戏币已经不足,无法继续游戏,本次共需要:${TranslateMoneyTypeName(this.HQMJClass.getRoomData().TableCostMoneyType)}X${M_HQMJClass.ins.gameMoneyNum},点击关闭将会返回大厅。您还可以选择：`;

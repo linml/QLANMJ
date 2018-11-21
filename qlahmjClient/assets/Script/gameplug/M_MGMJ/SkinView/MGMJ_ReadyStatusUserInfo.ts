@@ -226,20 +226,14 @@ export default class MGMJ_ReadyStatusUserInfo extends cc.Component {
             wanfa = "房主支付,";
         if(M_MGMJClass.ins.TableConfig.IsTableCreatorPay == 3)
             wanfa = "圈主支付,";
-        if(!M_MGMJClass.ins.TableConfig.isWhoLose)
-            wanfa += "赢倒三家有,";
-        if(M_MGMJClass.ins.TableConfig.isWhoLose)
-            wanfa += "谁打谁出分,";
-        if(!M_MGMJClass.ins.TableConfig.isCanChi)
-            wanfa += "不准吃牌,";
-        if(M_MGMJClass.ins.TableConfig.isDaiDaPai)
-            wanfa += "带大牌,";
-        if(!M_MGMJClass.ins.TableConfig.isDaiDaPai)
-            wanfa += "不带大牌,";
-        if(M_MGMJClass.ins.TableConfig.isGangFen)
-            wanfa += "带明杠暗杠,";
-        if(!M_MGMJClass.ins.TableConfig.isGangFen)
-            wanfa += "不带明杠暗杠,";
+        if(M_MGMJClass.ins.TableConfig.SetPeiZi==55)
+            wanfa += "白皮配子,";
+        if(M_MGMJClass.ins.TableConfig.SetPeiZi!=55)
+            wanfa += "随机配子,";
+        if(M_MGMJClass.ins.TableConfig.DianPao)
+            wanfa += "可点炮,";
+        if(M_MGMJClass.ins.TableConfig.QiangGangHu)
+            wanfa += "可抢杠胡,";
         if(M_MGMJClass.ins.TableConfig.isZhanZhuang)
             wanfa += "占庄,";
             

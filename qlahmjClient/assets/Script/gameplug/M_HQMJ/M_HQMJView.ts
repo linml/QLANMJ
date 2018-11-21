@@ -439,6 +439,14 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             this._gameStatus_userInfo=gsunode.getComponent<HQMJ_GameStatusUserInfo>(HQMJ_GameStatusUserInfo);
             this.node.addChild(gsunode);      
 
+            let tingtipnode=cc.instantiate(this.HQMJ_TingTip_View);
+            this._tingTip=tingtipnode.getComponent<HQMJ_TingTip>(HQMJ_TingTip);
+            this.node.addChild(tingtipnode);
+            
+            let baocnode=cc.instantiate(this.HQMJ_BaoTing_View);
+            this._BaoTing=baocnode.getComponent<HQMJ_BaoTing>(HQMJ_BaoTing);
+            this.node.addChild(baocnode);
+
             let opnode=cc.instantiate(this.HQMJ_OP_View);
             this._operatorView=opnode.getComponent<HQMJ_OperatorView>(HQMJ_OperatorView);
             this.node.addChild(opnode);
@@ -447,9 +455,6 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             this._selChi=selcnode.getComponent<HQMJ_SelChi>(HQMJ_SelChi);
             this.node.addChild(selcnode);
 
-            let baocnode=cc.instantiate(this.HQMJ_BaoTing_View);
-            this._BaoTing=baocnode.getComponent<HQMJ_BaoTing>(HQMJ_BaoTing);
-            this.node.addChild(baocnode);
 
             let selgnode=cc.instantiate(this.HQMJ_SelGang_View);
             this._selGang=selgnode.getComponent<HQMJ_SelGang>(HQMJ_SelGang);
@@ -459,9 +464,6 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             this._qiangGang=qianggnode.getComponent<HQMJ_QiangGangView>(HQMJ_QiangGangView);
             this.node.addChild(qianggnode);
 
-            let tingtipnode=cc.instantiate(this.HQMJ_TingTip_View);
-            this._tingTip=tingtipnode.getComponent<HQMJ_TingTip>(HQMJ_TingTip);
-            this.node.addChild(tingtipnode);
 
             let paonode=cc.instantiate(this.HQMJ_Pao_View);
             this._pao=paonode.getComponent<HQMJ_Pao>(HQMJ_Pao);

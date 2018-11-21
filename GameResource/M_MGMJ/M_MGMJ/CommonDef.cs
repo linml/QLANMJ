@@ -372,6 +372,12 @@ namespace M_MGMJ
         /// 是否已经创建
         /// </summary>
         public bool isCreateed { get; set; }
+
+        /// <summary>
+        /// 是否已经返还圈主钻石
+        /// </summary>
+        public bool GiveBacked { get; set; }
+
         /// <summary>
         /// 桌号
         /// </summary>
@@ -452,6 +458,7 @@ namespace M_MGMJ
             TableCreatorPay = 0;
             IsRecordScoreRoom = false;
             TableCreatorID = 0;
+            GiveBacked = false;
             TableCreatorChair = MahjongDef.gInvalidChar;
             this.isCreateed = false;
             this._guid = "";
@@ -495,19 +502,15 @@ namespace M_MGMJ
         /// <summary>
         /// 是否打满了设置的局数
         /// </summary>
-        public bool isPlayEnoughGameNum
+        public bool isPlayEnoughGameNum(int num)
         {
-            get
+            if(this._setGameNum == 0)
             {
-                if(this._setGameNum == 0)
-                {
-                    return this._gameNum >= 8;
-                }
-                else{
-                    //设置的局数
-                    return this._gameNum >= 16;
-                }
-                
+                return this._gameNum >= 8*num;
+            }
+            else{
+                //设置的局数
+                return this._gameNum >= 16*num;
             }
         }
         /// <summary>

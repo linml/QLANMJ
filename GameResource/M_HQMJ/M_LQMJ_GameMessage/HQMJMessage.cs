@@ -1084,6 +1084,12 @@ namespace M_HQMJ_GameMessage
         [PacketMember(27)]
         public byte checkGps;
 
+        /// <summary>
+        /// 续局次数
+        /// </summary>
+        [PacketMember(28)]
+        public byte addNum;
+
     };
 
     /// <summary>
@@ -1744,16 +1750,28 @@ namespace M_HQMJ_GameMessage
     };
 
     /// <summary>
+    /// 豹听功能断线重连
+    /// </summary>
+    [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_ORC_BaoTing)]
+    public class CMD_S_ORC_BaoTing : GameIF.GameMessage
+    {
+        [PacketMember(1)]
+        public byte chair;
+    };
+
+    /// <summary>
     /// 断线重连局数未打完准备阶段
     /// </summary>
     [PacketContract(((byte)HQMJConstants.WHMJ_GAMEID) << 8 | (byte)HQMJMsgID_s2c.CMD_S_ORC_TableFree)]
     public class CMD_S_ORC_TableFree : GameIF.GameMessage
     {
         /// <summary>
-        /// 用于玩家断线重连恢复连庄数
+        /// 
         /// </summary>
         [PacketMember(1)]
-        public byte lianbank;
+        public byte isXuJu;
+        [PacketMember(2)]
+        public byte addNum;
     };
     /// <summary>
     /// 断线重连,玩家分数变化

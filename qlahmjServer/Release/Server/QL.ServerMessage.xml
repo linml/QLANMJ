@@ -55,6 +55,21 @@
             表示是否需要清理管理集合
             </summary>
         </member>
+        <member name="F:QL.ServerMessage.SendDataType.ALL">
+            <summary>
+            群发消息
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.SendDataType.ToPlayer">
+            <summary>
+            发送给玩家
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.SendDataType.ToChanel">
+            <summary>
+            发送指定渠道的订阅消息
+            </summary>
+        </member>
         <member name="T:QL.ServerMessage.GS2LS.UpdateGameRoomInfo">
             <summary>
             
@@ -90,10 +105,20 @@
             给指定的玩家发送数据，该消息会通过中心服务器中转发送给相应服务器处理,如果玩家不在线会被丢弃
             </summary>
         </member>
-        <member name="F:QL.ServerMessage.GS2LS.SendDataToPlayer.UserId">
+        <member name="F:QL.ServerMessage.GS2LS.SendDataToPlayer.ObjectId">
             <summary>
             数据发送的标识ID
             当为全部玩家时忽略，当为分站玩家，为分站ID,当为指定玩家时则为玩家ID
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GS2LS.SendDataToPlayer.ChanelName">
+            <summary>
+            数据发送的渠道标识名称
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GS2LS.SendDataToPlayer.ObjectType">
+            <summary>
+            发送消息的类型
             </summary>
         </member>
         <member name="F:QL.ServerMessage.GS2LS.SendDataToPlayer.SendData">

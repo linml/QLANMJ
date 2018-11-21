@@ -63,7 +63,7 @@ export default class CreateSelecteFriendsCircle extends UIBase<any> {
     // 是否在正在请求
     private bRequestIng: boolean = false;
 
-    protected OnShow() {
+    OnShow() {
         super.OnShow();
         
         // 显示玩家头像、ID

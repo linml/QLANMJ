@@ -25,6 +25,11 @@ namespace M_MGMJ
         #region 玩家属性信息
 
         /// <summary>
+        /// 玩家总分数
+        /// </summary>
+        public int TotalScore { get; set; }
+
+        /// <summary>
         /// 昵称
         /// </summary>
         public string NickName { get; set; }

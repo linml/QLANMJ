@@ -382,6 +382,8 @@ export default class LoginCtrl extends ReConnectBase {
             case EventCode.OfflineRoom:
                 this.OfflineRoom();
                 return true;
+            case EventCode.MobileLoginSuccess:
+                this.OnSuccess(value);
         }
         return false;
     }
@@ -509,6 +511,10 @@ export default class LoginCtrl extends ReConnectBase {
 
     OnShowUrl() {
         this.ShowUi(UIName.WebForm,"https://cli.im/DAtewT?iframe=1");
+    }
+
+    private ClickPhoneLogin(){
+        this.ShowUi(UIName.PhoneLoginPanel);
     }
 }
 

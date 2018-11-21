@@ -177,19 +177,19 @@ export default class LHZMJ_UpSingleFixed extends LHZMJ_SingleFixedBase {
             this.bmp_cardcolorAry[0].node.x=0;
             this.bmp_cardcolorAry[0].node.y=37;
             this.bmp_cardcolorAry[0].node.skewY=0;
-            this.bmp_cardcolorAry[0].node.scaleX=0.5;
+            this.bmp_cardcolorAry[0].node.scaleX=0.4;
             this.bmp_cardcolorAry[0].node.scaleY=0.5;
 
             this.bmp_cardcolorAry[1].node.x=0;
             this.bmp_cardcolorAry[1].node.y=19;
             this.bmp_cardcolorAry[1].node.skewY=0;
-            this.bmp_cardcolorAry[1].node.scaleX=0.5;
+            this.bmp_cardcolorAry[1].node.scaleX=0.4;
             this.bmp_cardcolorAry[1].node.scaleY=0.5;
 
             this.bmp_cardcolorAry[2].node.x=0;
             this.bmp_cardcolorAry[2].node.y=-24;
             this.bmp_cardcolorAry[2].node.skewY=0;
-            this.bmp_cardcolorAry[2].node.scaleX=0.5;
+            this.bmp_cardcolorAry[2].node.scaleX=0.4;
             this.bmp_cardcolorAry[2].node.scaleY=0.5;
 
             this.bmp_cardHideAry[0].node.x=0;

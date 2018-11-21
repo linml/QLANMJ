@@ -7,6 +7,7 @@ import { LocalStorage } from "../../CustomType/LocalStorage";
 import { Action } from "../../CustomType/Action";
 import { ToggleType } from "./CreateRoomEnum";
 import Global from "../../Global/Global";
+import ConfigData from "../../Global/ConfigData";
 
 export default class CreateRoomDataCache {
 	private preGameRuleJsonList = [
@@ -84,6 +85,9 @@ export default class CreateRoomDataCache {
 			this.initCityList();
 		}
 
+		// 初始化常玩列表
+    	let oftenList = this.getOftenPlayGameList();
+    	this._cityList.AddOrUpdate("CHAGNWAN",oftenList);
 		return this._cityList;
 	}
 
@@ -105,18 +109,98 @@ export default class CreateRoomDataCache {
     	this._cityList = new Dictionary<string,Array<QL_Common.GameInfo>>();
 
     	this._cityList.AddOrUpdate("CHAGNWAN",new Array<QL_Common.GameInfo>());
-    	this._cityList.AddOrUpdate("TUIJIAN",new Array<QL_Common.GameInfo>());
+
+    	// 初始化常玩列表
+    	let oftenList = this.getOftenPlayGameList();
+    	this._cityList.AddOrUpdate("CHAGNWAN",oftenList);
+
+    	if (!this._cityList.GetValue("TUIJIAN")) {
+    		this._cityList.AddOrUpdate("TUIJIAN",new Array<QL_Common.GameInfo>());
+    	}
 
     	let keys = list.Keys;
     	for (var idx = 0; idx < keys.length; ++idx) {
     		this._cityList.AddOrUpdate(keys[idx],list.GetValue(keys[idx]));
     	}
 
+    	// 把比鸡放到推荐列表中
     	let gameInfo = Global.Instance.DataCache.GameList.GetGame(51);
-    	this._cityList.GetValue('TUIJIAN').push(gameInfo);
+
+    	if (gameInfo) {
+    		this._cityList.GetValue('TUIJIAN').push(gameInfo);
+    	}
     	
     	// 根据定位排序
     	this.orderCityListByGPS("");
+	}
+
+	/**
+	 * 获取大厅游戏列表
+	 */
+	public getHallCityGameList(): Dictionary<string,Array<QL_Common.GameInfo>>{
+		// 过滤掉只在指定亲友圈显示的游戏
+		if(0 == ConfigData.FriendAccreditGameList.length) {
+			return this.cityList;
+		}
+
+		let tmpCityGameList: Dictionary<string,Array<QL_Common.GameInfo>> = new Dictionary<string,Array<QL_Common.GameInfo>>(); 
+		for (var idx = 0; idx < this.cityList.Count; ++idx) {
+			let cityKey = this.cityList.Keys[idx];
+			let citGameList = this.cityList.GetValue(this.cityList.Keys[idx]);
+			let tmpGameList = new Array<QL_Common.GameInfo>();
+			for (var index = 0; index < citGameList.length; ++index) {
+				let gameInfo = citGameList[index];
+
+				if (!gameInfo) {
+					continue;
+				}
+				
+				if (-1 == ConfigData.FriendAccreditGameList.indexOf(gameInfo.GameID)) {
+					tmpGameList.push(gameInfo);
+				}
+			}
+
+			if(tmpGameList.length > 0) {
+				tmpCityGameList.AddOrUpdate(cityKey,tmpGameList);
+			}
+		}
+		return tmpCityGameList;
+	}
+	
+	/**
+	 * 获取亲友圈游戏列表
+	 * 传入亲友圈指定的游戏授权列表
+	 */
+	public getFriendCityGameList(gameIdList: number[]): Dictionary<string,Array<QL_Common.GameInfo>>{
+		// 过滤掉在该亲友圈授权的游戏
+		if(0 == gameIdList.length) {
+			return this.getHallCityGameList();
+		}
+
+		let tmpCityGameList: Dictionary<string,Array<QL_Common.GameInfo>> = new Dictionary<string,Array<QL_Common.GameInfo>>(); 
+		for (var idx = 0; idx < this.cityList.Count; ++idx) {
+			let cityKey = this.cityList.Keys[idx];
+			let citGameList = this.cityList.GetValue(this.cityList.Keys[idx]);
+			let tmpGameList = new Array<QL_Common.GameInfo>();
+			for (var index = 0; index < citGameList.length; ++index) {
+				let gameInfo = citGameList[index];
+
+				if (!gameInfo) {
+					continue;
+				}
+				
+				if (-1 == ConfigData.FriendAccreditGameList.indexOf(gameInfo.GameID)) {
+					tmpGameList.push(gameInfo);
+				} else if(-1 != gameIdList.indexOf(gameInfo.GameID)){
+					tmpGameList.push(gameInfo);
+				}
+			}
+
+			if(tmpGameList.length > 0) {
+				tmpCityGameList.AddOrUpdate(cityKey,tmpGameList);
+			}
+		}
+		return tmpCityGameList;
 	}
 
 	/**
@@ -198,7 +282,7 @@ export default class CreateRoomDataCache {
 			gameList.push(gameInfo);
 		}
 
-		cc.info('-- OftenPlayGameList ', this.OftenPlayGameList);
+		// cc.info('-- OftenPlayGameList ', this.OftenPlayGameList);
 		return gameList; 
 	}
 

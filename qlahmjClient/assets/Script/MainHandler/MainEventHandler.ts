@@ -66,6 +66,13 @@ export class MainEventHandler implements IEventHandler {
             case QL_Common.SystemErrorCode.ExitRoomFail:
                 cc.log("退出房间失败了");
                 return;
+            case QL_Common.SystemErrorCode.ServerMaintain: {
+                if (msg.length > 0) {
+                    this.UiManager.ShowMsgBox(msg)
+                }
+                this.UiManager.CloseLoading();
+                return;
+            }
             default:
                 if (msg.length > 0) {
                     this.UiManager.ShowTip(msg);

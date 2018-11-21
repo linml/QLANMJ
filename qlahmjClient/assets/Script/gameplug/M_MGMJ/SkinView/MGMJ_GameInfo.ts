@@ -73,6 +73,7 @@ export default class MGMJ_GameInfo extends cc.Component {
         }
     }
     public SetGameNum(now:number,all:number):void{
+        console.log("---- now --"+now + "---- all --"+all);
         this.lbl_GameNum.string="局数:"+now+"/"+all;
     }
     /**

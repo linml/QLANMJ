@@ -67,6 +67,12 @@ export default class UserInfo {
      * 玩家是否是第一次登陆
      */
     public isFirstLogon = 0;
+
+    /**
+     * 玩家是否绑定手机
+     */
+    public isBindPhone = 0;
+
     /**
      * 当成为代理后此值是生成的代理Id
      */
@@ -120,6 +126,9 @@ export default class UserInfo {
                 }
                 if(value.AttachParam[i].Key === "LinkAgentId"){
                     this.LinkAgentId = parseInt(value.AttachParam[i].Value);
+                }
+                if(value.AttachParam[i].Key === "isBindPhone"){
+                    this.isBindPhone = parseInt(value.AttachParam[i].Value);
                 }
             }
         }

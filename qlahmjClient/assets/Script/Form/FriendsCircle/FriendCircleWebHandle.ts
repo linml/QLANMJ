@@ -117,6 +117,7 @@ export default class FriendCircleWebHandle {
                 let info = new FriendCircleInfo();
                 info.ID = tmpList[idx].id;
                 info.userId = tmpList[idx].userId;
+                info.accessGame = tmpList[idx].accessGame;
                 info.name = tmpList[idx].name;
                 info.notice = tmpList[idx].notice;
                 info.header = tmpList[idx].header;

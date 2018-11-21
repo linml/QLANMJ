@@ -149,6 +149,8 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
     protected arrangeCard() {
         let url="";
         if(LHZMJ.ins.iclass.is2D()){
+            this.node.rotation = 0;
+            
             this.bmp_cardbackAry[0].node.x=0;
             this.bmp_cardbackAry[0].node.y=-31;
             this.bmp_cardbackAry[0].node.width=56;
@@ -174,21 +176,21 @@ export default class LHZMJ_DownSingleFixed extends LHZMJ_SingleFixedBase {
             this.bmp_cardbackAry[3].node.scaleX=1;
 
             this.bmp_cardcolorAry[0].node.x=0;
-            this.bmp_cardcolorAry[0].node.y=-24;
+            this.bmp_cardcolorAry[0].node.y=-23;
             this.bmp_cardcolorAry[0].node.skewY=0;
-            this.bmp_cardcolorAry[0].node.scaleX=0.5;
+            this.bmp_cardcolorAry[0].node.scaleX=0.4;
             this.bmp_cardcolorAry[0].node.scaleY=0.5;
 
             this.bmp_cardcolorAry[1].node.x=0;
             this.bmp_cardcolorAry[1].node.y=20;
             this.bmp_cardcolorAry[1].node.skewY=0;
-            this.bmp_cardcolorAry[1].node.scaleX=0.5;
+            this.bmp_cardcolorAry[1].node.scaleX=0.4;
             this.bmp_cardcolorAry[1].node.scaleY=0.5;
 
             this.bmp_cardcolorAry[2].node.x=0;
             this.bmp_cardcolorAry[2].node.y=38;
             this.bmp_cardcolorAry[2].node.skewY=0;
-            this.bmp_cardcolorAry[2].node.scaleX=0.5;
+            this.bmp_cardcolorAry[2].node.scaleX=0.4;
             this.bmp_cardcolorAry[2].node.scaleY=0.5;
 
             this.bmp_cardHideAry[0].node.x=0;

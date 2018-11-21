@@ -579,6 +579,36 @@ export function PlayEffect(path:string){
     Global.Instance.AudioManager.Play(path, AudioType.Effect, false);
 }
 
+export function JsonFormat(json){
+    if(!json){
+        return json;
+    }
+
+    if(json.status != "success"){
+        return json;
+    }
+
+    if(!json.column || !json.data){
+        return json;
+    }
+
+    
+    // let data = new Array<any>()
+
+    // for (let index = 0; index < json.column.length; index++) {
+    //     let c = [];
+    //     c.push(json.column[index]);
+    //     for (let i = 0; i < json.data.length; index++) {
+    //         const element = array[index];
+            
+    //     }
+    // }
+
+    // return {
+
+    // }
+}
+
 // function loadNative (url:string, callback:Function){
 //     var dirpath =  jsb.fileUtils.getWritablePath() + 'img/';
 //     var filepath = dirpath + MD5(url) + '.png';

@@ -403,6 +403,15 @@ export namespace WebRequest {
     }
 
     /**
+     * 实名绑定
+     */
+    export class bind{
+        public static BindID(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST"){
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/web/Hall.BindIDSuccess`, action, data, method);
+        }
+    }
+
+    /**
      * 获取充值项
      */
     export class pay{

@@ -34,6 +34,14 @@ export default class SettingItem extends cc.Component {
     private _parentNode: cc.Node = null;
 
     /**
+     * 属性名称
+     */
+    private _attrName: string;
+
+    public get AttrName(): string {
+        return this._attrName;
+    }
+    /**
      * 节点数组
      */
     private _itemNodeArray: Dictionary<string,cc.Node>;
@@ -50,7 +58,12 @@ export default class SettingItem extends cc.Component {
     }
     
     public createItemList(data: any,parent: cc.Node): void{
+        if (!data || !parent) {
+            return;
+        }
+        
     	this._parentNode = parent;
+        this._attrName = data["attrName"];
         this.layout_item.node.removeAllChildren();
     	// 属性图标
     	if (cc.isValid(this.sp_attrIcon)) {

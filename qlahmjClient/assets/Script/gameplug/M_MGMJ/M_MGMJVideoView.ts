@@ -27,8 +27,15 @@ export default class M_MGMJVideoView extends cc.Component {
     @property(cc.Node)
     group_gameNum: cc.Node=null;
 
+    @property(cc.Prefab)
+    GameInfoView: cc.Prefab=null;
+
     @property(cc.Node)
     MGMJ_Card_View: cc.Node=null;
+
+    @property(cc.Node)
+    MGMJ_GameInfo: cc.Node=null;
+
     //牌阵视图
     private _cardView: MGMJ_CardView;//me
     /**
@@ -37,9 +44,6 @@ export default class M_MGMJVideoView extends cc.Component {
     public get CardView(): MGMJ_CardView {
         return this._cardView;
     }
-
-    @property(cc.Prefab)
-    GameInfoView: cc.Prefab=null;
 
     //游戏信息
     private _gameInfo: MGMJ_GameInfo;//me
@@ -156,8 +160,8 @@ export default class M_MGMJVideoView extends cc.Component {
             
         let ginode=cc.instantiate(this.GameInfoView);
         this._gameInfo=ginode.getComponent<MGMJ_GameInfo>(MGMJ_GameInfo);
-        this.node.addChild(ginode);
-
+        this.MGMJ_GameInfo.addChild(ginode);
+        // this._gameInfo.node.setLocalZOrder(-1);
         let timenode=cc.instantiate(this.Time_View);
         this._timerView=timenode.getComponent<MGMJ_TimerView>(MGMJ_TimerView);
         this.node.addChild(timenode);
@@ -167,7 +171,7 @@ export default class M_MGMJVideoView extends cc.Component {
         this.node.addChild(sznode);
 
         this._cardView=this.MGMJ_Card_View.getComponent<MGMJ_CardView>(MGMJ_CardView);
-
+        // this.MGMJ_Card_View.setLocalZOrder(1);
         let gsunode=cc.instantiate(this.GameStatus_userInfo_View);
         this._gameStatus_userInfo=gsunode.getComponent<MGMJ_GameStatusUserInfo>(MGMJ_GameStatusUserInfo);
         this.node.addChild(gsunode);
@@ -209,14 +213,14 @@ export default class M_MGMJVideoView extends cc.Component {
         this.TimerView.init();
         this.SZAni.init();
         this.GameStatusUserInfo.init();
-        this.CardView.init();
         this._aniPanel.init();
         this.VideoCtl.init();
         // this.OperatorView.init();
         // this.SelGangView.init();
         // this.QiangGangView.init();
         this._setting.init();
-        this.TipMsgView.Init()
+        this.TipMsgView.Init();
+        this.CardView.init();
     }
     /**
      * 清理
@@ -303,6 +307,7 @@ export default class M_MGMJVideoView extends cc.Component {
             }
             //继续游戏
             case MGMJEvent.msg_goongame: {
+                console.log("---- MGMJVIdeoView msg_goongame ----- ");
                 this.clear();     
                 break;
             }

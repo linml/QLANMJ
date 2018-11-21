@@ -56,6 +56,8 @@ namespace M_HQMJ
         ///</summary>>
         public byte _addNum = 1;
 
+        public byte xujucishu = 1;
+
         /// <summary>
         /// 检查可以投胡票的人数
         /// </summary>
@@ -249,6 +251,10 @@ namespace M_HQMJ
         ///玩家是否豹听
         ///</summary>
         private bool[] _baoTing = new bool[4];
+        /// <summary>
+        /// 是否有玩家可以选择豹听 用于断线重连豹听问题
+        /// </summary>
+        private bool[] baozi = new bool[4];
 
         //=====================================================//
 
@@ -389,7 +395,7 @@ namespace M_HQMJ
                             OrderId = quanZhuID,
                             MoneyNum = 0,
                         }, Rec_BackPay);
-
+                        this._tableConfig.GiveBacked = true;
                     }                    
                     #endregion
                     //DestroyTimer(TimerList.IDI_TableCreatorLeft);
@@ -561,6 +567,35 @@ namespace M_HQMJ
                 this._jsonData.tableplayer.Add(playerData);
             }
 
+        }
+
+        public override int OnBeforGameContinueResult(TablePlayer player, int result, out string errorMsg)
+        {
+            //if(this._tableConfig.TableCreatorPay == 1)
+            //{
+            //    if(player.DiamondsNum < this._tableConfig.TableCost * (this._addNum+1))
+            //    {
+            //        errorMsg = "钻石不足 无法续局";
+            //        return -1;
+            //    }
+            //}
+            //if(this._tableConfig.TableCreatorPay == 2)
+            //{
+            //    var creatorPlayer = GameHost.PlayerDataService.GetPlayerInfoByPlayerID(this._tableConfig.TableCreatorID);
+            //    if(null != creatorPlayer)
+            //    {
+            //        if(creatorPlayer.MoneyBag.DiamondNum < this._tableConfig.TableCost * (this._addNum+1))
+            //        {
+            //            errorMsg = "房主钻石不足 续局失败";
+            //            return -1;
+            //        }
+            //        this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+            //        {
+            //            gameNum = 101
+            //        });
+            //    }
+            //}
+            return base.OnBeforGameContinueResult(player, result, out errorMsg);
         }
         public override int OnBeforGetPlayerTableSeat(TablePlayer player, byte selectChairId, out string errorMsg)
         {
@@ -740,6 +775,7 @@ namespace M_HQMJ
         //内部游戏开始
         private void RealGameStart()
         {
+            this._isAddGame = false;
             //复位桌子
             RepositTableFrameSink();
 
@@ -1036,6 +1072,7 @@ namespace M_HQMJ
             {
                 outMj[i] = 0;
                 _baoTing[i] = false;
+                baozi[i] = false;
                 _playerAry[i]._isBaoTing = false;
             }
             
@@ -1267,40 +1304,9 @@ namespace M_HQMJ
                                         OrderId = quanZhuID,
                                         MoneyNum = 0,
                                     }, Rec_BackPay);
+                                    this._tableConfig.GiveBacked = true;
                                 }
                             }
-                            //if (isDismissRoom || forceEnd || this._tableConfig.isPlayEnoughGameNum(this._addNum))
-                            //{//桌费
-                            //    int cost = 0;
-                            //    cost = _tableConfig.GameNum;
-                            //    var balance = new PlayerForFeeDataMultiple()
-                            //    {
-                            //        FeeDataType = ForFeeDataType.多人游戏结算,
-                            //        FeeUserCount = userAuditData.Count,
-                            //        Mark = "霍邱麻将记分场结算",
-                            //        MoneyType = GameHost.GetRoomInfo.CheckMoneyType,
-                            //        NoCheckUserMoney = 1,
-                            //        //1AA 2房主 3圈住
-                            //        RoomCostPayType = (RoomCostPayType)_tableConfig.TableCreatorPay,
-                            //        //PayRoomCostUserID = payRoomCostUserID,
-                            //        //RoomCost = roomCost,
-                            //        //当前局数
-                            //        GameNum = _tableConfig.GameNum,
-                            //        //桌费 根据局数计算
-                            //        RoomCost = (uint)cost,
-
-                            //        TotalGameNum = (_tableConfig.SetGameNum + 1) * 8 * this._addNum,
-                                    
-                            //        RoomCostType = this.GameHost.GetRoomInfo.TableCostMoneyType,
-                            //        RoomID = GameHost.GetRoomInfo.ID,
-                            //        UserAuditDataArray = userAuditData.ToArray()
-                            //    };
-                            //    this.GameHost.HostSettlementService.PlayerForFeeMultiple(balance, p1 =>
-                            //    {
-                            //        this.GameHost.WriteMessage("结算成功");
-
-                            //    });
-                            //}
                             //if (!isDismissRoom)
                             //{
                                 this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_Balance()
@@ -1332,17 +1338,28 @@ namespace M_HQMJ
                             //}
                             //打满局数 发送续局投票
                             if (this._tableConfig.isPlayEnoughGameNum(this._addNum))
-                            { 
-                                SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                            {
+                                //SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                                //{
+                                //    gameNum = 2
+                                //});
+                                //this._isAddGame = true;
+                                //this._startAddTime = DateTime.Now;
+                                //GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_OutTime, 310, () =>
+                                //{
+                                //    voteAddGameOutTime();
+                                //});
+                                List<QL.Common.PlayerGameScore> player = new List<QL.Common.PlayerGameScore>();
+                                foreach (var player1 in _playerAry)
                                 {
-                                    gameNum = 2
-                                });
+                                    player.Add(new QL.Common.PlayerGameScore
+                                    {
+                                        GameScore = player1.TotalScore,
+                                        PlayerId = player1.PlayerID
+                                    });
+                                }
+                                GameHost.HostGameContinueService.BeginGameContinue(player.ToArray());
                                 this._isAddGame = true;
-                                this._startAddTime = DateTime.Now;
-                                GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_OutTime, 310, () =>
-                                {
-                                    voteAddGameOutTime();
-                                });
                             }
                         }
                     });
@@ -1504,6 +1521,65 @@ namespace M_HQMJ
             }
 
             AddLogTitle("**********************游戏结束**********************");
+        }
+
+        //     游戏发起了请求续局请求的处理结果通知信息
+        //
+        // 参数:
+        //   result:
+        //     处理结果，1同意续局。-1拒绝续局
+        public override int OnGameContinueResult(int result)
+        {
+            GameHost.SaveLog($"续局结果{result}");
+            if (result == 1)
+            {
+                this._addNum++;
+                if (this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+                {
+                    int moneyNum = (this._tableConfig.SetGameNum + 1) * 32 * this._addNum;
+                    GameHost.HostSettlementService.FrozenUserAccount(new GameIF.FrozenUserAccountParam()
+                    {
+                        in_ObjectId = GameHost.TableInfo.GroupId,
+                        in_ObjectType = (FrozenUserAccountObjectType)2,
+                        MoneyType = GameHost.GetRoomInfo.TableCostMoneyType,
+                        MoneyNum = moneyNum,
+                        Mark = "霍邱麻将圈主付费房费预扣",
+                    }, Rec_PreHoldPayForAdd);
+                }
+                else
+                {
+                    this._tableConfig.GiveBacked = false;
+                    for (int i = 0; i < HQMJConstants.GAME_PLAYER; i++)
+                    {
+                        _playerAry[i].IfCanOp = true;
+                    }
+                    //续局后 调用空闲进入房间 初始化桌子信息 再调用游戏开始
+                    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_ORC_TableFree()
+                    {
+                    }, false);
+                        this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                    {
+                        gameNum = 100,
+                        addNum = this._addNum
+                    });
+                    _completeCount = 0;
+
+
+                    //RealGameStart();
+                }
+            }
+            else if (result == -1)
+            {
+                //this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                //{
+                //    gameNum = 103
+                //});
+                this._isAddGame = false;
+                GameEnd();
+            }
+
+            return 0;
+
         }
 
         ///// <summary>
@@ -1703,7 +1779,7 @@ namespace M_HQMJ
                     case HQMJMsgID_c2s.CMD_C_AddGameNum:
                         {
                             CMD_C_AddGameNum addGameNum = cm as CMD_C_AddGameNum;
-                            this.HandleMsg_CMD_C_AddGameNum(chairID, addGameNum.point);
+                            //this.HandleMsg_CMD_C_AddGameNum(chairID, addGameNum.point);
                             break;
                         }
                 }
@@ -1920,6 +1996,7 @@ namespace M_HQMJ
                     OrderId = quanZhuID,
                     MoneyNum = 0,
                 }, Rec_BackPay);
+                this._tableConfig.GiveBacked = true;
             }
             //如果桌子上已经没有玩家了,清理规则配置
             var playerInfoOnTable = this.GameHost.PlayerInfoOnTable;
@@ -2036,7 +2113,6 @@ namespace M_HQMJ
                 //处理玩家断线后的逻辑
                 HandlerPlayerOffline((byte)chairID);
             }
-
             return 1;
         }
 
@@ -2255,6 +2331,7 @@ namespace M_HQMJ
             tingMj[chair] = false;
             _baoTing[chair] = true;
             _playerAry[chair]._isBaoTing = true;
+            baozi[chair] = false;
             SendCardToPlayer();
 
             SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_PlayerBao()
@@ -2269,6 +2346,7 @@ namespace M_HQMJ
         /// <param name="point"></param>
         private void HandleMsg_CMD_C_GiveUpBaoTing(ushort chair, byte point)
         {
+            baozi[chair] = false;
             _playerAry[chair]._isBaoTing = false;
             if (tingMj[chair])
             {
@@ -2294,65 +2372,70 @@ namespace M_HQMJ
                 //通知平台游戏结束
                 GameEnd();
             }
-            if(point == 1)
-            {
-                PrintLog(chair+"号玩家拒绝续局 游戏结束。");
-                this._isAddGame = false;
-                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
-                {
-                    gameNum = 1
-                });
-                this.GameHost.WriteMessage("**游戏结束 **");
-                //通知平台游戏结束
-                GameEnd();
-            }
+            //if(point == 1)
+            //{
+            //    PrintLog(chair+"号玩家拒绝续局 游戏结束。");
+            //    this._isAddGame = false;
+            //    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+            //    {
+            //        gameNum = 1
+            //    });
+            //    this.GameHost.WriteMessage("**游戏结束 **");
+            //    //通知平台游戏结束
+            //    GameEnd();
+            //}
             if (point == 0)
             {
                 PrintLog(chair + "号玩家同意续局");
-                this.playerVote[chair] = 0;
-                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
-                {
-                    gameNum = 0,
-                    chair = (byte)chair
-                });
+                //this.playerVote[chair] = 0;
+                //this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                //{
+                //    gameNum = 0,
+                //    chair = (byte)chair
+                //});
                 _completeCount++;
                 _playerAry[chair].IfCanOp = true;
             }
-            if(_completeCount >= 4)
+            if (_completeCount >= 4)
             {
-                PrintLog("所有玩家同意续局");
-                this._addNum += 1;              
-                this._isAddGame = false;
-                this._tableConfig.GiveBacked = false;
-                //先返还续局前扣的钻石 再按照新的总局数扣钻
-                if (this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
                 {
-                    //GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
-                    //{
-                    //    OrderId = quanZhuID,
-                    //    MoneyNum = 0,
-                    //}, Rec_BackPay);
-                    //圈主支付时 钻石判断
-                    int moneyNum = (this._tableConfig.SetGameNum  + 1) * 32*this._addNum;
-                    GameHost.HostSettlementService.FrozenUserAccount(new GameIF.FrozenUserAccountParam()
-                    {
-                         in_ObjectId = GameHost.TableInfo.GroupId,
-                         in_ObjectType = (FrozenUserAccountObjectType)2,
-                         MoneyType = GameHost.GetRoomInfo.TableCostMoneyType,
-                         MoneyNum = moneyNum,
-                         Mark = "霍邱麻将圈主付费房费预扣",
-                    }, Rec_PreHoldPayForAdd);
-                }
-                else
-                {
-                    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
-                    {
-                        gameNum = 100,
-                        addNum = this._addNum
-                    });
-                    _completeCount = 0;
-                }
-                
+                    gameNum = 105,
+                });
+                RealGameStart();
+                //PrintLog("所有玩家同意续局");
+                //this._addNum += 1;
+                //this._isAddGame = false;
+                //this._tableConfig.GiveBacked = false;
+                ////先返还续局前扣的钻石 再按照新的总局数扣钻
+                //if (this._tableConfig.TableCreatorPay == 3 && GameHost.TableInfo.GroupId > 0)
+                //{
+                //    //GameHost.HostSettlementService.ThawUserAccount(new ThawUserAccountParam()
+                //    //{
+                //    //    OrderId = quanZhuID,
+                //    //    MoneyNum = 0,
+                //    //}, Rec_BackPay);
+                //    //圈主支付时 钻石判断
+                //    int moneyNum = (this._tableConfig.SetGameNum + 1) * 32 * this._addNum;
+                //    GameHost.HostSettlementService.FrozenUserAccount(new GameIF.FrozenUserAccountParam()
+                //    {
+                //        in_ObjectId = GameHost.TableInfo.GroupId,
+                //        in_ObjectType = (FrozenUserAccountObjectType)2,
+                //        MoneyType = GameHost.GetRoomInfo.TableCostMoneyType,
+                //        MoneyNum = moneyNum,
+                //        Mark = "霍邱麻将圈主付费房费预扣",
+                //    }, Rec_PreHoldPayForAdd);
+                //}
+                //else
+                //{
+                //    this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
+                //    {
+                //        gameNum = 100,
+                //        addNum = this._addNum
+                //    });
+                //    _completeCount = 0;
+                //}
+
             }
         }
 
@@ -2544,7 +2627,8 @@ namespace M_HQMJ
             if (!this._isGameing && _playerAry[chair].IfCanOp)
             {
                 _playerAry[chair].IfCanOp = false;
-                _playerAry[chair].IsReady = true;
+                if(!this._tableConfig.isPlayEnoughGameNum(this._addNum - 1) && !this._isAddGame)
+                    _playerAry[chair].IsReady = true;
                 CMD_S_UseReady alaredy = new CMD_S_UseReady();
                 alaredy.chair = (byte)chair;
                 //if(alaredy.userReady.Length == 0)
@@ -4694,6 +4778,11 @@ namespace M_HQMJ
         {
             if (result.IsSuccess)
             {
+                this._tableConfig.GiveBacked = false;
+                for (int i = 0; i < HQMJConstants.GAME_PLAYER; i++)
+                {
+                    _playerAry[i].IfCanOp = true;
+                }
                 this.quanZhuID = result.OrderId;
                 this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
                 {
@@ -4701,11 +4790,18 @@ namespace M_HQMJ
                     addNum = this._addNum
                 });
                 _completeCount = 0;
+                
+                //续局后 调用空闲进入房间 初始化桌子信息 再调用游戏开始
+                this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_ORC_TableFree()
+                {
+                }, false);
+                RealGameStart();
             }
             else
             {
                 PrintLog("钻石不足 无法续局 游戏结束");
                 this._addNum--;
+                this._isAddGame = false;
                 this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_AddGameNum()
                 {
                     gameNum = 101
@@ -4938,6 +5034,7 @@ namespace M_HQMJ
                                 OrderId = quanZhuID,
                                 MoneyNum = 0,
                             }, Rec_BackPay);
+                            this._tableConfig.GiveBacked = true;
                         }
 
                 }
@@ -4947,7 +5044,7 @@ namespace M_HQMJ
 
         private void Rec_BackPay(ThawUserAccountResult obj)
         {
-            this._tableConfig.GiveBacked = true;
+            //this._tableConfig.GiveBacked = true;
             this.PrintLog("圈主支付 钻石返还成功"); 
         }
 
@@ -5008,6 +5105,7 @@ namespace M_HQMJ
                 CMD_S_PlayerBaoTing baoting = new CMD_S_PlayerBaoTing();
                 baoting.chair = _opPlayerChar;
                 SendGameMsg(_opPlayerChar, baoting);
+                baozi[_opPlayerChar] = true;
                 return false;
             }
             //累计抓牌的数量
@@ -5575,6 +5673,7 @@ namespace M_HQMJ
                     OrderId = quanZhuID,
                     MoneyNum = 0,
                 }, Rec_BackPay);
+                this._tableConfig.GiveBacked = true;
             }
             //this._tableConfig.clear();
         }
@@ -5724,7 +5823,7 @@ namespace M_HQMJ
             //}
             //断线重连自主建房,局数没打满处理
             //  else
-            if (_tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum(this._addNum) && !this._isGameing)
+            if (_tableConfig.isValid && !this._tableConfig.isPlayEnoughGameNum(this._addNum) && !_isAddGame && !this._isGameing)
             {
                 this.HandleMsg_CMD_C_NextGame(chairID, new CMD_C_NextGame());
             }
@@ -5748,27 +5847,30 @@ namespace M_HQMJ
                         break;
                     }
             }
-            //断线重连 续局投票
-            if(_tableConfig.isValid && !this._isGameing && this._isAddGame)
+            //豹听断线重连
+            for (byte i = 0; i < 4; i++)
             {
-                int[] tempScore = new int[4];
-                for(var i = 0; i < 4; i++)
+                if (baozi[i])
                 {
-                    tempScore[i] = _playerAry[i].TotalScore;
+                    this.SendGameMsg(i, new CMD_S_ORC_BaoTing()
+                    {
+                        chair = i
+                    }, false);
                 }
-                this.SendGameMsg(chairID,new CMD_S_ORC_AddGameNum() {
-                    chair = chairID,
-                    tempScore = tempScore,
-                    playerVote = this.playerVote,
-                    leftTime = (byte)(30 - MahjongGeneralAlgorithm.GetSecondsInTwoTime(this._startAddTime, DateTime.Now))
-                });
             }
+
             //断线重连自主建房,局数没打满处理
             if (_tableConfig.isValid && !this._isGameing) //&& !_playerAry[chairID].IsReady)
             {
+                byte _index = 0;
+                if (this._isAddGame)
+                {
+                    _index = 1;
+                }
                 this.SendGameMsg(chairID, new CMD_S_ORC_TableFree()
                 {
-                    //lianbank = lianzhuang
+                    isXuJu = _index,
+                    addNum = this._addNum
                 }, false);
                 foreach (var player in _playerAry)
                 {
@@ -5791,6 +5893,23 @@ namespace M_HQMJ
                 }          
                 return;
             }
+
+            //断线重连 续局投票
+            //if (_tableConfig.isValid && !this._isGameing && this._isAddGame)
+            //{
+            //    //int[] tempScore = new int[4];
+            //    //for(var i = 0; i < 4; i++)
+            //    //{
+            //    //    tempScore[i] = _playerAry[i].TotalScore;
+            //    //}
+            //    this.SendGameMsg(chairID, new CMD_S_ORC_AddGameNum()
+            //    {
+            //        chair = chairID,
+            //        //tempScore = tempScore,
+            //        //playerVote = this.playerVote,
+            //        //leftTime = (byte)(30 - MahjongGeneralAlgorithm.GetSecondsInTwoTime(this._startAddTime, DateTime.Now))
+            //    });
+            //}
 
             //1、恢复游戏信息
             this.SendGameMsg(chairID, new CMD_S_ORC_GameInfo()
@@ -6178,7 +6297,8 @@ namespace M_HQMJ
                 daiDaPai = _tableConfig.daiDaPai,
                 whoLose = _tableConfig.whoLose,
                 tableWhere = (int)GameHost.TableInfo.GroupId,
-                checkGps = (byte)(_tableConfig.CheckGps ? 1 : 0)
+                checkGps = (byte)(_tableConfig.CheckGps ? 1 : 0),
+                addNum = this._addNum
 
             });
         }

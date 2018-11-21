@@ -528,6 +528,16 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     //请求听牌提示
     btn_tingtip: cc.Button = null;
 
+
+    @property(cc.Sprite)
+    backpack:cc.Sprite = null;
+    //2d桌布
+    @property(cc.SpriteFrame)
+    private backpack_2d:cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    private backpack_3d:cc.SpriteFrame = null;
+    
     // @property(cc.Button)
     // //位置
     // btn_location: cc.Button = null;
@@ -720,6 +730,12 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     }
 
     public Init(): void {
+        if(LHZMJ.ins.iclass.is2D()){
+           this.backpack.spriteFrame = this.backpack_2d; 
+         }else{
+            this.backpack.spriteFrame = this.backpack_3d;
+        }
+        
         this._locked = false;
         this._lockedSetting=false;
         if (cc.isValid(this.GameInfo)) {

@@ -119,6 +119,7 @@ export default class HQMJ_GameStatusUserInfo extends cc.Component {
                 M_HQMJVoice.PlayCardType(`/sound/Button32.mp3`);
                 // M_HQMJView.ins.UserData.showUserData(this.HQMJClass.getTableConfig().isValid,this.HQMJClass.getTablePlayerAry()[chair],xPos,yPos);
                 let point = new cc.Vec2(HQMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].x, HQMJ_GameStatusUserInfo.UserDataGamingPos[logicChair].y);
+                // M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
                 M_HQMJClass.ins.showPlayerInfoForm(HQMJ.ins.iclass.getTablePlayerAry()[chair],point, chair);
             }
         }

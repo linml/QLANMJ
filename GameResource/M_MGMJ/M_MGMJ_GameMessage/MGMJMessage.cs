@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QL.Serialization;
 
 namespace M_MGMJ_GameMessage
 {
@@ -906,6 +905,20 @@ namespace M_MGMJ_GameMessage
     };
 
     /// <summary>
+    /// 续局
+    /// </summary>
+    [PacketContract(((byte)MGMJConstants.WHMJ_GAMEID) << 8 | (byte)MGMJMsgID_s2c.CMD_S_AddGameNum)]
+    public class CMD_S_AddGameNum : GameIF.GameMessage
+    {
+        [PacketMember(1)]
+        public byte gameNum;
+        [PacketMember(2)]
+        public byte chair;
+        [PacketMember(3)]
+        public byte addNum;
+    }
+
+    /// <summary>
     /// 游戏流水账
     /// </summary>
     [PacketContract(((byte)MGMJConstants.WHMJ_GAMEID) << 8 | (byte)MGMJMsgID_s2c.CMD_S_GameFlow)]
@@ -1085,7 +1098,14 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(32)]
         public byte CheckGps;
+
         /// <summary>
+        /// 
+        /// <summary>
+        /// 续局次数
+        /// </summary>
+        [PacketMember(33)]
+        public byte addNum;
 
     };
 
@@ -1736,7 +1756,9 @@ namespace M_MGMJ_GameMessage
         /// 用于玩家断线重连恢复连庄数
         /// </summary>
         [PacketMember(1)]
-        public byte lianbank;
+        public byte isXuJu;
+        [PacketMember(2)]
+        public byte addNum;
     };
     /// <summary>
     /// 断线重连,玩家分数变化

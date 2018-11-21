@@ -38,6 +38,12 @@ export class FriendCircleInfo {
    	public name: string;
 
     /**
+      * 指定授权的游戏列表
+      */
+    public accessGame: string;
+
+
+    /**
      * 亲友圈公告
      */
     public notice: string;
@@ -83,7 +89,7 @@ export class FriendCircleRule {
       /**
        * 游戏昵称
        */
-      public gameName: number;
+      public gameName: string;
 
       /**
        * 玩法

@@ -135,6 +135,8 @@ export default class ConfigData {
     public static AppVersion: number = 0;
 
     public static SystemInited: boolean = false;
+
+    // 大厅游戏列表
     private static _gameList: Array<number>;
     public static get GameList(): Array<number> {
         if (ConfigData._gameList == null) {
@@ -144,5 +146,22 @@ export default class ConfigData {
     }
     public static set GameList(val: Array<number>) {
         ConfigData._gameList = val;
+    }
+
+    // 亲友圈特殊授权游戏列表
+    public static _friendAccreditGameList: Array< number >;
+
+    public static get FriendAccreditGameList(): Array<number> {
+        if (ConfigData._friendAccreditGameList == null) {
+            ConfigData._friendAccreditGameList = [
+                76                 // 牛牛
+            ];
+        }
+
+        return ConfigData._friendAccreditGameList;
+    }
+
+    public static set FriendAccreditGameList(val: Array<number>) {
+        ConfigData._friendAccreditGameList = val;
     }
 }

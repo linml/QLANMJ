@@ -1055,6 +1055,7 @@ export default class M_MGMJView extends cc.Component implements IMGMJView {
                 
                 //继续游戏
                 case MGMJEvent.msg_goongame: {
+                    console.log("------------M_MGMJViews  msg_goongame -----");
                     this.clear();
                     this._gameInfo.node.active = true;
                     //if(M_MGMJClass.ins.TableConfig.IsBuKao){
@@ -1068,13 +1069,14 @@ export default class M_MGMJView extends cc.Component implements IMGMJView {
                     if(M_MGMJClass.ins.checkMoneyCanGame){
                         console.log(`isSelfCreateRoom=${this.gameClass.isSelfCreateRoom}`);
                         console.log(`alreadyGameNum=${M_MGMJClass.ins.TableConfig.alreadyGameNum}`);
-                        console.log(`isPlayEnoughGameNum=${M_MGMJClass.ins.TableConfig.isPlayEnoughGameNum}`);
+                        console.log(`isPlayEnoughGameNum=${M_MGMJClass.ins.TableConfig.isPlayEnoughGameNum(M_MGMJClass.ins._addNum)}`);
                         
-                        if(this.gameClass.isSelfCreateRoom && (M_MGMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_MGMJClass.ins.TableConfig.isPlayEnoughGameNum){
+                        if(this.gameClass.isSelfCreateRoom && (M_MGMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_MGMJClass.ins.TableConfig.isPlayEnoughGameNum(M_MGMJClass.ins._addNum)){
                             this.ReadyStatusUserInfo.OnPlayerStatusChange(M_MGMJClass.ins.SelfChair,QL_Common.GState.PlayerReady);
-                            
+                            console.log("-----继续下一局执行-----");
                             this.gameClass.SendGameData(new M_MGMJ_GameMessage.CMD_C_NextGame());                       
                         }else{
+                            console.log("----come here in now ------");
                             M_MGMJClass.ins.SendUserReady();
                         }
                     }

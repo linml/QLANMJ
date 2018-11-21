@@ -83,7 +83,8 @@ export default class HallCtrl extends ReConnectBase {
     @property(cc.Node)
     email: cc.Node = null;
 
-
+    @property(cc.Node)
+    bind_panel : cc.Node = null;
 
     @property(cc.Prefab)
     rankPrefab: cc.Prefab = null;
@@ -121,6 +122,18 @@ export default class HallCtrl extends ReConnectBase {
         if (!this.UserInfo.userData) {
             Global.ChangeScene("Login");
             return;
+        }
+
+        let phone = this.UserInfo.userData.PhoneNum;
+        let player_phone = LocalStorage.GetItem("player_phone");
+        if(phone && player_phone == ""){
+            LocalStorage.SetItem("player_phone", phone);
+        }
+
+        let realName = this.UserInfo.userData.RealName;
+        let idCardNum = this.UserInfo.userData.IdCardNum;
+        if(realName && idCardNum && phone){
+            this.bind_panel.active = false;
         }
 
         //播放大厅背景音乐
@@ -521,6 +534,13 @@ export default class HallCtrl extends ReConnectBase {
     }
 
     /**
+     * 点击绑定按钮
+     */
+    private bindClick(){
+        this.UiManager.ShowUi(UIName.BindPanel);
+    }
+
+    /**
      * 游戏内自定义消息到达
      * @param eventCode 
      * @param value 
@@ -553,11 +573,9 @@ export default class HallCtrl extends ReConnectBase {
                 this.NewEmailInfo();
                 return true;
             case EventCode.HornHallStart:
-                cc.log("长度为：" + HornPanel.HornHallList.length);
                 if (HornPanel.HornHallList.length > 0) {
                     this.UiManager.ShowHorn(HornPanel.HornHallList[HornPanel.HornHallList.length - 1]);
                 }
-                cc.log("大厅跑马灯到达");
                 return true;
             default:
                 return super.OnSceneEvent(eventCode, value);

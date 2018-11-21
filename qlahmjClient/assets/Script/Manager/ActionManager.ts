@@ -32,8 +32,8 @@ export class ActionManager implements IActionManager {
         this.callbacklist[key] = fitem;
 
         return true;
-        
     }
+    
     public AddFunction(call: Action): string {
         while (true) {
             let uuid = UuidHelper.getShortUuid();
@@ -43,6 +43,7 @@ export class ActionManager implements IActionManager {
             continue;
         }
     }
+
     public RunCallback(key: string, value: any) {
         var s = this.callbacklist[key];
         if (!s) {

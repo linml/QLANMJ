@@ -1,0 +1,34 @@
+# 服务分区
+RegionHost = "ceshi"
+# 服务Redis服务地址
+RedisConstr = "127.0.0.1:6379"
+# 服务Redis 数据库编号
+RedisDbId = -1
+# Mysql 配置数据库
+MySqlConstr = "server=106.14.180.115;port=3301;user=root;password=0PZ0K9nq3N5XcLy;database=entertainment_76; pooling=true; CharSet=utf8mb4;"
+# 配置数据库连接字符串
+ConfMySqlConstr = "server=106.14.180.115;port=3301;user=root;password=0PZ0K9nq3N5XcLy;database=entertainment_76; pooling=true; CharSet=utf8mb4;"
+# 服务器使用的主密钥
+WebSecret = "Pc0sM75itrf9024W4wU54x1v7sbObmQIBPuFbP8K64KeTt9KFG"
+# 指示服务器是否启用SSL 证书
+UseHttps = 0
+# 网站的服务端口
+ServicesPort = 12345
+# 微信头像的缓存cdn地址
+WxHeadImgHost = "wxheader.qileah.cn"
+# 服务器Ip
+ServicesIp = "127.0.0.1"
+# 网站名称
+WebName = "七乐互娱"
+# Oss文件上传地址
+OssUploadUrl = "http://qile-files.oss-cn-shanghai.aliyuncs.com"
+# 分区编号
+RegionId = "1001"
+# 项目主页网址
+HomeUrl = "http://www.qileah.cn/"
+# 微信支付接口配置
+PAY_WeiXinAppId = "sft|18118093"
+# 支付宝支付接口配置
+PAY_AlipayAppId = "sft|18118093"
+# 短信验证码发送接口
+SMS_SendAppId = "ybsms|15555117295"

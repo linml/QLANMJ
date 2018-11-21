@@ -141,47 +141,47 @@ export default class LHZMJ_SelfSingleFixed extends LHZMJ_SingleFixedBase {
             this.node.scaleX=0.9;
             this.node.scaleY=0.9;
             this.node.y=-289;
-            this.bmp_cardbackAry[0].node.x=-67;
+            this.bmp_cardbackAry[0].node.x=-60;
             this.bmp_cardbackAry[0].node.y=0;
-            this.bmp_cardbackAry[0].node.width=86;
-            this.bmp_cardbackAry[0].node.height=124;
+            this.bmp_cardbackAry[0].node.width=78;
+            this.bmp_cardbackAry[0].node.height=110;
             this.bmp_cardbackAry[0].node.scaleX=1;
 
-            this.bmp_cardbackAry[1].node.x=0;
+            this.bmp_cardbackAry[1].node.x=14;
             this.bmp_cardbackAry[1].node.y=0;
-            this.bmp_cardbackAry[1].node.width=86;
-            this.bmp_cardbackAry[1].node.height=124;
+            this.bmp_cardbackAry[1].node.width=78;
+            this.bmp_cardbackAry[1].node.height=110;
             this.bmp_cardbackAry[1].node.scaleX=1;
             
-            this.bmp_cardbackAry[2].node.x=67;
+            this.bmp_cardbackAry[2].node.x=88;
             this.bmp_cardbackAry[2].node.y=0;
-            this.bmp_cardbackAry[2].node.width=86;
-            this.bmp_cardbackAry[2].node.height=124;
+            this.bmp_cardbackAry[2].node.width=78;
+            this.bmp_cardbackAry[2].node.height=110;
             this.bmp_cardbackAry[2].node.scaleX=1;
 
-            this.bmp_cardbackAry[3].node.x=0;
-            this.bmp_cardbackAry[3].node.y=20;
-            this.bmp_cardbackAry[3].node.width=86;
-            this.bmp_cardbackAry[3].node.height=124;
+            this.bmp_cardbackAry[3].node.x=14;
+            this.bmp_cardbackAry[3].node.y=18;
+            this.bmp_cardbackAry[3].node.width=78;
+            this.bmp_cardbackAry[3].node.height=110;
             this.bmp_cardbackAry[3].node.scaleX=1;
 
-            this.bmp_cardcolorAry[0].node.x=-67;
-            this.bmp_cardcolorAry[0].node.y=10;
+            this.bmp_cardcolorAry[0].node.x=-60;
+            this.bmp_cardcolorAry[0].node.y=13;
             this.bmp_cardcolorAry[0].node.skewX=0;
             this.bmp_cardcolorAry[0].node.scaleX=1;
-            this.bmp_cardcolorAry[0].node.scaleY=1;
+            this.bmp_cardcolorAry[0].node.scaleY=0.8;
 
-            this.bmp_cardcolorAry[1].node.x=0;
-            this.bmp_cardcolorAry[1].node.y=30;
+            this.bmp_cardcolorAry[1].node.x=14;
+            this.bmp_cardcolorAry[1].node.y=31;
             this.bmp_cardcolorAry[1].node.skewX=0;
             this.bmp_cardcolorAry[1].node.scaleX=1;
-            this.bmp_cardcolorAry[1].node.scaleY=1;
+            this.bmp_cardcolorAry[1].node.scaleY=0.8;
 
-            this.bmp_cardcolorAry[2].node.x=67;
-            this.bmp_cardcolorAry[2].node.y=10;
+            this.bmp_cardcolorAry[2].node.x=88;
+            this.bmp_cardcolorAry[2].node.y=13;
             this.bmp_cardcolorAry[2].node.skewX=0;
             this.bmp_cardcolorAry[2].node.scaleX=1;
-            this.bmp_cardcolorAry[2].node.scaleY=1;
+            this.bmp_cardcolorAry[2].node.scaleY=0.8;
 
             this.bmp_cardHideAry[0].node.x=-67;
             this.bmp_cardHideAry[0].node.y=0;
@@ -214,7 +214,7 @@ export default class LHZMJ_SelfSingleFixed extends LHZMJ_SingleFixedBase {
                     this.bmp_cardbackAry[3].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiBeiRes("shoupaipg@2x");
                     this.bmp_cardcolorAry[1].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
 
-                    this.bmp_cardcolorAry[1].node.y = 30;
+                    this.bmp_cardcolorAry[1].node.y = 31;
 
                     this.bmp_cardbackAry[0].node.active=true;
                     this.bmp_cardbackAry[1].node.active=true;
@@ -250,7 +250,7 @@ export default class LHZMJ_SelfSingleFixed extends LHZMJ_SingleFixedBase {
                     this.bmp_cardcolorAry[1].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                     this.bmp_cardcolorAry[2].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                     
-                    this.bmp_cardcolorAry[1].node.y = 30;
+                    this.bmp_cardcolorAry[1].node.y = 31;
 
                     this.bmp_cardbackAry[0].node.active=true;
                     this.bmp_cardbackAry[1].node.active=true;
@@ -280,7 +280,7 @@ export default class LHZMJ_SelfSingleFixed extends LHZMJ_SingleFixedBase {
                     this.bmp_cardcolorAry[1].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
                     this.bmp_cardcolorAry[2].spriteFrame=LHZMJ.ins.iclass.getMahjongPaiHuaRes(this.cardValue);
 
-                    this.bmp_cardcolorAry[1].node.y = 10;
+                    this.bmp_cardcolorAry[1].node.y = 13;
 
                     this.bmp_cardbackAry[0].node.active=true;
                     this.bmp_cardbackAry[1].node.active=true;

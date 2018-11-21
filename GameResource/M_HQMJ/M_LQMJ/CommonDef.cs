@@ -484,6 +484,10 @@ namespace M_HQMJ
         /// </summary>
         public bool isPlayEnoughGameNum(int num)
         {
+            if(num == 0)
+            {
+                num = 1;
+            }
             {
                 if(this._setGameNum == 0)
                 {

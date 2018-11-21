@@ -8,6 +8,7 @@ import TopFormBase from "../General/TopFormBase";
 import ResumeGamePlayerItem from "./ResumeGamePlayerItem";
 import SendMessage from "../../Global/SendMessage";
 import { UIName } from "../../Global/UIName";
+import { EventCode } from "../../Global/EventCode";
 
 const { ccclass, property } = cc._decorator;
 
@@ -74,13 +75,13 @@ export class ResumeGame extends UIBase<any> {
     public InitShow() {
         super.InitShow();
         this._playerList = [];
-        cc.info("--- resumeGame playerStatusInfo: " ,this.ShowParam);
+        cc.info("--- resumeGame playerStatusInfo: ", this.ShowParam);
 
         if (this.layout_playerList) {
             this.layout_playerList.node.removeAllChildren();
         }
-        
-        if (this.btn_agreeResum 
+
+        if (this.btn_agreeResum
             && this.mask_agreeBtn
             && this.btn_gameEnd
             && this.mask_gameEnd) {
@@ -101,13 +102,13 @@ export class ResumeGame extends UIBase<any> {
         // 初始化投票状态
         if (this.ShowParam.statusList) {
             for (var idx = 0; idx < this.ShowParam.statusList.length; ++idx) {
-                this.updatePlayerVoteStatus(idx,this.ShowParam.statusList[idx]);
+                this.updatePlayerVoteStatus(idx, this.ShowParam.statusList[idx]);
             }
         }
 
         if (this._countDownTime > 0) {
             // 开启倒计时
-            this.schedule(this.countDownTimeCallback,1);
+            this.schedule(this.countDownTimeCallback, 1);
         }
         this.node.active = true;
     }
@@ -126,8 +127,8 @@ export class ResumeGame extends UIBase<any> {
 
         // 创建玩家Item并初始化显示
         for (let idx = 0; idx < playerList.length; ++idx) {
-            if (!(playerList[idx] && null != this.ShowParam.scoreList[idx] 
-                )) {
+            if (!(playerList[idx] && null != this.ShowParam.scoreList[idx]
+            )) {
                 continue;
             }
 
@@ -143,7 +144,7 @@ export class ResumeGame extends UIBase<any> {
             this.mask_gameEnd.node.active = false;
         }
     }
-    public CloseUiContinue(){
+    public CloseUiContinue() {
         Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
     }
 
@@ -152,28 +153,28 @@ export class ResumeGame extends UIBase<any> {
      */
     public updatePlayerVoteStatus(id: number, status: QL_Common.GameContinueStatus) {
         let comp_player = null;
-        cc.info("--- player vote: "+ "chair" + id + "status" + status);
-        for(var i = 0;i<this._playerList.length;i++){
-            if(this._playerList[i].playerid == id){
-                  comp_player = this._playerList[i];
+        cc.info("--- player vote: " + "chair" + id + "status" + status);
+        for (var i = 0; i < this._playerList.length; i++) {
+            if (this._playerList[i].playerid == id) {
+                comp_player = this._playerList[i];
             }
         }
-        
+
         if (comp_player) {
             comp_player.updateVoteStatusShow(status);
         }
         //判断所有玩家是否都同意续局
-        for(var k = 0,x = 0;k<this._playerList.length;k++){
-            if(this._playerList[k]!=null&&this._playerList[k].lab_status.string == '同意续局'){
+        for (var k = 0, x = 0; k < this._playerList.length; k++) {
+            if (this._playerList[k] != null && this._playerList[k].lab_status.string == '同意续局') {
                 x++;
             }
-            if(x == this._playerList.length){
+            if (x == this._playerList.length) {
                 Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
                 break;
 
             }
         }
-        if(status == QL_Common.GameContinueStatus.Denied){
+        if (status == QL_Common.GameContinueStatus.Denied) {
             Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
         }
     }
@@ -183,9 +184,9 @@ export class ResumeGame extends UIBase<any> {
      */
     public countDownTimeCallback() {
         if (this._countDownTime > 0) {
-            this._countDownTime --;
+            this._countDownTime--;
             this.lab_countDownTime.string = this._countDownTime + '秒';
-        }else{
+        } else {
             this.unschedule(this.countDownTimeCallback);
         }
     }
@@ -215,7 +216,7 @@ export class ResumeGame extends UIBase<any> {
         this.mask_agreeBtn.node.active = true;
         this.mask_gameEnd.node.active = true;
         SendMessage.Instance.GameContinueStatus(QL_Common.GameContinueStatus.Agree);
-        
+
         // if (this._agreeResumeGameAct) {
         //     this._agreeResumeGameAct.Run([]);
 
@@ -231,5 +232,19 @@ export class ResumeGame extends UIBase<any> {
 
         //     cc.info('--- player argee resume game. ');
         // }
+    }
+
+    /**
+     * 
+     * @param eventCode 
+     * @param value 
+     */
+    OnEventComeIn(eventCode: number, value: any): boolean {
+        switch (eventCode) {
+            case EventCode.onNetNoResponse: {
+                this.CloseClick();
+            }
+        }
+        return super.OnEventComeIn(eventCode, value);
     }
 }

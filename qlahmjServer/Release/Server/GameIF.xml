@@ -254,6 +254,11 @@
             获取群内创建房间列表
             </summary>
         </member>
+        <member name="F:QL.Common.SUB_CommandSC.C2LS.MSG_C_SubscribeOrUnsubscribeMessage">
+            <summary>
+            订阅或者取消订阅指定类别消息的处理接口
+            </summary>
+        </member>
         <member name="T:QL.Common.SUB_CommandSC.C2GS">
             <summary>
             往游戏服务器
@@ -337,6 +342,11 @@
         <member name="F:QL.Common.SUB_CommandSC.C2GS.MSG_C_AcceptChangeChairId">
             <summary>
             玩家同意更换玩家座位号
+            </summary>
+        </member>
+        <member name="F:QL.Common.SUB_CommandSC.C2GS.MSG_C_SendGameContinueStatus">
+            <summary>
+            服务端发送给玩家请求更换座位的请求消息
             </summary>
         </member>
         <member name="T:QL.Common.SUB_CommandSC.LS2C">
@@ -507,6 +517,21 @@
         <member name="F:QL.Common.SUB_CommandSC.GS2C.MSG_S_PlayerNewChairInfo">
             <summary>
             玩家椅子号被更换分配的新的椅子号
+            </summary>
+        </member>
+        <member name="F:QL.Common.SUB_CommandSC.GS2C.MSG_S_BeginGameContinue">
+            <summary>
+            开始处理续局功能结果
+            </summary>
+        </member>
+        <member name="F:QL.Common.SUB_CommandSC.GS2C.MSG_S_EndGameContinue">
+            <summary>
+            完成续局功能操作
+            </summary>
+        </member>
+        <member name="F:QL.Common.SUB_CommandSC.GS2C.MSG_S_PlayerGameContinueStatus">
+            <summary>
+            服务端发送给玩家请求更换座位的请求消息
             </summary>
         </member>
         <member name="T:QL.Common.AccountingReasons">
@@ -853,6 +878,21 @@
         <member name="F:QL.Common.Player.IsAuthentication">
             <summary>
             指示该玩家是否已经完成了实名认证
+            </summary>
+        </member>
+        <member name="F:QL.Common.Player.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="F:QL.Common.Player.PhoneNum">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="F:QL.Common.Player.IdCardNum">
+            <summary>
+            身份证号码
             </summary>
         </member>
         <member name="F:QL.Common.Player.AttachParam">
@@ -1340,6 +1380,56 @@
             麻将类游戏
             </summary>
         </member>
+        <member name="T:QL.Common.GameLabelType">
+            <summary>
+            游戏标签类型
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.None">
+            <summary>
+            无
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.Fire">
+            <summary>
+            火爆
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.Free">
+            <summary>
+            免费
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.InTest">
+            <summary>
+            内测
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.Maintain">
+            <summary>
+            维护中
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.LimitFree">
+            <summary>
+            限免
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.Hot">
+            <summary>
+            热门
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.New">
+            <summary>
+            新
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameLabelType.PubTest">
+            <summary>
+            公测
+            </summary>
+        </member>
         <member name="T:QL.Common.RoomType">
             <summary>
             场地类型
@@ -1530,6 +1620,36 @@
             进入场地失败
             </summary>
         </member>
+        <member name="T:QL.Common.SubscribeMessageOpType">
+            <summary>
+            订阅或取消的操作类别
+            </summary>
+        </member>
+        <member name="F:QL.Common.SubscribeMessageOpType.Subscribe">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
+        <member name="F:QL.Common.SubscribeMessageOpType.Unsubscribe">
+            <summary>
+            取消订阅
+            </summary>
+        </member>
+        <member name="F:QL.Common.SubscribeMessageOpType.UnsubscribeAll">
+            <summary>
+            取消所有订阅
+            </summary>
+        </member>
+        <member name="F:QL.Common.SubscribeMessageOpType.RunAction">
+            <summary>
+            执行方法
+            </summary>
+        </member>
+        <member name="F:QL.Common.SubscribeMessageOpType.SendMessage">
+            <summary>
+            发送消息
+            </summary>
+        </member>
         <member name="T:QL.Common.LoginType">
             <summary>
             用户登录方式
@@ -1638,6 +1758,11 @@
         <member name="F:QL.Common.GameInfo.GameDesc">
             <summary>
             游戏描述
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameInfo.GameLabel">
+            <summary>
+            游戏标签类型
             </summary>
         </member>
         <member name="M:QL.Common.GameInfo.CheckSupportPlatform(System.UInt16)">
@@ -2019,6 +2144,7 @@
             本次开局的总局数
             </summary>
         </member>
+        <!-- 对于成员“F:QL.Common.PlayerForFeeDataMultiple.ContinueGameNum”忽略有格式错误的 XML 注释 -->
         <member name="F:QL.Common.PlayerForFeeDataMultiple.GroupId">
             <summary>
             本游戏所在的亲友圈编号，不需要赋值，平台会自动赋值
@@ -2350,6 +2476,11 @@
             
             </summary>
         </member>
+        <member name="F:QL.Common.UserCRoomInfo.ServerInfo">
+            <summary>
+            当前房间的服务器信息
+            </summary>
+        </member>
         <member name="T:QL.Common.R2GsInfo">
             <summary>
             
@@ -2388,6 +2519,11 @@
         <member name="F:QL.Common.PhoneSmsCode.TryCount">
             <summary>
             验证码验证次数
+            </summary>
+        </member>
+        <member name="F:QL.Common.PhoneSmsCode.SendTime">
+            <summary>
+            验证码的发送时间
             </summary>
         </member>
         <member name="T:QL.Common.MSG_T_TestMessage">
@@ -2515,6 +2651,21 @@
             获取数量
             </summary>
         </member>
+        <member name="T:QL.Common.MSG_C_SubscribeOrUnsubscribeMessage">
+            <summary>
+            获取群内创建房间列表 
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_C_SubscribeOrUnsubscribeMessage.ChanelName">
+            <summary>
+            要订阅消息的渠道名称
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_C_SubscribeOrUnsubscribeMessage.OpType">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:QL.Common.MSG_C_OfferPairTable">
             <summary>
             请求配桌
@@ -2538,6 +2689,11 @@
         <member name="F:QL.Common.MSG_C_OfferPairTable.IsFreeCreate">
             <summary>
             表示是否是自由创建
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_C_OfferPairTable.RuleId">
+            <summary>
+            创建房间使用的玩法编号，没有可以传零
             </summary>
         </member>
         <member name="F:QL.Common.MSG_C_OfferPairTable.Empty">
@@ -2760,6 +2916,11 @@
         <member name="F:QL.Common.MSG_S_GroupTableList.GroupId">
             <summary>
             查询的群Id
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_GroupTableList.RuleId">
+            <summary>
+            查询的群玩法编号Id
             </summary>
         </member>
         <member name="F:QL.Common.MSG_S_GroupTableList.Data">
@@ -3043,6 +3204,96 @@
         <member name="F:QL.Common.MSG_S_PlayerNewChairInfo.chairID">
             <summary>
             玩家被分配的新的椅子号
+            </summary>
+        </member>
+        <member name="T:QL.Common.MSG_S_BeginGameContinue">
+            <summary>
+            开始处理续局功能结果
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_BeginGameContinue.Time">
+            <summary>
+            操作剩余时间
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_BeginGameContinue.GamePlayerScore">
+            <summary>
+            玩家的结算分数信息
+            </summary>
+        </member>
+        <member name="T:QL.Common.MSG_S_EndGameContinue">
+            <summary>
+            完成续局功能操作
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_EndGameContinue.status">
+            <summary>
+            续局操作结束，操作结果
+            </summary>
+        </member>
+        <member name="T:QL.Common.MSG_S_PlayerGameContinueStatus">
+            <summary>
+            服务端发送给玩家请求更换座位的请求消息
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_PlayerGameContinueStatus.PlayerId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_PlayerGameContinueStatus.ChairId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Common.MSG_S_PlayerGameContinueStatus.GameScore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QL.Common.MSG_C_SendGameContinueStatus">
+            <summary>
+            服务端发送给玩家请求更换座位的请求消息
+            </summary>
+        </member>
+        <member name="T:QL.Common.GameContinueStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameContinueStatus.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameContinueStatus.Agree">
+            <summary>
+            同意
+            </summary>
+        </member>
+        <member name="F:QL.Common.GameContinueStatus.Denied">
+            <summary>
+            拒绝
+            </summary>
+        </member>
+        <member name="T:QL.Common.PlayerGameScore">
+            <summary>
+            表示游戏内玩家的分数信息
+            </summary>
+        </member>
+        <member name="F:QL.Common.PlayerGameScore.PlayerId">
+            <summary>
+            玩家Id
+            </summary>
+        </member>
+        <member name="F:QL.Common.PlayerGameScore.ChairId">
+            <summary>
+            玩家椅子号
+            </summary>
+        </member>
+        <member name="F:QL.Common.PlayerGameScore.GameScore">
+            <summary>
+            玩家分数
             </summary>
         </member>
         <member name="T:QL.Common.SysMaintainLogonUser">
@@ -4264,6 +4515,22 @@
             </param>
             <returns></returns>
         </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnGameContinueResult(System.Int32)">
+            <summary>
+            游戏发起了请求续局请求的处理结果通知信息
+            </summary>
+            <param name="result">处理结果，1同意续局。-1拒绝续局</param>
+            <returns></returns>
+        </member>
+        <member name="M:GameIF.GamePlugBaseClass.OnBeforGameContinueResult(QL.Common.TablePlayer,System.Int32,System.String@)">
+            <summary>
+            游戏发起了续局请求的前验证结果信息
+            </summary>
+            <param name="player">操作玩家</param>
+            <param name="result">处理结果，1同意续局。-1拒绝续局</param>
+            <param name="errorMsg">如果玩家坐下不符合条件的提示文本内容</param>
+            <returns>如果玩家续局操作成功 返回 0 否则为 非0 值</returns>
+        </member>
         <member name="P:GameIF.GamePlugBaseClass.CanOffline">
             <summary>
             标识当前游戏插件是否允许断线重连，当游戏插件支持断线重连时需要宿主通知的玩家断线和重连的相关接口逻辑 
@@ -4463,6 +4730,11 @@
             </summary>
         </member>
         <member name="P:GameIF.IGameHost.HostHundredGameSettlementService">
+            <summary>
+            百人游戏结算接口
+            </summary>
+        </member>
+        <member name="P:GameIF.IGameHost.HostGameContinueService">
             <summary>
             百人游戏结算接口
             </summary>
@@ -4763,6 +5035,11 @@
             </summary>
             <param name="recdata">表示游戏录像相关的数据内容信息</param>
             <param name="call">上传录像操作完成后回调，回调参数是生成的录像路径，保存计分数据时需要携带该录像路径参数</param>
+        </member>
+        <member name="T:GameIF.IHostGameContinueService">
+            <summary>
+            续局管理器，提供续局操作的服务
+            </summary>
         </member>
         <member name="T:GameIF.SaveRecordRessult">
             <summary>

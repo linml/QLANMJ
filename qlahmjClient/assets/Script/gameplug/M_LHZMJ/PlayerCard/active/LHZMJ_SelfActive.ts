@@ -169,7 +169,7 @@ export default class LHZMJ_SelfActive extends LHZMJ_ActiveBase {
             for(var i: number = 0;i < this._cardData.length;i++) {
                 //this._cardData[i].node.setLocalZOrder(i+1);
                 this._cardData[i].node.x = startPos + i * 87-590;
-                this._cardData[i].node.y = -293;
+                this._cardData[i].node.y = -300;
 
                 this._cardData[i].showCard(this._handCard[i],this.isLie,0);
 

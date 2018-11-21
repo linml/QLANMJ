@@ -20,7 +20,7 @@ export default class SendMessage {
 
     }
 
-    private sendData(cm: GameIF.CustomMessage|H5ByteBuffer) {
+    private sendData(cm: GameIF.CustomMessage | H5ByteBuffer) {
         Global.Instance.Socket.SendData(cm);
     }
 
@@ -43,7 +43,7 @@ export default class SendMessage {
         const str = NativeCtrl.GetGpsJson();
         if (str != "fail" && str != "success") {
             cc.log(str);
-            
+
             login_by_account.CAttachData = new Array();
             const gps = GpsInfoTools.initWithJsonStr(str);
             const data1 = new QL_Common.KeyValueData();
@@ -224,7 +224,7 @@ export default class SendMessage {
         const player_ready = new QL_Common.MSG_C_PlayerReady();
         this.sendData(player_ready);
     }
-    public GameContinueStatus(status:QL_Common.GameContinueStatus){
+    public GameContinueStatus(status: QL_Common.GameContinueStatus) {
         const continue_status = new QL_Common.MSG_C_SendGameContinueStatus();
         continue_status.status = status;
         this.sendData(continue_status)
@@ -308,4 +308,16 @@ export default class SendMessage {
 
     }
 
+    /**
+     * 向服务器订阅指定渠道的消息
+     */
+    public SubscribeOrUnsubscribe(chanel: string, opType: QL_Common.SubscribeMessageOpType = QL_Common.SubscribeMessageOpType.Subscribe) {
+        let data: QL_Common.MSG_C_SubscribeOrUnsubscribeMessage 
+            = new QL_Common.MSG_C_SubscribeOrUnsubscribeMessage();
+
+        data.OpType = opType;
+        data.ChanelName = chanel;
+        this.sendData(data);
+
+    }
 }

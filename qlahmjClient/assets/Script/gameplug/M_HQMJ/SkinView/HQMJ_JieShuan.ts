@@ -1,4 +1,4 @@
-import { enHuCardType, HQMJ } from "../ConstDef/HQMJMahjongDef";
+import { enHuCardType, HQMJ } from '../ConstDef/HQMJMahjongDef';
 import { M_HQMJ_GameMessage } from "../../../CommonSrc/M_HQMJ_GameMessage";
 import M_HQMJView from "../M_HQMJView";
 import HQMJEvent from "../HQMJEvent";
@@ -154,9 +154,13 @@ export default class HQMJ_JieShuan extends cc.Component {
     }   
    
     public goonbtn():void{
-        this.scheduleOnce(()=>{         
-                this.node.dispatchEvent(new HQMJEvent(HQMJEvent.msg_goongame));        
-        },0.2);      
+        // if(M_HQMJClass.ins.TableConfig.realGameNum == M_HQMJClass.ins.TableConfig.setGameNum){
+        //     M_HQMJClass.ins.checkMoneyCanGame();
+        // }else{
+            this.scheduleOnce(()=>{         
+                    this.node.dispatchEvent(new HQMJEvent(HQMJEvent.msg_goongame));        
+            },0.2);      
+        // }
     }
     private LookZongJieSuanbtn():void{
         this.scheduleOnce(()=>{           
@@ -408,5 +412,10 @@ export default class HQMJ_JieShuan extends cc.Component {
 
         //},this,300);
        
+    }
+
+    onEnable() {
+        cc.info("--- active is true");
+        this.unscheduleAllCallbacks();
     }
 }

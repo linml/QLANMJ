@@ -67,8 +67,8 @@ export default class MGMJ_DownSinglePool extends MGMJ_SinglePoolBase {
     private show3DCard():void{
         switch(this._cardIndex){
             case 1:{
-                this.node.x=139;
-                this.node.y=-33;
+                this.node.x=139;//139
+                this.node.y=-25;
                 this.node.setLocalZOrder(29);
                 this.bmp_cardcolor.node.x=1;
                 this.bmp_cardcolor.node.y=7;
@@ -255,7 +255,7 @@ export default class MGMJ_DownSinglePool extends MGMJ_SinglePoolBase {
             //第二行
             case 10:{
                 this.node.x=196;
-                this.node.y=-34;
+                this.node.y=-25;
                 this.node.setLocalZOrder(19);
                 this.bmp_cardcolor.node.x=1;
                 this.bmp_cardcolor.node.y=8.5;
@@ -441,7 +441,7 @@ export default class MGMJ_DownSinglePool extends MGMJ_SinglePoolBase {
             //第三行
             case 19:{
                 this.node.x=253;
-                this.node.y=-35;
+                this.node.y=-25;
                 this.node.setLocalZOrder(9);
                 this.bmp_cardcolor.node.x=0.6;
                 this.bmp_cardcolor.node.y=9.4;

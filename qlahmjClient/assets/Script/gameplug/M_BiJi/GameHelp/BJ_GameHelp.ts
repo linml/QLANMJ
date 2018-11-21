@@ -822,7 +822,7 @@ export class GameInfo {
      * 获取总局数
      */
     public GetAllGameCount() {
-        return this.gameCount[1];
+        return this.gameCount[0];
     }
     /**
      * 是否局数打完或者解散房间

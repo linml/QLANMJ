@@ -234,7 +234,7 @@ export default class MGMJ_FenXiang extends cc.Component {
         //播放游戏结束音效
        // M_MGMJVoice.GameOver();
         this.node.active = true;
-        this.lab_other.string="霍邱麻将";
+        this.lab_other.string="明光麻将";
         //游戏规则
         var rule = M_MGMJClass.ins.GameRule;
         var rule0 = "";
@@ -249,21 +249,17 @@ export default class MGMJ_FenXiang extends cc.Component {
             rule0 += "房主支付 ";
         if(rule.GameData.tableCreatorPay == 3)
             rule0 += "圈主支付 ";
-        if(rule.GameData.whoLose == 0)
-            rule0 += "赢倒三家有 ";
-        if(rule.GameData.whoLose == 1)
-            rule0 += "谁打谁出分 ";
-
+        
+        if(rule.GameData.SetPeiZi==55)
+            rule1 += "白皮配子 ";
+        if(rule.GameData.SetPeiZi!=55)
+            rule1 += "随机配子 ";
         if(rule.GameData.zhanZhuang)
             rule1 += "占庄 ";
-        if(rule.GameData.daiDaPai)
-            rule1 += "带大牌 ";
-        if(!rule.GameData.daiDaPai)
-            rule1 += "不带大牌 ";
-        if(rule.GameData.gangFen)
-            rule1 += "明杠暗杠 ";
-        if(rule.GameData.canChi)
-            rule1 += "不准吃牌 ";
+        if(rule.GameData.DianPao)
+            rule1 += "点炮 ";
+        if(!rule.GameData.QiangGangHu)
+            rule1 += "抢杠胡 ";
             
         //显示玩法
         this.rule0.string = rule0;

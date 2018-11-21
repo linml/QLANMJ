@@ -187,7 +187,7 @@ export default class LHZMJ_OppoSingleFixed extends LHZMJ_SingleFixedBase {
             this.bmp_cardcolorAry[1].node.scaleX=0.45;
             this.bmp_cardcolorAry[1].node.scaleY=0.45;
 
-            this.bmp_cardcolorAry[2].node.x=36.5;
+            this.bmp_cardcolorAry[2].node.x=44.5;
             this.bmp_cardcolorAry[2].node.y=5;
             this.bmp_cardcolorAry[2].node.skewX=0;
             this.bmp_cardcolorAry[2].node.scaleX=0.45;

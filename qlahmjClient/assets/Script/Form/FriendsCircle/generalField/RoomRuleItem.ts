@@ -380,11 +380,15 @@ export default class RoomRuleItem extends cc.Component {
      * 分享按钮事件
      */
     public btnShareClick() {
-        let curRule = FriendCircleDataCache.Instance.CurSelectedRule;
+        let curRule = FriendCircleDataCache.Instance.getCurFriendCircleRule();
         let gameName = curRule.gameName;
 
         if (51 == curRule.gameId) {
             gameName = "快乐BiJi";
+        }
+
+        if (76 == curRule.gameId) {
+            gameName = "快乐PinShi";
         }
 
         const share = new ShareParam();

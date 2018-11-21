@@ -36,14 +36,6 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      public arr1:Boolean[];
     private static _ins: M_LHZMJClass;
     public static get ins(): M_LHZMJClass { return this._ins; }
-    // @property(cc.Label)
-    // label: cc.Label;
-
-    // @property(cc.Node)
-    // GameInfoView:cc.Node;
-    // private LHZMJ_GameInfoView:LHZMJ_GameInfo;
-    @property(cc.SpriteAtlas)
-    private paihua2d:cc.SpriteAtlas=null;
 
      @property(cc.SpriteAtlas)
     private paihua:cc.SpriteAtlas=null;
@@ -56,10 +48,6 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     @property(M_LHZMJView)
     //GameView:M_LHZMJView;
     private gameView:M_LHZMJView=null;
-
-
-
-
        
         //
         //游戏信息
@@ -88,11 +76,22 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         private _bankerChair : number;
         //本局庄家连庄数
         public _lianBanker : number;
-               /**
+    
+        public two_dimensional :boolean = false;
+    /**
      * 是否2D
     */
     public is2D():boolean{
-        return false;
+        return this.two_dimensional;
+    }
+
+    public canvaSwitchClickEvent(canvas: string) {
+        this.two_dimensional = canvas== "2D"?true:false;
+        this.OnNetResponding();
+    }
+
+    public CheckCanNext(){
+        return true;
     }
         /**
          * 庄家椅子号
@@ -462,30 +461,30 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         M_LHZMJView.ins.TingTip.showTingTip(tingTip,tips);
       
 
-        if(tingTip.length>0 && pos!=3000){
-            if((pos-M_LHZMJView.ins.TingTip.size.width/2-300)<-640){
-                M_LHZMJView.ins.TingTip.node.x=-540;
-                console.log("1111111111111111111111111111");
-            }
-            else if((pos + M_LHZMJView.ins.TingTip.size.width/2+300) > 640){
-                M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-600;
-                console.log("22222222222222222222222222222222");
-            }
-            else{
-                M_LHZMJView.ins.TingTip.node.x = pos - M_LHZMJView.ins.TingTip.size.width/2-300;
-                console.log("333333333333333333333333333333333");
-            }
-        }else{
+        // if(tingTip.length>0 && pos!=3000){
+        //     if((pos-M_LHZMJView.ins.TingTip.size.width/2-300)<-640){
+        //         M_LHZMJView.ins.TingTip.node.x=-540;
+        //         console.log("1111111111111111111111111111");
+        //     }
+        //     else if((pos + M_LHZMJView.ins.TingTip.size.width/2+300) > 640){
+        //         M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-600;
+        //         console.log("22222222222222222222222222222222");
+        //     }
+        //     else{
+        //         M_LHZMJView.ins.TingTip.node.x = pos - M_LHZMJView.ins.TingTip.size.width/2-300;
+        //         console.log("333333333333333333333333333333333");
+        //     }
+        // }else{
             
-             M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-200-300;
-            //  M_LHZMJView.ins.TingTip.scroll.node.width = 1080;
+        //      M_LHZMJView.ins.TingTip.node.x = 640 - M_LHZMJView.ins.TingTip.size.width-200-300;
+        //     //  M_LHZMJView.ins.TingTip.scroll.node.width = 1080;
             
-            //  M_LHZMJView.ins.TingTip.scroll.node.x = 619;
-            //  M_LHZMJView.ins.TingTip.showNode.x = -519;
-             console.log("555555555555555555555555555555555555555555555");
+        //     //  M_LHZMJView.ins.TingTip.scroll.node.x = 619;
+        //     //  M_LHZMJView.ins.TingTip.showNode.x = -519;
+        //      console.log("555555555555555555555555555555555555555555555");
             
 
-         }
+        //  }
         // if(tingTip.length > 0  && pos!=3000){
         
         //     if((pos + M_LHZMJView.ins.TingTip.size.width/2) > 640){
@@ -658,7 +657,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             
         }
                   public showHideCard(outCard:number):void{
-      //  this.gameView.CardView.refreshHideCard(outCard);
+             this.gameView.CardView.refreshHideCard(outCard);
     }
 
     onLoad() {
@@ -1474,6 +1473,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         super.OnNetResponding();
         var reSet: M_LHZMJ_GameMessage.CMD_C_ReSetScene = new M_LHZMJ_GameMessage.CMD_C_ReSetScene();
         this.SendGameData(reSet);
+
+        //显示桌布
+        this.gameView.Init();
     }
 
     /**
@@ -1999,10 +2001,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             //判断玩家听哪些牌，显示听牌提示按钮
             this._isTing = LHZMJMahjongAlgorithmHaveHunLhh.GetTingCardArray(this._handCard,this.GetHunCardAry(),this.FlowerAry)
             this.gameView.TingBtn(this._isTing.length>0);
-            // if(this._isTing){
-            //     M_LHZMJView.ins.GameStatusUserInfo.Ting = playerOutCard.chair;
-       
-            //    }
+            if(this._isTing){
+                this.showTingCard(0,3000,true);
+            }
 
         }
             
@@ -2646,6 +2647,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         //M_LHZMJView.ins.GameJiFenBan.SetPlayerData();
         this._isTing = LHZMJMahjongAlgorithmHaveHunLhh.GetTingCardArray(this._handCard,this.GetHunCardAry(),this.FlowerAry)
         this.gameView.TingBtn(this._isTing.length>0);
+        if(this.isTing){
+            this.showTingCard(0,3000,true);
+        }
     }
     /**
      * 断线重连恢复解散房间
@@ -2659,8 +2663,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      * 空闲桌子断线重连进入
      * */
     private Handle_CMD_S_ORC_TableFree(msg: GameIF.CustomMessage):void{
-        
-
+        //发牌前切换2d或3d时更换罗盘
+        this.gameView.ShowTimerView(this.SelfChair);
 
         var tablefree: M_LHZMJ_GameMessage.CMD_S_ORC_TableFree= <M_LHZMJ_GameMessage.CMD_S_ORC_TableFree>msg;
         //播放背景音乐
@@ -2896,8 +2900,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     public getMahjongResName(card: number): string {
         return `gameres/gameCommonRes/Texture/Mahjong/PaiHua/mahjong_${LHZMJMahjongAlgorithm1.GetMahjongColor(card)}_${LHZMJMahjongAlgorithm1.GetMahjongValue(card)}`;
     }
-     public getMahjongPaiHuaRes(card: number): cc.SpriteFrame {
-        return this.paihua.getSpriteFrame(`mahjong_${LHZMJMahjongAlgorithm1.GetMahjongColor(card)}_${LHZMJMahjongAlgorithm1.GetMahjongValue(card)}`);
+
+    public getMahjongPaiHuaRes(card: number): cc.SpriteFrame {
+            return this.paihua.getSpriteFrame(`mahjong_${LHZMJMahjongAlgorithm1.GetMahjongColor(card)}_${LHZMJMahjongAlgorithm1.GetMahjongValue(card)}`);    
         //return `gameres/gameCommonRes/Texture/Mahjong/PaiHua/mahjong_${WHMJMahjongAlgorithm.GetMahjongColor(card)}_${WHMJMahjongAlgorithm.GetMahjongValue(card)}`;
     }
     /**

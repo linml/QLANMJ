@@ -417,5 +417,7 @@ namespace M_MGMJ_GameMessage
         #endregion
 
         public const byte CMD_S_QuitCreator = 165;
+
+        public const byte CMD_S_AddGameNum = 166;
     }
 }

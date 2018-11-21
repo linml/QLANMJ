@@ -427,5 +427,8 @@ namespace M_HQMJ_GameMessage
         public const byte CMD_S_AddGameOutTime = 167;
 
         public const byte CMD_S_ORC_AddGameNum = 210;
+
+        public const byte CMD_S_ORC_BaoTing = 211;
+
     }
 }
