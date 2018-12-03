@@ -188,12 +188,14 @@ export default class SendMessage {
         , ChairID: number = QL_Common.InvalidValue.InvalidChairID
         , GroupId: number = QL_Common.InvalidValue.InvalidID
         , IsFreeCreate: boolean = false
+        , RuleId: number = 0
     ) {
         const offer_pair_table = new QL_Common.MSG_C_OfferPairTable();
         offer_pair_table.ChairID = ChairID;
         offer_pair_table.TableID = TableID;
         offer_pair_table.GroupId = GroupId
         offer_pair_table.IsFreeCreate = IsFreeCreate;
+        offer_pair_table.RuleId = RuleId;
         this.sendData(offer_pair_table);
     }
 
@@ -297,11 +299,12 @@ export default class SendMessage {
      * @param start_id 获取数据的起始Id
      * @param count 获取数据的数量
      */
-    public QueryGroupTableList(group_id: number, start_id: number = 0, count: number = 3) {
+    public QueryGroupTableList(group_id: number, rule_Id: number, start_id: number = 0, count: number = 3) {
         let data: QL_Common.MSG_C_QueryGroupTableList = new QL_Common.MSG_C_QueryGroupTableList();
 
         data.GroupId = group_id;
         data.count = count;
+        data.RuleId = rule_Id;
         data.startId = start_id;
 
         this.sendData(data);

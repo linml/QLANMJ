@@ -61,6 +61,12 @@ export class MemberManageUI extends UIBase<any> {
     layout_memberList: cc.Layout = null;
 
     /**
+     * 搜搜输入框
+     */
+    @property(cc.EditBox)
+    edtBox_search: cc.EditBox = null;
+
+    /**
      * 成员数据列表
      */
     private memberList: Array<FriendCircleMember> = new Array<FriendCircleMember>();
@@ -280,6 +286,69 @@ export class MemberManageUI extends UIBase<any> {
 
             this.requestIng = true;
             this.requestMemberList();
+        }
+    }
+
+    /**
+     * 搜索按钮事件
+     */
+    public bntSearchClick(){
+        let str = this.edtBox_search.string;
+
+        if (!str) {
+            // 显示全部人员列表
+            return;
+        } else {
+          
+        }
+    }
+
+    /**
+     * @Author   WangHao
+     * @DateTime 2018-11-15
+     * @Desc     搜索成员
+     * ---- 模糊搜索 先从当前页面的数据搜索如果搜索不到则从服务器获取
+     * @return   {boolean}           [description]
+     */
+    public searchMemberByIdOrName(matchStr: string) : any{
+        if (!matchStr) {
+            return;
+        }
+
+        let list = [];
+        // 从本地缓存已请求的数据进行搜索
+        let memberList = FriendCircleDataCache.Instance.FriendCircleMemberList;
+        for (var idx = 0; idx < memberList.Count; ++idx) {
+            let member = memberList.Values[idx];
+            // 匹配玩家ID和昵称
+            if (-1 != member.userId.indexOf(matchStr) || 
+                -1!= member.name.indexOf(matchStr)) {
+                list.push(member);
+            }
+        }
+
+        // 返回搜索列表
+        if (list.length > 0) {
+            return list;
+        }
+
+        return null;
+    }
+
+    /**
+     * @Author   WangHao
+     * @DateTime 2018-11-15
+     * @Desc     显示查询结果
+     */
+    public showSearchResult(list: any) {
+        if (!list || (list.length && 0 == list.length)) {
+            // 没有搜索到成员则显示本无搜索结果
+            cc.info("--- serarch member resuslt： No member!") 
+            return;
+        }
+
+        for (var idx = 0; idx < list.length; ++idx) {
+            // code...
         }
     }
 }

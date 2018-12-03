@@ -65,7 +65,7 @@ export default class BindPhonePanel extends UIBase<any> {
             return false;
         }
 
-        let regex = /^[1][3,4,5,7,8][0-9]{9}$/; 
+        let regex = /^[1][3,4,5,7,8,9][0-9]{9}$/; 
         if (!regex.test(param)) {
             this.UiManager.ShowTip("您的手机号不符合规则");
             return false;

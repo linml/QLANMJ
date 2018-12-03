@@ -4,7 +4,7 @@ import { QL_Common } from "../../CommonSrc/QL_Common";
 import { LHZMJMahjongDef, ILHZMJClass, LHZMJ, LHZMJTableConfig, LHZMJTimer, enGamePhase, LHZMJOutCardPlayer, LHZMJRecordCard, LHZMJTimerDef, TingCardTip, LHZMJSoundDef, enHuCardType, enLHZMJAniType } from "./ConstDef/LHZMJMahjongDef";
 import { GameIF } from "../../CommonSrc/GameIF";
 import { ShareParam } from "../../CustomType/ShareParam";
-
+import { UIName } from "../../Global/UIName";
 import Global from "../../Global/Global";
 import M_LHZMJView from "./M_LHZMJView";
 import LHZMJ_GameInfo from"./SkinView/LHZMJ_GameInfo"
@@ -33,7 +33,7 @@ import LHZMJ_BanlanceFlower from "./PlayerCard/banlanceShow/LHZMJ_BanlanceFlower
 @ccclass
 export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
 
-     public arr1:Boolean[];
+    public arr1:Boolean[];
     private static _ins: M_LHZMJClass;
     public static get ins(): M_LHZMJClass { return this._ins; }
 
@@ -49,35 +49,39 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     //GameView:M_LHZMJView;
     private gameView:M_LHZMJView=null;
        
-        //
-        //游戏信息
-        //
-        private _shareContext:string;
-        /**
-         * 设置分享标题
-         * */
-        public set ShareTitle(value:string){this._shareContext=value;}
-        public get ShareTitle():string{
-            return this._shareContext;
-        }
-        public _canVote=false;
-        //牌桌配置
-        private _tableConfig : LHZMJTableConfig;
-        /**
-         * 牌桌配置
-         * */
-        public get TableConfig():LHZMJTableConfig{
-            return this._tableConfig;
-        }
-        
-        private _timer : LHZMJTimer;
-        
-        //本局庄家椅子号
-        private _bankerChair : number;
-        //本局庄家连庄数
-        public _lianBanker : number;
+    //
+    //游戏信息
+    //
+    private _shareContext:string;
+    /**
+     * 设置分享标题
+     * */
+    public set ShareTitle(value:string){this._shareContext=value;}
+    public get ShareTitle():string{
+        return this._shareContext;
+    }
+    public _canVote=false;
+    //牌桌配置
+    private _tableConfig : LHZMJTableConfig;
+    /**
+     * 牌桌配置
+     * */
+    public get TableConfig():LHZMJTableConfig{
+        return this._tableConfig;
+    }
     
-        public two_dimensional :boolean = false;
+    private _timer : LHZMJTimer;
+    
+    //本局庄家椅子号
+    private _bankerChair : number;
+    //本局庄家连庄数
+    public _lianBanker : number;
+
+    public two_dimensional :boolean = false;
+
+    //续局次数(1表示0次)
+    public _addNum:number = 1;
+
     /**
      * 是否2D
     */
@@ -85,7 +89,8 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         return this.two_dimensional;
     }
 
-    public canvaSwitchClickEvent(canvas: string) {
+    public canvaSwitchClickEvent(canvas: string):void {
+        // super.canvaSwitchClickEvent(canvas);
         this.two_dimensional = canvas== "2D"?true:false;
         this.OnNetResponding();
     }
@@ -93,51 +98,52 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     public CheckCanNext(){
         return true;
     }
-        /**
-         * 庄家椅子号
-         * */
-        public get BankerChair():number{return this._bankerChair;};
-        
-        //当前游戏阶段
-        private _gamePhase:enGamePhase;
-        /**
-         * 游戏阶段
-         * */
-        public get GamePhase():enGamePhase{return this._gamePhase};
-        
-        //当前活动玩家
-        private _activePlayer:number;
-        //打牌玩家
-        private _outCardPlayer : LHZMJOutCardPlayer;
-        //骰子1点数
-        private _sz1:number;
-        /**
-         * 骰子1
-         * */
-        public get SZ1():number{
-            return this._sz1;
-        }
-        
-        private oncebuhua:boolean=true;
-        //骰子2点数
-        private _sz2:number;
-        /**
-         * 骰子2
-         * */
-        public get SZ2():number{
-            return this._sz2;
-        }
-        
-        //本局局号
-        private _gameid:string;
-        /**
-         * 游戏id
-         * */
-        public get GameID():string{
-            return this._gameid;
-        }
 
-        private _flowerAry:Array<number>;
+    /**
+     * 庄家椅子号
+     * */
+    public get BankerChair():number{return this._bankerChair;};
+    
+    //当前游戏阶段
+    private _gamePhase:enGamePhase;
+    /**
+     * 游戏阶段
+     * */
+    public get GamePhase():enGamePhase{return this._gamePhase};
+    
+    //当前活动玩家
+    private _activePlayer:number;
+    //打牌玩家
+    private _outCardPlayer : LHZMJOutCardPlayer;
+    //骰子1点数
+    private _sz1:number;
+    /**
+     * 骰子1
+     * */
+    public get SZ1():number{
+        return this._sz1;
+    }
+    
+    private oncebuhua:boolean=true;
+    //骰子2点数
+    private _sz2:number;
+    /**
+     * 骰子2
+     * */
+    public get SZ2():number{
+        return this._sz2;
+    }
+    
+    //本局局号
+    private _gameid:string;
+    /**
+     * 游戏id
+     * */
+    public get GameID():string{
+        return this._gameid;
+    }
+
+    private _flowerAry:Array<number>;
     /**
      * 花牌列表
      */
@@ -218,10 +224,22 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
          * */
         public get checkMoneyCanGame():boolean{
             //如果不够,开始求助
-            if(this.SelfRoomMoney < this.gameMoneyNum) {
-                return false;
+             if(this.TableConfig.IsTableCreatorPay == 2){//房主支付
+                if(this.SelfIsTableOwener){//如果是房主
+                    if(this.SelfRoomMoney < this.gameMoneyNum*this._addNum) {
+                        return false;
+                    }
+                }
+            }else if(this.TableConfig.IsTableCreatorPay == 1){//AA支付
+                if(this.SelfRoomMoney < this.gameMoneyNum*this._addNum) {
+                    return false;
+                }
             }
             return true;
+            // if(this.SelfRoomMoney < this.gameMoneyNum) {
+            //     return false;
+            // }
+            // return true;
         }
 
          /**
@@ -232,7 +250,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             
             //自建房
             if(this.isSelfCreateRoom) {
-                if(this.TableConfig.IsTableCreatorPay>1 && this.TableConfig.alreadyGameNum < 1)
+                if(this.TableConfig.IsTableCreatorPay)
                 {
                     checkMoney=this.TableConfig.tableCost;
                 }
@@ -864,6 +882,11 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
                     this.Handle_CMD_S_PlayerCardData(cm);
                     break;
                 }
+                //续局提示框
+                case M_LHZMJ_GameMessage.LHZMJMsgID_s2c.CMD_S_AddGameNum:{
+                    this.Hanle_CMD_S_AddGameNum(cm);
+                    break;
+                }
                 //结算信息
                 case M_LHZMJ_GameMessage.LHZMJMsgID_s2c.CMD_S_Balance: {
                     this.Handle_CMD_S_Balance(cm);
@@ -1253,6 +1276,7 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
                         tipMsg[2] = "玩家:"+this.TablePlayer[parseInt(sameIps[1])].NickName+" 与 "+"玩家:"+this.TablePlayer[parseInt(sameIps[2])].NickName
                     }
                     M_LHZMJView.ins.StartCheckIP(tipMsg);
+
                 }   
             }
     }
@@ -1276,6 +1300,14 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      * 玩家坐下:自己坐下和自己坐下后又有新的玩家进入坐下,默认状态为SitDown状态,以防万一最好再处理一下状态
      * */
     protected OnPlayerSitDown(chairID: number, player: QL_Common.TablePlayer): void {
+        let playerCount:number = 0;
+                for(var i=0;i<4;i++) {
+                    if(null != this.TablePlayer[i])
+                        playerCount++;
+                }
+        if(playerCount == 4){
+           this.gameView.ReadyAndGameUserInfo.group_other.active = false;
+        }
         //cc.log("OnPlayerSitDown:" + chairID.toString() + "," + player.FaceID + "," + player.NickName + "," + player.PlayerState);      
       //  this.gameView.ReadyStatusUserInfo.OnPlayerSitDown(chairID,player);
         if (this.TablePlayer[chairID].PlayerState != QL_Common.GState.Gaming)
@@ -1288,6 +1320,14 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      * 玩家坐下后告诉坐下的玩家,这个桌子上之前已经有哪些玩家了,这个函数需要同时处理玩家的状态显示
      * */
     protected OnTablePlayer(chairID: number, player: QL_Common.TablePlayer): void {
+        let playerCount:number = 0;
+                for(var i=0;i<4;i++) {
+                    if(null != this.TablePlayer[i])
+                        playerCount++;
+                }
+        if(playerCount == 4){
+           this.gameView.ReadyAndGameUserInfo.group_other.active = false;
+        }
         //cc.log("OnPlayerSitDown:" + chairID.toString() + "," + player.FaceID + "," + player.NickName + "," + player.PlayerState);
         if (this.TablePlayer[chairID].PlayerState != QL_Common.GState.Gaming)
             this.showCheckIP();
@@ -1312,6 +1352,12 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
      * 玩家离开,玩家从这个桌子上离开,游戏需要将玩家的信息从指定位置清除
      * */
     protected OnPlayerLeave(chairID: number): void {
+        // let playerCount:number = 0;
+        //         for(var i=0;i<4;i++) {
+        //             if(null != this.TablePlayer[i])
+        //                 playerCount++;
+        //         }
+        
         this.gameView.ReadyAndGameUserInfo.OnPlayerLeave(chairID);
         //this.gameView.ReadyStatusUserInfo.OnPlayerLeave(chairID);
     }
@@ -1939,6 +1985,18 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
        }
       
     } 
+
+
+
+
+    /**
+     *播放放大效果  
+    **/
+     private splashUserOutMj(chair,outPai){
+        if(chair != this.SelfChair)
+            M_LHZMJView.ins.mg_out.showOutPai(chair,outPai,LHZMJ.ins.iclass);
+    }
+
     /**
      * 玩家打出牌
      * */
@@ -1948,6 +2006,9 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
         M_LHZMJView.ins.CardView.hideOutCardArrow();
         
         this._outCardPlayer.playerOutCard(playerOutCard.chair,playerOutCard.card);
+
+        // this.splashUserOutMj(playerOutCard.chair,playerOutCard.card);
+
         this._recordCard.outACard(playerOutCard.card);
         let sex:number=this.TablePlayer[playerOutCard.chair].Gender==1?1:2;
         
@@ -2032,7 +2093,38 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
     //            }}
     // }
 
+    //玩家续局投票
+    private Hanle_CMD_S_AddGameNum(msg:GameIF.CustomMessage):void{
+        var addGameNum : M_LHZMJ_GameMessage.CMD_S_AddGameNum = <M_LHZMJ_GameMessage.CMD_S_AddGameNum>msg;
 
+        if(addGameNum.gameNum == 100){//所有玩家同意续局
+            cc.log("-----全部同意续局-----");
+            this._addNum = addGameNum.addNum;
+
+            if(M_LHZMJView.ins.JieShuanView.isVisible()){
+                M_LHZMJView.ins.JieShuanView.node.active = false;
+            }
+
+            this.OnPlayerStatusChange(this.SelfChair,QL_Common.GState.PlayerReady);
+            M_LHZMJView.ins.ReadyAndGameUserInfo.group_userReady.active = true;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.btn_ready.node.active = true;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.btn_ready.node.x=0;
+            // M_LHZMJView.ins.ReadyAndGameUserInfo.btn_invite.node.active=false;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.group_imgready[0].node.active = false;
+            
+        }
+        if(addGameNum.gameNum == 101){//有玩家钻石不足
+            Global.Instance.UiManager.CloseUi(UIName.ResumeGame);
+            if(!M_LHZMJView.ins.JieShuanView.isVisible()){
+                this.TablePlayer[this.SelfChair].PlayerState = 0;
+                this.exit();
+            }
+        }
+       
+            // if(M_LHZMJView.ins.JieShuanView.isVisible()){
+            //     M_LHZMJView.ins.JieShuanView.node.active = false;
+            // }
+    }
 
 
     /**
@@ -2706,7 +2798,14 @@ export default class M_LHZMJClass extends GameBaseClass implements ILHZMJClass {
             M_LHZMJView.ins.ReadyAndGameUserInfo.hideUserMoney();
         }
 
-       
+       if(tablefree.isXuJu == 1){
+            M_LHZMJView.ins.ReadyAndGameUserInfo.group_userReady.active = true;
+            // M_LHZMJView.ins.ReadyAndGameUserInfo.btn_invite.node.active = false;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.btn_ready.node.active = true;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.btn_ready.node.x=0;
+            M_LHZMJView.ins.ReadyAndGameUserInfo.group_imgready[0].node.active = false;
+            this._addNum = tablefree.addNum;
+        }
         
         
     }

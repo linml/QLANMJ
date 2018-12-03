@@ -37,6 +37,7 @@ import HuDong_Animation from "../MJCommon/HuDong_Animation";
 import LHZMJ_Cheating from "./SkinView/LHZMJ_Cheating";
 import M_LHZMJVoice from "./M_LHZMJVoice";
 import { AudioType } from "../../CustomType/Enum";
+import MJ_Out from "../MJCommon/MJ_Out";
 
 @ccclass
 export default class M_LHZMJView extends cc.Component implements ILHZMJView {
@@ -116,6 +117,11 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         return this._readyStatus_gameInfo;
     }
 
+
+    // private _settingView:LHZMJ_SettingView;
+    // public get LHZMJ_SettingView(): LHZMJ_SettingView {
+    //     return this._settingView;
+    // }
     // @property(cc.Prefab)
     // ReadyStatusGameUserView: cc.Prefab = null;
 
@@ -326,6 +332,16 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     public get HuDong_Ani():HuDong_Animation{
         return this.huDongDaoJu;
     }
+     //outpai
+    @property(cc.Prefab)
+    MJ_Out:cc.Prefab=null;
+
+    private _mjOut:MJ_Out;
+
+    public get mg_out():MJ_Out{
+        return this._mjOut;
+    }
+
 
     @property(cc.Prefab)
     LHZMJ_JieShuan_View: cc.Prefab = null;
@@ -566,7 +582,9 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
         // rsgnode.setLocalZOrder(2);
         // // M_LHZMJView._needDestroyNode.push(rsgnode);
         // this.group_mid.addChild(rsgnode);
-
+            let mjoutNode=cc.instantiate(this.MJ_Out);
+            this._mjOut=mjoutNode.getComponent<MJ_Out>(MJ_Out);
+            this.node.addChild(mjoutNode);
 
         // let rsunode = cc.instantiate(this.ReadyStatusGameUserView);
         // this._readyStatus_userInfo = rsunode.getComponent<LHZMJ_ReadyStatusUserInfo>(LHZMJ_ReadyStatusUserInfo);
@@ -1138,6 +1156,8 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
     }
 
     public GameStart(): void {
+        this._setting.refreshBtn_backStatus();
+        this.ReadyAndGameUserInfo.warning.node.active = false;
         this._isCleared = false;
         this.hideGameInfo();
         
@@ -1371,7 +1391,7 @@ export default class M_LHZMJView extends cc.Component implements ILHZMJView {
 
     }
     public ShowSetVolume(): void {
-        this.gameClass.ShowSettingForm();
+        this.gameClass.ShowSettingForm(true);
     }
         /**
      * 显示互动道具

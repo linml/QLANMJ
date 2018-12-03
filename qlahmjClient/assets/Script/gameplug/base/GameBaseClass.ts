@@ -25,6 +25,7 @@ import { ConstValues } from "../../Global/ConstValues";
 import { Action } from "../../CustomType/Action";
 import { LastCardIndex } from '../M_BiJi/GameHelp/BJ_GameHelp';
 import { ResumeGame } from "../../Form/ResumeGame/ResumeGame";
+import { LocalStorage } from "../../CustomType/LocalStorage";
 
 export abstract class GameBaseClass extends ReConnectBase {
 
@@ -95,6 +96,28 @@ export abstract class GameBaseClass extends ReConnectBase {
     private _onLoadChat = false;
     private _mapsForm: MapsForm;
     private _onLoadMap = false;
+
+    /**
+     * 是否是2D
+     */
+    public is2D() {
+        let localSelect = LocalStorage.GetItem("Game_Canvas");
+        return (localSelect == "2D") ? true: false;
+    }
+
+    /**
+     * 获取当前场景类型 2D或3D
+     */
+    public getCurSceneCanvas() {
+        let localCanvas = LocalStorage.GetItem("Game_Canvas");
+
+        if (localCanvas) {
+            return localCanvas;
+        } else {
+            // 默认是3D
+            return "3D";
+        }
+    }
 
     public get isSelfCreateRoom() {
         if (!this._roomInfo) {
@@ -260,16 +283,17 @@ export abstract class GameBaseClass extends ReConnectBase {
      * 显示设置界面
      * canvasClick 游戏2D、3D切换
      */
-    public ShowSettingForm() {
+    public ShowSettingForm(enableChange2D: boolean = false) {
         PlayEffect(cc.url.raw("resources/Sound/open_panel.mp3"));
         cc.loader.loadRes("Prefabs/GameSetting/GameSettingForm", function (err, prefab: cc.Prefab) {
             if (err) {
                 return;
             }
             const node = cc.instantiate(prefab);
-            const m = node.getComponent<GameSettingForm>(GameSettingForm);
+            const m = node.getComponent(GameSettingForm);
             m.registerCanvasSwtichClick(new Action(this, this.canvaSwitchClickEvent));
-            m.Show(null);
+            m.Show(null, {canvas: this.is2D()});
+            m.setEnableChange2D(enableChange2D);
         }.bind(this));
     }
 
@@ -1249,6 +1273,9 @@ export abstract class GameBaseClass extends ReConnectBase {
         if (cc.isValid(this._mapsForm)) {
             this._mapsForm.SetPlayer(0, player, null, 0);
         }
+
+        // 初始化2D或3D场景
+        // this.canvaSwitchClickEvent(this.getCurSceneCanvas());
     }
 
 }

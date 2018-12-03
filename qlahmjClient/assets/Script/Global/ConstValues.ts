@@ -2,6 +2,7 @@
 export namespace ConstValues{
 
     export const DefaultRegion ="ceshi";
+    export const DefaultPkgVersion = 1;
 
     /**
      * 公钥Key

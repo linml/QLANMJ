@@ -1,6 +1,6 @@
 const {ccclass, property} = cc._decorator;
 
-import { HQMJMahjongDef, IHQMJView, HQMJ, HQMJTableConfig, HQMJTimer, enGamePhase, HQMJOutCardPlayer, HQMJRecordCard, enHQMJAniType } from "./ConstDef/HQMJMahjongDef";
+import { HQMJMahjongDef, IHQMJView, HQMJ, HQMJTableConfig, HQMJTimer, enGamePhase, HQMJOutCardPlayer, HQMJRecordCard, enHQMJAniType } from './ConstDef/HQMJMahjongDef';
 import { QL_Common } from "../../CommonSrc/QL_Common";
 import { GameIF } from "../../CommonSrc/GameIF";
 import M_HQMJClass from './M_HQMJClass';
@@ -245,7 +245,14 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             return this._jieShuan;
         }
 
+        @property(cc.Sprite)
+        backpack:cc.Sprite = null;
+        //2d桌布
+        @property(cc.SpriteFrame)
+        private backpack_2d:cc.SpriteFrame = null;
 
+        @property(cc.SpriteFrame)
+        private backpack_3d:cc.SpriteFrame = null;
 
         @property(cc.Button)
         //录音
@@ -605,8 +612,15 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             this._recordVideo.init();
             console.log("View初始化");
             
+            if (cc.isValid(this._startAni)) {
+                this.StartAni.init();
+            }
             
-            
+            if(HQMJ.ins.iclass.is2D()){
+                this.backpack.spriteFrame = this.backpack_2d; 
+            }else{
+                this.backpack.spriteFrame = this.backpack_3d;
+            }
             //this._operatorView.node.on(HQMJEvent.HQMJ_EVENT_TYPE,this.onGameEvent,this);
             //this._selGang.node.on(HQMJEvent.HQMJ_EVENT_TYPE,this.onGameEvent,this);
             //this._cardView.node.on(HQMJEvent.HQMJ_EVENT_TYPE,this.onGameEvent,this);
@@ -707,6 +721,32 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
             //this.btn_tingtip.interactable=this.TingTip.node.active;
         }
         
+        /**
+     * 罗盘
+     */
+        public ShowTimerView(chair:number): void {
+        if (cc.isValid(this._timerView)) {
+             this._timerView.showLuoPan();
+        } else {
+            cc.loader.loadRes("gameres/M_LHZMJ/Prefabs/skinView/LHZMJ_Timer3D", function (err, prefab) {
+                if (err) {
+                    cc.error(err);
+                    return;
+                }
+                if (!cc.isValid(this._timerView)) {
+                    let timenode: cc.Node = cc.instantiate(prefab);
+                    this._timerView = timenode.getComponent<HQMJ_TimerView>(HQMJ_TimerView);
+                    // timenode.setLocalZOrder(4);
+                    this.group_mid.addChild(timenode);
+                    this._timerView.init();
+                    this._timerView.showLuoPan(chair);
+                }else{
+                    this._timerView.showLuoPan(chair);
+                }
+            }.bind(this));
+        }
+
+    }
         // //骰子动画
         // private _szAni: HQMJ_SZAni;
         // /**
@@ -940,7 +980,7 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
                 this.CardView.holdTricksCard(i,13);
             }
             this.scheduleOnce(()=>{
-                 this._startAni.node.active=false;
+                //  this._startAni.node.active=false;
                  this._szAni.playSZ(M_HQMJClass.ins.SZ1,M_HQMJClass.ins.SZ2,HQMJEvent.msg_holdCardSZComplete);
              },0.25);
         }
@@ -1217,10 +1257,10 @@ export default class M_HQMJView extends cc.Component implements IHQMJView {
                      this._aniPanel.PlayAnimation("AniBao",logicChair);                 
                     break;
                 }
-                case enHQMJAniType.aniType_start: {
-                     this._aniPanel.PlayAnimation("AniStart",logicChair);                 
-                    break;
-                }
+                // case enHQMJAniType.aniType_start: {
+                //      this._aniPanel.PlayAnimation("AniStart",logicChair);                 
+                //     break;
+                // }
             }
           
         }

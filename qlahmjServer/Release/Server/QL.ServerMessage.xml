@@ -70,6 +70,51 @@
             发送指定渠道的订阅消息
             </summary>
         </member>
+        <member name="T:QL.ServerMessage.GMTools.CloseTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GMTools.CloseTable.TimeTick">
+            <summary>
+            /
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GMTools.CloseTable.TableID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GMTools.CloseTable.Sign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QL.ServerMessage.GMTools.GSRemoveTableInfo">
+            <summary>
+            游戏服务器场地删除桌子的通知消息
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GMTools.GSRemoveTableInfo.tableIDArray">
+            <summary>
+            一个桌子编号的数组
+            </summary>
+        </member>
+        <member name="T:QL.ServerMessage.GMTools.LsGmOnlinePlayerInfo">
+            <summary>
+            登录发送的玩家登陆相关信息
+            </summary>
+        </member>
+        <member name="F:QL.ServerMessage.GMTools.GmRegister.ServerUuid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QL.ServerMessage.GMTools.GMPlayerInfo">
+            <summary>
+            添加的玩家信息
+            </summary>
+        </member>
         <member name="T:QL.ServerMessage.GS2LS.UpdateGameRoomInfo">
             <summary>
             

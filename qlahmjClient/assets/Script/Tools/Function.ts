@@ -477,8 +477,24 @@ export function ObjectToString(obj: any): string {
     }
 
     let idx = 0;
+    let value = null;
     for (let key in obj) {
-        str += key + ":" + obj[key];
+        value = obj[key];
+        // 判断是否是数组
+        let arr = "";
+        if ("object" == typeof(value) && "number" == typeof(value.length)) {
+            for(let idx = 0; idx < value.length; idx ++){
+                arr += value[idx];
+
+                if (idx < value.length - 1) {
+                    arr += "&";
+                }
+            }
+
+            str += key + ":" + arr;
+        } else {
+            str += key + ":" + obj[key];
+        }
 
         if (idx < len - 1) {
             str += "|";

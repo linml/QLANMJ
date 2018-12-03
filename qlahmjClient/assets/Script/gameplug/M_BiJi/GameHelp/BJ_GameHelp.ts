@@ -822,6 +822,12 @@ export class GameInfo {
      * 获取总局数
      */
     public GetAllGameCount() {
+        return this.gameCount[1];
+    }
+        /**
+     * 获取当前局数
+     */
+    public GetCurGameCount() {
         return this.gameCount[0];
     }
     /**

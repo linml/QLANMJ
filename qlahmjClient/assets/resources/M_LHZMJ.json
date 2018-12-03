@@ -154,6 +154,7 @@
                     "nodeType": "CHECKBOX_LEFTRIGHT",
                     "defaultSelected": true,
                     "defaultValue": 2,
+                    "defaultShowIdx": 2,
                     "attr": "OutCardTime",
                     "enabled": true,
                     "list": [

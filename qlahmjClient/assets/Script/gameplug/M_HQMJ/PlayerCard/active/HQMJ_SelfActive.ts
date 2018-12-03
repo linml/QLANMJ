@@ -141,24 +141,16 @@ export default class HQMJ_SelfActive extends HQMJ_ActiveBase {
      * */
     protected refreshHandCard(): void {
         //this.node.active=false;
-
         if(HQMJ.ins.iclass.is2D()){
             //起始位置
             let startPos: number = HQMJ_SelfActive.ArrangeStartPos[this.fixedCardNum];
             //开始排版
-
             for(var i: number = 0;i < this._cardData.length;i++) {
-                //this._cardData[i].node.setLocalZOrder(i+1);
-                this._cardData[i].node.x = startPos + i * 83-600;
-                this._cardData[i].node.y = -284;
-                this._cardData[i].node.width = 87;
-                this._cardData[i].node.height = 124;
-
+                this._cardData[i].node.x = startPos + i * 88-590;
+                this._cardData[i].node.y = -300;
                 this._cardData[i].showCard(this._handCard[i],this.isLie,0);
-
                 if(this.isHoldAfter && (i == (this._cardData.length - 1))) {
                     this._cardData[i].node.x += 15;
-                    
                     if(!this.isLie && !HQMJ.ins.iclass.isVideo())
                     {(<HQMJ_SelfSingleActive>this._cardData[i]).setUp();}
                 }

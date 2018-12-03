@@ -1657,7 +1657,7 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
         ShowNodeView("TotalScore", this.skinTotalScore, (prefab) => {
             this.skinTotalScore = this.AddPrefab(prefab, "BJ_SkinTotalScore", 15);
         }, () => {
-            this.skinTotalScore.Show(new TotalScoreData(this.scoreView, this.GetSelfID()),this.GetGameCount(),this.skingameClass.TableID,this.skinLabelView.GetCellScore(),this.tableInfo.havexiscore,this.tableInfo.havedropcard);
+            this.skinTotalScore.Show(new TotalScoreData(this.scoreView, this.GetSelfID()),this.GetGameCurCount(),this.skingameClass.TableID,this.skinLabelView.GetCellScore(),this.tableInfo.havexiscore,this.tableInfo.havedropcard);
         });
     }
     /**
@@ -1952,6 +1952,12 @@ export default class M_BiJiView extends cc.Component implements IBiJiView {
      */
     public GetGameCount() {
         return this.gameInfo.GetAllGameCount();
+    }
+        /**
+     * 获取当前局数
+     */
+    public GetGameCurCount() {
+        return this.gameInfo.GetCurGameCount();
     }
     /**
      * 获取推注文本

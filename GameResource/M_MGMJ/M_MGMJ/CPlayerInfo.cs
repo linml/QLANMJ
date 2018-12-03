@@ -343,6 +343,12 @@ namespace M_MGMJ
         //private List<byte> _giveupHuMultiple = new List<byte>();
         private byte _giveupHuMultiple;
 
+        //是否齐胡
+        public bool isGiveUpHu(){ 
+
+            return _giveupHuMultiple>0;
+        }
+
         private List<byte> _giveupPeng = new List<byte>();
 
         #endregion
@@ -637,10 +643,11 @@ namespace M_MGMJ
                 _voteRight |= MahjongDef.gVoteRightMask_Chi;
                 _gameServer.PrintLog("有吃权限");
             }*/
+            //&& !_giveupPeng.Contains(cbOutCard)
             //碰
-            if (_playerCard.activeCard.Find(cbOutCard, 2) && !_giveupPeng.Contains(cbOutCard))
+            if (_playerCard.activeCard.Find(cbOutCard, 2) )
             {
-                _giveupHuMultiple = 0;
+                //_giveupHuMultiple = 0;
                 bIfCanVote = true;
                 _voteRight |= MahjongDef.gVoteRightMask_Peng;
                 _gameServer.PrintLog("有碰权限");
@@ -654,13 +661,13 @@ namespace M_MGMJ
             }
             
             //点炮胡
-            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0)&& isDianPao&& !isOneBodyHaveHu&& isNoHuOpertion&& cbOutCard!=_gameServer._tableConfig.SetPeiZi)
+            if (CheckIfCanHuACard(cbOutCard) && !(_giveupHuMultiple > 0)&& isDianPao&& !isOneBodyHaveHu&& true&& cbOutCard!=_gameServer._tableConfig.SetPeiZi&&!this.CheckPeiZiToHu(cbOutCard))
             {
                 bIfCanVote = true;
                 _voteRight |= MahjongDef.gVoteRightMask_Hu;
                 _gameServer.PrintLog("有胡权限");
                 _gameServer.CanHuNum++;
-                _gameServer.isOneBodyHaveHu = true;
+                _gameServer.isOneBodyHaveHu = false;
             }
 
             return bIfCanVote;
@@ -2007,7 +2014,7 @@ namespace M_MGMJ
         /// <param name="huCard"></param>
         /// <param name="huType"></param>
         /// <returns></returns>
-        public int[] HandleByHu(byte chair,byte huCard, enHuCardType huType, List<byte> list,int countOutMj)
+        public int[] HandleByHu(byte chair,byte huCard, enHuCardType huType, List<byte> list,int countOutMj,int huncard)
         {
             _cbHuCard = huCard;
             _huCardType = huType;
@@ -2018,7 +2025,7 @@ namespace M_MGMJ
             clsFixedCard fixedCard = new clsFixedCard();
             _playerCard.CopyACounterpartForFixedCard(ref fixedCard);
 
-            return AnalysisHuCardListMultiple(chair, huCard, huType, handCard, ref fixedCard,list, countOutMj);
+            return AnalysisHuCardListMultiple(chair, huCard, huType, handCard, ref fixedCard,list, countOutMj,huncard);
         }
 
         /// <summary>
@@ -2122,7 +2129,7 @@ namespace M_MGMJ
             if (_gameServer._opPlayerChar == this.PlayerChair)
             {
                 List<byte> hunAry = new List<byte>();
-                hunAry.Add(0x37);
+                hunAry.Add((byte)_gameServer._tableConfig.SetPeiZi);
                 if (MahjongGeneralAlgorithm.isHuSiXiPairStruc(_playerCard.activeCard.handCard, HoldCard, hunAry))
                 {
                     return true;
@@ -2138,9 +2145,6 @@ namespace M_MGMJ
             {
                 return false;
             }
-
-           
-
 
             return _playerCard.tingCard.Contains(cbCard);
         }
@@ -2195,6 +2199,101 @@ namespace M_MGMJ
                 if (card == 0x37) sixiCount++;
             }
             return sixiCount==4;
+        }
+
+        public bool CheckDuiDuiHu(List<byte> HoldCards,int hunCard) {
+
+            bool duiduihu = true;
+            int huncount = 0;
+            Dictionary<byte, int> table = new Dictionary<byte, int>();
+            for (int i = 0; i < HoldCards.Count; i++)
+            {
+                //宝牌数
+                if (HoldCards[i] == hunCard)
+                {
+                    huncount++;
+                    continue;
+                }
+                if (!table.ContainsKey(HoldCards[i]))
+                {
+                    table[HoldCards[i]] = 1;
+                }
+                else
+                {
+                    table[HoldCards[i]]++;
+                }
+            }
+
+            //分析带有
+            int countYi = 0;
+            int countDui = 0;
+            int countSan = 0;
+            int countSi = 0;
+            foreach (int value in table.Values)
+            {
+                if (value == 1)
+                {
+                    countYi++;
+                }
+                if (value == 2)
+                {
+                    countDui++;
+                }
+                if (value == 3)
+                {
+                    countSan++;
+                }
+                if (value == 4)
+                {
+                    countSi++;
+                }
+            }
+            if (huncount > 0)
+            {
+                if (countDui == 0) {
+                    if (((countYi+countSi-1)*2 +1)>huncount)
+                    {
+                        duiduihu = false;
+                    }
+                }
+
+                if (countDui == 1)
+                {
+                    if ((countYi + countSi) * 2 > huncount)
+                    {
+                        duiduihu = false;
+                    }
+                }
+
+                if (countDui > 1)
+                {
+                    if (((countYi + countSi) * 2 +(countDui-1) )> huncount)
+                    {
+                        duiduihu = false;
+                    }
+                }
+            }
+            else {
+                int tempcount = 0;
+                foreach (int value in table.Values)
+                {
+                    if (value == 4 || value == 1)
+                    {
+                        duiduihu = false;
+                        break;
+                    }
+                    if (value == 2)
+                    {
+                        tempcount++;
+                    }
+                    if (tempcount > 1)
+                    {
+                        duiduihu = false;
+                        break;
+                    }
+                }
+            }
+            return duiduihu;
         }
 
         /// <summary>
@@ -2276,7 +2375,7 @@ namespace M_MGMJ
         /// <param name="handCard"></param>
         /// <param name="fixedCard"></param>
         /// <returns></returns>
-        public int[] AnalysisHuCardListMultiple(byte chair, byte cbHuCard, enHuCardType huType, List<byte> handCard, ref clsFixedCard fixedCard, List<byte> list, int countOutMj)
+        public int[] AnalysisHuCardListMultiple(byte chair, byte cbHuCard, enHuCardType huType, List<byte> handCard, ref clsFixedCard fixedCard, List<byte> list, int countOutMj,int hunCard)
         {
             //胡牌牌阵
             handCard.Add(cbHuCard);
@@ -2299,43 +2398,18 @@ namespace M_MGMJ
                 }
                 listNew.Add(cbHuCard);
 
-                bool duiduihu = true;
-                Dictionary<byte, int> table = new Dictionary<byte, int>();
-                for (int i = 0; i < listNew.Count; i++)
-                {
-
-                    if (!table.ContainsKey(listNew[i]))
-                    {
-                        table[listNew[i]] = 1;
-                    }
-                    else
-                    {
-                        table[listNew[i]]++;
-                    }
-                }
-                //遍历hashTable
-                int countDui = 0;
-                foreach (int value in table.Values)
-                {
-                    if (value == 4 || value == 1)
-                    {
-                        duiduihu = false;
-                        break;
-                    }
-                    if (value == 2)
-                    {
-                        countDui++;
-                    }
-                    if (countDui > 1)
-                    {
-                        duiduihu = false;
-                        break;
-                    }
-                }
-
                 //清一色牌型 添加碰杠牌
                 List<byte> listCopy = new List<byte>();
                 listCopy.AddRange(handCard);
+
+                ////剔除宝牌
+                //for (int j=0;j< handCard.Count;j++) {
+                //    if (listCopy[j] == hunCard) {
+                //        hunCount++;
+                //        listCopy.RemoveAt(j);
+                //    }
+                //}
+
                 if (fixedCard.fixedCard.Count != 0)
                 {
                     for (int i = 0; i < fixedCard.fixedCard.Count; i++)
@@ -2351,10 +2425,14 @@ namespace M_MGMJ
                 int countTiao = 0;
                 int countTong = 0;
                 int countZhi = 0;
-                
+                int hunCount = 0;
 
                 for (int i = 0; i < listCopy.Count; i++)
                 {
+                    if (listCopy[i] == hunCard) {
+                        hunCount++;
+                        continue;
+                    }
                     if (MahjongGeneralAlgorithm.GetMahjongColor(listCopy[i]) == MahjongDef.gMahjongColor_Wan)
                     {
                         countWan++;
@@ -2382,7 +2460,7 @@ namespace M_MGMJ
                 }
 
                 //清一色
-                if ( (countWan == listCopy.Count || countTong == listCopy.Count || countTiao == listCopy.Count))
+                if ( (countWan + hunCount == listCopy.Count || countTong + hunCount == listCopy.Count  || countTiao + hunCount == listCopy.Count || countZhi + hunCount == listCopy.Count))
                 {
                     score += 4;
                     _gameServer._playerAry[chair].VecType += "清一色+4 ";
@@ -2403,7 +2481,7 @@ namespace M_MGMJ
                         }
                     }
                 }
-                if (countZhi != 0)
+               else if (countZhi != 0)
                 {
                     if ( countZhi != 0 && (countWan + countTong == 0 || countWan + countTiao == 0 || countTong + countTiao
                          == 0))
@@ -2443,7 +2521,7 @@ namespace M_MGMJ
                 }
 
                 //对对胡
-                if (duiduihu) {
+                if (this.CheckDuiDuiHu(listNew,hunCard)) {
                     score += 3;
                     _gameServer._playerAry[chair].VecType += "对对胡+3 ";
                 }

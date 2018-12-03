@@ -178,16 +178,21 @@ export default class HallCtrl extends ReConnectBase {
      * author:Cyq
      */
     public LoadActivity() {
-        let nowDays = Math.floor(DateTime.Now.TimeStamp / 1000.0 / 24.0 / 3600.0); //获取时间戳总天数
+        let user_data = this.DataCache.UserInfo.userData;
+        if(!user_data){
+            cc.log("没有获取到玩家信息");
+            return;
+        }
 
-        let CacheTime = LocalStorage.GetItem("ActivityTime"); //用于弹出面板控制变量
-        if (!CacheTime) {
-            LocalStorage.SetItem("ActivityTime", nowDays.toString());
-            this.ShowUi(UIName.Activity);
+        let nowDays = Math.floor(DateTime.Now.TimeStamp / 1000.0 / 24.0 / 3600.0); //获取时间戳总天数
+        let LoginTime = LocalStorage.GetItem(user_data.UserID + "_LoginTime"); //用于弹出面板控制变量
+        if (!LoginTime || LoginTime == "") {
+            LocalStorage.SetItem(user_data.UserID + "_LoginTime", nowDays.toString());
+            this.ShowUi(UIName.Task, 1);
         } else {
-            if (nowDays > parseInt(CacheTime)) {
-                LocalStorage.SetItem("ActivityTime", nowDays.toString());
-                this.ShowUi(UIName.Activity);
+            if (nowDays > parseInt(LoginTime)) {
+                LocalStorage.SetItem(user_data.UserID + "_LoginTime", nowDays.toString());
+                this.ShowUi(UIName.Task , 1);
             }
         }
     }
@@ -263,7 +268,7 @@ export default class HallCtrl extends ReConnectBase {
             return;
         }*/
 
-        this.ShowUi(UIName.SelectFriendCircle);
+        this.ShowUi(UIName.FriendCircle);
     }
 
     /**

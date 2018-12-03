@@ -50,7 +50,7 @@ export default class HQMJ_SettingView extends cc.Component {
     }
 
     private showSetting(){
-        M_HQMJClass.ins.ShowSettingForm();
+        M_HQMJClass.ins.ShowSettingForm(true);
     }
 
     private showGPS(){

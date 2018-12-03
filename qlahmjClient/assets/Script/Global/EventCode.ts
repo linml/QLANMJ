@@ -65,4 +65,10 @@ export namespace EventCode {
      * 手机号登录成功
      */
     export const MobileLoginSuccess = 22;
+
+    /**
+     * 亲友圈消息推送
+     */
+    export const GroupSystemPush = 23;
+
 }

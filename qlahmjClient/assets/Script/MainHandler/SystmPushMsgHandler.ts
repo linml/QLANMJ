@@ -30,8 +30,11 @@ export class SystmPushMsgHandler {
                 this.emailnew();
                 return;
             }
-            case "usergroup.exitgroup": {
-                this.exitgroup(e);
+            case "Group.UserExit":
+            case "Group.GameStatusChange":
+            case "Group.UserReqJoin":
+            case "Group.UserAccessJoin": {
+                this.groupMessage(e);
                 return;
             }
             case "hall.paysuccess" :{
@@ -52,8 +55,8 @@ export class SystmPushMsgHandler {
         this.DataCache.UserInfo.MessageNum = now + 1;
         this.EventManager.PostMessage(EventCode.NewEmailInfo);
     }
-    private exitgroup(e: SystmPushMessage) {
-        this.EventManager.PostMessage(EventCode.SystmPushMsg, e)
+    private groupMessage(e: SystmPushMessage) {
+        this.EventManager.PostMessage(EventCode.GroupSystemPush, e)
     }
 
 } 

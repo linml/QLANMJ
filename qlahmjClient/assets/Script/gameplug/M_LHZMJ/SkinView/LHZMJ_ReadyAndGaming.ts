@@ -41,9 +41,14 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
 
     @property(cc.Button)
     btn_ready: cc.Button=null;
-
     @property(cc.Button)
-    btn_invite: cc.Button=null;
+    btn_threeBodyPlay: cc.Button=null;
+
+    @property(cc.Node)
+    group_other: cc.Node=null;
+
+    @property(cc.Sprite)
+    warning:cc.Sprite = null;
 
     private voiceAry: Array<MJ_PlayVoiceStaus>;
 
@@ -401,7 +406,9 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
     }
     
     public OnPlayerLeave(chairID: number): void {
-
+        if(chairID == 0 || chairID == 1 || chairID ==2 || chairID ==3){
+           this.group_other.active = true;
+        }
         var logicChair: number = LHZMJ.ins.iclass.physical2logicChair(chairID);
         
         //头像不显示
@@ -447,13 +454,17 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         }
         
     }
+
+    private copyRoomNUM(){
+        M_LHZMJClass.ins.CopyToClipboard(LHZMJ.ins.iclass.getTableConfig().TableCode);
+    }
+
     public SelfReady():void{
         if(LHZMJ.ins.iclass.getTablePlayerAry()[LHZMJ.ins.iclass.getSelfChair()].PlayerState==QL_Common.GState.SitDown){
             if(LHZMJ.ins.iclass.getTableConfig().isValid && LHZMJ.ins.iclass.getTableConfig().alreadyGameNum==0){
                 this.btn_ready.node.active=true;
-                this.btn_ready.node.x=-130;
-                this.btn_invite.node.x=130;
                 this.group_userReady.active=true;
+                
             }else{
                 this.onReady();
             }
@@ -461,75 +472,27 @@ export default class LHZMJ_ReadyAndGaming extends cc.Component {
         else if(LHZMJ.ins.iclass.getTablePlayerAry()[LHZMJ.ins.iclass.getSelfChair()].PlayerState==QL_Common.GState.PlayerReady){
             if(LHZMJ.ins.iclass.getTableConfig().isValid && LHZMJ.ins.iclass.getTableConfig().alreadyGameNum==0){
                 this.btn_ready.node.active=false;
-                this.btn_invite.node.x=0;
                 this.group_userReady.active=true;
+                
             }
         }
     }
         
     private onReady():void{
-        if (M_LHZMJClass.ins.TableConfig.IsTableCreatorPay == 2) {
-            if (M_LHZMJClass.ins.SelfIsTableOwener) {
-                //如果不够,开始求助
-                if (M_LHZMJClass.ins.checkMoneyCanGame) {
-                    if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
-                        //继续游戏
-                        //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
-                    } else {
-                        //发送准备
-                        M_LHZMJView.ins.OnReady();
-                    }
-                    this.btn_ready.node.active = false;
-                    this.btn_invite.node.x = 0;
-                }
-                else {
-                    if (LHZMJ.ins.iclass.getTableStauts() != QL_Common.TableStatus.gameing) {
-                        // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
-                        M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
-                            //打开充值
-                            M_LHZMJClass.ins.showPay();
-                        }, this, "", null, null, () => {
-                            //打开充值
-                            LHZMJ.ins.iclass.exit();
-                        }, this, );
-                    }
-                }
-            } else {
-                if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
-                    //继续游戏
-                    //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
-                } else {
-                    //发送准备
-                    M_LHZMJView.ins.OnReady();
-                }
-                this.btn_ready.node.active = false;
-                this.btn_invite.node.x = 0;
-            }
-        } else
-            //如果不够,开始求助
-            if (M_LHZMJClass.ins.checkMoneyCanGame) {
-                if (M_LHZMJClass.ins.isSelfCreateRoom && (M_LHZMJClass.ins.TableConfig.alreadyGameNum > 0) && !M_LHZMJClass.ins.TableConfig.isPlayEnoughGameNum) {
-                    //继续游戏
-                    //this.dispatchEvent(new LHZMJEvent(LHZMJEvent.msg_goongame));
-                } else {
-                    //发送准备
-                    M_LHZMJView.ins.OnReady();
-                }
-                this.btn_ready.node.active = false;
-                this.btn_invite.node.x = 0;
-            }
-            else {
-                if (LHZMJ.ins.iclass.getTableStauts() != QL_Common.TableStatus.gameing) {
-                    // M_LHZMJClass.ins.UiManager.ShowMsgBox("余额不足请先充值", this, () => { })
-                    M_LHZMJView.ins.ShowMsgBox('余额不足请先充值！', "确定", () => {
-                        //打开充值
-                        M_LHZMJClass.ins.showPay();
-                    }, this, "", null, null, () => {
-                        //打开充值
-                        LHZMJ.ins.iclass.exit();
-                    }, this, );
-                }
-            }
+        if(M_LHZMJClass.ins.checkMoneyCanGame){
+            M_LHZMJView.ins.OnReady();
+            this.group_userReady.active=false;
+        }
+         else {
+                M_LHZMJClass.ins.UiManager.ShowMsgBox('余额不足请先充值！', "确定", () => {
+                    //打开充值
+                    M_LHZMJClass.ins.showPay();
+                }, null,null,null,null,() => {
+                    //打开充值
+                    LHZMJ.ins.iclass.exit();
+                });
+        } 
+        
     }
 
     /**

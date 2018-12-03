@@ -36,7 +36,8 @@ export class CreateRoomStruct {
     CheckMoneyNum: number;
     CurrencyType: QL_Common.CurrencyType;
     RoomData: any;
-    GroupId: number; 
+    GroupId: number;
+    RuleId: number = 0;
 }
 
 @ccclass
@@ -170,7 +171,12 @@ export class SelectGameRule extends UIBase<any>{
     }
 
     InitShow() {
+        // 初始数据
         this.RuleNodeDict.Clear();
+        this._gameRuleData = new GameRuleData();
+        this._gameRuleData.TableCost = 0;
+        this._gameRuleData.GameData = {};
+
         this.nowGameInfo = this.ShowParam.gameInfo;
         this.isFriendCircle = this.ShowParam.isFriendCircle;
 
@@ -208,7 +214,11 @@ export class SelectGameRule extends UIBase<any>{
 
                 // 加载本地保存的玩法 亲友圈进来的不做记忆功能
                 if (!this.isFriendCircle) {
-                    this.loadLocalSettingConfig();
+                    if (!this.loadLocalSettingConfig()) {
+                        this.initSelectedStatusFromJson();
+                    }
+                } else {
+                    this.initSelectedStatusFromJson();
                 }
 
                 // 判断是从亲友圈进来的则显示圈主支付
@@ -254,13 +264,23 @@ export class SelectGameRule extends UIBase<any>{
     }
 
     /**
+     * 读取Json文件默认配置选项来初始化选中状态
+     */
+    private initSelectedStatusFromJson() {
+        for (let idx = 0; idx < this.RuleNodeDict.Count; ++idx) {
+            let settingItem = this.RuleNodeDict.Values[idx];
+            settingItem.initDefaultSelectStatus();
+        }
+    }
+
+    /**
      * 加载本地保存设置
      */
-    private loadLocalSettingConfig() {
+    private loadLocalSettingConfig(): boolean {
         let ruleStr = LocalStorage.GetItem('CreateRoomRuleConfig');
 
         if (!ruleStr) {
-            return;
+            return false;
         }
 
         cc.info('--- loadRuleConfig ', ruleStr);
@@ -269,7 +289,7 @@ export class SelectGameRule extends UIBase<any>{
         let gameInfo = StrToObject(tmpArray[0]);
 
         if (gameInfo['GameID'] + '' != this.nowGameInfo.GameID + '') {
-            return;
+            return false;
         }
 
         ruleStr = tmpArray[1];
@@ -297,6 +317,8 @@ export class SelectGameRule extends UIBase<any>{
                 switch (ruleItemBase.Type) {
                     case ToggleType.CHECKBOX_LEFTRIGHT:
                     case ToggleType.SINGLE_LEFTRIGHT:
+                    case ToggleType.TOGGLE_CHECKBOX_DROPDOWN:
+                    case ToggleType.TOGGLE_SINGLE_DROPDOWN:
                         ruleItemBase.setSelectValue({ selected: true, value: ruleValue });
                         break;
                     default:
@@ -309,6 +331,8 @@ export class SelectGameRule extends UIBase<any>{
                 }
             }
         }
+
+        return true;
     }
 
     /**
@@ -461,24 +485,19 @@ export class SelectGameRule extends UIBase<any>{
                 let settingItem = this.RuleNodeDict.Values[idx];
                 let nodeArray = settingItem.ItemNodeArray;
                 let attrName = settingItem.AttrName;
-                
+
                 for (let childAttrIdx = 0; childAttrIdx < childrenAttrs.length; ++childAttrIdx) {
                     for (let nodeIdx = 0; nodeIdx < nodeArray.Count; ++nodeIdx) {
-                        let tmp = childrenAttrs[childAttrIdx].split("|");
-                        let childAttr = tmp[0];
-                        let active = tmp[1];
-
+                        let child = childrenAttrs[childAttrIdx];
+                        let childAttr = child.key;
+                        let contrary = child.contrary; //是否是相反的
+                        let isSelected = child.isSelected;
                         // 先判断是否整条都隐藏
                         if (attrName && attrName == childAttr) {
-                            if (!active) {
-                                cc.warn("childrenAttr is error!");
-                                continue;
-                            }
-
-                            if ("noContrary" == active) {
-                                settingItem.node.active = param.attrParam.isChecked;
-                            } else {
+                            if (contrary) {
                                 settingItem.node.active = !param.attrParam.isChecked;
+                            } else {
+                                settingItem.node.active = param.attrParam.isChecked;
                             }
 
                             break;
@@ -488,20 +507,18 @@ export class SelectGameRule extends UIBase<any>{
                             let node = nodeArray.GetValue(nodeArray.Keys[nodeIdx]);
                             let componet: RuleItemToggleBase = node.getComponent("RuleItemToggleBase");
 
-                            if (!active) {
-                                cc.warn("childrenAttr is error!");
-                                continue;
-                            }
-
-                            if ("noContrary" == active) {
-                                node.active = param.attrParam.isChecked;
-                            } else {
+                            if (contrary) {
                                 node.active = !param.attrParam.isChecked;
+                            } else {
+                                node.active = param.attrParam.isChecked;
                             }
 
-                            // 取消选中
+                            // 不可见则取消选中
                             if (!node.active) {
                                 componet.setSelectValue({ selected: false });
+                            } else {
+                                // 可见则根据配置设置是否选中状态
+                                componet.setSelectValue({ selected: isSelected });
                             }
                         }
                     }
@@ -515,7 +532,7 @@ export class SelectGameRule extends UIBase<any>{
         /*if (parentAttr) {
             let tmp = parentAttr.split("|");
             parentAttr = tmp[0];
-            let active = tmp[1];
+            let contrary = tmp[1];
 
             for (let idx = 0; idx < this.RuleNodeDict.Count; ++idx) {
                 let settingItem = this.RuleNodeDict.Values[idx];
@@ -523,16 +540,17 @@ export class SelectGameRule extends UIBase<any>{
                 for (let nodeIdx = 0; nodeIdx < nodeArray.Count; ++nodeIdx) {
                     if (parentAttr == nodeArray.Keys[nodeIdx]) {
                         let node = nodeArray.GetValue(nodeArray.Keys[nodeIdx]);
+                        let componet: RuleItemToggleBase = node.getComponent("RuleItemToggleBase");
 
-                        if (!active) {
+                        if (!contrary) {
                             cc.warn("childrenAttr is error!");
                             continue;
                         }
 
-                        if ("noContrary" == active) {
-                            node.active = param.attrParam.isChecked;
+                        if ("noContrary" == contrary) {
+                            param.attrParam.node.active = componet.isChecked;
                         } else {
-                            node.active = !param.attrParam.isChecked;
+                            param.attrParam.node.active = !componet.isChecked;
                         }
 
                         return;
@@ -578,8 +596,8 @@ export class SelectGameRule extends UIBase<any>{
 
         if (this.isFriendCircle) {
             let curFriendCircle = FriendCircleDataCache.Instance.CurEnterFriendCircle;
-            let curRule = FriendCircleDataCache.Instance.getCurFriendCircleRule();
-        
+            let curRule = FriendCircleDataCache.Instance.CurSelectedRule;
+
             if (!curFriendCircle) {
                 return;
             }
@@ -658,7 +676,7 @@ export class SelectGameRule extends UIBase<any>{
             const room = this.DataCache.RoomList.GetCreateRoom(this.nowGameInfo.GameID);
             cc.log(rule.RoomData);
             if (room) {
-                Global.Instance.GameHost.TryEnterRoom(room.ID, QL_Common.EnterRoomMethod.RoomID, rule.RoomData, this.ShowParam);
+                Global.Instance.GameHost.TryEnterRoom(room.ID, QL_Common.EnterRoomMethod.RoomID, rule, this.ShowParam);
                 // 保存玩家的选择
                 this.saveLocalSettingConfig();
 
@@ -687,7 +705,7 @@ export class SelectGameRule extends UIBase<any>{
         } else if (argument == "DESC") {
             this.node_Desc.active = true;
             this.node_DescLab.active = true;
-            
+
             this.node_Rule.active = false;
             this.node_gameLab.active = false;
             this.node_diamond.active = false;

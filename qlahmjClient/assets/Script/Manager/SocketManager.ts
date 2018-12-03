@@ -31,9 +31,9 @@ export default class SocketManager implements ISocketManager {
         if (Debug()) {
             //address = "ws://123.206.199.186:9103";
             // address="ws://123.206.199.186:9003";
-            // address = "ws://192.168.1.16:9003";
+            address = "ws://192.168.1.16:9003";
 
-            // address = "ws://192.168.1.250:9003";
+            // address = "ws://192.168.1.109:9003";
         }
  
 

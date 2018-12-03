@@ -210,6 +210,9 @@ export default class LHZMJ_OppoSingleFixed extends LHZMJ_SingleFixedBase {
             this.bmp_cardHideAry[2].node.scaleX=0.45;
             this.bmp_cardHideAry[2].node.scaleY=0.45;
             this.bmp_cardHideAry[2].node.skewX=0;
+
+            this.light_node.x = 2;
+            this.light_node.y = -2;
             switch(this.fixedType) {
                 case enFixedCardType.FixedCardType_AGang: {
                 
@@ -528,24 +531,30 @@ export default class LHZMJ_OppoSingleFixed extends LHZMJ_SingleFixedBase {
         this.node.active=true;
     }
     private setPos():void{
-        this.bmp_arrow.node.active=false;
+        // this.bmp_arrow.node.active=false;
         if(this._pos!=0 && this._pos>0 && this._pos<4){
             switch(this._pos)
             {
                 case 1:{
-                    this.bmp_arrow.node.rotation = -90;
+                    this.bmp_arrow[2].node.active = false;
+                    this.bmp_arrow[1].node.active = false;
+                    this.bmp_arrow[0].node.active = true;
                     break;
                 }
                 case 2:{
-                    this.bmp_arrow.node.rotation = 180;
+                    this.bmp_arrow[0].node.active = false;
+                    this.bmp_arrow[2].node.active = false;
+                    this.bmp_arrow[1].node.active = true;
                     break;
                 }
                 case 3:{
-                    this.bmp_arrow.node.rotation = 90;
+                    this.bmp_arrow[0].node.active = false;
+                    this.bmp_arrow[1].node.active = false;
+                    this.bmp_arrow[2].node.active = true;
                     break;
                 }
             }
-            this.bmp_arrow.node.active=true;;
+            // this.bmp_arrow.node.active=true;;
         }
     }
 
@@ -849,7 +858,7 @@ export default class LHZMJ_OppoSingleFixed extends LHZMJ_SingleFixedBase {
         this.bmp_cardHideAry[0].node.setLocalZOrder(8);
         this.bmp_cardHideAry[1].node.setLocalZOrder(9);
         this.bmp_cardHideAry[2].node.setLocalZOrder(10);
-        this.bmp_arrow.node.setLocalZOrder(11);
+        this.light_node.active = true;
         this.node.y = this.node.y+25;
         
     }

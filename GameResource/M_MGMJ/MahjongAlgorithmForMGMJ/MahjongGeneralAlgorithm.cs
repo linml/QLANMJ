@@ -3637,28 +3637,29 @@ namespace MahjongAlgorithmForMGMJ
                     srcAry.Add(vSrc[i]);
                 }
             }
-            
-            if (CheckIfCanHuCardArray(srcAry))//没有赖子普通的胡牌，如果有赖子(即laiziNum!=0),且此处判断能够胡，那么赖子数必为3的整数倍
-            {
-                return true;
-            }
+
+                if (CheckIfCanHuCardArray(srcAry))//没有赖子普通的胡牌，如果有赖子(即laiziNum!=0),且此处判断能够胡，那么赖子数必为3的整数倍
+                {
+                    return true;
+
+                }
 
 
 
-            #region 检测带混的7对(有的带混的麻将不胡7对，有的带混麻将可以胡7对)
-            //if (ifCanhu7Pair)
-            //{
-            //    if (ChangeArrayTo7PairsNeedHun(srcAry, laiziNum))
-            //    {
-            //        return true;
-            //    }
-            //}
+                #region 检测带混的7对(有的带混的麻将不胡7对，有的带混麻将可以胡7对)
+                //if (ifCanhu7Pair)
+                //{
+                //    if (ChangeArrayTo7PairsNeedHun(srcAry, laiziNum))
+                //    {
+                //        return true;
+                //    }
+                //}
 
-            #endregion
+                #endregion
 
 
-            //2、按花色分拣牌
-            List<byte> vectorWan = new List<byte>();
+                //2、按花色分拣牌
+                List<byte> vectorWan = new List<byte>();
             List<byte> vectorTong = new List<byte>();
             List<byte> vectorTiao = new List<byte>();
             List<byte> vectorZi = new List<byte>();
@@ -3678,7 +3679,6 @@ namespace MahjongAlgorithmForMGMJ
 
             //四种情况，将对分别在万，筒，条，字中
             needNum = tongneed + tiaoneed + zineed;
-
             //万成对
             if (needNum <= laiziNum)
             {
@@ -3687,6 +3687,7 @@ namespace MahjongAlgorithmForMGMJ
                     return true;
                 }
             }
+
             needNum = wanneed + tiaoneed + zineed;
             //筒成对
             if (needNum <= laiziNum)
@@ -4129,7 +4130,7 @@ namespace MahjongAlgorithmForMGMJ
             //GetCharCardsListsByRemoveTriple(vectorCard, vectorGet);
 
 
-            //GetCharCardsListsByRemoveTripleForRQMJ(vectorCard, vectorGet);//任丘麻将有箭胡的情况调用的函数
+            GetCharCardsListsByRemoveTripleForRQMJ(vectorCard, vectorGet);//任丘麻将有箭胡的情况调用的函数
 
             //牌组被改动，挑选最优项
             if (vectorGet.Count > 0)
@@ -4279,6 +4280,88 @@ namespace MahjongAlgorithmForMGMJ
             needCard = needCardDNXB + needCardZFB;
 
             return needCard;
+        }
+
+        /// <summary>
+        /// 针对字牌，以各种情况移除一个组后得到的所有可能的序列（任丘麻将专用，是因为任丘麻将中的中发白可以组成一组，其它麻将的字牌只能是3个一样的组成一组）
+        /// </summary>
+        /// <param name="vectorSourceCard"></param>
+        /// <param name="vectorReturn"></param>
+        public static void GetCharCardsListsByRemoveTripleForRQMJ(List<byte> vectorSourceCard, List<List<byte>> vectorReturn)
+        {
+            vectorReturn.Clear();
+
+            if (vectorSourceCard.Count < 3)
+            {
+                return;
+            }
+
+            List<byte> vectorCur = new List<byte>();
+            vectorCur.Clear();
+
+            for (int i = 0; i < vectorSourceCard.Count - 2; i++)
+            {
+                //搜刻
+                if (((vectorSourceCard[i] == vectorSourceCard[i + 1]) && (vectorSourceCard[i] == vectorSourceCard[i + 2])))//找到一个刻
+                {
+                    //除了这个刻的牌，其他牌全部加入到序列集里
+                    List<byte> vectorFind = new List<byte>();
+                    vectorFind.Clear();
+                    for (int j = 0; j < vectorSourceCard.Count; j++)
+                    {
+                        if ((j < i) || (j > (i + 2)))
+                        {
+                            vectorFind.Add(vectorSourceCard[j]);
+                        }
+                    }
+                    if (!IsSame(vectorCur, vectorFind))
+                    {
+                        vectorCur = vectorFind;
+                        vectorReturn.Add(vectorCur);
+                    }
+                }
+
+
+
+                //搜顺(中发白)
+                int zhong = -1;
+                int fa = -1;
+                int bai = -1;
+                for (int j = i; j < vectorSourceCard.Count; j++)
+                {
+                    if (zhong == -1 && vectorSourceCard[j] == 0x35)
+                    {
+                        zhong = j;
+                    }
+                    if (fa == -1 && vectorSourceCard[j] == 0x36)
+                    {
+                        fa = j;
+                    }
+                    if (bai == -1 && vectorSourceCard[j] == 0x37)
+                    {
+                        bai = j;
+                    }
+                }
+                if (zhong != -1 && fa != -1 && bai != -1)
+                {
+                    List<byte> vectorFind = new List<byte>();
+                    vectorFind.Clear();
+
+                    for (int j = 0; j < vectorSourceCard.Count; j++)
+                    {
+                        if ((j != zhong) && (j != fa) && (j != bai))
+                        {
+                            vectorFind.Add(vectorSourceCard[j]);
+                        }
+                    }
+
+                    if (!IsSame(vectorCur, vectorFind))
+                    {
+                        vectorCur = vectorFind;
+                        vectorReturn.Add(vectorCur);
+                    }
+                }
+            }
         }
 
         /// <summary>

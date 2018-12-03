@@ -43,7 +43,7 @@ export default class ConfigData {
 
         o.Identifier = ConstValues.DefaultRegion+"_android";
         o.RegionName = ConstValues.DefaultRegion;
-        o.AppVersion = 0;
+        o.AppVersion = ConstValues.DefaultPkgVersion;
 
         return o;
     }
@@ -132,7 +132,7 @@ export default class ConfigData {
     /**
      * app版本号
      */
-    public static AppVersion: number = 0;
+    public static AppVersion: number = ConstValues.DefaultPkgVersion;
 
     public static SystemInited: boolean = false;
 

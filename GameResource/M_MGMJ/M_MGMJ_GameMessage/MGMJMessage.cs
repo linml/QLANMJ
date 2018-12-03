@@ -370,6 +370,12 @@ namespace M_MGMJ_GameMessage
         [PacketMember(4)]
         public int reMain = 0;
 
+        ///<summary>
+        ///配子数
+        ///</summary>
+        [PacketMember(5)]
+        public int PeiZiCount = 0;
+
     };
 
     /// <summary>
@@ -1076,7 +1082,7 @@ namespace M_MGMJ_GameMessage
         /// 配子
         /// </summary>
         [PacketMember(28)]
-        public int SetPeiZi;
+        public int CheckPeiZi;
         /// <summary>
         /// 点炮
         /// </summary>
@@ -1106,6 +1112,14 @@ namespace M_MGMJ_GameMessage
         /// </summary>
         [PacketMember(33)]
         public byte addNum;
+
+        /// <summary>
+        /// 
+        /// <summary>
+        /// 配子数
+        /// </summary>
+        [PacketMember(34)]
+        public byte PeiZi;
 
     };
 
@@ -2027,7 +2041,7 @@ namespace M_MGMJ_GameMessage
         /// 等待时间
         /// </summary>
         [PacketMember(21)]
-        public byte SetPeiZi;
+        public byte CheckPeiZi;
 
         /// <summary>
         /// 等待时间

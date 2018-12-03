@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GMTools</name>
+    </assembly>
+    <members>
+        <member name="T:QL.Server.GMTools">
+            <summary>
+            GMTools 的管理界面窗体
+            </summary>
+        </member>
+        <member name="P:QL.Server.GMTools.Instance">
+            <summary>
+            当前 GMTools 界面对象的单根实例
+            </summary>
+        </member>
+        <member name="M:QL.Server.GMTools.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.GMTools.Invoke(System.Action)">
+            <summary>
+            
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="F:QL.Server.GMTools.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QL.Server.GMTools.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QL.Server.GMTools.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:QL.Server.Manager.ManageHelper.RunAction(QL.QLAction)">
+            <summary>
+            在服务器的消息队列线程上执行指定方法
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:QL.Server.Manager.ManageHelper.EnqueueMessage(QL.Server.Model.PipelineMessage)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:QL.Server.Manager.ManageHelper.EnqueueMessage(GameIF.CustomMessage)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="F:QL.Server.Manager.ServerManagerList.ly_GMPlayerInfoList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QL.Server.MessageHandles.MessageHandle">
+            <summary>
+            类MessageHandle的注释信息
+            </summary>
+            <summary>
+            类消息处理函数的注释信息
+            </summary>
+        </member>
+        <member name="T:QL.Server.MessageHandles.SendRequestMessageHelper">
+            <summary>
+            类SendRequestMessageHelper的注释信息
+            </summary>
+        </member>
+        <member name="M:QL.Server.Program.Main">
+            <summary>
+            应用程序的主入口点。
+            </summary>
+        </member>
+        <member name="T:QL.Server.Tools.ServerConfig">
+            <summary>
+            服务器配置
+            </summary>
+        </member>
+        <member name="F:QL.Server.Tools.ServerConfig.CenterServerIP">
+            <summary>
+            服务器IP
+            </summary>
+        </member>
+        <member name="F:QL.Server.Tools.ServerConfig.CenterServerPort">
+            <summary>
+            服务端口
+            </summary>
+        </member>
+        <member name="P:QL.Server.Tools.ServerConfig.BufferSize">
+            <summary>
+            缓冲区大小
+            </summary>
+        </member>
+        <member name="M:QL.Server.SocketClient.QLGMService.Start(System.Action{System.Boolean})">
+            <summary>
+            启动服务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.GetTableUserSeatInfo(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="tableID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.CreateTableUserSeatInfo(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="tableID"></param>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.RemoveTableUserSeatInfo(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="tableID"></param>
+        </member>
+        <member name="P:QL.Server.RoomInfoControl.RoomInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Server.RoomInfoControl.components">
+            <summary> 
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.Dispose(System.Boolean)">
+            <summary> 
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:QL.Server.RoomInfoControl.InitializeComponent">
+            <summary> 
+            设计器支持所需的方法 - 不要修改
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="T:QL.Server.SocketClients.SocketClient">
+            <summary>
+            类SocketClient的注释信息
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableUserSeatInfo.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QL.Server.TableUserSeatInfo.PlayerStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QL.Server.TableUserSeatInfo.PlayerInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:QL.Server.TableUserSeatInfo.SeateID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableUserSeatInfo.Invoke(System.Action)">
+            <summary>
+            在当前创建控件的线程上执行方法
+            </summary>
+            <param name="call"></param>
+        </member>
+        <member name="F:QL.Server.TableUserSeatInfo.components">
+            <summary> 
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableUserSeatInfo.Dispose(System.Boolean)">
+            <summary> 
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:QL.Server.TableUserSeatInfo.InitializeComponent">
+            <summary> 
+            设计器支持所需的方法 - 不要修改
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="T:QL.Server.TableInfoControl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableInfoControl.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableInfoControl.CreateTableSeat(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="maxcharid"></param> 
+        </member>
+        <member name="M:QL.Server.TableInfoControl.GetTableSeatInfo(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="chairID"></param>
+            <returns></returns>
+        </member>
+        <member name="P:QL.Server.TableInfoControl.TableID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.Server.TableInfoControl.components">
+            <summary> 
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:QL.Server.TableInfoControl.Dispose(System.Boolean)">
+            <summary> 
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:QL.Server.TableInfoControl.InitializeComponent">
+            <summary> 
+            设计器支持所需的方法 - 不要修改
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="T:QL.Server.UyiGV">
+            <summary>
+            类UyiGV的注释信息
+            </summary>
+        </member>
+        <member name="T:QL.Server.Properties.Resources">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.Culture">
+            <summary>
+              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:QL.Server.Properties.Resources.Head">
+            <summary>
+              查找 System.Drawing.Bitmap 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="T:QL.QLDebug">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.QLDebug.LogFilesName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:QL.QLDebug.LogDir">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:QL.QLDebug.WriteError(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.WriteError(System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.WriteWarnning(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.WriteMessage(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.WriteText(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.WriteLog(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:QL.QLDebug.GetErrorFormatString(System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

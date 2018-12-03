@@ -37,7 +37,7 @@
             "attrIcon": "cjfj_51.png",
             "desc": "开局庄家模式",
             "enabled": true,
-            "parentAttr": null,
+            "parentAttr": {"key":"gameModel:1","contrary":true},
             "attrName": "startMasterModel",
             "childrenAttr": null,
             "itemList": [
@@ -45,7 +45,7 @@
                     "nodeType": "TOGGLE_SINGLE",
                     "list": [
                         {
-                            "parentAttr": "gameModel:1|contrary",
+                            "parentAttr": {"key":"gameModel:1","contrary":true},
                             "childrenAttr": null,
                             "attr": "startMasterModel",
                             "value": 0,
@@ -54,7 +54,7 @@
                             "defaultSelected": true
                         },
                         {
-                            "parentAttr": "gameModel:1|contrary",
+                            "parentAttr": {"key":"gameModel:1","contrary":true},
                             "childrenAttr": null,
                             "attr": "startMasterModel",
                             "value": 1,
@@ -79,7 +79,7 @@
 
                         {
                             "parentAttr": null,
-                            "childrenAttr": ["rubCard:true|noContrary", "startMasterModel|contrary"],
+                            "childrenAttr": [{"key":"rubCard:true","contrary":false}, {"key":"startMasterModel","contrary":true}],
                             "attr": "gameModel",
                             "value": 1,
                             "desc": "看牌抢庄",
@@ -88,7 +88,7 @@
                         },
                         {
                             "parentAttr": null,
-                            "childrenAttr": ["rubCard:true|contrary", "startMasterModel|noContrary"],
+                            "childrenAttr": [{"key":"rubCard:true","contrary":true}, {"key":"startMasterModel","contrary":false}],
                             "attr": "gameModel",
                             "value": 3,
                             "desc": "无牛下庄",
@@ -97,7 +97,7 @@
                         },
                         {
                             "parentAttr": null,
-                            "childrenAttr": ["rubCard:true|contrary", "startMasterModel|noContrary"],
+                            "childrenAttr": [{"key":"rubCard:true","contrary":true}, {"key":"startMasterModel","contrary":false}],
                             "attr": "gameModel",
                             "value": 4,
                             "desc": "牛九换庄",
@@ -106,7 +106,7 @@
                         },
                         {
                             "parentAttr": null,
-                            "childrenAttr": ["rubCard:true|contrary", "startMasterModel|noContrary"],
+                            "childrenAttr": [{"key":"rubCard:true","contrary":true}, {"key":"startMasterModel","contrary":false}],
                             "attr": "gameModel",
                             "value": 5,
                             "desc": "不换庄",

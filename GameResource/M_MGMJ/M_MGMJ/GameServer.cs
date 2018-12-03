@@ -243,6 +243,7 @@ namespace M_MGMJ
         /// 局号
         /// </summary>
         private string _gameID;
+        private bool _changeInternetDealAction = false;
 
         #region 获取相对庄家各方位的椅子号
 
@@ -598,13 +599,18 @@ namespace M_MGMJ
             }
             ////新一底开始
             this._tableConfig.newGameStart();
-
-
+            int peizicount = this._tableConfig.SetPeiZi ;
+            //处理配子 0 随机配子 1 白皮配子
+            if (this._tableConfig.CheckPeiZi == 0) {
+                peizicount = this._tableConfig.CheckPeiZi == 1 ? 0x37 : _cardPackage.getRandomPeiZi();
+                this._tableConfig.SetPeiZi = peizicount;
+            }
             //通知游戏开始
             this.SendGameMsg(MahjongDef.gInvalidChar, new CMD_S_Start()
             {
                 gameNum = this._tableConfig.GameNum,
                 totalGameNum = this._tableConfig.SetGameNum,
+                PeiZiCount = peizicount
             });
 
             if (this._tableConfig.isValid && (1 == this._tableConfig.GameNum))// && (1 == _tableConfig.RealGameNum))
@@ -1027,7 +1033,7 @@ namespace M_MGMJ
                             this.HandleMsg_CMD_C_NextGame(chairID, cm as CMD_C_NextGame);
                             break;
                         }
-                    //玩家准备下一局
+                    //玩家切换网络
                     case MGMJMsgID_c2s.CMD_C_ReSetScene:
                         {
                             this.HandleMsg_CMD_C_ReSetScene(chairID);
@@ -1811,6 +1817,7 @@ namespace M_MGMJ
 
             //玩家出牌的数量
             outMj[chair]++;
+            this._changeInternetDealAction = false;
 
             //记录本次打牌信息
             PrintLog("打牌前玩家活动牌");
@@ -1952,8 +1959,7 @@ namespace M_MGMJ
             {
                 return;
             }
-            //统计玩家暗杠次数
-            this.huGangCount[chair][3]++;
+            
 
             //杠操作
             closeOutTimer();
@@ -2002,6 +2008,9 @@ namespace M_MGMJ
             _playerAry[chair].HandleByAfterAGang(card);
             _rememberCard.GangCard(card);
             _playerAry[chair].DianGangPlayer = (byte)chair;
+
+            //统计玩家暗杠次数
+            this.huGangCount[chair][3]++;
 
             clsSingleGangRecord gangRecord = new clsSingleGangRecord();
             gangRecord.GangType = enGangType.AnGang;
@@ -2077,11 +2086,11 @@ namespace M_MGMJ
                     continue;
                 }
 
-                if (_playerAry[temp].CheckQiangGang(card, enHuCardType.HuCardType_QiangGangHu))
+                if (!_playerAry[temp].isGiveUpHu() &&   _playerAry[temp].CheckQiangGang(card, enHuCardType.HuCardType_QiangGangHu)&& !_playerAry[temp].CheckPeiZiToHu(card))
                 {
                     _waitQiangGangPlayer.Add(_playerAry[temp].PlayerChair);
                     PrintLog(_playerAry[temp].PlayerChair + "号玩家可以抢杠");
-                    break;
+                    //break;
                 }
             }
 
@@ -2205,7 +2214,7 @@ namespace M_MGMJ
             //自摸操作
             closeOutTimer();
             byte cbHuCard = CurPlayer.HoldCard; //抓到的牌
-            int[] multiple = CurPlayer.HandleByHu((byte)chair, cbHuCard, CurPlayer.IsJustGang ? enHuCardType.HuCardType_GangShangHua : enHuCardType.HuCardType_ZiMo, _playerAry[chair].PlayerCard.activeCard.handCard,outMj[chair]);
+            int[] multiple = CurPlayer.HandleByHu((byte)chair, cbHuCard, CurPlayer.IsJustGang ? enHuCardType.HuCardType_GangShangHua : enHuCardType.HuCardType_ZiMo, _playerAry[chair].PlayerCard.activeCard.handCard,outMj[chair], _tableConfig.SetPeiZi);
             //GameHost.WriteMessage("总：" + multiple);
             _noOneWin = false;
             int[] tempScore = new int[4];
@@ -2219,6 +2228,8 @@ namespace M_MGMJ
                     multiple[0] += lianzhuang;
                     _playerAry[chair].VecType += " 庄+ " + lianzhuang;
                 }
+                multiple[0] += 1;
+                _playerAry[chair].VecType += " 庄+ 1 ";
                 lianzhuang++;
                 _lastBanker = _bankerChar;
             }
@@ -2233,6 +2244,13 @@ namespace M_MGMJ
                     _playerAry[_bankerChar].PlayerScore.huScore -= lianzhuang;
                     _playerAry[_bankerChar].VecType += " 庄-" + lianzhuang;
                 }
+                //处理庄分
+                _playerAry[chair].PlayerScore.huScore += 1;
+                _playerAry[chair].VecType += " 庄+ 1 ";
+
+                _playerAry[_bankerChar].PlayerScore.huScore -= 1;
+                _playerAry[_bankerChar].VecType += " 庄- 1 ";
+
                 lianzhuang = 1;
                 _lastBanker = _bankerChar;
                 _bankerChar = (byte)((_bankerChar + 1) % MGMJConstants.GAME_PLAYER);
@@ -2800,7 +2818,7 @@ namespace M_MGMJ
             {
                 FeeDataType = ForFeeDataType.多人游戏结算,
                 FeeUserCount = userAuditData.Count,
-                Mark = "明光麻将结算",
+                Mark = "打"+(_tableConfig.GameNum)+"/"+((_tableConfig.SetGameNum + 1) * 8)+"局，续局"+(this._addNum-1)+"次",
                 MoneyType = GameHost.GetRoomInfo.CheckMoneyType,
                 NoCheckUserMoney = 1,
                 //1AA 2房主 3圈住
@@ -2845,7 +2863,7 @@ namespace M_MGMJ
         /// </summary>
         /// <param name="chair"></param>
         /// <param name="voteResult"></param>
-        private void HandleMsg_CMD_C_Vote(ushort chair, byte voteResult)
+        /*private void HandleMsg_CMD_C_Vote(ushort chair, byte voteResult)
         {
             if (!_playerAry[chair].IfCanOp || (_gamePhase != enGamePhase.GamePhase_Vote) || (MahjongDef.gVoteRightMask_Null == _playerAry[chair].VoteRight))
             {
@@ -2856,7 +2874,7 @@ namespace M_MGMJ
             _playerAry[chair].IfCanOp = false;
             _playerAry[chair].IfOutOp = false;
             _playerAry[chair].VoteResult = voteResult;
-            isOneBodyHaveHu = false; 
+            isOneBodyHaveHu = false;
 
             //弃胡检查
             if ((MahjongDef.gVoteResult_GiveUp == voteResult) && MahjongGeneralAlgorithm.CheckVoteRight_Hu(_playerAry[chair].VoteRight) && _playerAry[chair].CheckIfCanHuACard(_outCardInfo.card))
@@ -2880,7 +2898,7 @@ namespace M_MGMJ
                     if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
                     {
                         //   huPlayer.Add(_playerAry[temp].PlayerChair);
-                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard,outMj[temp]);
+                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard, outMj[temp]);
                         break;
                     }
                 }
@@ -2990,7 +3008,214 @@ namespace M_MGMJ
                 InformCustomOpPlayer(_opPlayerChar);
             });
         }
+        */
 
+        private void HandleMsg_CMD_C_Vote(ushort chair, byte voteResult)
+        {
+            if (!_playerAry[chair].IfCanOp || (_gamePhase != enGamePhase.GamePhase_Vote) || (MahjongDef.gVoteRightMask_Null == _playerAry[chair].VoteRight))
+            {
+                return;
+            }
+
+            --_completeCount;
+            _playerAry[chair].IfCanOp = false;
+            _playerAry[chair].IfOutOp = false;
+            _playerAry[chair].VoteResult = voteResult;
+
+            //弃胡检查
+            if ((MahjongDef.gVoteResult_GiveUp == voteResult) && MahjongGeneralAlgorithm.CheckVoteRight_Hu(_playerAry[chair].VoteRight) && _playerAry[chair].CheckIfCanHuACard(_outCardInfo.card))
+            {
+                _playerAry[chair].checkGiveUpHu(_outCardInfo.card, enHuCardType.HuCardType_PingHu);
+                CanHuNum--;
+                noHuOpertionChair = (byte)chair;
+            }
+
+            //弃碰检查
+            if ((MahjongDef.gVoteResult_GiveUp == voteResult) && MahjongGeneralAlgorithm.CheckVoteRight_Peng(_playerAry[chair].VoteRight))
+            {
+                _playerAry[chair].checkGiveUpPeng(_outCardInfo.card);
+            }
+            if (voteResult == 3 && CanHuNum == 1)
+            {
+                for (int i = 1; i < MGMJConstants.GAME_PLAYER; i++)
+                {
+                    int temp = (i + _outCardInfo.chair) % MGMJConstants.GAME_PLAYER;
+                    if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
+                    {
+                        //   huPlayer.Add(_playerAry[temp].PlayerChair);
+                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard, outMj[temp]);
+                        break;
+                    }
+                }
+                this._gamePhase = enGamePhase.GamePhase_Unknown;
+
+                //8个时间周期后进行投票处理
+                GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_WaitGoon, 8, () =>
+                {
+                    if (NeedOverGame)
+                    {
+
+                        this.OnEventGameEnd(MahjongDef.gInvalidChar);
+                    }
+
+                });
+                return;
+            }
+            else if ((voteResult == 1 || voteResult == 2) && CanHuNum == 0)//可碰杠 有吃 没有胡
+            {
+                foreach (var player in _playerAry)
+                {
+                    if (MahjongDef.gVoteResult_Gang == player.VoteResult)
+                    {
+                        _playerAry[_outCardInfo.chair].IsJustGang = false;
+                        this.PlayerVoteGang(player.PlayerChair, _outCardInfo.card, _outCardInfo.chair);
+                        return;
+                    }
+                }
+                foreach (var player in _playerAry)
+                {
+                    if (MahjongDef.gVoteResult_Peng == player.VoteResult)
+                    {
+                        _playerAry[_outCardInfo.chair].IsJustGang = false;
+                        this.PlayerPeng(player.PlayerChair, _outCardInfo.card);
+                        return;
+                    }
+                }
+            }
+            else
+                if (0 == _completeCount)//所有可以投票的玩家都已经投完票
+            {
+                //关闭投票超时
+                closeOutTimer();
+                //1、找投胡牌票的
+                List<ushort> huPlayer = new List<ushort>();
+
+                //int _index = 0;//判断是否包分字段
+                for (int i = 1; i < MGMJConstants.GAME_PLAYER; i++) //不带一炮多响，从出牌者的下家开始找起
+                {
+                    int temp = (i + _outCardInfo.chair) % MGMJConstants.GAME_PLAYER;
+                    if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
+                    {
+                        //_index++;
+                        huPlayer.Add(_playerAry[temp].PlayerChair);
+                        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard, outMj[_playerAry[temp].PlayerChair]);
+                        break;
+                    }
+                }
+
+                //else
+                //{   //霍邱麻将默认带一炮多响
+                //int huPerson = 0;
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    if (MahjongDef.gVoteResult_Hu == _playerAry[i].VoteResult)
+                //    {
+                //        huPerson++;
+                //    }
+                //}
+                //if (huPerson == 2)
+                //{
+                //    _yipaoliangxiang = true;
+                //}
+                //if (huPerson == 3)
+                //{
+                //    _yipaosanxiang = true;
+                //}
+                //int _index = 0;
+                //for (int i = 1; i < MGMJConstants.GAME_PLAYER; i++)
+                //{
+                //    int temp = (i + _outCardInfo.chair) % MGMJConstants.GAME_PLAYER;
+                //    if (MahjongDef.gVoteResult_Hu == _playerAry[temp].VoteResult)
+                //    {
+                //        _index++;
+                //        huPlayer.Add(_playerAry[temp].PlayerChair);
+                //        this.PlayerHuCard(_playerAry[temp].PlayerChair, _outCardInfo.card, _playerAry[temp].PlayerCard.activeCard.handCard, outMj[_playerAry[temp].PlayerChair]);
+                //    }
+                //}
+                //foreach (var player in _playerAry)
+                //{
+                //    if (MahjongDef.gVoteResult_Hu == player.VoteResult)
+                //    {
+                //        huPlayer.Add(player.PlayerChair);
+                //        this.PlayerHuCard(player.PlayerChair, _outCardInfo.card, _playerAry[player.PlayerChair].PlayerCard.activeCard.handCard,outMj[player.PlayerChair]);
+                //    }
+                //}
+                //}
+
+
+                if (huPlayer.Count > 0)
+                {
+
+                    this._gamePhase = enGamePhase.GamePhase_Unknown;
+
+                    //8个时间周期后进行投票处理
+                    GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_WaitGoon, 8, () =>
+                    {
+                        if (NeedOverGame)
+                        {
+
+                            this.OnEventGameEnd(MahjongDef.gInvalidChar);
+                        }
+                        else
+                        {
+                            GetNextOpPlayer((byte)huPlayer[huPlayer.Count - 1]);
+                            SendCardToPlayer();
+                        }
+                    });
+
+                    return;
+                }
+
+                //2、找投杠的
+                foreach (var player in _playerAry)
+                {
+                    if (MahjongDef.gVoteResult_Gang == player.VoteResult)
+                    {
+                        _playerAry[_outCardInfo.chair].IsJustGang = false;
+                        this.PlayerVoteGang(player.PlayerChair, _outCardInfo.card, _outCardInfo.chair);
+                        return;
+                    }
+                }
+
+                //3、找投碰的
+                foreach (var player in _playerAry)
+                {
+                    if (MahjongDef.gVoteResult_Peng == player.VoteResult)
+                    {
+                        _playerAry[_outCardInfo.chair].IsJustGang = false;
+                        this.PlayerPeng(player.PlayerChair, _outCardInfo.card);
+                        return;
+                    }
+                }
+
+                //3、找投吃的
+                //foreach (var player in _playerAry)
+                //{
+                //    if (MahjongDef.gVoteResult_Chi == player.VoteResult)
+                //    {
+                //        _playerAry[_outCardInfo.chair].IsJustGang = false;
+                //        this.PlayerChi(player.PlayerChair, _outCardInfo.card, _chiType);
+                //        return;
+                //    }
+                //}
+
+                //4、玩家都投了放弃票
+
+                //所有玩家都放弃,进入新一轮的抓牌打牌阶段
+                AddLogTitle("所有玩家都投了放弃，进入下个抓牌打牌循环");
+                //没有玩家投票，再将打出的这张牌，放入打牌玩家牌池
+                _playerAry[_outCardInfo.chair].PlayerCard.poolCard.Add(_outCardInfo.card);
+                _rememberCard.OutCard(_outCardInfo.card);
+                //添加打牌记录
+                _outCardRecord.Add(_outCardInfo.card);
+
+                //取下一个操作玩家椅子号
+                GetNextOpPlayer((byte)_outCardInfo.chair);
+                PrintLog("本次轮到" + _opPlayerChar.ToString() + "号玩家操作");
+                //给当前玩家发牌
+                SendCardToPlayer();
+            }
+        }
 
         /// <summary>
         /// 处理玩家投票碰牌
@@ -3028,6 +3253,8 @@ namespace M_MGMJ
             _opPlayerChar = (byte)chair;
 
             this._gamePhase = enGamePhase.GamePhase_Unknown;
+
+            this._changeInternetDealAction = true;
 
             //8个时间周期后进行投票处理
             GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_WaitGoon, 8, () =>
@@ -3086,6 +3313,7 @@ namespace M_MGMJ
             _opPlayerChar = (byte)chair;
 
             this._gamePhase = enGamePhase.GamePhase_Unknown;
+            this._changeInternetDealAction = true;
 
             //8个时间周期后进行投票处理
             GameHost.HostTimerService.RegTimerNonAutoHandle(CommonDef.TimerID_WaitGoon, 8, () =>
@@ -3111,7 +3339,7 @@ namespace M_MGMJ
 
             String _vecHuType = "";
 
-            multiple = _playerAry[chair].HandleByHu((byte)chair,card, enHuCardType.HuCardType_PingHu, list, countOutMj);
+            multiple = _playerAry[chair].HandleByHu((byte)chair,card, enHuCardType.HuCardType_PingHu, list, countOutMj, _tableConfig.SetPeiZi);
 
             this.huGangCount[chair][1]++;
 
@@ -3129,6 +3357,8 @@ namespace M_MGMJ
                     multiple[0] += lianzhuang;
                     _playerAry[chair].VecType += " 庄+ " + lianzhuang;
                 }
+                multiple[0] += 1;
+                _playerAry[chair].VecType += " 庄+ 1 " ;
                 lianzhuang++;
                 _lastBanker = _bankerChar;
             }
@@ -3143,6 +3373,14 @@ namespace M_MGMJ
                     _playerAry[_bankerChar].PlayerScore.huScore -= lianzhuang;
                     _playerAry[_bankerChar].VecType += " 庄-" + lianzhuang;
                 }
+                if (_bankerChar == this._outCardInfo.chair) {
+                    _playerAry[chair].PlayerScore.huScore += 1;
+                    _playerAry[chair].VecType += " 庄+ 1 ";
+
+                    _playerAry[_bankerChar].PlayerScore.huScore -= 1;
+                    _playerAry[_bankerChar].VecType += " 庄- 1 ";
+                }
+
                 lianzhuang = 1;
                 _lastBanker = _bankerChar;
                 _bankerChar = (byte)((_bankerChar + 1) % MGMJConstants.GAME_PLAYER);
@@ -3284,6 +3522,7 @@ namespace M_MGMJ
             _playerAry[chair].IfCanOp = false;
             _playerAry[chair].IfOutOp = false;
             _playerAry[chair].IsVoteQiangGang = qiangGang > 0;
+            _changeInternetDealAction = true;
 
             if (0 == qiangGang)//检查弃胡
             {
@@ -3309,7 +3548,7 @@ namespace M_MGMJ
                     lastHuChair = (ushort)chair;
                     _playerAry[_qiangGangInfo.chair].IsFangPao = true;
                     int[] multiple = _playerAry[chair].HandleByHu((byte)chair, _qiangGangInfo.card,
-                        enHuCardType.HuCardType_QiangGangHu, _playerAry[chair].PlayerCard.activeCard.handCard, outMj[chair]);
+                        enHuCardType.HuCardType_QiangGangHu, _playerAry[chair].PlayerCard.activeCard.handCard, outMj[chair],_tableConfig.SetPeiZi);
                     _noOneWin = false;
                     int[] tempScore = new int[4];
 
@@ -3322,6 +3561,10 @@ namespace M_MGMJ
                             multiple[0] += lianzhuang;
                             _playerAry[chair].VecType += " 庄+ " + lianzhuang;
                         }
+                        multiple[0] += 1;
+                        _playerAry[chair].VecType += " 庄+1 ";
+                        _playerAry[_qiangGangInfo.chair].VecType += " 抢杠胡包分 ";
+
                         lianzhuang++;
                         _lastBanker = _bankerChar;
                     }
@@ -3336,6 +3579,21 @@ namespace M_MGMJ
                             _playerAry[_bankerChar].PlayerScore.huScore -= lianzhuang;
                             _playerAry[_bankerChar].VecType += " 庄-" + lianzhuang;
                         }
+
+                       
+                        _playerAry[chair].PlayerScore.huScore += 1;
+                        //_playerAry[chair].VecType += " 庄+ 1 ";
+
+                        _playerAry[_qiangGangInfo.chair].PlayerScore.huScore -= 1;
+
+                        if (_bankerChar == _qiangGangInfo.chair)
+                        {
+                            _playerAry[_qiangGangInfo.chair].VecType += "  庄-1 抢杠胡包分 ";
+                        }
+                        else {
+                            _playerAry[_qiangGangInfo.chair].VecType += " 抢杠胡包分 ";
+                        }
+
                         lianzhuang = 1;
                         _lastBanker = _bankerChar;
                         _bankerChar = (byte)((_bankerChar + 1) % MGMJConstants.GAME_PLAYER);
@@ -3706,10 +3964,11 @@ namespace M_MGMJ
                 _tableConfig.IsRecordScoreRoom = true;
                 _tableConfig.isCreateed = true;
                 _tableConfig.CreatedOutTimeOP = false; // tableRule.isOutTimeOp > 0;
-                //_tableConfig.GoldRoomBaseIdx = tableRule.GoldRoomBaseIdx;
+                //_tableConfig.GoldRoomBaseIdx = tableRule.GoldRoomBaseIdx;   tableRule.SetPeiZi==1 ? 0x37 : _cardPackage.getRandomPeiZi() ;
                 this._tableConfig.PlayerNum = tableRule.PlayerNum;
                 this._tableConfig.WaitTimeNum = tableRule.WaitTimeNum;
-                _tableConfig.SetPeiZi = tableRule.SetPeiZi==1 ? 0x37 : _cardPackage.getRandomPeiZi() ;
+                _tableConfig.CheckPeiZi = tableRule.CheckPeiZi ;
+                _tableConfig.SetPeiZi = 0x37;
                 _tableConfig.DianPao = tableRule.DianPao;
                 _tableConfig.QiangGangHu = tableRule.QiangGangHu;
                 _tableConfig.canChi = tableRule.canChi;
@@ -4341,37 +4600,40 @@ namespace M_MGMJ
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
 
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x23);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x23);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x23);
 
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x12);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x34);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x34);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x34);
+
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
+
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x37);
                 //}
                 //else if (i == 1)
                 //{
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Clear();
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x11);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x13);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x15);
 
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x14);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
                 //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x16);
 
-                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x12);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x17);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x17);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x17);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x18);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
+
+                //    _playerAry[i].PlayerCard.activeCard.handCard.Add(0x19);
                 //}
                 //#endregion
 
@@ -4846,7 +5108,7 @@ namespace M_MGMJ
                     }
                 default:///时间极短的unknown阶段
                     {
-                        if (_isGameing && _outCardInfo.isValid)
+                        if (_isGameing && _outCardInfo.isValid&& !_changeInternetDealAction)
                         {
                             this.SendGameMsg(chairID, new CMD_S_ORC_Vote()
                             {
@@ -5049,11 +5311,12 @@ namespace M_MGMJ
                 whoLose = _tableConfig.whoLose,
                 PlayerNum = _tableConfig.PlayerNum,
                 WaitTimeNum = _tableConfig.WaitTimeNum,
-                SetPeiZi = _tableConfig.SetPeiZi,
+                CheckPeiZi = _tableConfig.CheckPeiZi,
                 DianPao = _tableConfig.DianPao,
                 QiangGangHu = _tableConfig.QiangGangHu,
                 CheckGps = (byte)(_tableConfig.CheckGps?1:0),
-                addNum = this._addNum
+                addNum = this._addNum,
+                PeiZi = (byte)_tableConfig.SetPeiZi
             });
         }
 

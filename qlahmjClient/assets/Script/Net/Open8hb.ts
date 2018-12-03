@@ -345,7 +345,7 @@ export namespace WebRequest {
          * @param data
          */
         public static get_task_list(action?: ActionNet, data?: IDictionary<string, any>, method: string = "GET") {
-            doActionJson(`${ConfigData.webserverinterfaceUrl}/do/api.s.email.get_email_list`, action, data, method);
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/Task.getTaskList`, action, data, method);
         }
 
         /**
@@ -354,7 +354,7 @@ export namespace WebRequest {
          * @param data
          */
         public static getReward(action?: ActionNet, data?: IDictionary<string, any>, method: string = "GET") {
-            doActionJson(`${ConfigData.webserverinterfaceUrl}/do/api.s.email.read_email`, action, data, method);
+            doActionJson(`${ConfigData.webserverinterfaceUrl}/platfrom/Task.getTaskGift`, action, data, method);
         }
 
     }

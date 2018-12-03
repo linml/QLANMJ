@@ -394,6 +394,14 @@
             <param name="tb"></param>
             <returns></returns>
         </member>
+        <member name="M:QL.Extension._DataTable.GetDataRowsArray(System.Data.DataRow,System.Int64)">
+            <summary>
+            
+            </summary>
+            <param name="ts"></param>
+            <param name="dr"></param>
+            <returns></returns>
+        </member>
         <member name="M:QL.Extension._DataTable.GetTopOneDataTableArray(System.Data.DataTable,System.Int64)">
             <summary>
             

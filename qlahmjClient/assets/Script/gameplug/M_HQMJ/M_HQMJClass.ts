@@ -85,12 +85,16 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
     public get ShareTitle():string{
         return this._shareContext;
     }
-            /**
+    /**
      * 是否2D
     */
     public is2D():boolean{
-        return false;
-    }      
+        return this.two_dimensional;
+    }
+    public canvaSwitchClickEvent(canvas: string) {
+        this.two_dimensional = canvas== "2D"?true:false;
+        this.OnNetResponding();
+    }
         //续局次数(1表示0次)
         public _addNum:number = 1;
 
@@ -100,10 +104,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         //因为吃牌加的参数 
         public _sendMsg : boolean = false;
         public _eventMsg : any = null;
-
-        //方向盘位置
-        // private posX : number = M_HQMJView.ins.TimerView.node.x;
-        // private posY : number = M_HQMJView.ins.TimerView.node.y;
 
         //牌桌配置
         private _tableConfig : HQMJTableConfig;
@@ -124,6 +124,8 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
          * 庄家椅子号
          * */
         public get BankerChair():number{return this._bankerChair;};
+
+        public two_dimensional :boolean = false;
         
         //当前游戏阶段
         private _gamePhase:enGamePhase;
@@ -1534,6 +1536,8 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         super.OnNetResponding();
         var reSet: M_HQMJ_GameMessage.CMD_C_ReSetScene = new M_HQMJ_GameMessage.CMD_C_ReSetScene();
         this.SendGameData(reSet);
+
+        this.gameView.Init();
     }
 
     /**
@@ -1891,7 +1895,8 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
 
         //游戏开始 牌蹲显示
         this.gameView.CardView.PaiWallView.node.active = true;
-        M_HQMJView.ins.CardView.PaiWallView.showPaiWall();
+        if(!this.is2D())
+            M_HQMJView.ins.CardView.PaiWallView.showPaiWall();
 
         //设置分享玩家信息
         this.gameView.GameJiFenBan.SetPlayerData();
@@ -2064,13 +2069,16 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         M_HQMJView.ins.GameInfo.holdACard();
         
         //玩家抓牌 去预制体删除对应牌蹲
-        M_HQMJView.ins.CardView.PaiWallView.delOnePai(this.SelfChair,this._bankerChair,playerHoldCard.countPai,playerHoldCard.gangNum,playerHoldCard.usual);
+        if(!this.is2D()){
+            M_HQMJView.ins.CardView.PaiWallView.delOnePai(this.SelfChair,this._bankerChair,playerHoldCard.countPai,playerHoldCard.gangNum,playerHoldCard.usual);
+        }
         
         //玩家抓牌
         M_HQMJView.ins.CardView.playerHoldCard(playerHoldCard.chair,playerHoldCard.card);
         if((this.SelfChair == playerHoldCard.chair) && (HQMJMahjongDef.gInvalidMahjongValue != playerHoldCard.card)){
             M_HQMJView.ins.CardView.selfActive.setUpCardDown();
         }
+
     }
     /**
      * 当前活动玩家
@@ -2813,8 +2821,7 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         }
         if(playerCard.selfCard.holdCard!=HQMJMahjongDef.gInvalidMahjongValue)
             this._handCard.push(playerCard.selfCard.holdCard);
-        //1、恢复自己牌阵
-        
+        //1、恢复自己牌阵 
         M_HQMJView.ins.CardView.selfFixed.recoveryFixed(playerCard.selfCard.fixedCard,this.SelfChair);
         M_HQMJView.ins.CardView.selfPool.recoveryPoolCard(playerCard.selfCard.poolCard);
         M_HQMJView.ins.CardView.recoveryActiveCard(this.SelfChair,playerCard.selfCard.handCard);
@@ -2823,7 +2830,6 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             M_HQMJView.ins.CardView.selfActive.holdACard(playerCard.selfCard.holdCard);
             M_HQMJView.ins.CardView.selfActive.allDown();
         }
-        
         //2、恢复其他玩家牌阵
         for(var i:number=0; i<playerCard.otherPlayerCard.length; i++){
             var handCard : Array<number>=new Array<number>();
@@ -2833,14 +2839,16 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
             M_HQMJView.ins.CardView.getFixed(playerCard.otherPlayerCard[i].chair).recoveryFixed(playerCard.otherPlayerCard[i].fixedCard,playerCard.otherPlayerCard[i].chair);
             M_HQMJView.ins.CardView.getPool(playerCard.otherPlayerCard[i].chair).recoveryPoolCard(playerCard.otherPlayerCard[i].poolCard);
             M_HQMJView.ins.CardView.recoveryActiveCard(playerCard.otherPlayerCard[i].chair,handCard);
-           
         }
-
         //3、恢复牌墙
-        this.gameView.CardView.PaiWallView.node.active = true;
-        M_HQMJView.ins.CardView.PaiWallView.showPaiWall();
-        M_HQMJView.ins.CardView.PaiWallView.delAllPai(this._bankerChair,this.SelfChair,playerCard.paiWall.paiCount + 52,playerCard.paiWall.houPai);
-            
+        if(!this.is2D()){
+            this.gameView.CardView.PaiWallView.node.active = true;
+            M_HQMJView.ins.CardView.PaiWallView.showPaiWall();
+            M_HQMJView.ins.CardView.PaiWallView.delAllPai(this._bankerChair,this.SelfChair,playerCard.paiWall.paiCount + 52,playerCard.paiWall.houPai);
+        }else{
+            M_HQMJView.ins.CardView.PaiWallView.hidePaiWall();
+        }
+        
     }
     /**
      * 断线重连恢复玩家分数变化
@@ -2912,7 +2920,8 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         this.clear();
         //通知玩家进入
         this.gameView.playerComeing();//this.dispatchEvent(new HQMJEvent(HQMJEvent.msg_playerComeing));
-
+        //发牌前切换2d或3d时更换罗盘
+        this.gameView.ShowTimerView(this.SelfChair);
         //显示准备界面
         if(this.getTableStauts()==QL_Common.TableStatus.gameing)
         {
@@ -3154,10 +3163,10 @@ export default class M_HQMJClass extends GameBaseClass implements IHQMJClass {
         return `gameres/majiang_plist/paihua/mahjong_${HQMJMahjongAlgorithm.GetMahjongColor(card)}_${HQMJMahjongAlgorithm.GetMahjongValue(card)}`;
     }
      public getMahjongPaiHuaRes(card: number): cc.SpriteFrame {
-         let aa = `mahjong_${HQMJMahjongAlgorithm.GetMahjongColor(card)}_${HQMJMahjongAlgorithm.GetMahjongValue(card)}`;
-         
-        return this.paihua.getSpriteFrame(`mahjong_${HQMJMahjongAlgorithm.GetMahjongColor(card)}_${HQMJMahjongAlgorithm.GetMahjongValue(card)}`);
-        //return `gameres/gameCommonRes/Texture/Mahjong/PaiHua/mahjong_${WHMJMahjongAlgorithm.GetMahjongColor(card)}_${WHMJMahjongAlgorithm.GetMahjongValue(card)}`;
+        if(this.is2D())        
+            return this.paibei.getSpriteFrame(`mahjong_${HQMJMahjongAlgorithm.GetMahjongColor(card)}_${HQMJMahjongAlgorithm.GetMahjongValue(card)}`);
+        else
+            return this.paihua.getSpriteFrame(`mahjong_${HQMJMahjongAlgorithm.GetMahjongColor(card)}_${HQMJMahjongAlgorithm.GetMahjongValue(card)}`);
     }
     /**
      * 获取麻将牌背资源

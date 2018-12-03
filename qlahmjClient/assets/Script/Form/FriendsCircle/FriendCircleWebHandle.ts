@@ -93,7 +93,15 @@ export default class FriendCircleWebHandle {
 
         FriendCircleWebHandle._modifyFriendCirleInfoHandle = act;
     }
-    
+        
+
+    /**
+     * 请求失败回调
+     */
+    public static requestError( args: any){
+        Global.Instance.UiManager.ShowTip(args["message"]);
+        Global.Instance.UiManager.CloseLoading();
+    }
 
      /**
      * 请求加入或创建的亲友圈列表
@@ -142,7 +150,7 @@ export default class FriendCircleWebHandle {
 
         // 拉取亲友圈列表
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
-        const action = new ActionNet(this,getJoinCircleListCb,getJoinCircleListCb);
+        const action = new ActionNet(this,getJoinCircleListCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.getJoinCircleList(action,data);
     }
 
@@ -153,7 +161,8 @@ export default class FriendCircleWebHandle {
         let action_ = act;
         let groupId_ = groupId;
         let requestFriendCircRuleCb = (args)=>{
-            cc.info('-- requestFriendCircRuleCb ',args);
+            Global.Instance.UiManager.CloseLoading();
+            cc.info('-- requestFriendCircRuleCb  ',args);
 
             if (!args || !args.status) {
                 return;
@@ -164,11 +173,11 @@ export default class FriendCircleWebHandle {
             }
 
             let tmpList = args.data;
-            let curRule = FriendCircleDataCache.Instance.getCurFriendCircleRule();
             
             let tmpArray = new Array<FriendCircleRule>();
             for (var idx = 0; idx < tmpList.length; ++idx) {
                 let info = new FriendCircleRule();
+                info.friendId = parseInt(groupId_);
                 info.Id = tmpList[idx].id;
                 info.gameId = tmpList[idx].gameId;
                 info.gameName = tmpList[idx].gameName;
@@ -183,14 +192,14 @@ export default class FriendCircleWebHandle {
 
             // 回调
             if (action_) {
-                action_.Run([{args: args}]);
+                action_.Run([tmpArray]);
             }
         }
         
         // 发送获取亲友圈玩法请求
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("groupId",groupId);
-        const action = new ActionNet(this,requestFriendCircRuleCb,requestFriendCircRuleCb);
+        const action = new ActionNet(this,requestFriendCircRuleCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.getRuleList(action,data);
     }
 
@@ -228,7 +237,7 @@ export default class FriendCircleWebHandle {
         data.Add("ruleStr",ruleInfo.ruleStr);
         data.Add("ruleDesc",ruleInfo.ruleDesc);
         
-        const action = new ActionNet(this,addRuleCb,addRuleCb);
+        const action = new ActionNet(this,addRuleCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.addRule(action,data);
     }
 
@@ -264,7 +273,7 @@ export default class FriendCircleWebHandle {
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("groupId",_groupId);
         data.Add("ruleId",_ruleId);
-        const action = new ActionNet(this,deleteRuleCb,deleteRuleCb);
+        const action = new ActionNet(this,deleteRuleCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.deleteRule(action,data);
     }
 
@@ -304,7 +313,7 @@ export default class FriendCircleWebHandle {
         data.Add("startId",_starId);
         data.Add('count', _cout);
 
-        const action = new ActionNet(this,getMemberListCb,getMemberListCb);
+        const action = new ActionNet(this,getMemberListCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.getUserList(action,data);
     }
 
@@ -341,7 +350,7 @@ export default class FriendCircleWebHandle {
         // 发送请求
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("groupId",groupId);
-        const action = new ActionNet(this,joinFriendCircCb,joinFriendCircCb);
+        const action = new ActionNet(this,joinFriendCircCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.join(action,data);
     }
 
@@ -381,7 +390,7 @@ export default class FriendCircleWebHandle {
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("exitId",userId);
         data.Add("groupId",groupId);
-        const action = new ActionNet(this,requestFriendCircRuleCb,requestFriendCircRuleCb);
+        const action = new ActionNet(this,requestFriendCircRuleCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.kick(action,data);
     }
 
@@ -414,7 +423,7 @@ export default class FriendCircleWebHandle {
         // 发送请求
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("groupId",groupId);
-        const action = new ActionNet(this,getMessageListCb,getMessageListCb);
+        const action = new ActionNet(this,getMessageListCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.getMessageList(action,data);
         Global.Instance.UiManager.ShowLoading('正在获数据');
     }
@@ -455,7 +464,7 @@ export default class FriendCircleWebHandle {
         data.Add("logId",_logId);   // 玩家ID
         data.Add("groupId",_groupId);// 亲友圈ID
         data.Add("status",_status); // 操作：拒绝或同意
-        const action = new ActionNet(this,acceptjoinCb,acceptjoinCb);
+        const action = new ActionNet(this,acceptjoinCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.acceptjoin(action,data);
 
         return true;
@@ -497,7 +506,7 @@ export default class FriendCircleWebHandle {
         data.Add("userid",_userId);   // 玩家ID
         data.Add("groupId",_groupId);// 亲友圈ID
         data.Add("isadmin",_isAdmin); // 是否是管理员 1 是 0 不是
-        const action = new ActionNet(this,setadminCb,setadminCb);
+        const action = new ActionNet(this,setadminCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.setadmin(action,data);
     }
 
@@ -521,6 +530,9 @@ export default class FriendCircleWebHandle {
                 return;
             }
 
+            Global.Instance.UiManager.ShowTip("修改成功！");
+            
+            // 提示修改成功
             if (FriendCircleWebHandle._modifyFriendCirleInfoHandle) {
                 FriendCircleWebHandle._modifyFriendCirleInfoHandle.Run([{nickName: _name,notice: _noticContent}]);
             }
@@ -540,7 +552,7 @@ export default class FriendCircleWebHandle {
         data.Add("title",_name);         // 标题
         data.Add("friendId",_groupId);   // ID
         data.Add("notice",_noticContent); // 内容
-        const action = new ActionNet(this,modifyFriendCircleInfoCb,modifyFriendCircleInfoCb);
+        const action = new ActionNet(this,modifyFriendCircleInfoCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.modifyFriendCircleInfo(action,data);
     
     }
@@ -581,7 +593,7 @@ export default class FriendCircleWebHandle {
         let data: IDictionary<string,any> = WebRequest.DefaultData(true);
         data.Add("friendId",_groupId);// ID
         data.Add("api_version",'1');  // 接口的版本号
-        const action = new ActionNet(this,getGroupStatCb,getGroupStatCb);
+        const action = new ActionNet(this,getGroupStatCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.getGroupStat(action,data);
     }
 
@@ -624,7 +636,7 @@ export default class FriendCircleWebHandle {
         data.Add("title",_name);         // 标题
         data.Add("friendId",_groupId);   // ID
         data.Add("notice",_noticContent); // 内容
-        const action = new ActionNet(this,modifyFriendCircleInfoCb,modifyFriendCircleInfoCb);
+        const action = new ActionNet(this,modifyFriendCircleInfoCb,FriendCircleWebHandle.requestError);
         WebRequest.FriendCircle.modifyFriendCircleInfo(action,data);
     }
 }

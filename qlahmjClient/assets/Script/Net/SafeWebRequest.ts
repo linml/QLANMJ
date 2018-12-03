@@ -18,6 +18,9 @@ export namespace SafeWebRequest {
         public static LoginSmsApp(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
             doSafeActionJson(`${ConfigData.webserverinterfaceUrl}/safeApi/GameHall.login_sms_app`, action, data, method);
         }
+        public static LoginCacheApp(action?: ActionNet, data?: IDictionary<string, any>, method: string = "POST") {
+            doSafeActionJson(`${ConfigData.webserverinterfaceUrl}/safeApi/GameHall.login_cache_app`, action, data, method);
+        }
     }
 
     export class SmsSend {

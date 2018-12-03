@@ -13,11 +13,19 @@ export default class HBMJ_TimerView extends cc.Component {
     img_fangxiang:cc.Sprite = null;
 
     @property(cc.Label)
+    lbl_timerNum_2d: cc.Label = null;
+
+    @property(cc.Label)
     lbl_timerNum: cc.Label=null;
 
     @property([cc.Node])
     img_arrow: cc.Node[]=[];
-    //private _img_arrows:Array<cc.Sprite>;
+    
+    @property([cc.Node])
+    img_arrow_2d: cc.Node[] = [];
+
+    @property(cc.Node)
+    Node_2d:cc.Node = null;
 
     @property([cc.Animation])
     ArrowNode: cc.Animation[]=[];
@@ -34,6 +42,10 @@ export default class HBMJ_TimerView extends cc.Component {
     @property([cc.Sprite])
     sprite_3:cc.Sprite[] = [];
 
+    @property(cc.Sprite)
+    img_dipan:cc.Sprite = null;
+    @property(cc.Sprite)
+    img_dipan_2d:cc.Sprite = null;
 
     onLoad() {
         // init logic
@@ -51,6 +63,26 @@ export default class HBMJ_TimerView extends cc.Component {
         // }
         this.node.active=false;
         
+    }
+
+    public showLuoPan(){
+        if(HQMJ.ins.iclass.is2D()){
+            this.img_dipan.node.active = false;
+            this.lbl_timerNum.node.active = false;
+
+            this.img_arrow[0].active =false;
+            this.img_arrow[1].active =false;
+            this.img_arrow[2].active =false;
+            this.img_arrow[3].active =false;
+
+            // this.img_dipan_2d.node.rotation = 90*chair;
+            this.img_dipan_2d.node.active = true;
+            this.lbl_timerNum_2d.node.active = true;
+        }else{
+            this.img_dipan_2d.node.active = false;
+            this.lbl_timerNum_2d.node.active = false;
+            this.showArr(HQMJ.ins.iclass.getSelfChair(),HQMJ.ins.iclass.getSelfChair());
+        }
     }
     public showArr(active:number,self:number,isVideo:boolean = false){
         if(active == 255){
@@ -117,8 +149,6 @@ export default class HBMJ_TimerView extends cc.Component {
         for(var i:number=0; i<HQMJMahjongDef.gPlayerNum; i++){
             this.img_arrow[i].active = false;
         }
-
-        cc.log(chair+"椅子椅子转移至一字字");
 
         this.node.active = chair != HQMJMahjongDef.gInvalidChar;
 

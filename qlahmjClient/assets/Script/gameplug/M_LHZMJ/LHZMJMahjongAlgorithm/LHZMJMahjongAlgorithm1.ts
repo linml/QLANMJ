@@ -3306,7 +3306,7 @@ const { ccclass, property } = cc._decorator;
             }
             if(isreal0)
             {
-                needCardZFB = (needCardZFB <= needCard2) ? needCardZFB : needCard2;
+                needCardZFB = (needCardZFB >= needCard2) ? needCardZFB : needCard2;
             }
             else
             {

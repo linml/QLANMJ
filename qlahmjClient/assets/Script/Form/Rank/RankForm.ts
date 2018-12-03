@@ -451,6 +451,11 @@ export default class RankForm extends UIBase<any> {
         this.CloseClick(); //关闭本窗体
     }
 
+    private clickTask(){
+        this.UiManager.ShowUi(UIName.Task);
+        this.CloseClick(); //关闭本窗体
+    }
+
     private ShowQiDouRank() {
         this.prize_TV.node.active = false;
         this.prize_qidou.node.active = false;

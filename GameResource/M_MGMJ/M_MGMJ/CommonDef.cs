@@ -281,9 +281,14 @@ namespace M_MGMJ
         /// 等待时间
         /// </summary>
         public int WaitTimeNum { get; set; }
-        
+
         /// <summary>
         /// 配子选择
+        /// </summary>
+        public int CheckPeiZi { get; set; }
+
+        /// <summary>
+        /// 配子数
         /// </summary>
         public int SetPeiZi { get; set; }
         /// <summary>
